@@ -206,12 +206,23 @@
   .hero-content {
     position: relative;
     z-index: 2;
-    padding: 3rem 2.2rem 2.6rem;
+    margin: 1.6rem;
+    max-width: 560px;
+    padding: 2.4rem 2.2rem;
     display: grid;
     gap: 1.4rem;
+    border-radius: 20px;
+    background: linear-gradient(155deg, rgba(244,236,216,0.14), rgba(244,236,216,0.05));
+    backdrop-filter: blur(22px) saturate(150%);
+    -webkit-backdrop-filter: blur(22px) saturate(150%);
+    border: 1px solid rgba(244,236,216,0.22);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.12) inset, 0 24px 50px -24px rgba(0,0,0,0.65);
     opacity: 0;
     transform: translateY(10px);
     animation: rise 0.8s ease-out 0.15s forwards;
+  }
+  @media (max-width: 620px) {
+    .hero-content { margin: 1rem; padding: 1.8rem 1.5rem; max-width: none; }
   }
   @keyframes rise {
     to { opacity: 1; transform: translateY(0); }
@@ -276,7 +287,15 @@
   .story-content {
     position: relative;
     z-index: 2;
-    padding: 2.6rem 2.4rem 2.4rem;
+    margin: 1.6rem;
+    max-width: 540px;
+    padding: 2rem 2.1rem;
+    border-radius: 18px;
+    background: linear-gradient(155deg, rgba(244,236,216,0.14), rgba(244,236,216,0.05));
+    backdrop-filter: blur(22px) saturate(150%);
+    -webkit-backdrop-filter: blur(22px) saturate(150%);
+    border: 1px solid rgba(244,236,216,0.22);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.12) inset, 0 24px 50px -24px rgba(0,0,0,0.65);
   }
   .story blockquote {
     margin: 0;
@@ -297,12 +316,24 @@
   }
   @media (max-width: 620px) {
     .story-frame { min-height: 360px; }
-    .story-content { padding: 2rem 1.5rem 1.8rem; }
+    .story-content { margin: 1rem; padding: 1.6rem 1.5rem; max-width: none; }
   }
 
   /* ---------- problem ---------- */
   .problem {
     padding: 2.6rem 0 3rem;
+  }
+  .problem-panel {
+    border-radius: 20px;
+    padding: 2.4rem 2.4rem;
+    background: linear-gradient(155deg, rgba(244,236,216,0.09), rgba(244,236,216,0.03));
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    border: 1px solid rgba(244,236,216,0.16);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.08) inset, var(--shadow);
+  }
+  @media (max-width: 620px) {
+    .problem-panel { padding: 1.8rem 1.6rem; border-radius: 16px; }
   }
   .problem p {
     color: var(--ink-muted);
@@ -359,11 +390,13 @@
   }
   .card {
     position: relative;
-    background: var(--card);
-    border: 1px solid var(--line);
+    background: linear-gradient(160deg, rgba(244,236,216,0.10), rgba(244,236,216,0.03));
+    backdrop-filter: blur(22px) saturate(150%);
+    -webkit-backdrop-filter: blur(22px) saturate(150%);
+    border: 1px solid rgba(244,236,216,0.18);
     border-radius: 18px;
     padding: 2rem 1.9rem 0;
-    box-shadow: var(--shadow);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.08) inset, var(--shadow);
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -378,9 +411,11 @@
     padding: 0.3rem 0.6rem;
     border-radius: 999px;
     width: fit-content;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
   }
-  .card.discover .tag { background: var(--sage-ink); color: var(--sage); }
-  .card.cook .tag { background: var(--ember-ink); color: var(--ember-bright); }
+  .card.discover .tag { background: rgba(111,164,145,0.18); color: var(--sage); border: 1px solid rgba(111,164,145,0.35); }
+  .card.cook .tag { background: rgba(226,172,76,0.18); color: var(--ember-bright); border: 1px solid rgba(226,172,76,0.35); }
   .card h3 {
     font-size: 1.5rem;
     line-height: 1.15;
@@ -403,7 +438,10 @@
     width: 18px;
     height: 18px;
     border-radius: 50%;
-    background: var(--bg);
+    background: rgba(10,7,5,0.55);
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.45);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
   }
   .card .tearline::before { left: -9px; }
   .card .tearline::after { right: -9px; }
@@ -470,7 +508,8 @@
     border-radius: 12px;
     overflow: hidden;
     background: var(--card);
-    border: 1px solid var(--line);
+    border: 1px solid rgba(244,236,216,0.2);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.1) inset, 0 14px 30px -18px rgba(0,0,0,0.6);
     scroll-snap-align: start;
     transition: transform 0.25s ease;
   }
@@ -482,15 +521,26 @@
     display: block;
     filter: saturate(1.03);
   }
+  .frame::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.03) 32%, transparent 55%);
+    mix-blend-mode: screen;
+    pointer-events: none;
+  }
   .frame .reel {
     position: absolute;
     top: 0.6rem;
     left: 0.6rem;
+    z-index: 2;
     font-family: 'Space Mono', monospace;
     font-size: 0.62rem;
     letter-spacing: 0.1em;
     color: #F4ECD8;
-    background: rgba(10,7,5,0.55);
+    background: rgba(10,7,5,0.45);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
     padding: 0.2rem 0.45rem;
     border-radius: 999px;
     border: 1px solid rgba(244,236,216,0.2);
@@ -550,7 +600,7 @@
 
 <header class="wrap">
   <div class="brandrow">
-    <span class="name">Solub</span>
+    <span class="name">Solub Food</span>
     <span class="handle">@solubgc</span>
   </div>
 </header>
@@ -565,7 +615,7 @@
   <div class="hero-content">
     <span class="eyebrow"><span class="ember-dot"></span> Home kitchen discovery — Australia</span>
     <h1>Closer Than<br>You Think.</h1>
-    <p class="lede">Somewhere near you, someone is cooking something incredible. Solub helps you find <em>them</em> — not just their food.</p>
+    <p class="lede">Somewhere near you, someone is cooking something incredible. Solub Food helps you find <em>them</em> — not just their food.</p>
     <div class="scrollcue">
       <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 1v9M2 7l4 4 4-4"/></svg>
       Scroll
@@ -579,17 +629,19 @@
     <div class="story-scrim"></div>
     <div class="story-content">
       <blockquote>&ldquo;You've walked past a house that smells like someone's cooking. Then kept walking.&rdquo;</blockquote>
-      <p class="stamp">That's the gap Solub exists to close.</p>
+      <p class="stamp">That's the gap Solub Food exists to close.</p>
     </div>
   </div>
 </section>
 
 <section class="problem wrap">
-  <p class="lead-line">You know the feeling.</p>
-  <p>You've smelled something incredible coming from a house on your street. You've scrolled through the same delivery apps and found the same handful of restaurants. The food you're actually craving — someone's abuela's arepas, a family recipe nobody ever wrote down — isn't on any of them.</p>
-  <p class="callout">That's not a hygiene problem, or a quality problem.<br>It's a discovery problem.</p>
-  <p>Solub exists to close that gap — putting a name, a story, and a simple way to order in front of the home kitchens that were always near you, just never visible.</p>
-  <p class="closer">Closer than you think.</p>
+  <div class="problem-panel">
+    <p class="lead-line">You know the feeling.</p>
+    <p>You've smelled something incredible coming from a house on your street. You've scrolled through the same delivery apps and found the same handful of restaurants. The food you're actually craving — someone's abuela's arepas, a family recipe nobody ever wrote down — isn't on any of them.</p>
+    <p class="callout">That's not a hygiene problem, or a quality problem.<br>It's a discovery problem.</p>
+    <p>Solub Food exists to close that gap — putting a name, a story, and a simple way to order in front of the home kitchens that were always near you, just never visible.</p>
+    <p class="closer">Closer than you think.</p>
+  </div>
 </section>
 
 <section class="paths wrap">
@@ -602,17 +654,17 @@
       <p>Be first to discover the home cooks near you — real people, real recipes, and the stories behind them. No generic listings, no stock photos of food that isn't theirs.</p>
       <div class="tearline"></div>
       <div class="stub">
-        <a class="btn primary" href="mailto:hello@teamsolub.com?subject=Join%20the%20Solub%20waitlist&body=Hi%20Solub%2C%0A%0AI'd%20like%20to%20join%20the%20waitlist.%0A%0AName%3A%20%0ASuburb%2Fpostcode%3A%20%0A">Join the waitlist →</a>
+        <a class="btn primary" href="mailto:hello@teamsolub.com?subject=Join%20the%20Solub%20Food%20waitlist&body=Hi%20Solub%20Food%2C%0A%0AI'd%20like%20to%20join%20the%20waitlist.%0A%0AName%3A%20%0ASuburb%2Fpostcode%3A%20%0A">Join the waitlist →</a>
         <span class="fineprint">Opens your email app, addressed to hello@teamsolub.com</span>
       </div>
     </div>
     <div class="card cook">
       <span class="tag">For the cooks</span>
       <h3>Become a Founding Chef</h3>
-      <p>Grew up cooking dishes your family never wrote down? Solub helps you sell what you already know how to make — you keep what you earn, minus a small commission for handling the sale.</p>
+      <p>Grew up cooking dishes your family never wrote down? Solub Food helps you sell what you already know how to make — you keep what you earn, minus a small commission for handling the sale.</p>
       <div class="tearline"></div>
       <div class="stub">
-        <a class="btn primary" href="mailto:chefs@teamsolub.com?subject=Founding%20Chef%20application&body=Hi%20Solub%2C%0A%0AI'd%20like%20to%20apply%20to%20become%20a%20Founding%20Chef.%0A%0AName%3A%20%0APhone%20or%20Instagram%3A%20%0ADish(es)%20I%20cook%3A%20%0A">Apply to cook →</a>
+        <a class="btn primary" href="mailto:chefs@teamsolub.com?subject=Founding%20Chef%20application&body=Hi%20Solub%20Food%2C%0A%0AI'd%20like%20to%20apply%20to%20become%20a%20Founding%20Chef.%0A%0AName%3A%20%0APhone%20or%20Instagram%3A%20%0ADish(es)%20I%20cook%3A%20%0A">Apply to cook →</a>
         <span class="fineprint">Opens your email app, addressed to chefs@teamsolub.com</span>
       </div>
     </div>
@@ -621,7 +673,7 @@
 
 <section class="filmstrip-section wrap">
   <span class="eyebrow"><span class="ember-dot"></span> From the kitchens</span>
-  <h2>Early footage from the dishes Solub is being built around.</h2>
+  <h2>Early footage from the dishes Solub Food is being built around.</h2>
   <div class="filmstrip" id="filmstrip"></div>
 </section>
 
@@ -633,19 +685,19 @@
   </svg>
   <div class="gw-copy">
     <h3>An arepa isn't a taco. An empanada isn't &ldquo;Latin food.&rdquo;</h3>
-    <p>Every family makes it differently — a different masa, a different filling, a different story about who taught them. That specificity is the whole point. Solub starts with the dishes people already recognize by shape, then introduces you to the person who makes theirs.</p>
+    <p>Every family makes it differently — a different masa, a different filling, a different story about who taught them. That specificity is the whole point. Solub Food starts with the dishes people already recognize by shape, then introduces you to the person who makes theirs.</p>
   </div>
 </section>
 
 <section class="honesty wrap">
   <span class="eyebrow"><span class="ember-dot"></span> Where we're at</span>
-  <p>Solub is in its earliest days — we're building the founding chef network from the ground up, starting here in Queensland. Profile information is reviewed before anyone goes live, and council registration is noted where applicable. We'll never claim more certainty than we have.</p>
+  <p>Solub Food is in its earliest days — we're building the founding chef network from the ground up, starting here in Queensland. Profile information is reviewed before anyone goes live, and council registration is noted where applicable. We'll never claim more certainty than we have.</p>
   <p>What we can promise: you'll always know who made your food, and why.</p>
 </section>
 
 <footer class="wrap">
   <div class="flogo">
-    <span>Solub — Closer Than You Think</span>
+    <span>Solub Food — Closer Than You Think</span>
   </div>
   <a class="mail" href="mailto:hello@teamsolub.com">hello@teamsolub.com</a>
 </footer>
