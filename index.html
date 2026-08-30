@@ -195,6 +195,12 @@
     font-family: 'Space Mono', monospace;
     font-size: 0.78rem;
     color: var(--ink-muted);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  .brandrow .handle:hover,
+  .brandrow .handle:focus-visible {
+    color: var(--ember-bright);
   }
 
   /* ---------- hero ---------- */
@@ -639,7 +645,7 @@
 <header class="wrap">
   <div class="brandrow">
     <span class="name">Solub Food</span>
-    <span class="handle">@solubgc</span>
+    <a class="handle" href="https://www.instagram.com/solubfood/" target="_blank" rel="noopener noreferrer">@solubfood</a>
   </div>
 </header>
 
