@@ -536,7 +536,7 @@
     display: flex;
     gap: 0.9rem;
     overflow-x: auto;
-    padding: 0.3rem 1.5rem 1rem;
+    padding: 2.4rem 1.5rem 1.5rem;
     margin: 0 -1.5rem;
     scroll-snap-type: x proximity;
     scrollbar-width: none;
@@ -588,11 +588,12 @@
     border: 1px solid rgba(244,236,216,0.2);
     box-shadow: 0 1px 0 rgba(255,255,255,0.1) inset, 0 14px 30px -18px rgba(0,0,0,0.6);
     scroll-snap-align: start;
-    transition: transform 0.25s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
   .frame:hover {
-    transform: translateY(-4px) scale(1.045);
-    z-index: 3;
+    transform: translateY(-10px) scale(1.13);
+    z-index: 5;
+    box-shadow: 0 1px 0 rgba(255,255,255,0.18) inset, 0 26px 44px -16px rgba(0,0,0,0.75);
   }
   .frame video {
     width: 100%;
