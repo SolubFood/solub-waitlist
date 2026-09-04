@@ -708,6 +708,9 @@
     top: 0.6rem;
     left: 0.6rem;
     z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.32rem;
     font-family: 'Space Mono', monospace;
     font-size: 0.62rem;
     letter-spacing: 0.1em;
@@ -715,9 +718,17 @@
     background: rgba(10,7,5,0.45);
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
-    padding: 0.2rem 0.45rem;
+    padding: 0.2rem 0.5rem 0.2rem 0.35rem;
     border-radius: 999px;
     border: 1px solid rgba(244,236,216,0.2);
+  }
+  .reel-flag {
+    width: 15px;
+    height: 10px;
+    flex-shrink: 0;
+    border-radius: 2px;
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.25);
+    display: block;
   }
 
   /* ---------- gateway ---------- */
@@ -903,6 +914,14 @@
   var heroClips = [1, 2, 3, 4, 5, 6, 7].map(function (n) { return 'assets/videos/clip-' + n + '.mp4'; });
   var dishClips = [2, 3, 4, 5, 6, 7].map(function (n) { return 'assets/videos/clip-' + n + '.mp4'; });
 
+  // Small self-drawn flag SVGs (no emoji — those render inconsistently across platforms).
+  var FLAG_SVG = {
+    Peru: '<svg class="reel-flag" viewBox="0 0 3 2" aria-hidden="true"><rect width="3" height="2" fill="#fff"/><rect width="1" height="2" fill="#D91023"/><rect x="2" width="1" height="2" fill="#D91023"/></svg>',
+    Chile: '<svg class="reel-flag" viewBox="0 0 3 2" aria-hidden="true"><rect width="3" height="2" fill="#D52B1E"/><rect width="3" height="1" fill="#fff"/><rect width="1" height="1" fill="#0039A6"/><polygon points="0.5,0.14 0.61,0.46 0.95,0.46 0.67,0.65 0.78,0.97 0.5,0.78 0.22,0.97 0.33,0.65 0.05,0.46 0.39,0.46" fill="#fff"/></svg>',
+    Colombia: '<svg class="reel-flag" viewBox="0 0 3 2" aria-hidden="true"><rect width="3" height="2" fill="#CE1126"/><rect width="3" height="1.5" fill="#003893"/><rect width="3" height="1" fill="#FCD116"/></svg>',
+    Argentina: '<svg class="reel-flag" viewBox="0 0 3 2" aria-hidden="true"><rect width="3" height="2" fill="#fff"/><rect width="3" height="0.667" fill="#75AADB"/><rect width="3" height="0.667" y="1.333" fill="#75AADB"/><circle cx="1.5" cy="1" r="0.24" fill="#F6B40E" stroke="#85340A" stroke-width="0.02"/></svg>'
+  };
+
   // Country of origin for each dish clip, in order (clip-2 .. clip-7).
   var DISH_COUNTRY = [
     { en: 'Peru', es: 'Perú' },
@@ -981,7 +1000,7 @@
       reel.className = 'reel i18n-reel';
       reel.dataset.idx = i;
       var country = DISH_COUNTRY[i] || DISH_COUNTRY[0];
-      reel.textContent = currentLang === 'es' ? country.es : country.en;
+      reel.innerHTML = (FLAG_SVG[country.en] || '') + '<span class="reel-label">' + (currentLang === 'es' ? country.es : country.en) + '</span>';
       var video = document.createElement('video');
       video.src = src;
       video.muted = true;
@@ -1250,7 +1269,8 @@
 
       document.querySelectorAll('.i18n-reel').forEach(function (el) {
         var country = DISH_COUNTRY[Number(el.dataset.idx)] || DISH_COUNTRY[0];
-        el.textContent = lang === 'es' ? country.es : country.en;
+        var label = el.querySelector('.reel-label');
+        if (label) label.textContent = lang === 'es' ? country.es : country.en;
       });
 
       document.querySelectorAll('.lang-switch button').forEach(function (btn) {
