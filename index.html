@@ -688,6 +688,13 @@
     display: block;
     filter: saturate(1.03);
   }
+  .frame video.kenburns {
+    animation: kenburns 10s ease-in-out infinite;
+  }
+  @keyframes kenburns {
+    0%, 100% { transform: scale(1) translate(0, 0); }
+    50% { transform: scale(1.1) translate(-1.5%, -1%); }
+  }
   .frame::after {
     content: "";
     position: absolute;
@@ -896,14 +903,24 @@
   var heroClips = [1, 2, 3, 4, 5, 6, 7].map(function (n) { return 'assets/videos/clip-' + n + '.mp4'; });
   var dishClips = [2, 3, 4, 5, 6, 7].map(function (n) { return 'assets/videos/clip-' + n + '.mp4'; });
 
+  // Country of origin for each dish clip, in order (clip-2 .. clip-7).
+  var DISH_COUNTRY = [
+    { en: 'Peru', es: 'Perú' },
+    { en: 'Chile', es: 'Chile' },
+    { en: 'Colombia', es: 'Colombia' },
+    { en: 'Chile', es: 'Chile' },
+    { en: 'Argentina', es: 'Argentina' },
+    { en: 'Peru', es: 'Perú' }
+  ];
+
   // TODO: replace with the real dish name + a 1-2 sentence origin/history for each clip, in order.
   var DISH_INFO = [
-    { title: 'This dish', text: 'Ask the Solub Food team to add this dish’s name and story.' },
-    { title: 'This dish', text: 'Ask the Solub Food team to add this dish’s name and story.' },
-    { title: 'This dish', text: 'Ask the Solub Food team to add this dish’s name and story.' },
-    { title: 'This dish', text: 'Ask the Solub Food team to add this dish’s name and story.' },
-    { title: 'This dish', text: 'Ask the Solub Food team to add this dish’s name and story.' },
-    { title: 'This dish', text: 'Ask the Solub Food team to add this dish’s name and story.' }
+    { title: 'A dish from Peru', text: 'Ask the Solub Food team to add this dish’s name and story.' },
+    { title: 'A dish from Chile', text: 'Ask the Solub Food team to add this dish’s name and story.' },
+    { title: 'A dish from Colombia', text: 'Ask the Solub Food team to add this dish’s name and story.' },
+    { title: 'A dish from Chile', text: 'Ask the Solub Food team to add this dish’s name and story.' },
+    { title: 'A dish from Argentina', text: 'Ask the Solub Food team to add this dish’s name and story.' },
+    { title: 'A dish from Peru', text: 'Ask the Solub Food team to add this dish’s name and story.' }
   ];
 
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -962,8 +979,9 @@
       frame.className = 'frame';
       var reel = document.createElement('span');
       reel.className = 'reel i18n-reel';
-      reel.dataset.idx = i + 1;
-      reel.textContent = (currentLang === 'es' ? 'TOMA ' : 'REEL ') + String(i + 1).padStart(2, '0');
+      reel.dataset.idx = i;
+      var country = DISH_COUNTRY[i] || DISH_COUNTRY[0];
+      reel.textContent = currentLang === 'es' ? country.es : country.en;
       var video = document.createElement('video');
       video.src = src;
       video.muted = true;
@@ -971,6 +989,10 @@
       video.playsInline = true;
       video.autoplay = true;
       video.preload = 'metadata';
+      // clip-5 (Chile, reel index 3) is a near-static shot — add a slow drift so the tile doesn't read as frozen.
+      if (src.indexOf('clip-5.mp4') !== -1) {
+        video.className = 'kenburns';
+      }
 
       var closeBtn = document.createElement('button');
       closeBtn.type = 'button';
@@ -1227,7 +1249,8 @@
       });
 
       document.querySelectorAll('.i18n-reel').forEach(function (el) {
-        el.textContent = (lang === 'es' ? 'TOMA ' : 'REEL ') + String(el.dataset.idx).padStart(2, '0');
+        var country = DISH_COUNTRY[Number(el.dataset.idx)] || DISH_COUNTRY[0];
+        el.textContent = lang === 'es' ? country.es : country.en;
       });
 
       document.querySelectorAll('.lang-switch button').forEach(function (btn) {
