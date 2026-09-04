@@ -598,12 +598,20 @@
     background: var(--card);
     border: 1px solid rgba(244,236,216,0.2);
     box-shadow: 0 1px 0 rgba(255,255,255,0.1) inset, 0 14px 30px -18px rgba(0,0,0,0.6);
+    cursor: pointer;
     transition: left 0.4s cubic-bezier(.22,.9,.32,1), top 0.4s cubic-bezier(.22,.9,.32,1),
                 width 0.4s cubic-bezier(.22,.9,.32,1), height 0.4s cubic-bezier(.22,.9,.32,1),
-                box-shadow 0.35s ease, border-radius 0.35s ease;
+                box-shadow 0.3s ease, border-radius 0.35s ease, transform 0.3s ease;
+  }
+  .frame:hover:not(.is-zoomed) {
+    transform: translateY(-10px) scale(1.13);
+    z-index: 5;
+    box-shadow: 0 1px 0 rgba(255,255,255,0.18) inset, 0 26px 44px -16px rgba(0,0,0,0.75);
   }
   .frame.is-zoomed {
+    transform: none;
     border-radius: 18px;
+    cursor: zoom-out;
     box-shadow: 0 40px 80px -20px rgba(0,0,0,0.85), 0 1px 0 rgba(255,255,255,0.2) inset;
   }
   .dish-scrim {
@@ -615,7 +623,64 @@
     pointer-events: none;
     transition: opacity 0.4s ease;
   }
-  .dish-scrim.show { opacity: 1; }
+  .dish-scrim.show { opacity: 1; pointer-events: auto; }
+  .frame-close {
+    position: absolute;
+    top: 0.7rem;
+    right: 0.7rem;
+    z-index: 3;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(10,7,5,0.55);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(244,236,216,0.28);
+    color: #F4ECD8;
+    font-family: 'Space Mono', monospace;
+    font-size: 1.1rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0;
+  }
+  .frame.is-zoomed .frame-close { display: flex; }
+  .frame-close:hover { background: rgba(10,7,5,0.8); }
+  .frame-caption {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    padding: 2.4rem 1.2rem 1.2rem;
+    background: linear-gradient(180deg, transparent, rgba(8,6,4,0.9) 70%);
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.3s ease 0.1s, transform 0.3s ease 0.1s;
+    pointer-events: none;
+  }
+  .frame.is-zoomed .frame-caption {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .frame-caption-title {
+    display: block;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: #FBF6E8;
+    margin-bottom: 0.35rem;
+    letter-spacing: -0.01em;
+  }
+  .frame-caption-text {
+    margin: 0;
+    font-family: 'Newsreader', serif;
+    font-size: 0.88rem;
+    line-height: 1.5;
+    color: #E7DCC2;
+  }
   .frame video {
     width: 100%;
     height: 100%;
@@ -831,6 +896,16 @@
   var heroClips = [1, 2, 3, 4, 5, 6, 7].map(function (n) { return 'assets/videos/clip-' + n + '.mp4'; });
   var dishClips = [2, 3, 4, 5, 6, 7].map(function (n) { return 'assets/videos/clip-' + n + '.mp4'; });
 
+  // TODO: replace with the real dish name + a 1-2 sentence origin/history for each clip, in order.
+  var DISH_INFO = [
+    { title: 'This dish', text: 'Ask the Solub Food team to add this dish’s name and story.' },
+    { title: 'This dish', text: 'Ask the Solub Food team to add this dish’s name and story.' },
+    { title: 'This dish', text: 'Ask the Solub Food team to add this dish’s name and story.' },
+    { title: 'This dish', text: 'Ask the Solub Food team to add this dish’s name and story.' },
+    { title: 'This dish', text: 'Ask the Solub Food team to add this dish’s name and story.' },
+    { title: 'This dish', text: 'Ask the Solub Food team to add this dish’s name and story.' }
+  ];
+
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var currentLang = 'en';
   try { currentLang = localStorage.getItem('solub-lang') || 'en'; } catch (e) {}
@@ -896,8 +971,29 @@
       video.playsInline = true;
       video.autoplay = true;
       video.preload = 'metadata';
+
+      var closeBtn = document.createElement('button');
+      closeBtn.type = 'button';
+      closeBtn.className = 'frame-close';
+      closeBtn.setAttribute('aria-label', 'Close');
+      closeBtn.textContent = '×';
+
+      var info = DISH_INFO[i] || DISH_INFO[0];
+      var caption = document.createElement('div');
+      caption.className = 'frame-caption';
+      var title = document.createElement('span');
+      title.className = 'frame-caption-title';
+      title.textContent = info.title;
+      var text = document.createElement('p');
+      text.className = 'frame-caption-text';
+      text.textContent = info.text;
+      caption.appendChild(title);
+      caption.appendChild(text);
+
       frame.appendChild(video);
       frame.appendChild(reel);
+      frame.appendChild(closeBtn);
+      frame.appendChild(caption);
       slot.appendChild(frame);
       strip.appendChild(slot);
     });
@@ -930,8 +1026,7 @@
   })();
 
   (function dishSpotlight() {
-    var canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-    if (!canHover || reduceMotion) return;
+    if (reduceMotion) return;
 
     var scrim = document.getElementById('dishScrim');
     var strip = document.getElementById('filmstrip');
@@ -999,8 +1094,28 @@
     }
 
     document.querySelectorAll('.frame').forEach(function (frame) {
-      frame.addEventListener('mouseenter', function () { activate(frame); });
-      frame.addEventListener('mouseleave', function () { restore(frame); });
+      frame.addEventListener('click', function (e) {
+        if (frame.classList.contains('is-zoomed')) {
+          restore(frame);
+        } else {
+          activate(frame);
+        }
+      });
+      var closeBtn = frame.querySelector('.frame-close');
+      if (closeBtn) {
+        closeBtn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          restore(frame);
+        });
+      }
+    });
+
+    scrim.addEventListener('click', function () {
+      if (active) restore(active);
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && active) restore(active);
     });
   })();
 
