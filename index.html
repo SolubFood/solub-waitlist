@@ -547,6 +547,10 @@
   .filmstrip::-webkit-scrollbar {
     display: none;
   }
+  .filmstrip.spotlight-active {
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
   .film-nav {
     position: absolute;
     top: 50%;
@@ -577,24 +581,41 @@
     .film-nav { width: 36px; height: 36px; }
     .film-nav svg { width: 15px; height: 15px; }
   }
-  .frame {
+  .frame-slot {
     position: relative;
     flex: 0 0 auto;
     width: 220px;
     aspect-ratio: 4 / 5;
+    scroll-snap-align: start;
+  }
+  .frame {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
     border-radius: 12px;
     overflow: hidden;
     background: var(--card);
     border: 1px solid rgba(244,236,216,0.2);
     box-shadow: 0 1px 0 rgba(255,255,255,0.1) inset, 0 14px 30px -18px rgba(0,0,0,0.6);
-    scroll-snap-align: start;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: left 0.4s cubic-bezier(.22,.9,.32,1), top 0.4s cubic-bezier(.22,.9,.32,1),
+                width 0.4s cubic-bezier(.22,.9,.32,1), height 0.4s cubic-bezier(.22,.9,.32,1),
+                box-shadow 0.35s ease, border-radius 0.35s ease;
   }
-  .frame:hover {
-    transform: translateY(-10px) scale(1.13);
-    z-index: 5;
-    box-shadow: 0 1px 0 rgba(255,255,255,0.18) inset, 0 26px 44px -16px rgba(0,0,0,0.75);
+  .frame.is-zoomed {
+    border-radius: 18px;
+    box-shadow: 0 40px 80px -20px rgba(0,0,0,0.85), 0 1px 0 rgba(255,255,255,0.2) inset;
   }
+  .dish-scrim {
+    position: fixed;
+    inset: 0;
+    z-index: 940;
+    background: rgba(8,6,4,0.62);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+  .dish-scrim.show { opacity: 1; }
   .frame video {
     width: 100%;
     height: 100%;
@@ -683,6 +704,8 @@
   <button type="button" class="active" data-lang-btn="en" aria-pressed="true">EN</button>
   <button type="button" data-lang-btn="es" aria-pressed="false">ES</button>
 </div>
+
+<div class="dish-scrim" id="dishScrim" aria-hidden="true"></div>
 
 <header class="wrap">
   <div class="brandrow">
@@ -858,6 +881,8 @@
   (function filmstrip() {
     var strip = document.getElementById('filmstrip');
     dishClips.forEach(function (src, i) {
+      var slot = document.createElement('div');
+      slot.className = 'frame-slot';
       var frame = document.createElement('div');
       frame.className = 'frame';
       var reel = document.createElement('span');
@@ -873,7 +898,8 @@
       video.preload = 'metadata';
       frame.appendChild(video);
       frame.appendChild(reel);
-      strip.appendChild(frame);
+      slot.appendChild(frame);
+      strip.appendChild(slot);
     });
 
     var prevBtn = document.getElementById('filmPrev');
@@ -901,6 +927,81 @@
     strip.addEventListener('scroll', updateNavState, { passive: true });
     window.addEventListener('resize', updateNavState);
     updateNavState();
+  })();
+
+  (function dishSpotlight() {
+    var canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    if (!canHover || reduceMotion) return;
+
+    var scrim = document.getElementById('dishScrim');
+    var strip = document.getElementById('filmstrip');
+    var active = null;
+
+    function activate(frame) {
+      if (active === frame) return;
+      if (active) restore(active);
+
+      strip.classList.add('spotlight-active');
+      var r = frame.getBoundingClientRect();
+      frame.dataset.rect = JSON.stringify({ left: r.left, top: r.top, width: r.width, height: r.height });
+
+      frame.style.position = 'fixed';
+      frame.style.margin = '0';
+      frame.style.left = r.left + 'px';
+      frame.style.top = r.top + 'px';
+      frame.style.width = r.width + 'px';
+      frame.style.height = r.height + 'px';
+      frame.style.zIndex = '960';
+      frame.classList.add('is-zoomed');
+      void frame.offsetWidth;
+
+      var targetH = Math.min(window.innerHeight * 0.82, 720);
+      var targetW = targetH * 4 / 5;
+      if (targetW > window.innerWidth * 0.88) {
+        targetW = window.innerWidth * 0.88;
+        targetH = targetW * 5 / 4;
+      }
+      frame.style.left = ((window.innerWidth - targetW) / 2) + 'px';
+      frame.style.top = ((window.innerHeight - targetH) / 2) + 'px';
+      frame.style.width = targetW + 'px';
+      frame.style.height = targetH + 'px';
+
+      scrim.classList.add('show');
+      active = frame;
+    }
+
+    function restore(frame) {
+      var r = JSON.parse(frame.dataset.rect || '{}');
+      frame.style.left = (r.left || 0) + 'px';
+      frame.style.top = (r.top || 0) + 'px';
+      frame.style.width = (r.width || 0) + 'px';
+      frame.style.height = (r.height || 0) + 'px';
+      frame.classList.remove('is-zoomed');
+
+      var done = function (e) {
+        if (e && e.propertyName !== 'width') return;
+        frame.style.position = '';
+        frame.style.margin = '';
+        frame.style.left = '';
+        frame.style.top = '';
+        frame.style.width = '';
+        frame.style.height = '';
+        frame.style.zIndex = '';
+        frame.removeEventListener('transitionend', done);
+      };
+      frame.addEventListener('transitionend', done);
+
+      if (active === frame) {
+        active = null;
+        scrim.classList.remove('show');
+        strip.classList.remove('spotlight-active');
+      }
+    }
+
+    document.querySelectorAll('.frame').forEach(function (frame) {
+      frame.addEventListener('mouseenter', function () { activate(frame); });
+      frame.addEventListener('mouseleave', function () { restore(frame); });
+    });
   })();
 
   (function emberTrail() {
