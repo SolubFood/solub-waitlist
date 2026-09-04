@@ -9,20 +9,20 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Newsreader:ital,wght@0,400;0,500;0,600;1,400&family=Space+Mono:wght@400;700&display=swap">
 <style>
   :root {
-    --bg: #171310;
-    --bg-soft: #1A1310;
-    --card: #1E1611;
-    --card-2: #251C15;
+    --bg: #251D16;
+    --bg-soft: #2C2319;
+    --card: #2A2119;
+    --card-2: #33271A;
     --ink: #F4ECD8;
-    --ink-muted: #B4A488;
+    --ink-muted: #C2B296;
     --ember: #E2AC4C;
     --ember-bright: #F4C468;
     --ember-ink: #241704;
     --sage: #6FA491;
     --sage-ink: #0E1F1A;
-    --line: rgba(244,236,216,0.14);
-    --line-soft: rgba(244,236,216,0.07);
-    --shadow: 0 1px 2px rgba(0,0,0,.45), 0 26px 54px -26px rgba(0,0,0,.7);
+    --line: rgba(244,236,216,0.17);
+    --line-soft: rgba(244,236,216,0.09);
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 26px 54px -26px rgba(0,0,0,.65);
   }
 
   * { box-sizing: border-box; }
@@ -36,12 +36,12 @@
     margin: 0;
     background-color: var(--bg);
     background-image:
-      radial-gradient(circle at 12% 22%, rgba(226,172,76,0.5) 0 3px, transparent 4px),
-      radial-gradient(circle at 68% 14%, rgba(111,164,145,0.45) 0 2.4px, transparent 3.4px),
-      radial-gradient(circle at 40% 60%, rgba(244,236,216,0.28) 0 2px, transparent 3px),
-      radial-gradient(circle at 85% 70%, rgba(226,172,76,0.35) 0 3px, transparent 4px),
-      radial-gradient(circle at 22% 85%, rgba(111,164,145,0.3) 0 2px, transparent 3px),
-      radial-gradient(circle at 60% 40%, rgba(244,236,216,0.18) 0 1.6px, transparent 2.6px);
+      radial-gradient(circle at 12% 22%, rgba(226,172,76,0.65) 0 4px, transparent 5px),
+      radial-gradient(circle at 68% 14%, rgba(111,164,145,0.58) 0 3.2px, transparent 4.2px),
+      radial-gradient(circle at 40% 60%, rgba(244,236,216,0.36) 0 2.6px, transparent 3.6px),
+      radial-gradient(circle at 85% 70%, rgba(226,172,76,0.48) 0 4px, transparent 5px),
+      radial-gradient(circle at 22% 85%, rgba(111,164,145,0.42) 0 2.6px, transparent 3.6px),
+      radial-gradient(circle at 60% 40%, rgba(244,236,216,0.26) 0 2px, transparent 3px);
     background-size: 220px 220px, 260px 260px, 180px 180px, 300px 300px, 200px 200px, 160px 160px;
     background-attachment: fixed;
     color: var(--ink);
@@ -934,12 +934,12 @@
 
   // TODO: replace with the real dish name + a 1-2 sentence origin/history for each clip, in order.
   var DISH_INFO = [
-    { title: 'A dish from Peru', text: 'Ask the Solub Food team to add this dish’s name and story.' },
-    { title: 'A dish from Chile', text: 'Ask the Solub Food team to add this dish’s name and story.' },
-    { title: 'A dish from Colombia', text: 'Ask the Solub Food team to add this dish’s name and story.' },
-    { title: 'A dish from Chile', text: 'Ask the Solub Food team to add this dish’s name and story.' },
-    { title: 'A dish from Argentina', text: 'Ask the Solub Food team to add this dish’s name and story.' },
-    { title: 'A dish from Peru', text: 'Ask the Solub Food team to add this dish’s name and story.' }
+    { title: 'Tres Leches', text: 'A sponge cake soaked in three kinds of milk — evaporated, condensed, and cream — until it turns rich and custardy. A dessert-table staple across Peru and much of Latin America.' },
+    { title: 'Completo Italiano', text: 'Chile’s take on the hot dog, piled with tomato, mayonnaise, and avocado — colors said to echo the Italian flag. A fixture of Chilean street food since the early 20th century.' },
+    { title: 'Arepas Con Carne Mechada', text: 'Grilled corn cakes split and filled with carne mechada — beef slow-cooked until it shreds. An everyday staple across Colombia, where every region shapes its arepa a little differently.' },
+    { title: 'Empanada de Pino', text: 'A baked pastry filled with pino — hand-chopped beef, onion, a black olive, and a slice of hard-boiled egg. Chile’s signature empanada, especially around Fiestas Patrias.' },
+    { title: 'Alfajor', text: 'Two soft cookies sandwiching a thick layer of dulce de leche, often rolled in coconut or dipped in chocolate. One of Argentina’s most-loved everyday sweets.' },
+    { title: 'Sandwich de Chicharrón', text: 'Crisp fried pork tucked into bread with camote and salsa criolla. A classic Peruvian sandwich, sold from carts long before sunrise.' }
   ];
 
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
