@@ -733,11 +733,30 @@
 
   /* ---------- community / map ---------- */
   .community {
+    position: relative;
+    overflow: hidden;
     padding: 1rem 0 4rem;
     border-top: 1px solid var(--line-soft);
     text-align: center;
   }
-  .community > .eyebrow {
+  .community-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-image: linear-gradient(rgba(37,29,22,0.88), rgba(37,29,22,0.88)), var(--flag-img, none);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    pointer-events: none;
+  }
+  .community-bg.show { opacity: 1; }
+  .community-fg {
+    position: relative;
+    z-index: 1;
+  }
+  .community-fg > .eyebrow {
     margin-top: 3rem;
     justify-content: center;
   }
@@ -765,19 +784,8 @@
     transition: fill 0.25s ease;
   }
   .sa-map .country.featured { fill: var(--ember); }
-  .sa-map g:hover .country { fill-opacity: 0.88; }
-  .sa-map g:hover .country[data-country="co"] { fill: url(#flag-co); }
-  .sa-map g:hover .country[data-country="ve"] { fill: url(#flag-ve); }
-  .sa-map g:hover .country[data-country="gy"] { fill: url(#flag-gy); }
-  .sa-map g:hover .country[data-country="sr"] { fill: url(#flag-sr); }
-  .sa-map g:hover .country[data-country="ec"] { fill: url(#flag-ec); }
-  .sa-map g:hover .country[data-country="pe"] { fill: url(#flag-pe); }
-  .sa-map g:hover .country[data-country="br"] { fill: url(#flag-br); }
-  .sa-map g:hover .country[data-country="bo"] { fill: url(#flag-bo); }
-  .sa-map g:hover .country[data-country="py"] { fill: url(#flag-py); }
-  .sa-map g:hover .country[data-country="cl"] { fill: url(#flag-cl); }
-  .sa-map g:hover .country[data-country="ar"] { fill: url(#flag-ar); }
-  .sa-map g:hover .country[data-country="uy"] { fill: url(#flag-uy); }
+  .sa-map g:hover .country.featured { fill: var(--ember-bright); }
+  .sa-map g:hover .country:not(.featured) { fill: rgba(244,236,216,0.34); }
   .country-info {
     margin: 1.6rem auto 0;
     max-width: 30rem;
@@ -952,24 +960,12 @@
 </section>
 
 <section class="community wrap">
+  <div class="community-bg" id="communityBg" aria-hidden="true"></div>
+  <div class="community-fg">
   <span class="eyebrow"><span class="ember-dot"></span><span data-i18n="communityEyebrow">South America</span></span>
   <h2 data-i18n="communityH2">We are a community. We feel the food.</h2>
   <div class="sa-map-wrap">
-    <svg class="sa-map" viewBox="167.0 483.1 170.5 224.4" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Map of South America — hover a country to see its flag, click for a quick fact">
-      <defs>
-        <pattern id="flag-co" patternUnits="objectBoundingBox" width="1" height="1" viewBox="0 0 3 2" preserveAspectRatio="none"><rect width="3" height="2" fill="#FCD116"/><rect y="1" width="3" height="0.5" fill="#003893"/><rect y="1.5" width="3" height="0.5" fill="#CE1126"/></pattern>
-        <pattern id="flag-ve" patternUnits="objectBoundingBox" width="1" height="1" viewBox="0 0 3 2" preserveAspectRatio="none"><rect width="3" height="0.667" fill="#FCD116"/><rect y="0.667" width="3" height="0.667" fill="#00247D"/><rect y="1.333" width="3" height="0.667" fill="#CF142B"/></pattern>
-        <pattern id="flag-gy" patternUnits="objectBoundingBox" width="1" height="1" viewBox="0 0 3 2" preserveAspectRatio="none"><rect width="3" height="2" fill="#009739"/><polygon points="0,0 1.9,1 0,2" fill="#FCD116"/><polygon points="0,0.35 1.2,1 0,1.65" fill="#CE1126"/></pattern>
-        <pattern id="flag-sr" patternUnits="objectBoundingBox" width="1" height="1" viewBox="0 0 3 2" preserveAspectRatio="none"><rect width="3" height="2" fill="#377E3F"/><rect y="0.4" width="3" height="0.2" fill="#fff"/><rect y="0.6" width="3" height="0.8" fill="#B40A2D"/><rect y="1.4" width="3" height="0.2" fill="#fff"/><circle cx="1.5" cy="1" r="0.18" fill="#ECC81D"/></pattern>
-        <pattern id="flag-ec" patternUnits="objectBoundingBox" width="1" height="1" viewBox="0 0 3 2" preserveAspectRatio="none"><rect width="3" height="2" fill="#FCD116"/><rect y="1" width="3" height="0.5" fill="#0072CE"/><rect y="1.5" width="3" height="0.5" fill="#EF3340"/></pattern>
-        <pattern id="flag-pe" patternUnits="objectBoundingBox" width="1" height="1" viewBox="0 0 3 2" preserveAspectRatio="none"><rect width="3" height="2" fill="#fff"/><rect width="1" height="2" fill="#D91023"/><rect x="2" width="1" height="2" fill="#D91023"/></pattern>
-        <pattern id="flag-br" patternUnits="objectBoundingBox" width="1" height="1" viewBox="0 0 3 2" preserveAspectRatio="none"><rect width="3" height="2" fill="#009739"/><polygon points="1.5,0.15 2.75,1 1.5,1.85 0.25,1" fill="#FEDD00"/><circle cx="1.5" cy="1" r="0.45" fill="#002776"/></pattern>
-        <pattern id="flag-bo" patternUnits="objectBoundingBox" width="1" height="1" viewBox="0 0 3 2" preserveAspectRatio="none"><rect width="3" height="0.667" fill="#D52B1E"/><rect y="0.667" width="3" height="0.667" fill="#F9E300"/><rect y="1.333" width="3" height="0.667" fill="#007934"/></pattern>
-        <pattern id="flag-py" patternUnits="objectBoundingBox" width="1" height="1" viewBox="0 0 3 2" preserveAspectRatio="none"><rect width="3" height="0.667" fill="#D52B1E"/><rect y="0.667" width="3" height="0.667" fill="#fff"/><rect y="1.333" width="3" height="0.667" fill="#0038A8"/></pattern>
-        <pattern id="flag-cl" patternUnits="objectBoundingBox" width="1" height="1" viewBox="0 0 3 2" preserveAspectRatio="none"><rect width="3" height="2" fill="#D52B1E"/><rect width="3" height="1" fill="#fff"/><rect width="1" height="1" fill="#0039A6"/><polygon points="0.5,0.14 0.61,0.46 0.95,0.46 0.67,0.65 0.78,0.97 0.5,0.78 0.22,0.97 0.33,0.65 0.05,0.46 0.39,0.46" fill="#fff"/></pattern>
-        <pattern id="flag-ar" patternUnits="objectBoundingBox" width="1" height="1" viewBox="0 0 3 2" preserveAspectRatio="none"><rect width="3" height="2" fill="#fff"/><rect width="3" height="0.667" fill="#75AADB"/><rect width="3" height="0.667" y="1.333" fill="#75AADB"/><circle cx="1.5" cy="1" r="0.24" fill="#F6B40E" stroke="#85340A" stroke-width="0.02"/></pattern>
-        <pattern id="flag-uy" patternUnits="objectBoundingBox" width="1" height="1" viewBox="0 0 3 2" preserveAspectRatio="none"><rect width="3" height="2" fill="#fff"/><rect y="0.222" width="3" height="0.222" fill="#0038A8"/><rect y="0.667" width="3" height="0.222" fill="#0038A8"/><rect y="1.111" width="3" height="0.222" fill="#0038A8"/><rect y="1.556" width="3" height="0.222" fill="#0038A8"/><rect width="1.3" height="1" fill="#fff"/><circle cx="0.65" cy="0.5" r="0.22" fill="#FCD116"/></pattern>
-      </defs>
+    <svg class="sa-map" viewBox="167.0 483.1 170.5 224.4" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Map of South America — click a country to see its flag and a quick fact">
       <g><path class="country featured" data-country="co" d="M234.326,498.251l-1.781-0.182l-11.773,9.707l-1.245,3.414l-1.608,0.182l0.717,7.546l-4.105,10.07l4.46,3.776l5.714,0.363l3.924,5.757l5.705,0.183l-0.182,4.312h2.135l2.316-7.909l-2.144-2.694l0.536-5.031l4.46-0.363l-0.536-11.688l-9.993-3.232l-2.316-6.293L234.326,498.251L234.326,498.251z"><title>Colombia</title></path></g>
       <g><path class="country" data-country="ve" d="M231.5,503.558l0.38,2.239l2.809,0.892l0.64-4.124l2.965-3.068l2.965,3.475l6.82,1.859l5.774-1.211l3.933,4.849l2.965,1.858l-3.25,4.953l1.089,3.752l-1.858,2.299l-1.928,1.616l-4.175-2.102l-0.959,0.969v2.99l3.052,1.452l-2.248,2.43l-2.248,2.43l-2.965-0.242l-2.982-3.275l-0.631-12.326l-10.183-3.476l-1.85-5.42L231.5,503.558L231.5,503.558z"><title>Venezuela</title></path></g>
       <g><path class="country" data-country="gy" d="M261.399,510.654l6.241,5.652l-2.481,2.87l-0.199,1.703l3.259,3.362l-0.078,3.232l-5.67,2.16l-3.397-4.59l0.726-5.515l-1.452-4.105L261.399,510.654L261.399,510.654z"><title>Guyana</title></path></g>
@@ -989,6 +985,7 @@
     <p class="country-info-text" id="countryInfoText"></p>
   </div>
   <p class="sa-credit">Map data adapted from <a href="https://github.com/flekschas/simple-world-map" target="_blank" rel="noopener noreferrer">simple-world-map</a> (CC BY-SA 3.0).</p>
+  </div>
 </section>
 
 <section class="honesty wrap">
@@ -1061,6 +1058,28 @@
     gy: { en: 'The only country in South America where English is the official language.', es: 'El único país de Sudamérica donde el inglés es el idioma oficial.' },
     sr: { en: 'The smallest sovereign country in South America, and one of the most forested nations on Earth.', es: 'El país soberano más pequeño de Sudamérica, y una de las naciones con mayor cobertura forestal del mundo.' }
   };
+
+  // Full flag artwork (same simplified geometry as the small reel badges), used as a background watermark.
+  var FLAG_SVG_MARKUP = {
+    co: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="2" fill="#FCD116"/><rect y="1" width="3" height="0.5" fill="#003893"/><rect y="1.5" width="3" height="0.5" fill="#CE1126"/></svg>',
+    ve: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="0.667" fill="#FCD116"/><rect y="0.667" width="3" height="0.667" fill="#00247D"/><rect y="1.333" width="3" height="0.667" fill="#CF142B"/></svg>',
+    gy: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="2" fill="#009739"/><polygon points="0,0 1.9,1 0,2" fill="#FCD116"/><polygon points="0,0.35 1.2,1 0,1.65" fill="#CE1126"/></svg>',
+    sr: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="2" fill="#377E3F"/><rect y="0.4" width="3" height="0.2" fill="#fff"/><rect y="0.6" width="3" height="0.8" fill="#B40A2D"/><rect y="1.4" width="3" height="0.2" fill="#fff"/><circle cx="1.5" cy="1" r="0.18" fill="#ECC81D"/></svg>',
+    ec: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="2" fill="#FCD116"/><rect y="1" width="3" height="0.5" fill="#0072CE"/><rect y="1.5" width="3" height="0.5" fill="#EF3340"/></svg>',
+    pe: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="2" fill="#fff"/><rect width="1" height="2" fill="#D91023"/><rect x="2" width="1" height="2" fill="#D91023"/></svg>',
+    br: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="2" fill="#009739"/><polygon points="1.5,0.15 2.75,1 1.5,1.85 0.25,1" fill="#FEDD00"/><circle cx="1.5" cy="1" r="0.45" fill="#002776"/></svg>',
+    bo: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="0.667" fill="#D52B1E"/><rect y="0.667" width="3" height="0.667" fill="#F9E300"/><rect y="1.333" width="3" height="0.667" fill="#007934"/></svg>',
+    py: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="0.667" fill="#D52B1E"/><rect y="0.667" width="3" height="0.667" fill="#fff"/><rect y="1.333" width="3" height="0.667" fill="#0038A8"/></svg>',
+    cl: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="2" fill="#D52B1E"/><rect width="3" height="1" fill="#fff"/><rect width="1" height="1" fill="#0039A6"/><polygon points="0.5,0.14 0.61,0.46 0.95,0.46 0.67,0.65 0.78,0.97 0.5,0.78 0.22,0.97 0.33,0.65 0.05,0.46 0.39,0.46" fill="#fff"/></svg>',
+    ar: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="2" fill="#fff"/><rect width="3" height="0.667" fill="#75AADB"/><rect width="3" height="0.667" y="1.333" fill="#75AADB"/><circle cx="1.5" cy="1" r="0.24" fill="#F6B40E" stroke="#85340A" stroke-width="0.02"/></svg>',
+    uy: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="2" fill="#fff"/><rect y="0.222" width="3" height="0.222" fill="#0038A8"/><rect y="0.667" width="3" height="0.222" fill="#0038A8"/><rect y="1.111" width="3" height="0.222" fill="#0038A8"/><rect y="1.556" width="3" height="0.222" fill="#0038A8"/><rect width="1.3" height="1" fill="#fff"/><circle cx="0.65" cy="0.5" r="0.22" fill="#FCD116"/></svg>'
+  };
+
+  function flagBackgroundUrl(code) {
+    var markup = FLAG_SVG_MARKUP[code];
+    if (!markup) return 'none';
+    return 'url("data:image/svg+xml,' + encodeURIComponent(markup) + '")';
+  }
 
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var currentLang = 'en';
@@ -1284,10 +1303,10 @@
     var panel = document.getElementById('countryInfo');
     var titleEl = document.getElementById('countryInfoTitle');
     var textEl = document.getElementById('countryInfoText');
-    if (!panel) return;
+    var bg = document.getElementById('communityBg');
+    if (!panel || !bg) return;
 
     var activeCode = null;
-    var showCountryInfo;
 
     function render(code) {
       var name = (COUNTRY_NAME[code] || {})[currentLang] || code;
@@ -1296,21 +1315,28 @@
       textEl.textContent = text;
     }
 
-    showCountryInfo = function (code) {
+    function show(code) {
       activeCode = code;
       render(code);
       panel.classList.add('show');
-    };
+      bg.style.setProperty('--flag-img', flagBackgroundUrl(code));
+      bg.classList.add('show');
+    }
+
+    function hide() {
+      activeCode = null;
+      panel.classList.remove('show');
+      bg.classList.remove('show');
+    }
 
     document.querySelectorAll('.sa-map g').forEach(function (g) {
       g.addEventListener('click', function () {
         var code = g.querySelector('.country').dataset.country;
         if (activeCode === code && panel.classList.contains('show')) {
-          activeCode = null;
-          panel.classList.remove('show');
+          hide();
           return;
         }
-        showCountryInfo(code);
+        show(code);
       });
     });
 
