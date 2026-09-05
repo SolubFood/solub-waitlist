@@ -601,11 +601,12 @@
     cursor: pointer;
     transition: left 0.4s cubic-bezier(.22,.9,.32,1), top 0.4s cubic-bezier(.22,.9,.32,1),
                 width 0.4s cubic-bezier(.22,.9,.32,1), height 0.4s cubic-bezier(.22,.9,.32,1),
-                box-shadow 0.3s ease, border-radius 0.35s ease, transform 0.3s ease;
+                box-shadow 0.3s ease, border-radius 0.35s ease, transform 0.3s ease, opacity 0.3s ease;
   }
   .frame:hover:not(.is-zoomed) {
     transform: translateY(-10px) scale(1.13);
     z-index: 5;
+    opacity: 0.94;
     box-shadow: 0 1px 0 rgba(255,255,255,0.18) inset, 0 26px 44px -16px rgba(0,0,0,0.75);
   }
   .frame.is-zoomed {
