@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Real Over Perfect</title>
+<title>Solub Food — Real Over Perfect</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Fraunces:ital,wght@1,600;1,700&family=Newsreader:ital,wght@0,400;0,500;0,600;1,400&family=Space+Mono:wght@400;700&display=swap">
@@ -316,10 +316,10 @@
   }
   .story blockquote {
     margin: 0;
-    font-size: clamp(1.4rem, 2.8vw, 2rem);
+    font-size: clamp(1.15rem, 2.2vw, 1.5rem);
     font-style: italic;
-    line-height: 1.42;
-    max-width: 30ch;
+    line-height: 1.55;
+    max-width: 52ch;
     color: #FBF6E8;
   }
   .story .stamp {
@@ -327,6 +327,7 @@
     font-family: 'Space Mono', monospace;
     font-size: 0.78rem;
     color: #C9BB9E;
+    transition-delay: 0.2s;
   }
   .story .stamp::before {
     content: "— ";
@@ -390,15 +391,70 @@
   /* ---------- paths ---------- */
   .paths {
     padding: 1rem 0 4rem;
-    border-top: 1px solid var(--line-soft);
     text-align: center;
   }
   .paths > .eyebrow { margin-bottom: 0.6rem; margin-top: 3rem; }
-  .paths h2 {
-    font-size: clamp(1.6rem, 3vw, 2.1rem);
-    max-width: 24ch;
+  .paths-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
     margin: 0 auto 2.2rem;
   }
+  .paths-photo-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.55rem;
+    flex-shrink: 0;
+  }
+  .paths-photo {
+    width: 130px;
+    height: 170px;
+    object-fit: cover;
+    border-radius: 14px;
+    border: 1px solid rgba(244,236,216,0.18);
+    box-shadow: 0 18px 40px -20px rgba(0,0,0,0.6);
+    display: block;
+  }
+  .paths-photo-flag {
+    width: 32px;
+    height: 21px;
+    border-radius: 3px;
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.25), 0 2px 6px rgba(0,0,0,0.3);
+    display: block;
+  }
+  .paths-intro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.9rem;
+    margin: 0;
+  }
+  @media (max-width: 760px) {
+    .paths-photo-wrap { display: none; }
+  }
+  .paths-intro h2 {
+    font-size: clamp(1.6rem, 3vw, 2.1rem);
+    max-width: 26ch;
+    margin: 0;
+    text-shadow: 0 0 42px rgba(244,196,104,0.45), 0 0 14px rgba(244,196,104,0.25);
+  }
+  .paths-sub {
+    font-family: 'Newsreader', serif;
+    font-style: italic;
+    font-size: clamp(1rem, 1.8vw, 1.2rem);
+    color: var(--ink-muted);
+    line-height: 1.5;
+    margin: 0;
+  }
+  .reveal-up {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal-up.in-view { opacity: 1; transform: translateY(0); }
+  .paths-sub.reveal-up { transition-delay: 0.15s; }
   .pathgrid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -408,6 +464,22 @@
   }
   @media (max-width: 760px) {
     .pathgrid { grid-template-columns: 1fr; }
+  }
+  .paths-flags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    max-width: 640px;
+    margin: 2.4rem auto 0;
+  }
+  .paths-flags svg {
+    width: 26px;
+    height: 17px;
+    flex-shrink: 0;
+    border-radius: 3px;
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.22), 0 2px 6px rgba(0,0,0,0.3);
+    display: block;
   }
   .card {
     position: relative;
@@ -500,11 +572,36 @@
     color: var(--ink-muted);
     line-height: 1.5;
   }
+  .cta-form { display: flex; flex-direction: column; }
+  .cta-form .btn { width: 100%; margin-top: 0.15rem; }
+  .cta-input {
+    width: 100%;
+    font-family: 'Newsreader', serif;
+    font-size: 0.95rem;
+    color: var(--ink);
+    background: rgba(244,236,216,0.06);
+    border: 1px solid rgba(244,236,216,0.22);
+    border-radius: 9px;
+    padding: 0.65rem 0.85rem;
+    margin-bottom: 0.55rem;
+  }
+  .cta-input::placeholder { color: var(--ink-muted); opacity: 0.85; }
+  .cta-input:focus-visible { outline: 2px solid var(--ember-bright); outline-offset: 1px; }
+  .cta-honey { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+  .card .form-status {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    line-height: 1.5;
+    margin: 0;
+    min-height: 1em;
+  }
+  .card .form-status.success { color: var(--sage); }
+  .card .form-status.error { color: #E27E5B; }
+  .card .form-status.error a { color: inherit; }
 
   /* ---------- filmstrip ---------- */
   .filmstrip-section {
     padding: 1rem 0 4rem;
-    border-top: 1px solid var(--line-soft);
     text-align: center;
   }
   .filmstrip-section > .eyebrow { margin-top: 3rem; }
@@ -778,7 +875,6 @@
     position: relative;
     overflow: hidden;
     padding: 1rem 0 4rem;
-    border-top: 1px solid var(--line-soft);
     text-align: center;
   }
   .community-bg {
@@ -806,6 +902,18 @@
     font-size: clamp(1.7rem, 3.4vw, 2.4rem);
     max-width: 22ch;
     margin: 0.7rem auto 2.4rem;
+  }
+  .community-video-wrap {
+    max-width: 640px;
+    margin: 0 auto;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 24px 60px -24px rgba(0,0,0,0.6);
+  }
+  .community-video {
+    width: 100%;
+    height: auto;
+    display: block;
   }
   .sa-map-wrap {
     display: flex;
@@ -872,7 +980,6 @@
   /* ---------- honesty ---------- */
   .honesty {
     padding: 2rem 0 4rem;
-    border-top: 1px solid var(--line-soft);
     text-align: center;
   }
   .honesty .eyebrow { margin-bottom: 0.9rem; }
@@ -918,7 +1025,7 @@
 
 <section class="hero wrap">
   <div class="hero-media" aria-hidden="true">
-    <video class="hero-video active" id="heroVideoA" muted autoplay playsinline preload="auto"></video>
+    <video class="hero-video active" id="heroVideoA" muted autoplay playsinline preload="auto" poster="assets/img/posters/clip-2.jpg"></video>
     <video class="hero-video" id="heroVideoB" muted autoplay playsinline preload="auto"></video>
     <div class="hero-scrim"></div>
     <div class="hero-flash" id="heroFlash"></div>
@@ -936,7 +1043,7 @@
 
 <section class="filmstrip-section wrap">
   <span class="eyebrow"><span class="ember-dot"></span><span data-i18n="filmstripEyebrow">From the kitchens</span></span>
-  <h2 data-i18n="filmstripH2">Early footage from the dishes Solub Food is being built around.</h2>
+  <h2 data-i18n="filmstripH2">Dishes that build connections.</h2>
   <div class="filmstrip-wrap">
     <button type="button" class="film-nav prev" id="filmPrev" aria-label="Previous dishes">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
@@ -953,33 +1060,28 @@
   <div class="community-fg">
   <span class="eyebrow"><span class="ember-dot"></span><span data-i18n="communityEyebrow">South America</span></span>
   <h2 data-i18n="communityH2">We are a community. We feel the food.</h2>
-  <div class="sa-map-wrap">
-    <svg class="sa-map" viewBox="167.0 483.1 170.5 224.4" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Map of South America — click a country to see its flag and a quick fact">
-      <g><path class="country featured" data-country="co" style="--c:#FCD116" d="M234.326,498.251l-1.781-0.182l-11.773,9.707l-1.245,3.414l-1.608,0.182l0.717,7.546l-4.105,10.07l4.46,3.776l5.714,0.363l3.924,5.757l5.705,0.183l-0.182,4.312h2.135l2.316-7.909l-2.144-2.694l0.536-5.031l4.46-0.363l-0.536-11.688l-9.993-3.232l-2.316-6.293L234.326,498.251L234.326,498.251z"><title>Colombia</title></path></g>
-      <g><path class="country" data-country="ve" style="--c:#00247D" d="M231.5,503.558l0.38,2.239l2.809,0.892l0.64-4.124l2.965-3.068l2.965,3.475l6.82,1.859l5.774-1.211l3.933,4.849l2.965,1.858l-3.25,4.953l1.089,3.752l-1.858,2.299l-1.928,1.616l-4.175-2.102l-0.959,0.969v2.99l3.052,1.452l-2.248,2.43l-2.248,2.43l-2.965-0.242l-2.982-3.275l-0.631-12.326l-10.183-3.476l-1.85-5.42L231.5,503.558L231.5,503.558z"><title>Venezuela</title></path></g>
-      <g><path class="country" data-country="gy" style="--c:#009739" d="M261.399,510.654l6.241,5.652l-2.481,2.87l-0.199,1.703l3.259,3.362l-0.078,3.232l-5.67,2.16l-3.397-4.59l0.726-5.515l-1.452-4.105L261.399,510.654L261.399,510.654z"><title>Guyana</title></path></g>
-      <g><path class="country" data-country="sr" style="--c:#B40A2D" d="M268.384,516.715l1.763,1.616l2.731-1.694l2.49,0.078l-0.32,0.968l-1.046,2.179l-0.164,5.421l-4.97,2.022l0.242-3.476l-3.207-2.991l0.164-1.538L268.384,516.715L268.384,516.715z"><title>Suriname</title></path></g>
-      <g><path class="country" data-country="ec" style="--c:#0072CE" d="M213.986,529.43l-4.088,2.541l-0.294,3.771l-0.821,1.234l2.576,2.473l-1.115,1.219l0.259,3.113l4.607,1.098l6.976-8.256l-0.017-2.878l-3.345-0.216L213.986,529.43L213.986,529.43z"><title>Ecuador</title></path><path class="country" data-country="ec" style="--c:#0072CE" d="M183.533,531.443l-0.536,2.378l-0.994,1.002l0.683,1.228l1.754-0.69l0.838-1.461l-0.536-1.537L183.533,531.443L183.533,531.443z"><title>Ecuador</title></path></g>
-      <g><path class="country featured" data-country="pe" style="--c:#D91023" d="M209.518,541.246l-1.677,1.695l0.113,2.703l14.643,26.694l15.205,9.802l2.351-3.941l0.562-8.669l-1.228-5.402l-4.141-6.984l-2.463,0.786l-1.115,1.236l-4.918-5.636l1.228-6.647l5.705-3.717l-0.449-3.492l-5.809-0.226l-3.017-5.064l-1.677-0.562l0.113,3.044l-7.486,8.895l-5.593-1.349L209.518,541.246L209.518,541.246z"><title>Peru</title></path></g>
-      <g><path class="country" data-country="br" style="--c:#046A38" d="M286.631,618.464l5.402-10.391l0.198-8.73l10.079-6.501h5.645l4.435-7.512l0.804-14.418l-1.815-3.855l10.684-9.751l0.406-10.761l-14.514-7.105l-17.53-5.48l-8.264-0.812l2.221-4.669l-0.604-7.104l-1.808-0.596l-2.671,5.308l-1.4,1.754l-3.595-1.59l-12.093,4.261l-4.028-5.073l0.648-5.299l-3.804,3.872l-4.201-2.265l-0.424,0.597l0.009,1.841l3.622,1.945l-5.437,5.73l-3.432-0.034l-3.475-3.535l-3.933,0.121l-0.484,4.2l2.256,2.739l-2.663,8.532l-3.112,0.241l-4.953,3.13l-1.21,6.146l4.296,4.599l0.787-0.89l3.017-0.812l2.576,4.34l7.374-3.164l2.861,0.165l1.971,6.976l10.52,3.337l1.815,5.564l4.478,0.537l2.135,5.314l-1.443,4.729l1.884,2.474l-0.276,3.683l5.048-0.477l4.625,5.844l-0.363,4.105l2.74,2.316l-6.57,9.95L286.631,618.464L286.631,618.464z"><title>Brazil</title></path></g>
-      <g><path class="country" data-country="bo" style="--c:#007934" d="M238.631,561.361l7.114-3.104l2.351,0.226l1.565,6.534l10.839,3.604l1.79,5.523l4.469,0.562l1.902,4.729l-1.34,4.278l-7.27,0.562l-2.68,6.872l-5.705-0.112l-1.79-0.337l-3.293,3.197l-1.625-0.156l-5.593-12.957l1.547-2.316l0.545-9.163l-1.383-5.455L238.631,561.361L238.631,561.361z"><title>Bolivia</title></path></g>
-      <g><path class="country" data-country="py" style="--c:#0038A8" d="M267.199,584.458l1.902,2.074l-0.225,4.392l5.48-0.338l4.141,5.299l-0.337,4.729l-2.681,4.054L270,604.893l-0.225-2.256l1.564-3.718l-5.368-3.38h-4.469l-3.354-3.604l2.438-6.968L267.199,584.458L267.199,584.458z"><title>Paraguay</title></path></g>
-      <g><path class="country featured" data-country="cl" style="--c:#D52B1E" d="M261.391,683.51l-3.691,8.109l6.371,0.674l0.112-5.403L261.391,683.51L261.391,683.51z"><title>Chile</title></path><path class="country featured" data-country="cl" style="--c:#D52B1E" d="M260.137,682.239l-2.775,3.068l-0.337,3.604l-5.368-3.043l-5.705-8.221l-1.677-2.932l2.351-3.043l-0.225-3.83l-2.68-1.124l-2.126-1.572l0.449-2.144l2.792-0.787l0.562-12.387l-4.356-2.48l-2.844-64.477l0.735-1.278l5.567,12.836l1.781,0.035l0.579,2.049l-2.369,2.868l-2.723,15.448l3.873,11.895l-1.79,9.007l6.31,26.485l0.666,15.49l4.521,5.229L260.137,682.239L260.137,682.239z"><title>Chile</title></path><path class="country featured" data-country="cl" style="--c:#D52B1E" d="M241.717,649.833l-1.115,1.686l0.562,2.932l1.115,0.112l0.562-3.718L241.717,649.833L241.717,649.833z"><title>Chile</title></path></g>
-      <g><path class="country featured" data-country="ar" style="--c:#75AADB" d="M279.05,600.613l1.677,1.571l-6.371,9.467l-2.239,2.479l0.777,10.813l4.918,5.974l-4.132,7.209l-3.129,1.35h-3.579l1.003,5.627l-5.593,1.92l1.34,4.729l-3.354,10.701l4.141,3.38l-2.239,5.515l-3.804,5.975l2.014,4.165l-4.918,0.786l-4.028-4.951l-0.674-15.432l-6.258-26.209l1.893-9.163l-4.028-11.713l2.68-15.204l2.463-2.931l-0.605-2.222l3.164-2.888l7.054,0.483l3.942,4.21l4.555,0.078l4.668,2.853l-1.375,3.217l0.329,3.25l6.612-0.312L279.05,600.613L279.05,600.613z"><title>Argentina</title></path><path class="country featured" data-country="ar" style="--c:#75AADB" d="M264.745,687.564l0.225,4.951l3.803-0.337l3.242-2.144l-5.48-1.124L264.745,687.564L264.745,687.564z"><title>Argentina</title></path></g>
-      <g><path class="country" data-country="uy" style="--c:#0038A8" d="M274.633,612.481l-1.773,1.894l0.735,10.183l5.566,1.615l7.08-7.097L274.633,612.481L274.633,612.481z"><title>Uruguay</title></path></g>
-    </svg>
+  <div class="community-video-wrap">
+    <video class="community-video" src="assets/videos/community.mp4" muted loop playsinline autoplay preload="auto" poster="assets/img/posters/community.jpg"></video>
   </div>
-  <div class="country-info" id="countryInfo">
-    <span class="country-info-title" id="countryInfoTitle"></span>
-    <p class="country-info-text" id="countryInfoText"></p>
-  </div>
-  <p class="sa-credit">Map data adapted from <a href="https://github.com/flekschas/simple-world-map" target="_blank" rel="noopener noreferrer">simple-world-map</a> (CC BY-SA 3.0).</p>
   </div>
 </section>
 
 <section class="paths wrap">
   <span class="eyebrow"><span class="ember-dot"></span><span data-i18n="pathsEyebrow">Two ways in</span></span>
-  <h2 data-i18n="pathsH2">Whether you're hungry to discover, or ready to be discovered.</h2>
+  <div class="paths-header">
+    <div class="paths-photo-wrap">
+      <img class="paths-photo" src="assets/img/paths-cl.jpg" alt="Chile" loading="lazy">
+      <svg class="paths-photo-flag" viewBox="0 0 3 2" role="img" aria-label="Chile"><rect width="3" height="2" fill="#D52B1E"/><rect width="3" height="1" fill="#fff"/><rect width="1" height="1" fill="#0039A6"/><polygon points="0.5,0.14 0.61,0.46 0.95,0.46 0.67,0.65 0.78,0.97 0.5,0.78 0.22,0.97 0.33,0.65 0.05,0.46 0.39,0.46" fill="#fff"/></svg>
+    </div>
+    <div class="paths-intro">
+      <h2 class="reveal-up" data-i18n="pathsH2">The feeling of being alive is daring to experience something for the first time.</h2>
+      <p class="paths-sub reveal-up" data-i18n="pathsSub">Help us create those moments and feel something different: a different connection, a different identity.</p>
+    </div>
+    <div class="paths-photo-wrap">
+      <img class="paths-photo" src="assets/img/paths-co.jpg" alt="Colombia" loading="lazy">
+      <svg class="paths-photo-flag" viewBox="0 0 3 2" role="img" aria-label="Colombia"><rect width="3" height="2" fill="#FCD116"/><rect y="1" width="3" height="0.5" fill="#003893"/><rect y="1.5" width="3" height="0.5" fill="#CE1126"/></svg>
+    </div>
+  </div>
   <div class="pathgrid">
     <div class="card discover">
       <span class="tag" data-i18n="discoverTag">For the curious</span>
@@ -987,11 +1089,16 @@
       <p data-i18n="discoverP">Be first to discover the home cooks near you — real people, real recipes, and the stories behind them. No generic listings, no stock photos of food that isn't theirs.</p>
       <div class="tearline"></div>
       <div class="stub">
-        <a class="btn primary" data-i18n="discoverBtn"
-           data-href-en="mailto:hello@teamsolub.com?subject=Join%20the%20Solub%20Food%20waitlist&body=Hi%20Solub%20Food%2C%0A%0AI'd%20like%20to%20join%20the%20waitlist.%0A%0AName%3A%20%0ASuburb%2Fpostcode%3A%20%0A"
-           data-href-es="mailto:hello@teamsolub.com?subject=Unirme%20a%20la%20lista%20de%20espera%20de%20Solub%20Food&body=Hola%20Solub%20Food%2C%0A%0AMe%20gustar%C3%ADa%20unirme%20a%20la%20lista%20de%20espera.%0A%0ANombre%3A%20%0ASuburbio%2Fc%C3%B3digo%20postal%3A%20%0A"
-           href="mailto:hello@teamsolub.com?subject=Join%20the%20Solub%20Food%20waitlist&body=Hi%20Solub%20Food%2C%0A%0AI'd%20like%20to%20join%20the%20waitlist.%0A%0AName%3A%20%0ASuburb%2Fpostcode%3A%20%0A">Join the waitlist →</a>
-        <span class="fineprint" data-i18n="discoverFineprint">Opens your email app, addressed to hello@teamsolub.com</span>
+        <form class="cta-form" id="waitlistForm" action="https://formsubmit.co/ajax/hello@teamsolub.com" method="POST" novalidate>
+          <input type="text" name="name" class="cta-input" required data-i18n-placeholder="discoverNamePh" placeholder="Your name">
+          <input type="text" name="suburb" class="cta-input" required data-i18n-placeholder="discoverSuburbPh" placeholder="Suburb / postcode">
+          <input type="hidden" name="_subject" value="New Solub Food waitlist signup">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="text" name="_honey" class="cta-honey" tabindex="-1" autocomplete="off">
+          <button type="submit" class="btn primary" data-i18n="discoverBtn">Join the waitlist →</button>
+        </form>
+        <span class="fineprint" data-i18n="discoverFineprint">We’ll only use this to reach you about the waitlist — no spam.</span>
+        <p class="form-status" aria-live="polite"></p>
       </div>
     </div>
     <div class="card cook">
@@ -1000,11 +1107,17 @@
       <p data-i18n="cookP">Grew up cooking dishes your family never wrote down? Solub Food helps you sell what you already know how to make — you keep what you earn, minus a small commission for handling the sale.</p>
       <div class="tearline"></div>
       <div class="stub">
-        <a class="btn primary" data-i18n="cookBtn"
-           data-href-en="mailto:chefs@teamsolub.com?subject=Founding%20Chef%20application&body=Hi%20Solub%20Food%2C%0A%0AI'd%20like%20to%20apply%20to%20become%20a%20Founding%20Chef.%0A%0AName%3A%20%0APhone%20or%20Instagram%3A%20%0ADish(es)%20I%20cook%3A%20%0A"
-           data-href-es="mailto:chefs@teamsolub.com?subject=Postulaci%C3%B3n%20a%20Chef%20Fundador&body=Hola%20Solub%20Food%2C%0A%0AMe%20gustar%C3%ADa%20postularme%20como%20Chef%20Fundador.%0A%0ANombre%3A%20%0ATel%C3%A9fono%20o%20Instagram%3A%20%0APlato(s)%20que%20cocino%3A%20%0A"
-           href="mailto:chefs@teamsolub.com?subject=Founding%20Chef%20application&body=Hi%20Solub%20Food%2C%0A%0AI'd%20like%20to%20apply%20to%20become%20a%20Founding%20Chef.%0A%0AName%3A%20%0APhone%20or%20Instagram%3A%20%0ADish(es)%20I%20cook%3A%20%0A">Apply to cook →</a>
-        <span class="fineprint" data-i18n="cookFineprint">Opens your email app, addressed to chefs@teamsolub.com</span>
+        <form class="cta-form" id="cookForm" action="https://formsubmit.co/ajax/chefs@teamsolub.com" method="POST" novalidate>
+          <input type="text" name="name" class="cta-input" required data-i18n-placeholder="cookNamePh" placeholder="Your name">
+          <input type="text" name="contact" class="cta-input" required data-i18n-placeholder="cookContactPh" placeholder="Phone or Instagram">
+          <input type="text" name="dishes" class="cta-input" required data-i18n-placeholder="cookDishPh" placeholder="Dish(es) you cook">
+          <input type="hidden" name="_subject" value="New Founding Chef application">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="text" name="_honey" class="cta-honey" tabindex="-1" autocomplete="off">
+          <button type="submit" class="btn primary" data-i18n="cookBtn">Apply to cook →</button>
+        </form>
+        <span class="fineprint" data-i18n="cookFineprint">We’ll only use this to reach you about your application — no spam.</span>
+        <p class="form-status" aria-live="polite"></p>
       </div>
     </div>
   </div>
@@ -1012,8 +1125,8 @@
 
 <section class="story wrap">
   <div class="story-content">
-    <blockquote data-i18n="storyQuote">&ldquo;You've walked past a house that smells like someone's cooking. Then kept walking.&rdquo;</blockquote>
-    <p class="stamp" data-i18n="storyStamp">That's the gap Solub Food exists to close.</p>
+    <blockquote class="reveal-up" data-i18n="storyQuote">&ldquo;We’re here to offer you comfort and enjoyment. You know food is just the surface — what it really means is disconnecting, stepping into another reality of comfort. We want to show you our reality, not the typical options. We want to invite you to discover a different perspective on food: a shared story.&rdquo;</blockquote>
+    <p class="stamp reveal-up" data-i18n="storyStamp">That is Solub Food’s destination.</p>
   </div>
 </section>
 
@@ -1024,6 +1137,7 @@
     <p class="callout" data-i18n="problemCallout">That's not a hygiene problem, or a quality problem.<br>It's a discovery problem.</p>
     <p data-i18n="problemP2">Solub Food exists to close that gap — putting a name, a story, and a simple way to order in front of the home kitchens that were always near you, just never visible.</p>
     <p class="closer" data-i18n="problemCloser">Real over perfect.</p>
+    <div class="paths-flags" id="pathsFlags"></div>
   </div>
 </section>
 
@@ -1063,16 +1177,33 @@
     { en: 'Colombia', es: 'Colombia' }
   ];
 
-  // TODO: replace with the real dish name + a 1-2 sentence origin/history for each clip, in order.
+  // Real dish name + a 1-2 sentence origin/history for each clip, in order. Titles
+  // stay unilingual (they're the dish's own name); only the description translates.
   var DISH_INFO = [
-    { title: 'Tres Leches', text: 'A sponge cake soaked in three kinds of milk — evaporated, condensed, and cream — until it turns rich and custardy. A dessert-table staple across Peru and much of Latin America.' },
-    { title: 'Completo Italiano', text: 'Chile’s take on the hot dog, piled with tomato, mayonnaise, and avocado — colors said to echo the Italian flag. A fixture of Chilean street food since the early 20th century.' },
-    { title: 'Arepas Con Carne Mechada', text: 'Grilled corn cakes split and filled with carne mechada — beef slow-cooked until it shreds. An everyday staple across Colombia, where every region shapes its arepa a little differently.' },
-    { title: 'Empanada de Pino', text: 'A baked pastry filled with pino — hand-chopped beef, onion, a black olive, and a slice of hard-boiled egg. Chile’s signature empanada, especially around Fiestas Patrias.' },
-    { title: 'Alfajor', text: 'Two soft cookies sandwiching a thick layer of dulce de leche, often rolled in coconut or dipped in chocolate. One of Argentina’s most-loved everyday sweets.' },
-    { title: 'Sandwich de Chicharrón', text: 'Crisp fried pork tucked into bread with camote and salsa criolla. A classic Peruvian sandwich, sold from carts long before sunrise.' },
-    { title: 'Milanesa a la Napolitana', text: "Argentina's crispy beef schnitzel — melted cheese, ham, rich tomato sauce. Home-style, not takeaway-style." },
-    { title: 'Bandeja Paisa', text: "Colombia's loaded plate — crispy pork crackling, smoky sausage, rice, beans and a fried egg, all in one dish." }
+    { title: 'Tres Leches',
+      en: 'A sponge cake soaked in three kinds of milk — evaporated, condensed, and cream — until it turns rich and custardy. A dessert-table staple across Peru and much of Latin America.',
+      es: 'Un bizcocho empapado en tres tipos de leche —evaporada, condensada y crema— hasta quedar rico y cremoso. Un clásico de sobremesa en Perú y gran parte de América Latina.' },
+    { title: 'Completo Italiano',
+      en: 'Chile’s take on the hot dog, piled with tomato, mayonnaise, and avocado — colors said to echo the Italian flag. A fixture of Chilean street food since the early 20th century.',
+      es: 'La versión chilena del hot dog, con tomate, mayonesa y palta —colores que, se dice, recuerdan la bandera italiana. Un clásico de la comida callejera chilena desde principios del siglo XX.' },
+    { title: 'Arepas Con Carne Mechada',
+      en: 'Grilled corn cakes split and filled with carne mechada — beef slow-cooked until it shreds. An everyday staple across Colombia, where every region shapes its arepa a little differently.',
+      es: 'Tortas de maíz asadas, abiertas y rellenas de carne mechada —res cocida a fuego lento hasta deshilacharse. Un alimento cotidiano en toda Colombia, donde cada región le da su propia forma a la arepa.' },
+    { title: 'Empanada de Pino',
+      en: 'A baked pastry filled with pino — hand-chopped beef, onion, a black olive, and a slice of hard-boiled egg. Chile’s signature empanada, especially around Fiestas Patrias.',
+      es: 'Una empanada horneada rellena de pino —carne picada a cuchillo, cebolla, una aceituna negra y una rodaja de huevo duro. La empanada insignia de Chile, sobre todo en Fiestas Patrias.' },
+    { title: 'Alfajor',
+      en: 'Two soft cookies sandwiching a thick layer of dulce de leche, often rolled in coconut or dipped in chocolate. One of Argentina’s most-loved everyday sweets.',
+      es: 'Dos galletas suaves que envuelven una gruesa capa de dulce de leche, a veces cubiertas de coco rallado o bañadas en chocolate. Uno de los dulces cotidianos más queridos de Argentina.' },
+    { title: 'Sandwich de Chicharrón',
+      en: 'Crisp fried pork tucked into bread with camote and salsa criolla. A classic Peruvian sandwich, sold from carts long before sunrise.',
+      es: 'Cerdo frito y crujiente en pan, con camote y salsa criolla. Un sándwich peruano clásico, vendido en carritos mucho antes del amanecer.' },
+    { title: 'Milanesa a la Napolitana',
+      en: "Argentina's crispy beef schnitzel — melted cheese, ham, rich tomato sauce. Home-style, not takeaway-style.",
+      es: 'El milanesa crujiente de Argentina —queso derretido, jamón y una salsa de tomate espesa. Estilo casero, no de rotisería.' },
+    { title: 'Bandeja Paisa',
+      en: "Colombia's loaded plate — crispy pork crackling, smoky sausage, rice, beans and a fried egg, all in one dish.",
+      es: 'El plato cargado de Colombia —chicharrón crujiente, chorizo ahumado, arroz, frijoles y huevo frito, todo junto.' }
   ];
 
   var COUNTRY_NAME = {
@@ -1081,7 +1212,12 @@
     ec: { en: 'Ecuador', es: 'Ecuador' }, pe: { en: 'Peru', es: 'Perú' },
     br: { en: 'Brazil', es: 'Brasil' }, bo: { en: 'Bolivia', es: 'Bolivia' },
     py: { en: 'Paraguay', es: 'Paraguay' }, cl: { en: 'Chile', es: 'Chile' },
-    ar: { en: 'Argentina', es: 'Argentina' }, uy: { en: 'Uruguay', es: 'Uruguay' }
+    ar: { en: 'Argentina', es: 'Argentina' }, uy: { en: 'Uruguay', es: 'Uruguay' },
+    es: { en: 'Spain', es: 'España' }, mx: { en: 'Mexico', es: 'México' },
+    gt: { en: 'Guatemala', es: 'Guatemala' }, hn: { en: 'Honduras', es: 'Honduras' },
+    sv: { en: 'El Salvador', es: 'El Salvador' }, ni: { en: 'Nicaragua', es: 'Nicaragua' },
+    cr: { en: 'Costa Rica', es: 'Costa Rica' }, pa: { en: 'Panama', es: 'Panamá' },
+    cu: { en: 'Cuba', es: 'Cuba' }, do: { en: 'Dominican Republic', es: 'República Dominicana' }
   };
 
   var COUNTRY_INFO = {
@@ -1153,7 +1289,17 @@
     py: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="0.667" fill="#D52B1E"/><rect y="0.667" width="3" height="0.667" fill="#fff"/><rect y="1.333" width="3" height="0.667" fill="#0038A8"/></svg>',
     cl: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="2" fill="#D52B1E"/><rect width="3" height="1" fill="#fff"/><rect width="1" height="1" fill="#0039A6"/><polygon points="0.5,0.14 0.61,0.46 0.95,0.46 0.67,0.65 0.78,0.97 0.5,0.78 0.22,0.97 0.33,0.65 0.05,0.46 0.39,0.46" fill="#fff"/></svg>',
     ar: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="2" fill="#fff"/><rect width="3" height="0.667" fill="#75AADB"/><rect width="3" height="0.667" y="1.333" fill="#75AADB"/><circle cx="1.5" cy="1" r="0.24" fill="#F6B40E" stroke="#85340A" stroke-width="0.02"/></svg>',
-    uy: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="2" fill="#fff"/><rect y="0.222" width="3" height="0.222" fill="#0038A8"/><rect y="0.667" width="3" height="0.222" fill="#0038A8"/><rect y="1.111" width="3" height="0.222" fill="#0038A8"/><rect y="1.556" width="3" height="0.222" fill="#0038A8"/><rect width="1.3" height="1" fill="#fff"/><circle cx="0.65" cy="0.5" r="0.22" fill="#FCD116"/></svg>'
+    uy: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="2" fill="#fff"/><rect y="0.222" width="3" height="0.222" fill="#0038A8"/><rect y="0.667" width="3" height="0.222" fill="#0038A8"/><rect y="1.111" width="3" height="0.222" fill="#0038A8"/><rect y="1.556" width="3" height="0.222" fill="#0038A8"/><rect width="1.3" height="1" fill="#fff"/><circle cx="0.65" cy="0.5" r="0.22" fill="#FCD116"/></svg>',
+    es: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="2" fill="#AA151B"/><rect y="0.5" width="3" height="1" fill="#F1BF00"/></svg>',
+    mx: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="2" fill="#fff"/><rect width="1" height="2" fill="#006341"/><rect x="2" width="1" height="2" fill="#CE1126"/></svg>',
+    gt: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="2" fill="#fff"/><rect width="1" height="2" fill="#4997D0"/><rect x="2" width="1" height="2" fill="#4997D0"/></svg>',
+    hn: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="2" fill="#fff"/><rect width="3" height="0.667" fill="#0073CF"/><rect y="1.333" width="3" height="0.667" fill="#0073CF"/></svg>',
+    sv: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="2" fill="#fff"/><rect width="3" height="0.667" fill="#0047AB"/><rect y="1.333" width="3" height="0.667" fill="#0047AB"/></svg>',
+    ni: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="2" fill="#fff"/><rect width="3" height="0.667" fill="#0067C6"/><rect y="1.333" width="3" height="0.667" fill="#0067C6"/></svg>',
+    cr: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="2" fill="#002B7F"/><rect y="0.2" width="3" height="1.6" fill="#fff"/><rect y="0.5" width="3" height="1" fill="#CE1126"/></svg>',
+    pa: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="2" fill="#fff"/><rect x="1.5" width="1.5" height="1" fill="#DA121A"/><rect y="1" width="1.5" height="1" fill="#0072C6"/></svg>',
+    cu: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="2" fill="#fff"/><rect width="3" height="0.4" fill="#002A8F"/><rect y="0.8" width="3" height="0.4" fill="#002A8F"/><rect y="1.6" width="3" height="0.4" fill="#002A8F"/><polygon points="0,0 1.3,1 0,2" fill="#CF142B"/><polygon points="0.35,0.72 0.47,1 0.35,1.28 0.55,1.08 0.83,1.08 0.6,0.92 0.68,0.66 0.45,0.82" fill="#fff"/></svg>',
+    do: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="2" fill="#fff"/><rect width="1.3" height="0.85" fill="#002D62"/><rect x="1.7" width="1.3" height="0.85" fill="#CE1126"/><rect y="1.15" width="1.3" height="0.85" fill="#CE1126"/><rect x="1.7" y="1.15" width="1.3" height="0.85" fill="#002D62"/></svg>'
   };
 
   function flagBackgroundUrl(code) {
@@ -1209,8 +1355,50 @@
     vB.addEventListener('ended', advance);
   })();
 
+  (function scrollReveal() {
+    var els = document.querySelectorAll('.reveal-up');
+    if (!els.length) return;
+    if (reduceMotion || !('IntersectionObserver' in window)) {
+      els.forEach(function (el) { el.classList.add('in-view'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries, obs) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.35 });
+    els.forEach(function (el) { io.observe(el); });
+  })();
+
+  (function pathsFlags() {
+    var row = document.getElementById('pathsFlags');
+    if (!row) return;
+    // Spanish-speaking Latin America + Central America + Spain — not the
+    // full South America map (that one, above, still shows all 12 including
+    // Brazil/Guyana/Suriname since it's a literal map, not a language list).
+    var order = ['es', 'mx', 'gt', 'hn', 'sv', 'ni', 'cr', 'pa', 'cu', 'do',
+      'co', 've', 'ec', 'pe', 'bo', 'py', 'cl', 'ar', 'uy'];
+    order.forEach(function (code) {
+      var wrap = document.createElement('span');
+      wrap.innerHTML = FLAG_SVG_MARKUP[code] || '';
+      var svg = wrap.firstChild;
+      if (!svg) return;
+      svg.classList.add('i18n-flagrow');
+      svg.dataset.code = code;
+      var name = (COUNTRY_NAME[code] || {})[currentLang] || code;
+      var titleEl = document.createElementNS('http://www.w3.org/2000/svg', 'title');
+      titleEl.textContent = name;
+      svg.insertBefore(titleEl, svg.firstChild);
+      row.appendChild(svg);
+    });
+  })();
+
   (function filmstrip() {
     var strip = document.getElementById('filmstrip');
+    var videos = [];
     dishClips.forEach(function (src, i) {
       var slot = document.createElement('div');
       slot.className = 'frame-slot';
@@ -1226,12 +1414,13 @@
       video.muted = true;
       video.loop = true;
       video.playsInline = true;
-      video.autoplay = true;
-      video.preload = 'metadata';
+      video.preload = 'none';
+      video.poster = 'assets/img/posters/clip-' + (i + 2) + '.jpg';
       // clip-5 (Chile, reel index 3) is a near-static shot — add a slow drift so the tile doesn't read as frozen.
       if (src.indexOf('clip-5.mp4') !== -1) {
         video.className = 'kenburns';
       }
+      videos.push(video);
 
       var closeBtn = document.createElement('button');
       closeBtn.type = 'button';
@@ -1246,8 +1435,9 @@
       title.className = 'frame-caption-title';
       title.textContent = info.title;
       var text = document.createElement('p');
-      text.className = 'frame-caption-text';
-      text.textContent = info.text;
+      text.className = 'frame-caption-text i18n-caption';
+      text.dataset.idx = i;
+      text.textContent = currentLang === 'es' ? info.es : info.en;
       caption.appendChild(title);
       caption.appendChild(text);
 
@@ -1291,6 +1481,32 @@
       slot.appendChild(frame);
       strip.appendChild(slot);
     });
+
+    // Only stream/decode a tile's video once it's actually scrolled into view —
+    // with 8 clips, autoplaying every tile at once meant up to 8 concurrent
+    // full video streams (plus whichever clip the hero was already playing),
+    // burning mobile data on footage nobody was looking at.
+    if ('IntersectionObserver' in window) {
+      var filmstripIO = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          var v = entry.target;
+          var frame = v.closest('.frame');
+          if (entry.isIntersecting) {
+            v.play().catch(function () {});
+          } else if (!frame || !frame.classList.contains('is-zoomed')) {
+            // Zooming moves the frame to position:fixed, centered on the full
+            // viewport — that can read as "not intersecting" against the
+            // filmstrip's own (much smaller) scroll box. Never pause a video
+            // just because it's mid-zoom; only pause it once it's actually
+            // scrolled off-screen in the strip.
+            v.pause();
+          }
+        });
+      }, { root: strip, rootMargin: '0px 120px', threshold: 0.15 });
+      videos.forEach(function (v) { filmstripIO.observe(v); });
+    } else {
+      videos.forEach(function (v) { v.autoplay = true; v.play().catch(function () {}); });
+    }
 
     var prevBtn = document.getElementById('filmPrev');
     var nextBtn = document.getElementById('filmNext');
@@ -1506,66 +1722,88 @@
         heroH1: 'Real Over<br>Perfect.',
         heroLede: 'Somewhere near you, someone is cooking something incredible. Solub Food helps you find <em>them</em> — not just their food.',
         scroll: 'Scroll',
-        storyQuote: '&ldquo;You’ve walked past a house that smells like someone’s cooking. Then kept walking.&rdquo;',
-        storyStamp: 'That’s the gap Solub Food exists to close.',
+        storyQuote: '&ldquo;We’re here to offer you comfort and enjoyment. You know food is just the surface — what it really means is disconnecting, stepping into another reality of comfort. We want to show you our reality, not the typical options. We want to invite you to discover a different perspective on food: a shared story.&rdquo;',
+        storyStamp: 'That is Solub Food’s destination.',
         problemLead: 'You know the feeling.',
         problemP1: 'You’ve smelled something incredible coming from a house on your street. You’ve scrolled through the same delivery apps and found the same handful of restaurants. The food you’re actually craving — someone’s abuela’s arepas, a family recipe nobody ever wrote down — isn’t on any of them.',
         problemCallout: 'That’s not a hygiene problem, or a quality problem.<br>It’s a discovery problem.',
         problemP2: 'Solub Food exists to close that gap — putting a name, a story, and a simple way to order in front of the home kitchens that were always near you, just never visible.',
         problemCloser: 'Real over perfect.',
         pathsEyebrow: 'Two ways in',
-        pathsH2: 'Whether you’re hungry to discover, or ready to be discovered.',
+        pathsH2: 'The feeling of being alive is daring to experience something for the first time.',
+        pathsSub: 'Help us create those moments and feel something different: a different connection, a different identity.',
         discoverTag: 'For the curious',
         discoverH3: 'Join the waitlist',
         discoverP: 'Be first to discover the home cooks near you — real people, real recipes, and the stories behind them. No generic listings, no stock photos of food that isn’t theirs.',
         discoverBtn: 'Join the waitlist →',
-        discoverFineprint: 'Opens your email app, addressed to hello@teamsolub.com',
+        discoverFineprint: 'We’ll only use this to reach you about the waitlist — no spam.',
+        discoverNamePh: 'Your name',
+        discoverSuburbPh: 'Suburb / postcode',
         cookTag: 'For the cooks',
         cookH3: 'Become a Founding Chef',
         cookP: 'Grew up cooking dishes your family never wrote down? Solub Food helps you sell what you already know how to make — you keep what you earn, minus a small commission for handling the sale.',
         cookBtn: 'Apply to cook →',
-        cookFineprint: 'Opens your email app, addressed to chefs@teamsolub.com',
+        cookFineprint: 'We’ll only use this to reach you about your application — no spam.',
+        cookNamePh: 'Your name',
+        cookContactPh: 'Phone or Instagram',
+        cookDishPh: 'Dish(es) you cook',
+        formSending: 'Sending…',
+        formSuccessDiscover: 'You’re on the list! We’ll be in touch.',
+        formSuccessCook: 'Application received! We’ll be in touch.',
+        formError: 'Something went wrong — email us directly at',
         filmstripEyebrow: 'From the kitchens',
-        filmstripH2: 'Early footage from the dishes Solub Food is being built around.',
+        filmstripH2: 'Dishes that build connections.',
         communityEyebrow: 'South America',
         communityH2: 'We are a community. We feel the food.',
         honestyEyebrow: 'Where we’re at',
         honestyP1: 'Solub Food is in its earliest days — we’re building the founding chef network from the ground up, starting here in Queensland. Profile information is reviewed before anyone goes live, and council registration is noted where applicable. We’ll never claim more certainty than we have.',
         honestyP2: 'What we can promise: you’ll always know who made your food, and why.',
-        footerTagline: 'Solub Food — Real Over Perfect'
+        footerTagline: 'Solub Food — Real Over Perfect',
+        mapCredit: 'Map data adapted from <a href="https://github.com/flekschas/simple-world-map" target="_blank" rel="noopener noreferrer">simple-world-map</a> (CC BY-SA 3.0).'
       },
       es: {
         heroEyebrow: 'Descubre cocina casera — Australia',
         heroH1: 'Real Sobre<br>Perfecto.',
         heroLede: 'Cerca de ti, alguien está cocinando algo increíble. Solub Food te ayuda a encontrar a <em>esa persona</em> — no solo su comida.',
         scroll: 'Desliza',
-        storyQuote: '&ldquo;Has pasado frente a una casa que huele a que alguien está cocinando. Y seguiste caminando.&rdquo;',
-        storyStamp: 'Esa es la brecha que Solub Food existe para cerrar.',
+        storyQuote: '&ldquo;Estamos aquí para ofrecerte comodidad y disfrute. Sabes que la comida es solo la superficie que significa desconexión y entrar a otra realidad de confort. Queremos mostrarte nuestra realidad, no las típicas opciones. Queremos invitarte a descubrir una perspectiva diferente de la comida, una historia compartida.&rdquo;',
+        storyStamp: 'Ese es el destino de Solub Food.',
         problemLead: 'Conoces esa sensación.',
         problemP1: 'Has olido algo increíble viniendo de una casa en tu calle. Has recorrido las mismas apps de delivery y encontrado el mismo puñado de restaurantes de siempre. La comida que de verdad se te antoja — las arepas de la abuela de alguien, una receta familiar que nadie escribió jamás — no está en ninguna de ellas.',
         problemCallout: 'Eso no es un problema de higiene, ni de calidad.<br>Es un problema de descubrimiento.',
         problemP2: 'Solub Food existe para cerrar esa brecha — poniendo un nombre, una historia y una forma simple de pedir frente a las cocinas caseras que siempre estuvieron cerca de ti, solo que nunca fueron visibles.',
         problemCloser: 'Real sobre perfecto.',
         pathsEyebrow: 'Dos formas de entrar',
-        pathsH2: 'Ya sea que tengas hambre de descubrir, o estés listo para ser descubierto.',
+        pathsH2: 'La sensación de estar vivo es la de atrevernos a experimentar cosas por primera vez.',
+        pathsSub: 'Ayúdanos a crear esos momentos y a que sientas algo diferente: una conexión e identidad diferente.',
         discoverTag: 'Para los curiosos',
         discoverH3: 'Únete a la lista de espera',
         discoverP: 'Sé el primero en descubrir a los cocineros caseros cerca de ti — personas reales, recetas reales y las historias detrás de ellas. Sin listados genéricos, sin fotos de stock de comida que no es suya.',
         discoverBtn: 'Únete a la lista de espera →',
-        discoverFineprint: 'Abre tu app de correo, dirigido a hello@teamsolub.com',
+        discoverFineprint: 'Solo usaremos esto para contactarte sobre la lista de espera — sin spam.',
+        discoverNamePh: 'Tu nombre',
+        discoverSuburbPh: 'Suburbio / código postal',
         cookTag: 'Para los cocineros',
         cookH3: 'Conviértete en Chef Fundador',
         cookP: '¿Creciste cocinando platos que tu familia nunca escribió? Solub Food te ayuda a vender lo que ya sabes hacer — te quedas con lo que ganas, menos una pequeña comisión por gestionar la venta.',
         cookBtn: 'Postúlate para cocinar →',
-        cookFineprint: 'Abre tu app de correo, dirigido a chefs@teamsolub.com',
+        cookFineprint: 'Solo usaremos esto para contactarte sobre tu postulación — sin spam.',
+        cookNamePh: 'Tu nombre',
+        cookContactPh: 'Teléfono o Instagram',
+        cookDishPh: 'Plato(s) que cocinas',
+        formSending: 'Enviando…',
+        formSuccessDiscover: '¡Ya estás en la lista! Te contactaremos pronto.',
+        formSuccessCook: '¡Postulación recibida! Te contactaremos pronto.',
+        formError: 'Algo salió mal — escríbenos directo a',
         filmstripEyebrow: 'Desde las cocinas',
-        filmstripH2: 'Primeras imágenes de los platos alrededor de los que se está construyendo Solub Food.',
+        filmstripH2: 'Platos que construyen conexiones.',
         communityEyebrow: 'Sudamérica',
         communityH2: 'Somos una comunidad. Sentimos la comida.',
         honestyEyebrow: 'Dónde estamos',
         honestyP1: 'Solub Food está en sus primeros días — estamos construyendo la red de chefs fundadores desde cero, empezando aquí en Queensland. La información de perfil se revisa antes de que alguien quede publicado, y el registro municipal se indica cuando aplica. Nunca afirmaremos tener más certeza de la que realmente tenemos.',
         honestyP2: 'Lo que sí podemos prometer: siempre sabrás quién hizo tu comida, y por qué.',
-        footerTagline: 'Solub Food — Real Sobre Perfecto'
+        footerTagline: 'Solub Food — Real Sobre Perfecto',
+        mapCredit: 'Datos del mapa adaptados de <a href="https://github.com/flekschas/simple-world-map" target="_blank" rel="noopener noreferrer">simple-world-map</a> (CC BY-SA 3.0).'
       }
     };
 
@@ -1579,6 +1817,11 @@
         if (dict[key] != null) el.innerHTML = dict[key];
         var hrefAttr = el.getAttribute('data-href-' + lang);
         if (hrefAttr) el.setAttribute('href', hrefAttr);
+      });
+
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(function (el) {
+        var phKey = el.getAttribute('data-i18n-placeholder');
+        if (dict[phKey] != null) el.setAttribute('placeholder', dict[phKey]);
       });
 
       document.querySelectorAll('.i18n-reel').forEach(function (el) {
@@ -1601,6 +1844,16 @@
         var country = DISH_COUNTRY[Number(el.dataset.idx)] || DISH_COUNTRY[0];
         el.alt = lang === 'es' ? country.es : country.en;
       });
+      document.querySelectorAll('.i18n-caption').forEach(function (el) {
+        var info = DISH_INFO[Number(el.dataset.idx)] || DISH_INFO[0];
+        el.textContent = lang === 'es' ? info.es : info.en;
+      });
+      document.querySelectorAll('.i18n-flagrow').forEach(function (el) {
+        var code = el.dataset.code;
+        var name = (COUNTRY_NAME[code] || {})[lang] || code;
+        var titleEl = el.querySelector('title');
+        if (titleEl) titleEl.textContent = name;
+      });
 
       document.querySelectorAll('.lang-switch button').forEach(function (btn) {
         var isActive = btn.getAttribute('data-lang-btn') === lang;
@@ -1617,6 +1870,42 @@
         applyLang(btn.getAttribute('data-lang-btn'));
       });
     });
+
+    function wireCtaForm(formId, successKey, mailFallback) {
+      var form = document.getElementById(formId);
+      if (!form) return;
+      var status = form.parentElement.querySelector('.form-status');
+      var btn = form.querySelector('button[type="submit"]');
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (!form.checkValidity()) { form.reportValidity(); return; }
+        var honey = form.querySelector('.cta-honey');
+        if (honey && honey.value) return;
+
+        var dict = I18N[currentLang] || I18N.en;
+        btn.disabled = true;
+        status.className = 'form-status';
+        status.textContent = dict.formSending;
+
+        fetch(form.action, {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: new FormData(form)
+        }).then(function (res) {
+          if (!res.ok) throw new Error('bad status');
+          form.hidden = true;
+          status.className = 'form-status success';
+          status.textContent = dict[successKey];
+        }).catch(function () {
+          btn.disabled = false;
+          status.className = 'form-status error';
+          status.innerHTML = dict.formError + ' <a href="mailto:' + mailFallback + '">' + mailFallback + '</a>';
+        });
+      });
+    }
+    wireCtaForm('waitlistForm', 'formSuccessDiscover', 'hello@teamsolub.com');
+    wireCtaForm('cookForm', 'formSuccessCook', 'chefs@teamsolub.com');
 
     applyLang(currentLang);
   })();
