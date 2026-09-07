@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://formsubmit.co; form-action 'self' https://formsubmit.co; base-uri 'self'; object-src 'none';">
 <title>Solub Food — Real Over Perfect</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1090,11 +1091,11 @@
       <div class="tearline"></div>
       <div class="stub">
         <form class="cta-form" id="waitlistForm" action="https://formsubmit.co/ajax/hello@teamsolub.com" method="POST" novalidate>
-          <input type="text" name="name" class="cta-input" required data-i18n-placeholder="discoverNamePh" placeholder="Your name">
-          <input type="text" name="suburb" class="cta-input" required data-i18n-placeholder="discoverSuburbPh" placeholder="Suburb / postcode">
+          <input type="text" name="name" class="cta-input" required maxlength="80" autocomplete="name" data-i18n-placeholder="discoverNamePh" placeholder="Your name">
+          <input type="text" name="suburb" class="cta-input" required maxlength="80" autocomplete="address-level2" data-i18n-placeholder="discoverSuburbPh" placeholder="Suburb / postcode">
           <input type="hidden" name="_subject" value="New Solub Food waitlist signup">
           <input type="hidden" name="_captcha" value="false">
-          <input type="text" name="_honey" class="cta-honey" tabindex="-1" autocomplete="off">
+          <input type="text" name="_honey" class="cta-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
           <button type="submit" class="btn primary" data-i18n="discoverBtn">Join the waitlist →</button>
         </form>
         <span class="fineprint" data-i18n="discoverFineprint">We’ll only use this to reach you about the waitlist — no spam.</span>
@@ -1108,12 +1109,12 @@
       <div class="tearline"></div>
       <div class="stub">
         <form class="cta-form" id="cookForm" action="https://formsubmit.co/ajax/chefs@teamsolub.com" method="POST" novalidate>
-          <input type="text" name="name" class="cta-input" required data-i18n-placeholder="cookNamePh" placeholder="Your name">
-          <input type="text" name="contact" class="cta-input" required data-i18n-placeholder="cookContactPh" placeholder="Phone or Instagram">
-          <input type="text" name="dishes" class="cta-input" required data-i18n-placeholder="cookDishPh" placeholder="Dish(es) you cook">
+          <input type="text" name="name" class="cta-input" required maxlength="80" autocomplete="name" data-i18n-placeholder="cookNamePh" placeholder="Your name">
+          <input type="text" name="contact" class="cta-input" required maxlength="80" autocomplete="tel" data-i18n-placeholder="cookContactPh" placeholder="Phone or Instagram">
+          <input type="text" name="dishes" class="cta-input" required maxlength="200" data-i18n-placeholder="cookDishPh" placeholder="Dish(es) you cook">
           <input type="hidden" name="_subject" value="New Founding Chef application">
           <input type="hidden" name="_captcha" value="false">
-          <input type="text" name="_honey" class="cta-honey" tabindex="-1" autocomplete="off">
+          <input type="text" name="_honey" class="cta-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
           <button type="submit" class="btn primary" data-i18n="cookBtn">Apply to cook →</button>
         </form>
         <span class="fineprint" data-i18n="cookFineprint">We’ll only use this to reach you about your application — no spam.</span>
