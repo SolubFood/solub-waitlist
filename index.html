@@ -149,12 +149,6 @@
     align-items: center;
     gap: 0.7rem;
   }
-  .brandrow .name {
-    font-family: 'Bricolage Grotesque', sans-serif;
-    font-weight: 700;
-    font-size: 1.05rem;
-    letter-spacing: -0.01em;
-  }
   .brandrow .handle {
     margin-left: auto;
     display: inline-flex;
@@ -278,6 +272,24 @@
   }
   .scrollcue svg { width: 12px; height: 12px; animation: bob 1.8s ease-in-out infinite; }
   @keyframes bob { 0%,100%{ transform: translateY(0);} 50%{ transform: translateY(4px);} }
+  .hero-brand {
+    position: absolute;
+    left: 50%;
+    bottom: 1.6rem;
+    transform: translateX(-50%);
+    z-index: 2;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 1rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.65);
+    pointer-events: none;
+  }
+  @media (max-width: 620px) {
+    .hero-brand { bottom: 1.2rem; font-size: 0.82rem; }
+  }
 
   /* ---------- story ---------- */
   .story {
@@ -994,7 +1006,6 @@
 
 <header class="wrap">
   <div class="brandrow">
-    <span class="name">Solub Food</span>
     <a class="handle" href="https://www.instagram.com/solubfood/" target="_blank" rel="noopener noreferrer">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
       @solubfood
@@ -1010,7 +1021,6 @@
     <div class="hero-flash" id="heroFlash"></div>
   </div>
   <div class="hero-content">
-    <span class="eyebrow"><span class="ember-dot"></span><span data-i18n="heroEyebrow">Home kitchen discovery — Australia</span></span>
     <h1 data-i18n="heroH1">Real Over<br>Perfect.</h1>
     <p class="lede" data-i18n="heroLede">Somewhere near you, someone is cooking something incredible. Solub Food helps you find <em>them</em> — not just their food.</p>
     <div class="scrollcue">
@@ -1018,6 +1028,7 @@
       <span data-i18n="scroll">Scroll</span>
     </div>
   </div>
+  <span class="hero-brand">Solub Food</span>
 </section>
 
 <section class="filmstrip-section wrap">
