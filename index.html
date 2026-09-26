@@ -257,6 +257,39 @@
     margin: 0;
     text-shadow: 0 2px 16px rgba(0,0,0,0.6), 0 1px 2px rgba(0,0,0,0.5);
   }
+  .hero-chips {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem;
+    max-width: 46ch;
+  }
+  .hero-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.55rem 1rem;
+    border-radius: 999px;
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.28);
+    color: #FFFFFF;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.78rem;
+    text-decoration: none;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  }
+  .hero-chip svg { width: 13px; height: 13px; color: var(--ember-bright); flex-shrink: 0; }
+  .hero-chip:hover,
+  .hero-chip:focus-visible {
+    background: rgba(0,0,0,0.6);
+    border-color: var(--ember-bright);
+    transform: translateY(-2px);
+  }
+  @media (max-width: 620px) {
+    .hero-chip { font-size: 0.72rem; padding: 0.5rem 0.85rem; }
+  }
   .scrollcue {
     font-family: 'Space Mono', monospace;
     font-size: 0.7rem;
@@ -1028,6 +1061,20 @@
   <div class="hero-content">
     <h1 data-i18n="heroH1">Real Over<br>Perfect.</h1>
     <p class="lede" data-i18n="heroLede">Somewhere near you, someone is cooking something incredible. Solub Food helps you find <em>them</em> — not just their food.</p>
+    <div class="hero-chips">
+      <a class="hero-chip" href="#waitlistForm">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
+        <span data-i18n="heroChip1">Find a home cook near you</span>
+      </a>
+      <a class="hero-chip" href="#waitlistForm">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
+        <span data-i18n="heroChip2">Taste a dish nobody else has</span>
+      </a>
+      <a class="hero-chip" href="#waitlistForm">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
+        <span data-i18n="heroChip3">Be first when we launch</span>
+      </a>
+    </div>
     <div class="scrollcue">
       <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 1v9M2 7l4 4 4-4"/></svg>
       <span data-i18n="scroll">Scroll</span>
@@ -1367,6 +1414,21 @@
       });
     }, { threshold: 0.35 });
     els.forEach(function (el) { io.observe(el); });
+  })();
+
+  (function heroChips() {
+    var chips = document.querySelectorAll('.hero-chip');
+    if (!chips.length) return;
+    chips.forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        // Let the browser's own smooth-scroll anchor jump happen first, then
+        // focus the first field so a click carries straight into typing.
+        window.setTimeout(function () {
+          var input = document.querySelector('#waitlistForm input[name="name"]');
+          if (input) input.focus({ preventScroll: true });
+        }, 550);
+      });
+    });
   })();
 
   (function pathsFlags() {
@@ -1776,6 +1838,9 @@
         heroEyebrow: 'Home kitchen discovery — Australia',
         heroH1: 'Real Over<br>Perfect.',
         heroLede: 'Somewhere near you, someone is cooking something incredible. Solub Food helps you find <em>them</em> — not just their food.',
+        heroChip1: 'Find a home cook near you',
+        heroChip2: 'Taste a dish nobody else has',
+        heroChip3: 'Be first when we launch',
         scroll: 'Scroll',
         storyQuote: '&ldquo;We’re here to offer you comfort and enjoyment. You know food is just the surface — what it really means is disconnecting, stepping into another reality of comfort. We want to show you our reality, not the typical options. We want to invite you to discover a different perspective on food: a shared story.&rdquo;',
         storyStamp: 'That is Solub Food’s destination.',
@@ -1820,6 +1885,9 @@
         heroEyebrow: 'Descubre cocina casera — Australia',
         heroH1: 'Real Sobre<br>Perfecto.',
         heroLede: 'Cerca de ti, alguien está cocinando algo increíble. Solub Food te ayuda a encontrar a <em>esa persona</em> — no solo su comida.',
+        heroChip1: 'Encuentra un cocinero casero cerca de ti',
+        heroChip2: 'Prueba un plato que nadie más tiene',
+        heroChip3: 'Sé de los primeros cuando lancemos',
         scroll: 'Desliza',
         storyQuote: '&ldquo;Estamos aquí para ofrecerte comodidad y disfrute. Sabes que la comida es solo la superficie que significa desconexión y entrar a otra realidad de confort. Queremos mostrarte nuestra realidad, no las típicas opciones. Queremos invitarte a descubrir una perspectiva diferente de la comida, una historia compartida.&rdquo;',
         storyStamp: 'Ese es el destino de Solub Food.',
