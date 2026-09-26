@@ -157,8 +157,11 @@
   }
   .brandrow .handle {
     margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
     font-family: 'Space Mono', monospace;
-    font-size: 0.78rem;
+    font-size: 0.88rem;
     color: var(--ink-muted);
     text-decoration: none;
     transition: color 0.2s ease;
@@ -168,6 +171,11 @@
     margin-top: -0.6rem;
     margin-bottom: -0.6rem;
     margin-right: -0.4rem;
+  }
+  .brandrow .handle svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
   }
   .brandrow .handle:hover,
   .brandrow .handle:focus-visible {
@@ -987,7 +995,10 @@
 <header class="wrap">
   <div class="brandrow">
     <span class="name">Solub Food</span>
-    <a class="handle" href="https://www.instagram.com/solubfood/" target="_blank" rel="noopener noreferrer">@solubfood</a>
+    <a class="handle" href="https://www.instagram.com/solubfood/" target="_blank" rel="noopener noreferrer">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+      @solubfood
+    </a>
   </div>
 </header>
 
