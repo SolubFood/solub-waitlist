@@ -290,6 +290,11 @@
   @media (max-width: 620px) {
     .hero-brand { bottom: 1.2rem; font-size: 0.82rem; }
   }
+  .hero-brand .hb-letter {
+    display: inline-block;
+    transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+    will-change: transform;
+  }
 
   /* ---------- story ---------- */
   .story {
@@ -1703,6 +1708,65 @@
       spark.style.setProperty('--dx', dx + 'px');
       document.body.appendChild(spark);
       spark.addEventListener('animationend', function () { spark.remove(); });
+    }, { passive: true });
+  })();
+
+  (function heroBrandMagnet() {
+    var wordEl = document.querySelector('.hero-brand');
+    if (!wordEl) return;
+
+    var canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    if (reduceMotion || !canHover) return;
+
+    // Split into per-letter spans so each one can be pulled independently;
+    // a non-breaking space keeps the gap between "Solub" and "Food" from
+    // collapsing once the word is no longer one text node.
+    var letters = wordEl.textContent.split('').map(function (ch) {
+      var span = document.createElement('span');
+      span.className = 'hb-letter';
+      span.textContent = ch === ' ' ? '\u00A0' : ch;
+      if (ch === ' ') span.style.margin = '0 0.35em';
+      return span;
+    });
+    wordEl.textContent = '';
+    letters.forEach(function (span) { wordEl.appendChild(span); });
+
+    var radius = 60;
+    var maxShift = 4;
+    var mouseX = -9999;
+    var mouseY = -9999;
+    var raf = null;
+
+    function update() {
+      raf = null;
+      letters.forEach(function (span) {
+        // Skip the space so "Solub" and "Food" can never visually merge,
+        // even when the cursor sits right in the gap between them.
+        if (span.textContent === ' ') return;
+        var r = span.getBoundingClientRect();
+        var cx = r.left + r.width / 2;
+        var cy = r.top + r.height / 2;
+        var dx = mouseX - cx;
+        var dy = mouseY - cy;
+        var dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < radius) {
+          // Squared falloff keeps the pull concentrated near the cursor
+          // instead of tugging every nearby letter toward the same point,
+          // which is what made adjacent letters collide.
+          var pull = Math.pow(1 - dist / radius, 2);
+          var tx = (dx / (dist || 1)) * pull * maxShift;
+          var ty = (dy / (dist || 1)) * pull * maxShift;
+          span.style.transform = 'translate(' + tx.toFixed(1) + 'px, ' + ty.toFixed(1) + 'px) scale(' + (1 + pull * 0.1).toFixed(2) + ')';
+        } else {
+          span.style.transform = '';
+        }
+      });
+    }
+
+    document.addEventListener('mousemove', function (e) {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      if (!raf) raf = requestAnimationFrame(update);
     }, { passive: true });
   })();
 
