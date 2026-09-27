@@ -457,8 +457,28 @@
     flex-shrink: 0;
     background: #000;
   }
+  /* Flag chip filling the gap between clips, so the eye reads "dish, its
+     country, next dish" instead of a bare empty strip between tiles. */
+  .marquee-flag {
+    width: 56px;
+    height: 170px;
+    border-radius: 16px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .marquee-flag svg.reel-flag {
+    width: 34px;
+    height: 23px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.25);
+  }
   @media (max-width: 620px) {
     .marquee-group video { width: 128px; height: 128px; }
+    .marquee-flag { width: 44px; height: 128px; }
+    .marquee-flag svg.reel-flag { width: 27px; height: 18px; }
   }
   @keyframes marquee {
     from { transform: translateX(0); }
@@ -1646,7 +1666,7 @@
 
 <section class="filmstrip-section wrap">
   <span class="eyebrow"><span class="ember-dot"></span><span data-i18n="filmstripEyebrow">From the kitchens</span></span>
-  <h2 data-i18n="filmstripH2">Dishes that build connections.</h2>
+  <h2 data-i18n="filmstripH2">We moved Latin America to you.</h2>
   <div class="filmstrip-wrap">
     <button type="button" class="film-nav prev" id="filmPrev" aria-label="Previous dishes">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
@@ -1989,6 +2009,17 @@
         var m = src.match(/clip-(\d+)\.mp4$/);
         if (m) video.poster = 'assets/img/posters/clip-' + m[1] + '.jpg';
         group.appendChild(video);
+
+        // Fill the gap after each clip with its dish's flag instead of
+        // leaving it as bare empty space between tiles.
+        var country = m && DISH_COUNTRY[Number(m[1]) - 2];
+        if (country && FLAG_SVG[country.en]) {
+          var flagWrap = document.createElement('div');
+          flagWrap.className = 'marquee-flag';
+          flagWrap.title = country.en;
+          flagWrap.innerHTML = FLAG_SVG[country.en];
+          group.appendChild(flagWrap);
+        }
       });
       return group;
     }
@@ -2477,7 +2508,7 @@
         formSuccessCook: 'Application received! We’ll be in touch.',
         formError: 'Something went wrong — email us directly at',
         filmstripEyebrow: 'From the kitchens',
-        filmstripH2: 'Dishes that build connections.',
+        filmstripH2: 'We moved Latin America to you.',
         communityEyebrow: 'South America',
         communityH2: 'We are a community. We feel the food.',
         honestyEyebrow: 'Where we’re at',
@@ -2538,7 +2569,7 @@
         formSuccessCook: '¡Postulación recibida! Te contactaremos pronto.',
         formError: 'Algo salió mal — escríbenos directo a',
         filmstripEyebrow: 'Desde las cocinas',
-        filmstripH2: 'Platos que construyen conexiones.',
+        filmstripH2: 'Trajimos Latinoamérica a ti.',
         communityEyebrow: 'Sudamérica',
         communityH2: 'Somos una comunidad. Sentimos la comida.',
         honestyEyebrow: 'Dónde estamos',
