@@ -379,17 +379,19 @@
   .hero {
     position: relative;
     margin-top: 1.3rem;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     align-items: center;
-    gap: 2rem;
+    gap: 2.5rem;
     padding: 2rem 0;
+  }
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 1.6rem; }
   }
   .hero-content {
     position: relative;
     z-index: 2;
-    width: 100%;
-    max-width: 640px;
+    max-width: 520px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -399,6 +401,9 @@
     opacity: 0;
     transform: translateY(10px);
     animation: rise 0.8s ease-out 0.15s forwards;
+  }
+  @media (max-width: 900px) {
+    .hero-content { max-width: none; }
   }
   @keyframes rise {
     to { opacity: 1; transform: translateY(0); }
@@ -418,7 +423,6 @@
      seamless: translating the track by exactly -100%-gap of its own width
      lines the second copy up where the first one started. */
   .hero-marquee {
-    width: 100%;
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -1642,7 +1646,7 @@
 
 <section class="filmstrip-section wrap">
   <span class="eyebrow"><span class="ember-dot"></span><span data-i18n="filmstripEyebrow">From the kitchens</span></span>
-  <h2 data-i18n="filmstripH2">We moved Latin America to you.</h2>
+  <h2 data-i18n="filmstripH2">Dishes that build connections.</h2>
   <div class="filmstrip-wrap">
     <button type="button" class="film-nav prev" id="filmPrev" aria-label="Previous dishes">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
@@ -2473,7 +2477,7 @@
         formSuccessCook: 'Application received! We’ll be in touch.',
         formError: 'Something went wrong — email us directly at',
         filmstripEyebrow: 'From the kitchens',
-        filmstripH2: 'We moved Latin America to you.',
+        filmstripH2: 'Dishes that build connections.',
         communityEyebrow: 'South America',
         communityH2: 'We are a community. We feel the food.',
         honestyEyebrow: 'Where we’re at',
@@ -2534,7 +2538,7 @@
         formSuccessCook: '¡Postulación recibida! Te contactaremos pronto.',
         formError: 'Algo salió mal — escríbenos directo a',
         filmstripEyebrow: 'Desde las cocinas',
-        filmstripH2: 'Trajimos Latinoamérica a ti.',
+        filmstripH2: 'Platos que construyen conexiones.',
         communityEyebrow: 'Sudamérica',
         communityH2: 'Somos una comunidad. Sentimos la comida.',
         honestyEyebrow: 'Dónde estamos',
