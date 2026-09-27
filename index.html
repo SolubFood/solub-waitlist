@@ -7,6 +7,11 @@
 <title>Solub Food — Real Over Perfect</title>
 <meta name="description" content="Solub Food helps you discover the home cooks near you — real people, real recipes, real stories. You don't need to travel to Latin America — we bring Latin America to you.">
 <meta name="google-site-verification" content="ZIfBgz4Ohe4am5wnDQGKJKTBfGDkd8l4YmU6oRO9zCY" />
+<meta name="theme-color" content="#000000">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Fraunces:ital,wght@1,600;1,700&family=Newsreader:ital,wght@0,400;0,500;0,600;1,400&family=Space+Mono:wght@400;700&display=swap">
@@ -173,6 +178,46 @@
   .site-nav a:focus-visible {
     color: var(--ember-bright);
   }
+  .header-logo {
+    position: relative;
+    display: inline-flex;
+    color: #FFFFFF;
+    transition: color 0.2s ease;
+  }
+  .header-logo:hover,
+  .header-logo:focus-visible {
+    color: var(--ember-bright);
+  }
+  .header-logo .logo-icon {
+    width: 34px;
+    height: auto;
+    display: block;
+  }
+  /* Ambient smoke wisps drifting off the flame tip — the flame sits in the
+     upper-right of the mark's viewBox, so the wisps spawn there too. */
+  .header-logo .wisp {
+    position: absolute;
+    top: 2px;
+    left: 62%;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.6);
+    filter: blur(1px);
+    pointer-events: none;
+    opacity: 0;
+    animation: wisp-rise 3.4s ease-out infinite;
+  }
+  .header-logo .wisp:nth-child(3) { left: 70%; animation-delay: 1.15s; }
+  .header-logo .wisp:nth-child(4) { left: 56%; animation-delay: 2.3s; }
+  @keyframes wisp-rise {
+    0% { transform: translate(0, 0) scale(0.6); opacity: 0; }
+    18% { opacity: 0.65; }
+    100% { transform: translate(4px, -16px) scale(1.8); opacity: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .header-logo .wisp { animation: none; display: none; }
+  }
   .social-row {
     margin-left: auto;
     display: flex;
@@ -240,6 +285,34 @@
     pointer-events: none;
   }
   .hero-flash.show { opacity: 1; }
+  .hero-loading {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000000;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+  }
+  .hero-loading.hide {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  .hero-loading .loading-icon {
+    width: 84px;
+    height: auto;
+    color: #FFFFFF;
+    animation: logo-pulse 1.7s ease-in-out infinite;
+  }
+  @keyframes logo-pulse {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.08); opacity: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-loading .loading-icon { animation: none; }
+  }
   .hero-content {
     position: relative;
     z-index: 2;
@@ -624,6 +697,7 @@
     line-height: 1.5;
   }
   .cta-form { display: flex; flex-direction: column; }
+  .cta-form[hidden] { display: none; }
   .cta-form .btn { width: 100%; margin-top: 0.15rem; }
   .cta-input {
     width: 100%;
@@ -649,6 +723,26 @@
   .card .form-status.success { color: var(--sage); }
   .card .form-status.error { color: #E27E5B; }
   .card .form-status.error a { color: inherit; }
+  .waitlist-celebrate {
+    display: none;
+    justify-content: center;
+    margin-top: 0.5rem;
+  }
+  .waitlist-celebrate.show { display: flex; }
+  .waitlist-celebrate .celebrate-icon {
+    width: 40px;
+    height: auto;
+    color: var(--ember-bright);
+    animation: celebrate-bounce 0.7s cubic-bezier(.34,1.56,.64,1);
+  }
+  @keyframes celebrate-bounce {
+    0% { transform: scale(0.3) rotate(-8deg); opacity: 0; }
+    60% { transform: scale(1.15) rotate(4deg); opacity: 1; }
+    100% { transform: scale(1) rotate(0deg); opacity: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .waitlist-celebrate .celebrate-icon { animation: none; }
+  }
 
   /* ---------- filmstrip ---------- */
   .filmstrip-section {
@@ -751,6 +845,48 @@
     transition: opacity 0.4s ease;
   }
   .dish-scrim.show { opacity: 1; pointer-events: auto; }
+
+  /* ---------- scroll-to-top ---------- */
+  .scroll-top {
+    position: fixed;
+    right: 1.4rem;
+    bottom: 1.4rem;
+    z-index: 850;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.22);
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: #FFFFFF;
+    cursor: pointer;
+    padding: 0;
+    opacity: 0;
+    transform: translateY(12px);
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease, background 0.2s ease, border-color 0.2s ease;
+  }
+  .scroll-top.show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  .scroll-top:hover,
+  .scroll-top:focus-visible {
+    background: rgba(0,0,0,0.75);
+    border-color: var(--ember-bright);
+  }
+  .scroll-top .logo-icon {
+    width: 22px;
+    height: auto;
+  }
+  @media (max-width: 620px) {
+    .scroll-top { right: 1rem; bottom: 1rem; width: 44px; height: 44px; }
+  }
   .frame-close {
     position: absolute;
     top: 0.7rem;
@@ -833,6 +969,18 @@
     mix-blend-mode: screen;
     pointer-events: none;
   }
+  .frame-watermark {
+    position: absolute;
+    right: 0.55rem;
+    bottom: 0.55rem;
+    z-index: 1;
+    width: 20px;
+    color: #FFFFFF;
+    opacity: 0.4;
+    filter: drop-shadow(0 1px 3px rgba(0,0,0,0.6));
+    pointer-events: none;
+  }
+  .frame-watermark svg { display: block; width: 100%; height: auto; }
   .frame .reel {
     position: absolute;
     top: 0.6rem;
@@ -1059,11 +1207,28 @@
 </style>
 </head>
 <body>
+<svg style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false">
+  <symbol id="logo-mark" viewBox="0 0 700 622" fill="currentColor">
+    <g class="logo-hat"><path d="M 338.614 170.299 C 336.119 197.838, 325.630 225.717, 307.500 253 C 282.070 291.268, 246.224 318.116, 207.221 328.107 C 202.150 329.406, 198 330.800, 198 331.205 C 198 332.556, 213.422 345.138, 219.333 348.609 C 232.035 356.068, 244.490 358.298, 258.078 355.544 C 277.211 351.668, 293.615 340.604, 308.493 321.543 C 336.083 286.195, 351.712 238.066, 348.023 199.812 C 346.876 187.922, 342.965 169.791, 340.539 165.113 C 339.421 162.958, 339.234 163.461, 338.614 170.299M 652.015 217.500 C 651.973 221.834, 648.372 236.362, 645.323 244.500 C 632.404 278.982, 604.999 309.149, 571.190 326.105 L 561.792 330.819 568.554 331.543 C 593.207 334.183, 622.270 323.357, 641.409 304.406 L 648.139 297.742 647.510 301.621 C 643.158 328.462, 636.513 344.086, 621.935 361.751 C 613.257 372.267, 603.009 380.592, 580 395.815 C 552.888 413.753, 546.337 418.645, 535.704 428.891 C 507.488 456.081, 487.877 491.427, 477.109 534.500 C 474.063 546.686, 470.067 571.215, 469.942 578.500 C 469.836 584.643, 468.407 580.078, 467.100 569.427 C 463.640 541.208, 467.945 506.677, 478.392 478.864 C 480.315 473.744, 481.677 469.343, 481.417 469.084 C 480.610 468.277, 468.133 481.098, 461.402 489.652 C 440.221 516.568, 427 554.139, 427 587.417 L 427 598.634 434.750 600.435 C 449.327 603.823, 471.133 612.640, 482.177 619.612 C 486.282 622.203, 489.994 622.743, 490.010 620.750 C 490.036 617.355, 493.192 591.420, 494.536 583.566 C 503.127 533.323, 524.114 491.403, 556.203 460.384 C 567.606 449.361, 579.344 440.546, 602.224 425.824 C 639.400 401.902, 654.956 387, 666.239 364.500 C 682.666 331.739, 683.939 292.047, 669.871 251.248 C 665.911 239.762, 657.411 221.482, 653.918 216.937 L 652.044 214.500 652.015 217.500M 112 304.023 C 74.155 307.596, 38.377 335.812, 25.812 371.996 C 19.162 391.144, 19.218 416.008, 25.954 435.419 C 33.276 456.517, 45.022 470.328, 74.865 492.929 C 83.742 499.651, 93.468 507.403, 96.479 510.155 C 118.799 530.554, 129.638 558.954, 134.110 608.750 C 134.765 616.038, 135.704 622, 136.197 622 C 136.690 622, 140.560 620.001, 144.797 617.557 C 157.595 610.176, 174.795 603.927, 194.391 599.538 L 197.283 598.891 196.697 586.195 C 195.031 550.086, 177.457 508.965, 153 483.952 C 146.471 477.275, 133.171 466.439, 132.471 467.226 C 132.337 467.377, 135.307 473.800, 139.071 481.500 C 151.428 506.776, 157.226 528.748, 157.203 550.218 C 157.191 562.004, 154.726 582.492, 153.111 584.235 C 152.737 584.639, 152.353 580.502, 152.258 575.042 C 152.063 563.817, 148.544 545.092, 144.732 535 C 136.355 512.820, 122.809 495.068, 100.498 477.036 C 79.155 459.785, 71.647 451.432, 65.035 437.578 C 46.483 398.704, 67.197 356.098, 111.500 342.004 C 122.191 338.603, 140.669 338.102, 152.356 340.896 C 179.556 347.398, 204.698 366.388, 218.033 390.500 C 223.171 399.791, 223.688 399.506, 221.025 388.850 C 215.381 366.264, 203.034 345.380, 186.192 329.934 C 164.979 310.477, 139.156 301.459, 112 304.023M 284 602.082 C 254.718 603.794, 232.342 606.554, 207.500 611.518 C 199.011 613.214, 167.666 621.030, 167.083 621.595 C 166.854 621.818, 232.329 621.955, 312.583 621.900 L 458.500 621.800 452.500 619.828 C 443.417 616.842, 419.204 611.266, 403.500 608.544 C 367.140 602.241, 322.537 599.830, 284 602.082"/></g>
+    <g class="logo-flame"><path d="M 399 22.434 C 370.752 28.413, 351.530 48.121, 345.578 77.208 C 343.538 87.174, 343.523 106.709, 345.548 116.792 C 348.165 129.824, 353.756 145.261, 366.993 176 C 383.712 214.826, 386.030 222.039, 388.041 241.500 C 391.817 278.029, 376.036 313.128, 342.500 342.793 L 335.500 348.985 341 347.380 C 374.793 337.520, 404.617 318.125, 422.316 294.500 C 433.320 279.811, 441.316 259.547, 442.721 242.785 C 443.034 239.053, 443.611 236, 444.003 236 C 445.077 236, 455.503 249.349, 462.180 259.274 C 469.836 270.652, 477.550 285.389, 484.023 301 C 486.873 307.875, 491 317.163, 493.193 321.641 C 510.591 357.161, 545.041 370.631, 579.599 355.427 C 591.159 350.341, 609.561 338.100, 602.075 340.476 C 597.772 341.842, 580.423 342.652, 571.750 341.893 C 555.192 340.443, 540.982 335.361, 529.634 326.829 C 517.602 317.783, 511.173 307.778, 500.507 281.500 C 487.123 248.526, 473.730 228.366, 436.067 184.500 C 402.655 145.586, 392.626 128.509, 390.158 106.324 C 387.446 81.944, 398.344 63.612, 419.706 56.621 C 437.668 50.743, 457.596 53.034, 479.500 63.496 C 498.729 72.680, 515.564 87.904, 532.250 111.200 C 535.413 115.616, 538 118.750, 538 118.166 C 538 115.527, 532.429 99.835, 529.243 93.500 C 512.995 61.190, 479.830 34.439, 443.500 24.339 C 432.236 21.208, 409.410 20.231, 399 22.434M 445.735 101 C 440.550 115.336, 439.767 124.752, 442.605 138.643 C 446.324 156.840, 454.304 171.150, 471.165 189.856 C 503.737 225.992, 510.220 237.454, 520.536 277.137 C 526.398 299.691, 529.994 306.994, 540.319 317.319 C 544.635 321.635, 548.377 324.956, 548.635 324.699 C 548.892 324.441, 547.716 322.045, 546.021 319.372 C 538.318 307.225, 536.614 291.699, 539.998 264.500 C 545.848 217.492, 537.158 197.236, 498.763 168.379 C 482.033 155.806, 472.401 147.370, 467.493 140.991 C 458.269 129.004, 450.766 111.741, 449.106 98.685 L 448.447 93.500 445.735 101"/></g>
+  </symbol>
+</svg>
+
 
 <div class="dish-scrim" id="dishScrim" aria-hidden="true"></div>
 
+<button type="button" class="scroll-top" id="scrollTop" aria-label="Back to top">
+  <svg class="logo-icon" viewBox="0 0 700 622" aria-hidden="true"><use href="#logo-mark"></use></svg>
+</button>
+
 <header class="wrap">
   <div class="header-row">
+    <a class="header-logo" href="#" aria-label="Solub Food — back to top">
+      <svg class="logo-icon" viewBox="0 0 700 622" aria-hidden="true"><use href="#logo-mark"></use></svg>
+      <span class="wisp"></span>
+      <span class="wisp"></span>
+      <span class="wisp"></span>
+    </a>
     <nav class="site-nav" aria-label="Main">
       <a href="#about" data-i18n="navAbout">About us</a>
       <a href="#waitlistForm" data-i18n="navOrder">Place an order</a>
@@ -1090,6 +1255,9 @@
     <video class="hero-video" id="heroVideoB" muted autoplay playsinline preload="auto"></video>
     <div class="hero-scrim"></div>
     <div class="hero-flash" id="heroFlash"></div>
+    <div class="hero-loading" id="heroLoading" aria-hidden="true">
+      <svg class="logo-icon loading-icon" viewBox="0 0 700 622"><use href="#logo-mark"></use></svg>
+    </div>
   </div>
   <div class="hero-content">
     <h1 data-i18n="heroH1">Real Over<br>Perfect.</h1>
@@ -1174,6 +1342,9 @@
         </form>
         <span class="fineprint" data-i18n="discoverFineprint">We’ll only use this to reach you about the waitlist — no spam.</span>
         <p class="form-status" aria-live="polite"></p>
+        <div class="waitlist-celebrate" id="waitlistCelebrate" aria-hidden="true">
+          <svg class="logo-icon celebrate-icon" viewBox="0 0 700 622"><use href="#logo-mark"></use></svg>
+        </div>
       </div>
     </div>
     <div class="card cook">
@@ -1399,6 +1570,19 @@
     vA.src = clips[0];
     vA.play().catch(function () {});
 
+    var loadingEl = document.getElementById('heroLoading');
+    if (loadingEl) {
+      var hideLoading = function () { loadingEl.classList.add('hide'); };
+      if (vA.readyState >= 3) {
+        hideLoading();
+      } else {
+        vA.addEventListener('canplay', hideLoading, { once: true });
+        // Belt-and-braces: don't let a stalled first clip leave the loading
+        // screen up forever.
+        window.setTimeout(hideLoading, 6000);
+      }
+    }
+
     function advance() {
       idx = (idx + 1) % clips.length;
       var current = showingA ? vA : vB;
@@ -1461,6 +1645,29 @@
           if (input) input.focus({ preventScroll: true });
         }, 550);
       });
+    });
+  })();
+
+  (function scrollTop() {
+    var btn = document.getElementById('scrollTop');
+    var hero = document.querySelector('.hero');
+    if (!btn || !hero) return;
+
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          btn.classList.toggle('show', !entry.isIntersecting);
+        });
+      }, { rootMargin: '-200px 0px 0px 0px' });
+      io.observe(hero);
+    } else {
+      window.addEventListener('scroll', function () {
+        btn.classList.toggle('show', window.scrollY > hero.offsetHeight);
+      }, { passive: true });
+    }
+
+    btn.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
     });
   })();
 
@@ -1564,7 +1771,13 @@
       preview.appendChild(body);
       preview.appendChild(mapEl);
 
+      var watermark = document.createElement('div');
+      watermark.className = 'frame-watermark';
+      watermark.setAttribute('aria-hidden', 'true');
+      watermark.innerHTML = '<svg viewBox="0 0 700 622"><use href="#logo-mark"></use></svg>';
+
       frame.appendChild(video);
+      frame.appendChild(watermark);
       frame.appendChild(reel);
       frame.appendChild(closeBtn);
       frame.appendChild(caption);
@@ -2022,6 +2235,34 @@
       document.dispatchEvent(new Event('i18n:changed'));
     }
 
+    function celebrateWaitlist() {
+      var el = document.getElementById('waitlistCelebrate');
+      if (!el) return;
+      el.classList.add('show');
+
+      if (reduceMotion) return;
+      var rect = el.getBoundingClientRect();
+      var cx = rect.left + rect.width / 2;
+      var cy = rect.top + rect.height / 2;
+      var count = 14;
+      for (var i = 0; i < count; i++) {
+        (function (i) {
+          window.setTimeout(function () {
+            var spread = (Math.random() - 0.5) * rect.width * 1.4;
+            var spark = document.createElement('span');
+            spark.className = 'ember-spark';
+            var size = 4 + Math.random() * 5;
+            spark.style.setProperty('--size', size + 'px');
+            spark.style.setProperty('--x', (cx + spread * 0.3) + 'px');
+            spark.style.setProperty('--y', cy + 'px');
+            spark.style.setProperty('--dx', spread + 'px');
+            document.body.appendChild(spark);
+            spark.addEventListener('animationend', function () { spark.remove(); });
+          }, i * 18);
+        })(i);
+      }
+    }
+
     function wireCtaForm(formId, successKey, mailFallback) {
       var form = document.getElementById(formId);
       if (!form) return;
@@ -2048,6 +2289,7 @@
           form.hidden = true;
           status.className = 'form-status success';
           status.textContent = dict[successKey];
+          if (formId === 'waitlistForm') celebrateWaitlist();
         }).catch(function () {
           btn.disabled = false;
           status.className = 'form-status error';
