@@ -426,48 +426,63 @@
     gap: 0.6rem;
     max-width: 46ch;
   }
-  .hero-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-    padding: 0.55rem 1rem;
-    border-radius: 999px;
-    background: rgba(0,0,0,0.4);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.28);
+  /* Round launcher that expands into a pill on hover — a CSS stand-in for
+     the pasted framer-motion "hover to reveal" button (no React/build step
+     here). Fixed 64px circle, showing just the sparkle icon; hovering
+     grows its width and cross-fades the icon out for the label. */
+  .hero-launcher {
+    position: relative;
+    width: 64px;
+    height: 64px;
+    border-radius: 32px;
+    background: var(--sage);
+    border: none;
     color: #FFFFFF;
-    font-family: 'Space Mono', monospace;
-    font-size: 0.78rem;
-    text-decoration: none;
     cursor: pointer;
-    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+    overflow: hidden;
+    box-shadow: 0 10px 30px -12px rgba(0,0,0,0.7);
+    transition: width 0.3s ease, background 0.3s ease;
   }
-  .hero-chip svg { width: 13px; height: 13px; color: var(--ember-bright); flex-shrink: 0; }
-  .hero-chip:hover,
-  .hero-chip:focus-visible {
-    background: rgba(0,0,0,0.6);
-    border-color: var(--ember-bright);
-    transform: translateY(-2px);
+  .hero-launcher:hover,
+  .hero-launcher:focus-visible {
+    width: 220px;
+    background: var(--ember-ink);
   }
-  @media (max-width: 620px) {
-    .hero-chip { font-size: 0.72rem; padding: 0.5rem 0.85rem; }
+  .hero-launcher .launcher-icon,
+  .hero-launcher .launcher-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
-  .scrollcue {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.7rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: #D6D6D6;
+  .hero-launcher .launcher-icon {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    margin-top: 0.3rem;
-    text-shadow: 0 1px 8px rgba(0,0,0,0.6);
+    transition: opacity 0.2s ease, transform 0.2s ease;
   }
-  .scrollcue svg { width: 12px; height: 12px; animation: bob 1.8s ease-in-out infinite; }
-  @keyframes bob { 0%,100%{ transform: translateY(0);} 50%{ transform: translateY(4px);} }
+  .hero-launcher .launcher-icon svg { width: 22px; height: 22px; color: var(--ember-bright); }
+  .hero-launcher:hover .launcher-icon,
+  .hero-launcher:focus-visible .launcher-icon {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+  .hero-launcher .launcher-text {
+    opacity: 0;
+    white-space: nowrap;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    transition: opacity 0.2s ease;
+  }
+  .hero-launcher:hover .launcher-text,
+  .hero-launcher:focus-visible .launcher-text {
+    opacity: 1;
+    transition-delay: 0.1s;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-launcher, .hero-launcher .launcher-icon, .hero-launcher .launcher-text { transition: none; }
+  }
   .hero-brand {
     position: absolute;
     left: 50%;
@@ -1567,14 +1582,12 @@
   <div class="hero-content">
     <h1 data-i18n="heroH1">Real Over<br>Perfect.</h1>
     <div class="hero-chips">
-      <button type="button" class="hero-chip" id="openNewsletterDialog">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
-        <span data-i18n="heroChipOpen">Join the waitlist</span>
+      <button type="button" class="hero-launcher" id="openNewsletterDialog" aria-label="Join the waitlist">
+        <span class="launcher-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
+        </span>
+        <span class="launcher-text" data-i18n="heroChipOpen">Click here</span>
       </button>
-    </div>
-    <div class="scrollcue">
-      <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 1v9M2 7l4 4 4-4"/></svg>
-      <span data-i18n="scroll">Scroll</span>
     </div>
   </div>
   <span class="hero-brand">Solub Food</span>
@@ -2437,7 +2450,7 @@
         navContact: 'Contact us',
         heroEyebrow: 'Home kitchen discovery — Australia',
         heroH1: 'Real Over<br>Perfect.',
-        heroChipOpen: 'Join the waitlist',
+        heroChipOpen: 'Click here',
         dialogEyebrow: 'Home kitchen discovery',
         dialogTitle: 'Be the first to taste it.',
         dialogDesc: 'Real home cooks near you, real recipes, real stories — we’ll let you know the moment Solub Food launches.',
@@ -2445,7 +2458,6 @@
         dialogBtn: 'Click Here',
         dialogFineprint: 'We’ll only use this to reach you about the waitlist — no spam.',
         dialogSuccess: 'You’re on the list! We’ll be in touch.',
-        scroll: 'Scroll',
         storyQuote: '&ldquo;We’re here to offer you comfort and enjoyment. You know food is just the surface — what it really means is disconnecting, stepping into another reality of comfort. We want to show you our reality, not the typical options. We want to invite you to discover a different perspective on food: a shared story.&rdquo;',
         storyStamp: 'That is Solub Food’s destination.',
         problemLead: 'We make Latin America feel Aussie.',
@@ -2499,7 +2511,7 @@
         navContact: 'Contáctanos',
         heroEyebrow: 'Descubre cocina casera — Australia',
         heroH1: 'Real Sobre<br>Perfecto.',
-        heroChipOpen: 'Únete a la lista de espera',
+        heroChipOpen: 'Haz clic aquí',
         dialogEyebrow: 'Descubre cocina casera',
         dialogTitle: 'Sé de los primeros en probarlo.',
         dialogDesc: 'Cocineros caseros reales cerca de ti, recetas reales, historias reales — te avisaremos en cuanto Solub Food se lance.',
@@ -2507,7 +2519,6 @@
         dialogBtn: 'Haz clic aquí',
         dialogFineprint: 'Solo usaremos esto para contactarte sobre la lista de espera — sin spam.',
         dialogSuccess: '¡Ya estás en la lista! Te contactaremos pronto.',
-        scroll: 'Desliza',
         storyQuote: '&ldquo;Estamos aquí para ofrecerte comodidad y disfrute. Sabes que la comida es solo la superficie que significa desconexión y entrar a otra realidad de confort. Queremos mostrarte nuestra realidad, no las típicas opciones. Queremos invitarte a descubrir una perspectiva diferente de la comida, una historia compartida.&rdquo;',
         storyStamp: 'Ese es el destino de Solub Food.',
         problemLead: 'Hacemos que Latinoamérica se sienta australiana.',
