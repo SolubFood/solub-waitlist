@@ -477,6 +477,30 @@
     font-style: normal;
     color: var(--ember-bright);
   }
+  /* Flag-strip text — a CSS stand-in for the pasted React bg-clip-text
+     component (no React/build step here). The "image" is every flag
+     already used elsewhere on the site (assets/img/flag-strip.svg),
+     tiled and slid back and forth behind the glyphs like a marquee. */
+  .flag-text {
+    background-image: url('assets/img/flag-strip.svg');
+    background-repeat: repeat;
+    background-size: auto 1.8rem;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    color: transparent !important;
+    -webkit-text-fill-color: transparent !important;
+    text-shadow: none !important;
+    filter: drop-shadow(0 2px 10px rgba(0,0,0,0.5));
+    animation: flag-scroll 7s ease-in-out infinite;
+  }
+  @keyframes flag-scroll {
+    0% { background-position: 0 50%; }
+    50% { background-position: 200px 50%; }
+    100% { background-position: 0 50%; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .flag-text { animation: none; }
+  }
   .hero p.lede {
     font-size: 1.28rem;
     color: #D6D6D6;
@@ -670,6 +694,14 @@
     color: var(--ember);
     text-decoration: underline;
     text-underline-offset: 4px;
+  }
+  /* On hover, drop the flag pattern for a solid color so the link still
+     reads as clearly interactive. */
+  .problem .closer.flag-text:hover,
+  .problem .closer.flag-text:focus-visible {
+    background: none;
+    -webkit-text-fill-color: var(--ember) !important;
+    filter: none;
   }
 
   /* ---------- paths ---------- */
@@ -1657,7 +1689,7 @@
     </div>
   </div>
   <div class="hero-content">
-    <h1 data-i18n="heroH1">Real Over<br>Perfect.</h1>
+    <h1 class="flag-text" data-i18n="heroH1">Real Over<br>Perfect.</h1>
     <div class="hero-chips">
       <button type="button" class="hero-launcher" id="openNewsletterDialog" aria-label="Join the waitlist">
         <span class="launcher-icon" aria-hidden="true">
@@ -1703,7 +1735,7 @@
       <svg class="paths-photo-flag" viewBox="0 0 3 2" role="img" aria-label="Chile"><rect width="3" height="2" fill="#D52B1E"/><rect width="3" height="1" fill="#fff"/><rect width="1" height="1" fill="#0039A6"/><polygon points="0.5,0.14 0.61,0.46 0.95,0.46 0.67,0.65 0.78,0.97 0.5,0.78 0.22,0.97 0.33,0.65 0.05,0.46 0.39,0.46" fill="#fff"/></svg>
     </div>
     <div class="paths-intro">
-      <h2 class="reveal-up" data-i18n="pathsH2">The feeling of being alive is daring to experience something for the first time.</h2>
+      <h2 class="reveal-up flag-text" data-i18n="pathsH2">The feeling of being alive is daring to experience something for the first time.</h2>
       <p class="paths-sub reveal-up" data-i18n="pathsSub">Help us create those moments and feel something different: a different connection, a different identity.</p>
     </div>
     <div class="paths-photo-wrap">
@@ -1764,9 +1796,9 @@
 
 <section class="problem wrap" id="about">
   <div class="problem-panel">
-    <p class="lead-line" data-i18n="problemLead">We make Latin America feel Aussie.</p>
+    <p class="lead-line flag-text" data-i18n="problemLead">We make Latin America feel Aussie.</p>
     <p data-i18n="problemP1">We tell the story because real experience and emotion come from people — and we won't regret not chasing what we already know is possible.</p>
-    <a class="closer" href="https://www.instagram.com/solubfood/" target="_blank" rel="noopener noreferrer" data-i18n="problemCloser">Real over perfect.</a>
+    <a class="closer flag-text" href="https://www.instagram.com/solubfood/" target="_blank" rel="noopener noreferrer" data-i18n="problemCloser">Real over perfect.</a>
     <div class="paths-flags" id="pathsFlags"></div>
   </div>
 </section>
