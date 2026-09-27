@@ -40,18 +40,20 @@
     *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
   }
 
+  /* Fixed grid + warm radial glow behind the whole page — a CSS stand-in
+     for the pasted React "background-gradient" component (no React/build
+     step here), recolored from its blue/emerald palette to the site's own
+     ember/sage tones. Replaces the earlier scattered-dot background. */
   body {
     margin: 0;
     overflow-x: hidden;
     background-color: var(--bg);
     background-image:
-      radial-gradient(circle at 12% 22%, rgba(235,167,33,0.65) 0 4px, transparent 5px),
-      radial-gradient(circle at 68% 14%, rgba(163,51,28,0.58) 0 3.2px, transparent 4.2px),
-      radial-gradient(circle at 40% 60%, rgba(255,255,255,0.36) 0 2.6px, transparent 3.6px),
-      radial-gradient(circle at 85% 70%, rgba(235,167,33,0.48) 0 4px, transparent 5px),
-      radial-gradient(circle at 22% 85%, rgba(163,51,28,0.42) 0 2.6px, transparent 3.6px),
-      radial-gradient(circle at 60% 40%, rgba(255,255,255,0.26) 0 2px, transparent 3px);
-    background-size: 220px 220px, 260px 260px, 180px 180px, 300px 300px, 200px 200px, 160px 160px;
+      radial-gradient(circle 620px at 50% 280px, rgba(163,51,28,0.4), transparent 70%),
+      radial-gradient(circle 520px at 88% 60%, rgba(235,167,33,0.22), transparent 70%),
+      linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 42px 42px, 42px 42px;
     background-attachment: fixed;
     color: var(--ink);
     font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
@@ -429,6 +431,11 @@
   .marquee-row {
     overflow: hidden;
     display: flex;
+    /* Extra vertical room so a hovered tile can grow without getting
+       clipped by this row's own overflow:hidden (needed for the
+       horizontal scroll). */
+    padding: 0.9rem 0;
+    margin: -0.9rem 0;
   }
   .marquee-track {
     display: flex;
@@ -445,16 +452,45 @@
     min-width: 100%;
     justify-content: space-around;
   }
-  .marquee-group video {
+  .marquee-tile {
+    position: relative;
     width: 170px;
     height: 170px;
-    object-fit: cover;
-    border-radius: 16px;
     flex-shrink: 0;
+    border-radius: 16px;
+    overflow: hidden;
     background: #000;
+    cursor: pointer;
+    transition: transform 0.35s cubic-bezier(.22,.9,.32,1), box-shadow 0.3s ease;
   }
+  .marquee-tile:hover {
+    transform: translateY(-6px) scale(1.12);
+    box-shadow: 0 20px 40px -14px rgba(0,0,0,0.8);
+    z-index: 2;
+  }
+  .marquee-tile video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .marquee-watermark {
+    position: absolute;
+    right: 0.5rem;
+    bottom: 0.5rem;
+    z-index: 1;
+    width: 16px;
+    color: #FFFFFF;
+    opacity: 0.4;
+    filter: drop-shadow(0 1px 3px rgba(0,0,0,0.6));
+    pointer-events: none;
+  }
+  .marquee-watermark svg { display: block; width: 100%; height: auto; }
   @media (max-width: 620px) {
-    .marquee-group video { width: 128px; height: 128px; }
+    .marquee-tile { width: 128px; height: 128px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-tile:hover { transform: none; }
   }
   @keyframes marquee {
     from { transform: translateX(0); }
@@ -2078,6 +2114,9 @@
       var group = document.createElement('div');
       group.className = 'marquee-group';
       clips.forEach(function (src) {
+        var tile = document.createElement('div');
+        tile.className = 'marquee-tile';
+
         var video = document.createElement('video');
         video.src = src;
         video.muted = true;
@@ -2087,11 +2126,18 @@
         video.preload = 'auto';
         var m = src.match(/clip-(\d+)\.mp4$/);
         if (m) video.poster = 'assets/img/posters/clip-' + m[1] + '.jpg';
-        video.style.cursor = 'pointer';
-        video.addEventListener('click', function () {
+
+        var watermark = document.createElement('div');
+        watermark.className = 'marquee-watermark';
+        watermark.setAttribute('aria-hidden', 'true');
+        watermark.innerHTML = '<svg viewBox="554 284 941 1227"><use href="#logo-mark" x="554" y="284" width="941" height="1227"></use></svg>';
+
+        tile.appendChild(video);
+        tile.appendChild(watermark);
+        tile.addEventListener('click', function () {
           if (m) openDishDialog(Number(m[1]) - 2);
         });
-        group.appendChild(video);
+        group.appendChild(tile);
       });
       return group;
     }
