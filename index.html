@@ -214,21 +214,6 @@
   @media (prefers-reduced-motion: reduce) {
     .header-logo .wisp { animation: none; display: none; }
   }
-  /* Placeholder for accounts — no login exists yet, this just marks where
-     it'll live once it does. */
-  .account-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    border: 1.5px solid rgba(255,255,255,0.32);
-    color: #FFFFFF;
-    margin-left: 0.7rem;
-    flex-shrink: 0;
-  }
-  .account-icon svg { width: 15px; height: 15px; }
   .social-row {
     margin-left: auto;
     display: flex;
@@ -315,6 +300,7 @@
     .header-row { flex-direction: column; align-items: center; gap: 0.9rem; }
     .site-nav { position: static; transform: none; }
     .social-row { margin-left: 0; }
+    .header-logo { transform: translateX(4px); }
   }
 
   /* ---------- hero ---------- */
@@ -1638,9 +1624,6 @@
       <span class="wisp"></span>
       <span class="wisp"></span>
     </a>
-    <span class="account-icon" aria-hidden="true" title="Account (coming soon)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.418 3.582-8 8-8s8 3.582 8 8"/></svg>
-    </span>
     <nav class="site-nav" aria-label="Main">
       <a href="#about" data-i18n="navAbout">About us</a>
       <a href="#waitlistForm" data-i18n="navOrder">Place an order</a>
