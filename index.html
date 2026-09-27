@@ -573,6 +573,9 @@
     margin: 1.7rem 0;
   }
   .problem .closer {
+    display: block;
+    text-align: center;
+    text-decoration: none;
     font-family: 'Bricolage Grotesque', sans-serif;
     font-weight: 800;
     font-style: normal;
@@ -580,6 +583,13 @@
     font-size: clamp(1.3rem, 2.6vw, 1.7rem);
     letter-spacing: -0.01em;
     margin-top: 1.8rem;
+    transition: color 0.2s ease;
+  }
+  .problem .closer:hover,
+  .problem .closer:focus-visible {
+    color: var(--ember);
+    text-decoration: underline;
+    text-underline-offset: 4px;
   }
 
   /* ---------- paths ---------- */
@@ -893,6 +903,65 @@
     max-width: none;
   }
   .dialog-body .fineprint { display: block; margin-top: 0.5rem; }
+
+  /* Liquid-gradient glow button — a hand-rolled stand-in for the animated
+     framer-motion/SVG version, since this site has no React/build step.
+     A blurred conic-gradient sits behind the (solid-black) button face and
+     spins slowly at rest, speeding up on hover, in the site's ember/brick
+     warm palette instead of the original blue/purple.
+     Animating the gradient's own angle (via a registered custom property)
+     rather than `transform: rotate()` on the box — the button is wide and
+     short, so rotating the whole box flung its corners far outside the
+     button on every turn; the gradient itself spinning in place doesn't. */
+  @property --liquid-angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+  }
+  .liquid-btn {
+    position: relative;
+    z-index: 0;
+    background: transparent !important;
+    color: #FFFFFF !important;
+    border-color: transparent !important;
+    overflow: visible;
+  }
+  /* Paint order inside this stacking context is: own background, THEN
+     negative-z-index children, THEN normal content (the button's text) —
+     a single z-index:-1 pseudo-element still lands on top of "background:
+     black !important" above, not behind it. Two negative-z-index layers
+     fix that: ::before (the glow, painted first) sits under ::after (an
+     opaque black face, painted second) which sits under the text. */
+  .liquid-btn::before {
+    content: "";
+    position: absolute;
+    inset: -3px;
+    z-index: -2;
+    border-radius: inherit;
+    background: conic-gradient(from var(--liquid-angle), var(--sage), var(--ember), var(--ember-bright), var(--ember), var(--sage));
+    filter: blur(6px);
+    opacity: 0.75;
+    animation: liquid-spin 8s linear infinite;
+  }
+  .liquid-btn::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: var(--ember-ink);
+  }
+  .liquid-btn:hover::before,
+  .liquid-btn:focus-visible::before {
+    animation-duration: 2.5s;
+    opacity: 1;
+  }
+  @keyframes liquid-spin {
+    to { --liquid-angle: 360deg; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .liquid-btn::before { animation: none; }
+  }
 
   /* ---------- filmstrip ---------- */
   .filmstrip-section {
@@ -1447,7 +1516,7 @@
       <input type="hidden" name="_subject" value="New Solub Food newsletter signup">
       <input type="hidden" name="_captcha" value="false">
       <input type="text" name="_honey" class="cta-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
-      <button type="submit" class="btn primary" data-i18n="dialogBtn">Join the waitlist →</button>
+      <button type="submit" class="btn primary liquid-btn" data-i18n="dialogBtn">Click Here</button>
     </form>
     <span class="fineprint" data-i18n="dialogFineprint">We’ll only use this to reach you about the waitlist — no spam.</span>
     <p class="form-status" aria-live="polite"></p>
@@ -1605,11 +1674,9 @@
 
 <section class="problem wrap" id="about">
   <div class="problem-panel">
-    <p class="lead-line" data-i18n="problemLead">You know the feeling.</p>
-    <p data-i18n="problemP1">You've smelled something incredible coming from a house on your street. You've scrolled through the same delivery apps and found the same handful of restaurants. The food you're actually craving — someone's abuela's arepas, a family recipe nobody ever wrote down — isn't on any of them.</p>
-    <p class="callout" data-i18n="problemCallout">That's not a hygiene problem, or a quality problem.<br>It's a discovery problem.</p>
-    <p data-i18n="problemP2">Solub Food exists to close that gap — putting a name, a story, and a simple way to order in front of the home kitchens that were always near you, just never visible.</p>
-    <p class="closer" data-i18n="problemCloser">Real over perfect.</p>
+    <p class="lead-line" data-i18n="problemLead">We make Latin America feel Aussie.</p>
+    <p data-i18n="problemP1">We tell the story because real experience and emotion come from people — and we won't regret not chasing what we already know is possible.</p>
+    <a class="closer" href="https://www.instagram.com/solubfood/" target="_blank" rel="noopener noreferrer" data-i18n="problemCloser">Real over perfect.</a>
     <div class="paths-flags" id="pathsFlags"></div>
   </div>
 </section>
@@ -2375,16 +2442,14 @@
         dialogTitle: 'Be the first to taste it.',
         dialogDesc: 'Real home cooks near you, real recipes, real stories — we’ll let you know the moment Solub Food launches.',
         dialogEmailPh: 'Your email',
-        dialogBtn: 'Join the waitlist →',
+        dialogBtn: 'Click Here',
         dialogFineprint: 'We’ll only use this to reach you about the waitlist — no spam.',
         dialogSuccess: 'You’re on the list! We’ll be in touch.',
         scroll: 'Scroll',
         storyQuote: '&ldquo;We’re here to offer you comfort and enjoyment. You know food is just the surface — what it really means is disconnecting, stepping into another reality of comfort. We want to show you our reality, not the typical options. We want to invite you to discover a different perspective on food: a shared story.&rdquo;',
         storyStamp: 'That is Solub Food’s destination.',
-        problemLead: 'You know the feeling.',
-        problemP1: 'You’ve smelled something incredible coming from a house on your street. You’ve scrolled through the same delivery apps and found the same handful of restaurants. The food you’re actually craving — someone’s abuela’s arepas, a family recipe nobody ever wrote down — isn’t on any of them.',
-        problemCallout: 'That’s not a hygiene problem, or a quality problem.<br>It’s a discovery problem.',
-        problemP2: 'Solub Food exists to close that gap — putting a name, a story, and a simple way to order in front of the home kitchens that were always near you, just never visible.',
+        problemLead: 'We make Latin America feel Aussie.',
+        problemP1: 'We tell the story because real experience and emotion come from people — and we won’t regret not chasing what we already know is possible.',
         problemCloser: 'Real over perfect.',
         pathsEyebrow: 'Two ways in',
         pathsH2: 'The feeling of being alive is daring to experience something for the first time.',
@@ -2439,16 +2504,14 @@
         dialogTitle: 'Sé de los primeros en probarlo.',
         dialogDesc: 'Cocineros caseros reales cerca de ti, recetas reales, historias reales — te avisaremos en cuanto Solub Food se lance.',
         dialogEmailPh: 'Tu correo',
-        dialogBtn: 'Únete a la lista de espera →',
+        dialogBtn: 'Haz clic aquí',
         dialogFineprint: 'Solo usaremos esto para contactarte sobre la lista de espera — sin spam.',
         dialogSuccess: '¡Ya estás en la lista! Te contactaremos pronto.',
         scroll: 'Desliza',
         storyQuote: '&ldquo;Estamos aquí para ofrecerte comodidad y disfrute. Sabes que la comida es solo la superficie que significa desconexión y entrar a otra realidad de confort. Queremos mostrarte nuestra realidad, no las típicas opciones. Queremos invitarte a descubrir una perspectiva diferente de la comida, una historia compartida.&rdquo;',
         storyStamp: 'Ese es el destino de Solub Food.',
-        problemLead: 'Conoces esa sensación.',
-        problemP1: 'Has olido algo increíble viniendo de una casa en tu calle. Has recorrido las mismas apps de delivery y encontrado el mismo puñado de restaurantes de siempre. La comida que de verdad se te antoja — las arepas de la abuela de alguien, una receta familiar que nadie escribió jamás — no está en ninguna de ellas.',
-        problemCallout: 'Eso no es un problema de higiene, ni de calidad.<br>Es un problema de descubrimiento.',
-        problemP2: 'Solub Food existe para cerrar esa brecha — poniendo un nombre, una historia y una forma simple de pedir frente a las cocinas caseras que siempre estuvieron cerca de ti, solo que nunca fueron visibles.',
+        problemLead: 'Hacemos que Latinoamérica se sienta australiana.',
+        problemP1: 'Contamos la historia porque la experiencia y la emoción reales vienen de las personas — y no nos arrepentiremos de no perseguir lo que ya sabemos que es posible.',
         problemCloser: 'Real sobre perfecto.',
         pathsEyebrow: 'Dos formas de entrar',
         pathsH2: 'La sensación de estar vivo es la de atrevernos a experimentar cosas por primera vez.',
