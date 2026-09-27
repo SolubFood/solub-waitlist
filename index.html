@@ -40,21 +40,10 @@
     *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
   }
 
-  /* Fixed grid + warm radial glow behind the whole page — a CSS stand-in
-     for the pasted React "background-gradient" component (no React/build
-     step here), recolored from its blue/emerald palette to the site's own
-     ember/sage tones. Replaces the earlier scattered-dot background. */
   body {
     margin: 0;
     overflow-x: hidden;
     background-color: var(--bg);
-    background-image:
-      radial-gradient(circle 620px at 50% 280px, rgba(163,51,28,0.4), transparent 70%),
-      radial-gradient(circle 520px at 88% 60%, rgba(235,167,33,0.22), transparent 70%),
-      linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
-    background-size: 100% 100%, 100% 100%, 42px 42px, 42px 42px;
-    background-attachment: fixed;
     color: var(--ink);
     font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
     font-size: 1.05rem;
@@ -424,18 +413,17 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    overflow: hidden;
     -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
     mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
   }
   .marquee-row {
     overflow: hidden;
     display: flex;
-    /* Extra vertical room so a hovered tile can grow without getting
-       clipped by this row's own overflow:hidden (needed for the
-       horizontal scroll). */
-    padding: 0.9rem 0;
-    margin: -0.9rem 0;
+    /* Extra vertical room so a hovered tile can grow (same scale as the
+       filmstrip cards below) without getting clipped by this row's own
+       overflow:hidden (needed for the horizontal scroll). */
+    padding: 4.5rem 0;
+    margin: -4.5rem 0;
   }
   .marquee-track {
     display: flex;
@@ -461,12 +449,13 @@
     overflow: hidden;
     background: #000;
     cursor: pointer;
-    transition: transform 0.35s cubic-bezier(.22,.9,.32,1), box-shadow 0.3s ease;
+    transition: transform 0.4s cubic-bezier(.22,.9,.32,1), box-shadow 0.3s ease, opacity 0.3s ease;
   }
   .marquee-tile:hover {
-    transform: translateY(-6px) scale(1.12);
-    box-shadow: 0 20px 40px -14px rgba(0,0,0,0.8);
-    z-index: 2;
+    transform: translateY(-16px) scaleX(1.559) scaleY(1.527);
+    opacity: 0.92;
+    box-shadow: 0 1px 0 rgba(255,255,255,0.18) inset, 0 34px 60px -18px rgba(0,0,0,0.8);
+    z-index: 5;
   }
   .marquee-tile video {
     width: 100%;
@@ -1352,7 +1341,7 @@
     pointer-events: none;
   }
   .frame-watermark svg { display: block; width: 100%; height: auto; }
-  .frame .reel {
+  .frame .reel, .marquee-tile .reel {
     position: absolute;
     top: 0.6rem;
     left: 0.6rem;
@@ -2125,6 +2114,7 @@
         video.autoplay = true;
         video.preload = 'auto';
         var m = src.match(/clip-(\d+)\.mp4$/);
+        var dishIdx = m ? Number(m[1]) - 2 : 0;
         if (m) video.poster = 'assets/img/posters/clip-' + m[1] + '.jpg';
 
         var watermark = document.createElement('div');
@@ -2132,10 +2122,17 @@
         watermark.setAttribute('aria-hidden', 'true');
         watermark.innerHTML = '<svg viewBox="554 284 941 1227"><use href="#logo-mark" x="554" y="284" width="941" height="1227"></use></svg>';
 
+        var country = DISH_COUNTRY[dishIdx] || DISH_COUNTRY[0];
+        var reel = document.createElement('span');
+        reel.className = 'reel i18n-reel';
+        reel.dataset.idx = dishIdx;
+        reel.innerHTML = (FLAG_SVG[country.en] || '') + '<span class="reel-label">' + (currentLang === 'es' ? country.es : country.en) + '</span>';
+
         tile.appendChild(video);
         tile.appendChild(watermark);
+        tile.appendChild(reel);
         tile.addEventListener('click', function () {
-          if (m) openDishDialog(Number(m[1]) - 2);
+          if (m) openDishDialog(dishIdx);
         });
         group.appendChild(tile);
       });
