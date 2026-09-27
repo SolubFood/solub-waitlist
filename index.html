@@ -214,6 +214,60 @@
   @media (prefers-reduced-motion: reduce) {
     .header-logo .wisp { animation: none; display: none; }
   }
+  /* "Get your QR" — a second, explicitly-clickable entry point into the
+     waitlist dialog, since the "Click here" hover-reveal in the hero has
+     no equivalent affordance on touch devices. The ring pulses on a loop
+     (not just on hover) so it reads as tappable on mobile too. */
+  .qr-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: none;
+    border: none;
+    padding: 0;
+    margin-left: 0.9rem;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-family: 'Space Mono', monospace;
+    transition: color 0.2s ease;
+  }
+  .qr-cta:hover,
+  .qr-cta:focus-visible {
+    color: var(--ember-bright);
+  }
+  .qr-cta-icon-wrap {
+    position: relative;
+    display: inline-flex;
+  }
+  .qr-cta-icon-wrap .logo-icon {
+    width: 24px;
+    height: auto;
+    display: block;
+  }
+  .qr-cta-icon-wrap::after {
+    content: "";
+    position: absolute;
+    inset: -5px;
+    border-radius: 50%;
+    border: 1.5px solid var(--ember-bright);
+    opacity: 0;
+    animation: qr-ping 2.2s ease-out infinite;
+  }
+  @keyframes qr-ping {
+    0% { transform: scale(0.8); opacity: 0.9; }
+    70% { transform: scale(1.6); opacity: 0; }
+    100% { opacity: 0; }
+  }
+  .qr-cta-text {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .qr-cta-icon-wrap::after { animation: none; display: none; }
+  }
   .social-row {
     margin-left: auto;
     display: flex;
@@ -1624,6 +1678,12 @@
       <span class="wisp"></span>
       <span class="wisp"></span>
     </a>
+    <button type="button" class="qr-cta" id="openQrCta" aria-label="Get your QR — join the waitlist">
+      <span class="qr-cta-icon-wrap">
+        <svg class="logo-icon" viewBox="560 290 930 1050" aria-hidden="true"><use href="#logo-mark" x="560" y="290" width="930" height="1050"></use></svg>
+      </span>
+      <span class="qr-cta-text">Get your QR</span>
+    </button>
     <nav class="site-nav" aria-label="Main">
       <a href="#about" data-i18n="navAbout">About us</a>
       <a href="#waitlistForm" data-i18n="navOrder">Place an order</a>
@@ -2122,12 +2182,18 @@
   (function newsletterDialog() {
     var dialog = document.getElementById('newsletterDialog');
     var openBtn = document.getElementById('openNewsletterDialog');
+    var qrBtn = document.getElementById('openQrCta');
     var closeBtn = document.getElementById('newsletterDialogClose');
     if (!dialog || !openBtn) return;
 
     openBtn.addEventListener('click', function () {
       dialog.showModal();
     });
+    if (qrBtn) {
+      qrBtn.addEventListener('click', function () {
+        dialog.showModal();
+      });
+    }
     closeBtn.addEventListener('click', function () {
       dialog.close();
     });
