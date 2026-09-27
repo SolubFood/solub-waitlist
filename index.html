@@ -145,9 +145,14 @@
 
   /* ---------- header ---------- */
   header {
-    padding: 1.5rem 0 0;
-    position: relative;
-    z-index: 5;
+    position: sticky;
+    top: 0;
+    z-index: 500;
+    padding: 1rem 0;
+    background: rgba(0,0,0,0.72);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
   }
   .header-row {
     position: relative;
@@ -1188,6 +1193,61 @@
     margin: 0 auto 0.9rem;
   }
   .honesty p:last-child { margin-bottom: 0; }
+  .trust-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.1rem;
+    max-width: 920px;
+    margin: 2rem auto 0;
+    text-align: left;
+  }
+  @media (max-width: 760px) {
+    .trust-grid { grid-template-columns: 1fr; }
+  }
+  .trust-card {
+    padding: 1.5rem 1.4rem;
+    border-radius: 16px;
+    background: linear-gradient(160deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+    border: 1px solid rgba(255,255,255,0.14);
+  }
+  .trust-card svg {
+    width: 22px;
+    height: 22px;
+    color: var(--ember-bright);
+    margin-bottom: 0.7rem;
+  }
+  .trust-card h3 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 1rem;
+    margin: 0 0 0.4rem;
+    color: var(--ink);
+  }
+  .trust-card p {
+    margin: 0;
+    max-width: none;
+    color: var(--ink-muted);
+    font-size: 0.92rem;
+    line-height: 1.55;
+  }
+  .honesty-promise {
+    margin-top: 1.8rem;
+    font-weight: 700;
+    color: var(--ink) !important;
+  }
+
+  /* ---------- final cta ---------- */
+  .final-cta {
+    padding: 1rem 0 5rem;
+    text-align: center;
+  }
+  .final-cta h2 {
+    font-size: clamp(1.7rem, 3.4vw, 2.4rem);
+  }
+  .final-cta p {
+    margin: 0.7rem 0 1.6rem;
+    color: var(--ink-muted);
+  }
 
   /* ---------- footer ---------- */
   footer {
@@ -1203,7 +1263,9 @@
     color: var(--ink-muted);
   }
   footer .flogo { display: flex; align-items: center; gap: 0.6rem; }
+  footer .footer-mark { width: 20px; height: auto; color: var(--ink-muted); flex-shrink: 0; }
   footer a.mail { color: var(--ink); text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px; }
+  .footer-right { display: flex; align-items: center; gap: 1.4rem; flex-wrap: wrap; }
 </style>
 </head>
 <body>
@@ -1389,15 +1451,52 @@
 
 <section class="honesty wrap">
   <span class="eyebrow"><span class="ember-dot"></span><span data-i18n="honestyEyebrow">Where we're at</span></span>
-  <p data-i18n="honestyP1">Solub Food is in its earliest days — we're building the founding chef network from the ground up, starting here in Queensland. Profile information is reviewed before anyone goes live, and council registration is noted where applicable. We'll never claim more certainty than we have.</p>
-  <p data-i18n="honestyP2">What we can promise: you'll always know who made your food, and why.</p>
+  <p data-i18n="honestyIntro">Solub Food is in its earliest days — we're building the founding chef network from the ground up, starting here in Queensland.</p>
+  <div class="trust-grid">
+    <div class="trust-card">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5z"/><path d="M9 12l2 2 4-4"/></svg>
+      <h3 data-i18n="trust1Title">Reviewed profiles</h3>
+      <p data-i18n="trust1P">Every home cook's profile is reviewed before it goes live.</p>
+    </div>
+    <div class="trust-card">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 2h6l3 3v15a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/><path d="M9 11h6M9 15h4"/></svg>
+      <h3 data-i18n="trust2Title">Council registration noted</h3>
+      <p data-i18n="trust2P">Where council registration applies, we note it right on the profile.</p>
+    </div>
+    <div class="trust-card">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+      <h3 data-i18n="trust3Title">No overpromising</h3>
+      <p data-i18n="trust3P">We'll never claim more certainty than we actually have.</p>
+    </div>
+  </div>
+  <p class="honesty-promise" data-i18n="honestyP2">What we can promise: you'll always know who made your food, and why.</p>
+</section>
+
+<section class="final-cta wrap">
+  <h2 data-i18n="finalCtaH2">Ready to be first?</h2>
+  <p data-i18n="finalCtaP">Join the waitlist — it takes ten seconds.</p>
+  <a class="btn primary final-cta-btn" href="#waitlistForm" data-i18n="finalCtaBtn">Join the waitlist →</a>
 </section>
 
 <footer class="wrap">
   <div class="flogo">
+    <svg class="logo-icon footer-mark" viewBox="328 275 1392 1527" aria-hidden="true"><use href="#logo-mark"></use></svg>
     <span data-i18n="footerTagline">Solub Food — Real Over Perfect</span>
   </div>
-  <a class="mail" href="mailto:hello@teamsolub.com">hello@teamsolub.com</a>
+  <div class="footer-right">
+    <a class="mail" href="mailto:hello@teamsolub.com">hello@teamsolub.com</a>
+    <div class="social-row">
+      <a href="https://www.instagram.com/solubfood/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2c2.717 0 3.056.01 4.122.06 1.065.05 1.79.217 2.428.465a4.9 4.9 0 0 1 1.772 1.153 4.9 4.9 0 0 1 1.153 1.772c.248.637.415 1.363.465 2.428.05 1.066.06 1.405.06 4.122s-.01 3.056-.06 4.122c-.05 1.065-.217 1.79-.465 2.428a4.9 4.9 0 0 1-1.153 1.772 4.9 4.9 0 0 1-1.772 1.153c-.637.248-1.363.415-2.428.465-1.066.05-1.405.06-4.122.06s-3.056-.01-4.122-.06c-1.065-.05-1.79-.217-2.428-.465a4.9 4.9 0 0 1-1.772-1.153 4.9 4.9 0 0 1-1.153-1.772c-.248-.637-.415-1.363-.465-2.428C2.013 15.056 2 14.717 2 12s.013-3.056.06-4.122c.05-1.065.217-1.79.465-2.428A4.9 4.9 0 0 1 3.678 3.678 4.9 4.9 0 0 1 5.45 2.525c.637-.248 1.363-.415 2.428-.465C8.944 2.013 9.283 2 12 2zm0 1.8c-2.67 0-2.987.01-4.04.059-.976.045-1.505.207-1.858.344-.467.181-.8.398-1.15.748-.35.35-.567.683-.748 1.15-.137.353-.3.882-.344 1.858C3.81 9.013 3.8 9.33 3.8 12s.01 2.987.06 4.04c.043.976.206 1.505.343 1.858.181.467.398.8.748 1.15.35.35.683.567 1.15.748.353.137.882.3 1.858.344 1.053.048 1.37.059 4.04.059s2.987-.011 4.04-.06c.976-.043 1.505-.206 1.858-.343.467-.181.8-.398 1.15-.748.35-.35.567-.683.748-1.15.137-.353.3-.882.344-1.858.048-1.053.059-1.37.059-4.04s-.011-2.987-.06-4.04c-.043-.976-.206-1.505-.343-1.858a3.1 3.1 0 0 0-.748-1.15 3.1 3.1 0 0 0-1.15-.748c-.353-.137-.882-.3-1.858-.344C14.987 3.81 14.67 3.8 12 3.8zm0 3.06a5.14 5.14 0 1 1 0 10.28 5.14 5.14 0 0 1 0-10.28zm0 1.8a3.34 3.34 0 1 0 0 6.68 3.34 3.34 0 0 0 0-6.68zm5.338-3.205a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4z"/></svg>
+      </a>
+      <span class="social-icon" aria-hidden="true" title="WhatsApp">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.001 2C6.478 2 2 6.477 2 12c0 1.876.52 3.63 1.42 5.13L2 22l4.99-1.393A9.958 9.958 0 0 0 12.001 22C17.523 22 22 17.523 22 12S17.523 2 12.001 2zm0 18.2a8.176 8.176 0 0 1-4.417-1.293l-.317-.19-3.09.863.833-2.987-.207-.326A8.176 8.176 0 0 1 3.8 12c0-4.522 3.679-8.2 8.201-8.2 4.521 0 8.2 3.678 8.2 8.2 0 4.522-3.679 8.2-8.2 8.2zm4.471-6.138c-.245-.123-1.45-.716-1.675-.798-.225-.082-.389-.123-.552.123-.164.246-.633.798-.776.961-.143.164-.286.185-.531.062-.245-.123-1.036-.382-1.973-1.218-.729-.65-1.221-1.453-1.364-1.699-.143-.246-.015-.379.108-.501.11-.11.245-.286.368-.43.123-.143.164-.246.246-.41.082-.164.041-.307-.02-.43-.062-.123-.552-1.33-.757-1.822-.199-.478-.402-.413-.552-.42-.143-.008-.307-.008-.47-.008a.9.9 0 0 0-.654.307c-.225.246-.858.839-.858 2.046s.879 2.373 1.001 2.537c.123.164 1.729 2.64 4.189 3.702.585.253 1.042.404 1.398.517.587.187 1.121.16 1.544.097.471-.07 1.45-.593 1.655-1.166.204-.573.204-1.064.143-1.166-.06-.103-.225-.164-.47-.286z"/></svg>
+      </span>
+      <span class="social-icon" aria-hidden="true" title="Facebook">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-7.75h2.6l.39-3.02h-2.99V8.31c0-.87.24-1.47 1.5-1.47h1.6V4.14C16.34 4.1 15.44 4 14.38 4c-2.21 0-3.72 1.35-3.72 3.83v2.4H8.06v3.02h2.6V21h2.84z"/></svg>
+      </span>
+    </div>
+  </div>
 </footer>
 
 <script>
@@ -1634,7 +1733,10 @@
   })();
 
   (function heroChips() {
-    var chips = document.querySelectorAll('.hero-chip');
+    // Also covers the closing "Ready to be first?" CTA — same jump-then-focus
+    // behavior so any entry point into the waitlist form carries the reader
+    // straight into typing.
+    var chips = document.querySelectorAll('.hero-chip, .final-cta-btn');
     if (!chips.length) return;
     chips.forEach(function (chip) {
       chip.addEventListener('click', function () {
@@ -2126,8 +2228,17 @@
         communityEyebrow: 'South America',
         communityH2: 'We are a community. We feel the food.',
         honestyEyebrow: 'Where we’re at',
-        honestyP1: 'Solub Food is in its earliest days — we’re building the founding chef network from the ground up, starting here in Queensland. Profile information is reviewed before anyone goes live, and council registration is noted where applicable. We’ll never claim more certainty than we have.',
+        honestyIntro: 'Solub Food is in its earliest days — we’re building the founding chef network from the ground up, starting here in Queensland.',
+        trust1Title: 'Reviewed profiles',
+        trust1P: 'Every home cook’s profile is reviewed before it goes live.',
+        trust2Title: 'Council registration noted',
+        trust2P: 'Where council registration applies, we note it right on the profile.',
+        trust3Title: 'No overpromising',
+        trust3P: 'We’ll never claim more certainty than we actually have.',
         honestyP2: 'What we can promise: you’ll always know who made your food, and why.',
+        finalCtaH2: 'Ready to be first?',
+        finalCtaP: 'Join the waitlist — it takes ten seconds.',
+        finalCtaBtn: 'Join the waitlist →',
         footerTagline: 'Solub Food — Real Over Perfect',
         mapCredit: 'Map data adapted from <a href="https://github.com/flekschas/simple-world-map" target="_blank" rel="noopener noreferrer">simple-world-map</a> (CC BY-SA 3.0).'
       },
@@ -2177,8 +2288,17 @@
         communityEyebrow: 'Sudamérica',
         communityH2: 'Somos una comunidad. Sentimos la comida.',
         honestyEyebrow: 'Dónde estamos',
-        honestyP1: 'Solub Food está en sus primeros días — estamos construyendo la red de chefs fundadores desde cero, empezando aquí en Queensland. La información de perfil se revisa antes de que alguien quede publicado, y el registro municipal se indica cuando aplica. Nunca afirmaremos tener más certeza de la que realmente tenemos.',
+        honestyIntro: 'Solub Food está en sus primeros días — estamos construyendo la red de chefs fundadores desde cero, empezando aquí en Queensland.',
+        trust1Title: 'Perfiles revisados',
+        trust1P: 'Revisamos el perfil de cada cocinero casero antes de publicarlo.',
+        trust2Title: 'Registro municipal indicado',
+        trust2P: 'Cuando aplica el registro municipal, lo indicamos directamente en el perfil.',
+        trust3Title: 'Sin promesas de más',
+        trust3P: 'Nunca afirmaremos tener más certeza de la que realmente tenemos.',
         honestyP2: 'Lo que sí podemos prometer: siempre sabrás quién hizo tu comida, y por qué.',
+        finalCtaH2: '¿Listo para ser de los primeros?',
+        finalCtaP: 'Únete a la lista de espera — toma diez segundos.',
+        finalCtaBtn: 'Únete a la lista de espera →',
         footerTagline: 'Solub Food — Real Sobre Perfecto',
         mapCredit: 'Datos del mapa adaptados de <a href="https://github.com/flekschas/simple-world-map" target="_blank" rel="noopener noreferrer">simple-world-map</a> (CC BY-SA 3.0).'
       }
