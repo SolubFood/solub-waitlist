@@ -963,6 +963,62 @@
   }
   .dialog-body .fineprint { display: block; margin-top: 0.5rem; }
 
+  /* ---------- dish detail dialog ---------- */
+  /* Opened from the hero marquee clips — same idea as the filmstrip's
+     click-to-zoom preview below, but as a dialog instead of a FLIP
+     animation, since the marquee tiles are mid-scroll when clicked and a
+     dialog doesn't need to track a constantly-moving source position. */
+  .dish-dialog {
+    padding: 0;
+    border: none;
+    border-radius: 20px;
+    width: min(460px, calc(100vw - 2rem));
+    max-height: min(90vh, 680px);
+    overflow: hidden;
+    background: var(--bg-soft);
+    color: var(--ink);
+    box-shadow: 0 40px 80px -20px rgba(0,0,0,0.85);
+  }
+  .dish-dialog::backdrop {
+    background: rgba(0,0,0,0.72);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+  .dish-dialog[open] {
+    animation: dialog-in 0.3s ease-out;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .dish-dialog[open] { animation: none; }
+  }
+  .dish-dialog .dialog-banner { height: 220px; background: #000; }
+  .dish-dialog .dialog-banner video { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .dish-dialog-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.7rem;
+  }
+  .dish-dialog-meta .reel-flag { width: 18px; height: 12px; }
+  .dish-dialog-country {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+  .dish-dialog-fact {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.8rem;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--line);
+    margin-top: 1rem;
+  }
+  .dish-dialog-fact .frame-preview-map { width: 30px; height: 40px; }
+  .dish-dialog-fact p { margin: 0; font-size: 0.85rem; line-height: 1.4; color: var(--ink-muted); }
+
   /* Liquid-gradient glow button — a hand-rolled stand-in for the animated
      framer-motion/SVG version, since this site has no React/build step.
      A blurred conic-gradient sits behind the (solid-black) button face and
@@ -1583,6 +1639,24 @@
   </div>
 </dialog>
 
+<dialog class="dish-dialog" id="dishDialog">
+  <button type="button" class="dialog-close" id="dishDialogClose" aria-label="Close">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+  </button>
+  <div class="dialog-banner">
+    <video id="dishDialogVideo" muted loop playsinline></video>
+  </div>
+  <div class="dialog-body">
+    <div class="dish-dialog-meta" id="dishDialogMeta"></div>
+    <h3 id="dishDialogTitle"></h3>
+    <p id="dishDialogText"></p>
+    <div class="dish-dialog-fact">
+      <div class="frame-preview-map" id="dishDialogMap"></div>
+      <p id="dishDialogFact"></p>
+    </div>
+  </div>
+</dialog>
+
 <header class="wrap">
   <div class="header-row">
     <a class="header-logo" href="#" aria-label="Solub Food — back to top">
@@ -1926,6 +2000,34 @@
     return '<svg viewBox="167 483.1 170.5 224.4" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' + shapes + '</svg>';
   }
 
+  // Shared by the hero marquee clips: same dish info (title, description,
+  // country, fact, mini-map) the filmstrip's own preview already shows,
+  // just opened in a dialog instead of a FLIP-zoom, since marquee tiles are
+  // mid-scroll when clicked and don't have a stable position to zoom from.
+  function openDishDialog(i) {
+    var dialog = document.getElementById('dishDialog');
+    if (!dialog) return;
+    var info = DISH_INFO[i] || DISH_INFO[0];
+    var country = DISH_COUNTRY[i] || DISH_COUNTRY[0];
+    var code = DISH_COUNTRY_CODE[country.en] || 'pe';
+    var countryFact = COUNTRY_INFO[code];
+
+    var video = document.getElementById('dishDialogVideo');
+    video.src = dishClips[i] || dishClips[0];
+    video.poster = 'assets/img/posters/clip-' + (i + 2) + '.jpg';
+    video.play().catch(function () {});
+
+    document.getElementById('dishDialogMeta').innerHTML =
+      (FLAG_SVG[country.en] || '') +
+      '<span class="dish-dialog-country">' + (currentLang === 'es' ? country.es : country.en) + '</span>';
+    document.getElementById('dishDialogTitle').textContent = info.title;
+    document.getElementById('dishDialogText').textContent = currentLang === 'es' ? info.es : info.en;
+    document.getElementById('dishDialogMap').innerHTML = miniMapSvg(code);
+    document.getElementById('dishDialogFact').textContent = countryFact ? (currentLang === 'es' ? countryFact.es : countryFact.en) : '';
+
+    dialog.showModal();
+  }
+
   // Full flag artwork (same simplified geometry as the small reel badges), used as a background watermark.
   var FLAG_SVG_MARKUP = {
     co: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="2" fill="#FCD116"/><rect y="1" width="3" height="0.5" fill="#003893"/><rect y="1.5" width="3" height="0.5" fill="#CE1126"/></svg>',
@@ -1985,6 +2087,10 @@
         video.preload = 'auto';
         var m = src.match(/clip-(\d+)\.mp4$/);
         if (m) video.poster = 'assets/img/posters/clip-' + m[1] + '.jpg';
+        video.style.cursor = 'pointer';
+        video.addEventListener('click', function () {
+          if (m) openDishDialog(Number(m[1]) - 2);
+        });
         group.appendChild(video);
       });
       return group;
@@ -2055,6 +2161,21 @@
     // inside it), so that's how we detect an outside click.
     dialog.addEventListener('click', function (e) {
       if (e.target === dialog) dialog.close();
+    });
+  })();
+
+  (function dishDialogClose() {
+    var dialog = document.getElementById('dishDialog');
+    var closeBtn = document.getElementById('dishDialogClose');
+    if (!dialog || !closeBtn) return;
+
+    var video = document.getElementById('dishDialogVideo');
+    closeBtn.addEventListener('click', function () { dialog.close(); });
+    dialog.addEventListener('click', function (e) {
+      if (e.target === dialog) dialog.close();
+    });
+    dialog.addEventListener('close', function () {
+      if (video) video.pause();
     });
   })();
 
