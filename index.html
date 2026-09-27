@@ -457,28 +457,8 @@
     flex-shrink: 0;
     background: #000;
   }
-  /* Flag chip filling the gap between clips, so the eye reads "dish, its
-     country, next dish" instead of a bare empty strip between tiles. */
-  .marquee-flag {
-    width: 56px;
-    height: 170px;
-    border-radius: 16px;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.08);
-  }
-  .marquee-flag svg.reel-flag {
-    width: 34px;
-    height: 23px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.25);
-  }
   @media (max-width: 620px) {
     .marquee-group video { width: 128px; height: 128px; }
-    .marquee-flag { width: 44px; height: 128px; }
-    .marquee-flag svg.reel-flag { width: 27px; height: 18px; }
   }
   @keyframes marquee {
     from { transform: translateX(0); }
@@ -2009,17 +1989,6 @@
         var m = src.match(/clip-(\d+)\.mp4$/);
         if (m) video.poster = 'assets/img/posters/clip-' + m[1] + '.jpg';
         group.appendChild(video);
-
-        // Fill the gap after each clip with its dish's flag instead of
-        // leaving it as bare empty space between tiles.
-        var country = m && DISH_COUNTRY[Number(m[1]) - 2];
-        if (country && FLAG_SVG[country.en]) {
-          var flagWrap = document.createElement('div');
-          flagWrap.className = 'marquee-flag';
-          flagWrap.title = country.en;
-          flagWrap.innerHTML = FLAG_SVG[country.en];
-          group.appendChild(flagWrap);
-        }
       });
       return group;
     }
