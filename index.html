@@ -392,17 +392,18 @@
     position: relative;
     z-index: 2;
     max-width: 520px;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    text-align: left;
+    align-items: center;
+    text-align: center;
     gap: 1.4rem;
     opacity: 0;
     transform: translateY(10px);
     animation: rise 0.8s ease-out 0.15s forwards;
   }
   @media (max-width: 900px) {
-    .hero-content { max-width: none; align-items: center; text-align: center; margin: 0 auto; }
+    .hero-content { max-width: none; }
   }
   @keyframes rise {
     to { opacity: 1; transform: translateY(0); }
@@ -493,12 +494,9 @@
   .hero-chips {
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-start;
+    justify-content: center;
     gap: 0.6rem;
     max-width: 46ch;
-  }
-  @media (max-width: 900px) {
-    .hero-chips { justify-content: center; }
   }
   /* Round launcher that expands into a pill on hover — a CSS stand-in for
      the pasted framer-motion "hover to reveal" button (no React/build step
