@@ -291,19 +291,84 @@
     margin-left: auto;
     display: flex;
     align-items: center;
-    gap: 1.1rem;
+    gap: 1.3rem;
   }
-  .social-row a,
-  .social-row .social-icon {
+  /* Round icon buttons with a color fill that rises from the bottom on
+     hover (a CSS stand-in for the pasted React tooltip component — no
+     React/build step here) plus a matching tooltip label underneath. */
+  .social-item {
+    position: relative;
     display: inline-flex;
+    align-items: center;
+    justify-content: center;
     color: #FFFFFF;
-    transition: color 0.2s ease;
   }
-  .social-row a:hover,
-  .social-row a:focus-visible {
-    color: var(--ember-bright);
+  /* The circle clips the rising fill to a round shape — that overflow:hidden
+     has to live on this inner wrapper, not .social-item itself, or it also
+     clips the tooltip below, which needs to render outside the circle. */
+  .social-item .social-circle {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.16);
+    overflow: hidden;
   }
-  .social-row svg { width: 19px; height: 19px; }
+  .social-item .social-fill {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0%;
+    transition: height 0.3s ease;
+  }
+  .social-item:hover .social-fill,
+  .social-item:focus-visible .social-fill {
+    height: 100%;
+  }
+  .social-item svg {
+    position: relative;
+    z-index: 1;
+    width: 17px;
+    height: 17px;
+    transition: color 0.25s ease;
+  }
+  .social-item:hover svg,
+  .social-item:focus-visible svg {
+    color: #FFFFFF;
+  }
+  .social-item .social-tooltip {
+    position: absolute;
+    bottom: -32px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    padding: 0.28rem 0.6rem;
+    border-radius: 6px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.66rem;
+    letter-spacing: 0.02em;
+    color: #FFFFFF;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.25s ease, bottom 0.25s ease, visibility 0.25s ease;
+  }
+  .social-item:hover .social-tooltip,
+  .social-item:focus-visible .social-tooltip {
+    opacity: 1;
+    visibility: visible;
+    bottom: -38px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .social-item .social-fill,
+    .social-item .social-tooltip { transition: none; }
+  }
   @media (max-width: 680px) {
     .header-row { flex-direction: column; align-items: center; gap: 0.9rem; }
     .site-nav { position: static; transform: none; }
@@ -1556,14 +1621,26 @@
       <a href="mailto:hello@teamsolub.com" data-i18n="navContact">Contact us</a>
     </nav>
     <div class="social-row">
-      <a href="https://www.instagram.com/solubfood/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+      <a href="https://www.instagram.com/solubfood/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="social-item">
+        <span class="social-circle">
+        <span class="social-fill" style="background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)"></span>
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2c2.717 0 3.056.01 4.122.06 1.065.05 1.79.217 2.428.465a4.9 4.9 0 0 1 1.772 1.153 4.9 4.9 0 0 1 1.153 1.772c.248.637.415 1.363.465 2.428.05 1.066.06 1.405.06 4.122s-.01 3.056-.06 4.122c-.05 1.065-.217 1.79-.465 2.428a4.9 4.9 0 0 1-1.153 1.772 4.9 4.9 0 0 1-1.772 1.153c-.637.248-1.363.415-2.428.465-1.066.05-1.405.06-4.122.06s-3.056-.01-4.122-.06c-1.065-.05-1.79-.217-2.428-.465a4.9 4.9 0 0 1-1.772-1.153 4.9 4.9 0 0 1-1.153-1.772c-.248-.637-.415-1.363-.465-2.428C2.013 15.056 2 14.717 2 12s.013-3.056.06-4.122c.05-1.065.217-1.79.465-2.428A4.9 4.9 0 0 1 3.678 3.678 4.9 4.9 0 0 1 5.45 2.525c.637-.248 1.363-.415 2.428-.465C8.944 2.013 9.283 2 12 2zm0 1.8c-2.67 0-2.987.01-4.04.059-.976.045-1.505.207-1.858.344-.467.181-.8.398-1.15.748-.35.35-.567.683-.748 1.15-.137.353-.3.882-.344 1.858C3.81 9.013 3.8 9.33 3.8 12s.01 2.987.06 4.04c.043.976.206 1.505.343 1.858.181.467.398.8.748 1.15.35.35.683.567 1.15.748.353.137.882.3 1.858.344 1.053.048 1.37.059 4.04.059s2.987-.011 4.04-.06c.976-.043 1.505-.206 1.858-.343.467-.181.8-.398 1.15-.748.35-.35.567-.683.748-1.15.137-.353.3-.882.344-1.858.048-1.053.059-1.37.059-4.04s-.011-2.987-.06-4.04c-.043-.976-.206-1.505-.343-1.858a3.1 3.1 0 0 0-.748-1.15 3.1 3.1 0 0 0-1.15-.748c-.353-.137-.882-.3-1.858-.344C14.987 3.81 14.67 3.8 12 3.8zm0 3.06a5.14 5.14 0 1 1 0 10.28 5.14 5.14 0 0 1 0-10.28zm0 1.8a3.34 3.34 0 1 0 0 6.68 3.34 3.34 0 0 0 0-6.68zm5.338-3.205a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4z"/></svg>
+        </span>
+        <span class="social-tooltip" style="background:#bc1888">Instagram</span>
       </a>
-      <span class="social-icon" aria-hidden="true" title="WhatsApp">
+      <span class="social-icon social-item" aria-hidden="true">
+        <span class="social-circle">
+        <span class="social-fill" style="background:#25D366"></span>
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.001 2C6.478 2 2 6.477 2 12c0 1.876.52 3.63 1.42 5.13L2 22l4.99-1.393A9.958 9.958 0 0 0 12.001 22C17.523 22 22 17.523 22 12S17.523 2 12.001 2zm0 18.2a8.176 8.176 0 0 1-4.417-1.293l-.317-.19-3.09.863.833-2.987-.207-.326A8.176 8.176 0 0 1 3.8 12c0-4.522 3.679-8.2 8.201-8.2 4.521 0 8.2 3.678 8.2 8.2 0 4.522-3.679 8.2-8.2 8.2zm4.471-6.138c-.245-.123-1.45-.716-1.675-.798-.225-.082-.389-.123-.552.123-.164.246-.633.798-.776.961-.143.164-.286.185-.531.062-.245-.123-1.036-.382-1.973-1.218-.729-.65-1.221-1.453-1.364-1.699-.143-.246-.015-.379.108-.501.11-.11.245-.286.368-.43.123-.143.164-.246.246-.41.082-.164.041-.307-.02-.43-.062-.123-.552-1.33-.757-1.822-.199-.478-.402-.413-.552-.42-.143-.008-.307-.008-.47-.008a.9.9 0 0 0-.654.307c-.225.246-.858.839-.858 2.046s.879 2.373 1.001 2.537c.123.164 1.729 2.64 4.189 3.702.585.253 1.042.404 1.398.517.587.187 1.121.16 1.544.097.471-.07 1.45-.593 1.655-1.166.204-.573.204-1.064.143-1.166-.06-.103-.225-.164-.47-.286z"/></svg>
+        </span>
+        <span class="social-tooltip" style="background:#25D366">WhatsApp</span>
       </span>
-      <span class="social-icon" aria-hidden="true" title="Facebook">
+      <span class="social-icon social-item" aria-hidden="true">
+        <span class="social-circle">
+        <span class="social-fill" style="background:#1877F2"></span>
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-7.75h2.6l.39-3.02h-2.99V8.31c0-.87.24-1.47 1.5-1.47h1.6V4.14C16.34 4.1 15.44 4 14.38 4c-2.21 0-3.72 1.35-3.72 3.83v2.4H8.06v3.02h2.6V21h2.84z"/></svg>
+        </span>
+        <span class="social-tooltip" style="background:#1877F2">Facebook</span>
       </span>
     </div>
   </div>
@@ -1731,14 +1808,26 @@
   <div class="footer-right">
     <a class="mail" href="mailto:hello@teamsolub.com">hello@teamsolub.com</a>
     <div class="social-row">
-      <a href="https://www.instagram.com/solubfood/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+      <a href="https://www.instagram.com/solubfood/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="social-item">
+        <span class="social-circle">
+        <span class="social-fill" style="background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)"></span>
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2c2.717 0 3.056.01 4.122.06 1.065.05 1.79.217 2.428.465a4.9 4.9 0 0 1 1.772 1.153 4.9 4.9 0 0 1 1.153 1.772c.248.637.415 1.363.465 2.428.05 1.066.06 1.405.06 4.122s-.01 3.056-.06 4.122c-.05 1.065-.217 1.79-.465 2.428a4.9 4.9 0 0 1-1.153 1.772 4.9 4.9 0 0 1-1.772 1.153c-.637.248-1.363.415-2.428.465-1.066.05-1.405.06-4.122.06s-3.056-.01-4.122-.06c-1.065-.05-1.79-.217-2.428-.465a4.9 4.9 0 0 1-1.772-1.153 4.9 4.9 0 0 1-1.153-1.772c-.248-.637-.415-1.363-.465-2.428C2.013 15.056 2 14.717 2 12s.013-3.056.06-4.122c.05-1.065.217-1.79.465-2.428A4.9 4.9 0 0 1 3.678 3.678 4.9 4.9 0 0 1 5.45 2.525c.637-.248 1.363-.415 2.428-.465C8.944 2.013 9.283 2 12 2zm0 1.8c-2.67 0-2.987.01-4.04.059-.976.045-1.505.207-1.858.344-.467.181-.8.398-1.15.748-.35.35-.567.683-.748 1.15-.137.353-.3.882-.344 1.858C3.81 9.013 3.8 9.33 3.8 12s.01 2.987.06 4.04c.043.976.206 1.505.343 1.858.181.467.398.8.748 1.15.35.35.683.567 1.15.748.353.137.882.3 1.858.344 1.053.048 1.37.059 4.04.059s2.987-.011 4.04-.06c.976-.043 1.505-.206 1.858-.343.467-.181.8-.398 1.15-.748.35-.35.567-.683.748-1.15.137-.353.3-.882.344-1.858.048-1.053.059-1.37.059-4.04s-.011-2.987-.06-4.04c-.043-.976-.206-1.505-.343-1.858a3.1 3.1 0 0 0-.748-1.15 3.1 3.1 0 0 0-1.15-.748c-.353-.137-.882-.3-1.858-.344C14.987 3.81 14.67 3.8 12 3.8zm0 3.06a5.14 5.14 0 1 1 0 10.28 5.14 5.14 0 0 1 0-10.28zm0 1.8a3.34 3.34 0 1 0 0 6.68 3.34 3.34 0 0 0 0-6.68zm5.338-3.205a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4z"/></svg>
+        </span>
+        <span class="social-tooltip" style="background:#bc1888">Instagram</span>
       </a>
-      <span class="social-icon" aria-hidden="true" title="WhatsApp">
+      <span class="social-icon social-item" aria-hidden="true">
+        <span class="social-circle">
+        <span class="social-fill" style="background:#25D366"></span>
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.001 2C6.478 2 2 6.477 2 12c0 1.876.52 3.63 1.42 5.13L2 22l4.99-1.393A9.958 9.958 0 0 0 12.001 22C17.523 22 22 17.523 22 12S17.523 2 12.001 2zm0 18.2a8.176 8.176 0 0 1-4.417-1.293l-.317-.19-3.09.863.833-2.987-.207-.326A8.176 8.176 0 0 1 3.8 12c0-4.522 3.679-8.2 8.201-8.2 4.521 0 8.2 3.678 8.2 8.2 0 4.522-3.679 8.2-8.2 8.2zm4.471-6.138c-.245-.123-1.45-.716-1.675-.798-.225-.082-.389-.123-.552.123-.164.246-.633.798-.776.961-.143.164-.286.185-.531.062-.245-.123-1.036-.382-1.973-1.218-.729-.65-1.221-1.453-1.364-1.699-.143-.246-.015-.379.108-.501.11-.11.245-.286.368-.43.123-.143.164-.246.246-.41.082-.164.041-.307-.02-.43-.062-.123-.552-1.33-.757-1.822-.199-.478-.402-.413-.552-.42-.143-.008-.307-.008-.47-.008a.9.9 0 0 0-.654.307c-.225.246-.858.839-.858 2.046s.879 2.373 1.001 2.537c.123.164 1.729 2.64 4.189 3.702.585.253 1.042.404 1.398.517.587.187 1.121.16 1.544.097.471-.07 1.45-.593 1.655-1.166.204-.573.204-1.064.143-1.166-.06-.103-.225-.164-.47-.286z"/></svg>
+        </span>
+        <span class="social-tooltip" style="background:#25D366">WhatsApp</span>
       </span>
-      <span class="social-icon" aria-hidden="true" title="Facebook">
+      <span class="social-icon social-item" aria-hidden="true">
+        <span class="social-circle">
+        <span class="social-fill" style="background:#1877F2"></span>
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-7.75h2.6l.39-3.02h-2.99V8.31c0-.87.24-1.47 1.5-1.47h1.6V4.14C16.34 4.1 15.44 4 14.38 4c-2.21 0-3.72 1.35-3.72 3.83v2.4H8.06v3.02h2.6V21h2.84z"/></svg>
+        </span>
+        <span class="social-tooltip" style="background:#1877F2">Facebook</span>
       </span>
     </div>
   </div>
