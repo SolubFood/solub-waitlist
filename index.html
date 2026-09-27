@@ -143,6 +143,52 @@
 
   a { color: inherit; }
 
+  /* ---------- logo mark: neon flicker ----------
+     The hat is a thin hollow neon tube in the source art, which read as
+     "incomplete" next to the solid-filled map at icon sizes — thickened it
+     with an extra stroke around the same fill. Hat and map glow in their
+     own neon colors (red / gold) on a shared flicker timeline, mimicking a
+     tube stuttering on, holding lit, then briefly re-striking. */
+  .logo-hat path {
+    stroke: currentColor;
+    stroke-width: 20;
+    paint-order: stroke fill;
+  }
+  .logo-hat {
+    animation: neon-hat-glow 7s ease-in-out infinite;
+  }
+  .logo-flame {
+    animation: neon-map-glow 7s ease-in-out infinite;
+  }
+  @keyframes neon-hat-glow {
+    0%, 3%, 100% { color: #FFFFFF; filter: none; }
+    1%, 4% { color: var(--sage); filter: drop-shadow(0 0 4px var(--sage)) drop-shadow(0 0 12px var(--sage)); }
+    6% { color: #FFFFFF; filter: none; }
+    8%, 92% { color: var(--sage); filter: drop-shadow(0 0 4px var(--sage)) drop-shadow(0 0 14px var(--sage)); }
+    94% { color: #FFFFFF; filter: none; }
+    96% { color: var(--sage); filter: drop-shadow(0 0 4px var(--sage)) drop-shadow(0 0 12px var(--sage)); }
+  }
+  @keyframes neon-map-glow {
+    0%, 3%, 100% { color: #FFFFFF; filter: none; }
+    1%, 4% { color: var(--ember); filter: drop-shadow(0 0 4px var(--ember)) drop-shadow(0 0 12px var(--ember)); }
+    6% { color: #FFFFFF; filter: none; }
+    8%, 92% { color: var(--ember); filter: drop-shadow(0 0 4px var(--ember)) drop-shadow(0 0 14px var(--ember)); }
+    94% { color: #FFFFFF; filter: none; }
+    96% { color: var(--ember); filter: drop-shadow(0 0 4px var(--ember)) drop-shadow(0 0 12px var(--ember)); }
+  }
+  /* The filmstrip watermark stays a quiet, static detail — it shouldn't
+     flicker and pull focus away from the dish video underneath it. */
+  .frame-watermark .logo-hat,
+  .frame-watermark .logo-flame {
+    animation: none;
+    color: inherit;
+    filter: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .logo-hat { animation: none; color: var(--sage); filter: drop-shadow(0 0 4px var(--sage)); }
+    .logo-flame { animation: none; color: var(--ember); filter: drop-shadow(0 0 4px var(--ember)); }
+  }
+
   /* ---------- header ---------- */
   header {
     position: sticky;
@@ -1243,9 +1289,12 @@
   }
   .final-cta h2 {
     font-size: clamp(1.7rem, 3.4vw, 2.4rem);
+    max-width: 24ch;
+    margin: 0 auto;
   }
   .final-cta p {
-    margin: 0.7rem 0 1.6rem;
+    max-width: 48ch;
+    margin: 0.7rem auto 1.6rem;
     color: var(--ink-muted);
   }
 
@@ -1473,8 +1522,8 @@
 </section>
 
 <section class="final-cta wrap">
-  <h2 data-i18n="finalCtaH2">Ready to be first?</h2>
-  <p data-i18n="finalCtaP">Join the waitlist — it takes ten seconds.</p>
+  <h2 data-i18n="finalCtaH2">You don't need to travel to Latin America.</h2>
+  <p data-i18n="finalCtaP">We bring Latin America to you — real home cooks, real recipes. Join the waitlist, it takes ten seconds.</p>
   <a class="btn primary final-cta-btn" href="#waitlistForm" data-i18n="finalCtaBtn">Join the waitlist →</a>
 </section>
 
@@ -2236,8 +2285,8 @@
         trust3Title: 'No overpromising',
         trust3P: 'We’ll never claim more certainty than we actually have.',
         honestyP2: 'What we can promise: you’ll always know who made your food, and why.',
-        finalCtaH2: 'Ready to be first?',
-        finalCtaP: 'Join the waitlist — it takes ten seconds.',
+        finalCtaH2: 'You don’t need to travel to Latin America.',
+        finalCtaP: 'We bring Latin America to you — real home cooks, real recipes. Join the waitlist, it takes ten seconds.',
         finalCtaBtn: 'Join the waitlist →',
         footerTagline: 'Solub Food — Real Over Perfect',
         mapCredit: 'Map data adapted from <a href="https://github.com/flekschas/simple-world-map" target="_blank" rel="noopener noreferrer">simple-world-map</a> (CC BY-SA 3.0).'
@@ -2296,8 +2345,8 @@
         trust3Title: 'Sin promesas de más',
         trust3P: 'Nunca afirmaremos tener más certeza de la que realmente tenemos.',
         honestyP2: 'Lo que sí podemos prometer: siempre sabrás quién hizo tu comida, y por qué.',
-        finalCtaH2: '¿Listo para ser de los primeros?',
-        finalCtaP: 'Únete a la lista de espera — toma diez segundos.',
+        finalCtaH2: 'No hace falta que viajes a Latinoamérica.',
+        finalCtaP: 'Te traemos Latinoamérica a ti — cocineros caseros reales, recetas reales. Únete a la lista de espera, toma diez segundos.',
         finalCtaBtn: 'Únete a la lista de espera →',
         footerTagline: 'Solub Food — Real Sobre Perfecto',
         mapCredit: 'Datos del mapa adaptados de <a href="https://github.com/flekschas/simple-world-map" target="_blank" rel="noopener noreferrer">simple-world-map</a> (CC BY-SA 3.0).'
