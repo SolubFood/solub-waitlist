@@ -541,40 +541,60 @@
   }
   /* Round launcher that expands into a pill on hover — a CSS stand-in for
      the pasted framer-motion "hover to reveal" button (no React/build step
-     here). Fixed 64px circle, showing just the sparkle icon; hovering
-     grows its width and cross-fades the icon out for the label. */
+     here). Fixed 64px circle, showing just the logo icon; hovering grows
+     its width and cross-fades the icon out for the "QR" label.
+     Clicking runs a brief loading fill (a CSS/vanilla-JS stand-in for the
+     pasted shadcn DownloadButton's progress-bar/checkmark states) before
+     the QR/waitlist dialog opens — see heroLauncherLoad() below. */
   .hero-launcher {
     position: relative;
     width: 64px;
     height: 64px;
     border-radius: 32px;
-    background: var(--sage);
-    border: none;
+    background: #FFFFFF;
+    border: 1.5px solid transparent;
     color: #FFFFFF;
     cursor: pointer;
     overflow: hidden;
     box-shadow: 0 10px 30px -12px rgba(0,0,0,0.7);
-    transition: width 0.3s ease, background 0.3s ease;
+    transition: width 0.3s ease, background 0.3s ease, border-color 0.3s ease;
   }
+  /* The black pill (var(--ember-ink)) would otherwise disappear against
+     the hero's own black background — a border gives it an edge to read
+     against, since box-shadow alone (black-on-black) doesn't. */
   .hero-launcher:hover,
-  .hero-launcher:focus-visible {
+  .hero-launcher:focus-visible,
+  .hero-launcher.is-loading,
+  .hero-launcher.is-done {
     width: 220px;
     background: var(--ember-ink);
+    border-color: rgba(255,255,255,0.2);
+  }
+  .hero-launcher .launcher-fill {
+    position: absolute;
+    inset: 0;
+    width: 0%;
+    background: var(--ember);
+    z-index: 0;
   }
   .hero-launcher .launcher-icon,
-  .hero-launcher .launcher-text {
+  .hero-launcher .launcher-text,
+  .hero-launcher .launcher-status {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    z-index: 1;
   }
   .hero-launcher .launcher-icon {
     display: flex;
     transition: opacity 0.2s ease, transform 0.2s ease;
   }
-  .hero-launcher .launcher-icon svg { width: 20px; height: auto; color: var(--ember-bright); }
+  .hero-launcher .launcher-icon svg { width: 20px; height: auto; color: var(--sage); }
   .hero-launcher:hover .launcher-icon,
-  .hero-launcher:focus-visible .launcher-icon {
+  .hero-launcher:focus-visible .launcher-icon,
+  .hero-launcher.is-loading .launcher-icon,
+  .hero-launcher.is-done .launcher-icon {
     opacity: 0;
     transform: translate(-50%, -50%) scale(0.8);
   }
@@ -593,8 +613,41 @@
     opacity: 1;
     transition-delay: 0.1s;
   }
+  .hero-launcher.is-loading .launcher-text,
+  .hero-launcher.is-done .launcher-text {
+    opacity: 0;
+  }
+  .hero-launcher .launcher-status {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    opacity: 0;
+    white-space: nowrap;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    transition: opacity 0.15s ease;
+  }
+  .hero-launcher.is-loading .launcher-status,
+  .hero-launcher.is-done .launcher-status {
+    opacity: 1;
+  }
+  .launcher-spinner {
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.35);
+    border-top-color: #FFFFFF;
+    animation: launcher-spin 0.7s linear infinite;
+    flex-shrink: 0;
+  }
+  @keyframes launcher-spin {
+    to { transform: rotate(360deg); }
+  }
+  .launcher-check { width: 15px; height: 15px; flex-shrink: 0; }
   @media (prefers-reduced-motion: reduce) {
-    .hero-launcher, .hero-launcher .launcher-icon, .hero-launcher .launcher-text { transition: none; }
+    .hero-launcher, .hero-launcher .launcher-icon, .hero-launcher .launcher-text, .launcher-spinner { transition: none; animation: none; }
   }
   /* ---------- story ---------- */
   .story {
@@ -2064,11 +2117,13 @@
   <div class="hero-content">
     <h1 data-i18n="heroH1">Real over perfect —<br>no shortcuts.</h1>
     <div class="hero-chips">
-      <button type="button" class="hero-launcher" id="openNewsletterDialog" aria-label="Join the waitlist">
+      <button type="button" class="hero-launcher" id="openNewsletterDialog" aria-label="Get your QR">
+        <span class="launcher-fill" aria-hidden="true"></span>
         <span class="launcher-icon" aria-hidden="true">
           <svg class="logo-icon" viewBox="560 290 930 1050"><use href="#logo-mark" x="560" y="290" width="930" height="1050"></use></svg>
         </span>
-        <span class="launcher-text" data-i18n="heroChipOpen">Click here</span>
+        <span class="launcher-text" data-i18n="heroChipOpen">QR</span>
+        <span class="launcher-status" aria-hidden="true"></span>
       </button>
     </div>
   </div>
@@ -2598,8 +2653,42 @@
     var closeBtn = document.getElementById('newsletterDialogClose');
     if (!dialog || !openBtn) return;
 
+    // A hand-rolled version of the pasted shadcn DownloadButton's
+    // idle -> downloading (progress %) -> downloaded (check) states — no
+    // React/build step here, and nothing is actually downloading, so it
+    // plays out fast (~1s) as a "preparing your QR" flourish before the
+    // dialog opens, rather than the reference's slower literal simulation.
+    var statusEl = openBtn.querySelector('.launcher-status');
+    var fillEl = openBtn.querySelector('.launcher-fill');
+    var busy = false;
     openBtn.addEventListener('click', function () {
-      dialog.showModal();
+      if (busy || reduceMotion) {
+        if (!busy) dialog.showModal();
+        return;
+      }
+      busy = true;
+      openBtn.classList.add('is-loading');
+      var pct = 0;
+      statusEl.innerHTML = '<span class="launcher-spinner"></span><span>0%</span>';
+      var pctText = statusEl.querySelector('span:last-child');
+      var timer = setInterval(function () {
+        pct = Math.min(100, pct + 9);
+        fillEl.style.width = pct + '%';
+        pctText.textContent = pct + '%';
+        if (pct >= 100) {
+          clearInterval(timer);
+          openBtn.classList.remove('is-loading');
+          openBtn.classList.add('is-done');
+          statusEl.innerHTML = '<svg class="launcher-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Ready</span>';
+          setTimeout(function () {
+            dialog.showModal();
+            openBtn.classList.remove('is-done');
+            fillEl.style.width = '0%';
+            statusEl.innerHTML = '';
+            busy = false;
+          }, 420);
+        }
+      }, 45);
     });
     if (qrBtn) {
       qrBtn.addEventListener('click', function () {
@@ -3172,7 +3261,7 @@
         navContact: 'Contact us',
         heroEyebrow: 'Home kitchen discovery — Australia',
         heroH1: 'Real over perfect —<br>no shortcuts.',
-        heroChipOpen: 'Click here',
+        heroChipOpen: 'QR',
         dialogEyebrow: 'Home kitchen discovery',
         dialogTitle: 'Be the first to taste it.',
         dialogDesc: 'Real home cooks near you, real recipes, real stories — we’ll let you know the moment Solub Food launches.',
@@ -3247,7 +3336,7 @@
         navContact: 'Contáctanos',
         heroEyebrow: 'Descubre cocina casera — Australia',
         heroH1: 'Real sobre perfecto —<br>sin atajos.',
-        heroChipOpen: 'Haz clic aquí',
+        heroChipOpen: 'QR',
         dialogEyebrow: 'Descubre cocina casera',
         dialogTitle: 'Sé de los primeros en probarlo.',
         dialogDesc: 'Cocineros caseros reales cerca de ti, recetas reales, historias reales — te avisaremos en cuanto Solub Food se lance.',
