@@ -1225,6 +1225,20 @@
     cursor: zoom-out;
     box-shadow: 0 40px 80px -20px rgba(0,0,0,0.85), 0 1px 0 rgba(255,255,255,0.2) inset;
   }
+  .scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 0%;
+    background: var(--ember);
+    z-index: 9999;
+    pointer-events: none;
+    transition: width 0.1s linear;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .scroll-progress { transition: none; }
+  }
   .dish-scrim {
     position: fixed;
     inset: 0;
@@ -1662,6 +1676,8 @@
 </svg>
 
 
+<div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
 <div class="dish-scrim" id="dishScrim" aria-hidden="true"></div>
 
 <button type="button" class="scroll-top" id="scrollTop" aria-label="Back to top">
@@ -1759,7 +1775,7 @@
 
 <section class="hero wrap">
   <div class="hero-content">
-    <h1 data-i18n="heroH1">Real Over<br>Perfect.</h1>
+    <h1 data-i18n="heroH1">Real over perfect —<br>no shortcuts.</h1>
     <div class="hero-chips">
       <button type="button" class="hero-launcher" id="openNewsletterDialog" aria-label="Join the waitlist">
         <span class="launcher-icon" aria-hidden="true">
@@ -1774,7 +1790,7 @@
 
 <section class="filmstrip-section wrap">
   <span class="eyebrow"><span class="ember-dot"></span><span data-i18n="filmstripEyebrow">From the kitchens</span></span>
-  <h2 data-i18n="filmstripH2">Dishes that build connections.</h2>
+  <h2 class="reveal-up" data-i18n="filmstripH2">Dishes that build connections.</h2>
   <div class="filmstrip-wrap">
     <button type="button" class="film-nav prev" id="filmPrev" aria-label="Previous dishes">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
@@ -1790,7 +1806,7 @@
   <div class="community-bg" id="communityBg" aria-hidden="true"></div>
   <div class="community-fg">
   <span class="eyebrow"><span class="ember-dot"></span><span data-i18n="communityEyebrow">South America</span></span>
-  <h2 data-i18n="communityH2">We are a community. We feel the food.</h2>
+  <h2 class="reveal-up" data-i18n="communityH2">We are a community. We feel the food.</h2>
   <div class="community-video-wrap">
     <video class="community-video" src="assets/videos/community.mp4" muted loop playsinline autoplay preload="auto" poster="assets/img/posters/community.jpg"></video>
   </div>
@@ -1826,7 +1842,7 @@
           <input type="hidden" name="_subject" value="New Solub Food waitlist signup">
           <input type="hidden" name="_captcha" value="false">
           <input type="text" name="_honey" class="cta-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
-          <button type="submit" class="btn primary" data-i18n="discoverBtn">Join the waitlist →</button>
+          <button type="submit" class="btn primary scramble-btn" data-i18n="discoverBtn">Join the waitlist →</button>
         </form>
         <span class="fineprint" data-i18n="discoverFineprint">We’ll only use this to reach you about the waitlist — no spam.</span>
         <p class="form-status" aria-live="polite"></p>
@@ -1866,7 +1882,7 @@
 
 <section class="problem wrap" id="about">
   <div class="problem-panel">
-    <p class="lead-line flag-text" data-i18n="problemLead">We make Latin America feel Aussie.</p>
+    <p class="lead-line flag-text reveal-up" data-i18n="problemLead">We make Latin America feel Aussie.</p>
     <p data-i18n="problemP1">We tell the story because real experience and emotion come from people — and we won't regret spreading what we already know is possible to feel.</p>
     <a class="closer" href="https://www.instagram.com/solubfood/" target="_blank" rel="noopener noreferrer" data-i18n="problemCloser">Real over perfect.</a>
     <div class="paths-flags" id="pathsFlags"></div>
@@ -1875,7 +1891,7 @@
 
 <section class="honesty wrap">
   <span class="eyebrow"><span class="ember-dot"></span><span data-i18n="honestyEyebrow">Where we're at</span></span>
-  <p data-i18n="honestyIntro">Solub Food is in its earliest days — we're building the founding chef network from the ground up, starting here in Queensland.</p>
+  <p class="reveal-up" data-i18n="honestyIntro">Solub Food is in its earliest days — we're building the founding chef network from the ground up, starting here in Queensland.</p>
   <div class="trust-grid">
     <div class="trust-card">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5z"/><path d="M9 12l2 2 4-4"/></svg>
@@ -1893,13 +1909,13 @@
       <p data-i18n="trust3P">We'll never claim more certainty than we actually have.</p>
     </div>
   </div>
-  <p class="honesty-promise" data-i18n="honestyP2">What we can promise: you'll always know who made your food, and why.</p>
+  <p class="honesty-promise reveal-up" data-i18n="honestyP2">What we can promise: you'll always know who made your food, and why.</p>
 </section>
 
 <section class="final-cta wrap">
-  <h2 data-i18n="finalCtaH2">You don't need to travel to Latin America.</h2>
+  <h2 class="reveal-up" data-i18n="finalCtaH2">You don't need to travel to Latin America.</h2>
   <p data-i18n="finalCtaP">We bring Latin America to you — real home cooks, real recipes. Join the waitlist, it takes ten seconds.</p>
-  <a class="btn primary final-cta-btn" href="#waitlistForm" data-i18n="finalCtaBtn">Join the waitlist →</a>
+  <a class="btn primary final-cta-btn scramble-btn" href="#waitlistForm" data-i18n="finalCtaBtn">Join the waitlist →</a>
 </section>
 
 <footer class="wrap">
@@ -2274,6 +2290,55 @@
     }
     update();
     window.addEventListener('scroll', update, { passive: true });
+  })();
+
+  (function scrollProgress() {
+    var bar = document.getElementById('scrollProgress');
+    if (!bar) return;
+    function update() {
+      var doc = document.documentElement;
+      var scrollable = doc.scrollHeight - doc.clientHeight;
+      var pct = scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0;
+      bar.style.width = pct + '%';
+    }
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+  })();
+
+  (function scrambleButtons() {
+    // A hand-rolled version of the pasted React ScrambleButton — no React
+    // here, so this just runs the same character-reveal loop directly on
+    // hover/focus of each matching button.
+    if (reduceMotion) return;
+    var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+    function scramble(el) {
+      if (el.dataset.scrambling === '1') return;
+      var original = el.dataset.scrambleOriginal || el.textContent;
+      el.dataset.scrambleOriginal = original;
+      el.dataset.scrambling = '1';
+      var iteration = 0;
+      var maxIterations = original.length;
+      var interval = setInterval(function () {
+        el.textContent = original.split('').map(function (ch, index) {
+          if (ch === ' ') return ' ';
+          if (index < iteration) return original[index];
+          return chars[Math.floor(Math.random() * chars.length)];
+        }).join('');
+        if (iteration >= maxIterations) {
+          clearInterval(interval);
+          el.textContent = original;
+          el.dataset.scrambling = '0';
+        }
+        iteration += 1 / 3;
+      }, 30);
+    }
+
+    document.querySelectorAll('.scramble-btn').forEach(function (btn) {
+      btn.addEventListener('mouseenter', function () { scramble(btn); });
+      btn.addEventListener('focus', function () { scramble(btn); });
+    });
   })();
 
   (function scrollTop() {
@@ -2655,7 +2720,7 @@
         navWork: 'Work with us',
         navContact: 'Contact us',
         heroEyebrow: 'Home kitchen discovery — Australia',
-        heroH1: 'Real Over<br>Perfect.',
+        heroH1: 'Real over perfect —<br>no shortcuts.',
         heroChipOpen: 'Click here',
         dialogEyebrow: 'Home kitchen discovery',
         dialogTitle: 'Be the first to taste it.',
@@ -2716,7 +2781,7 @@
         navWork: 'Trabaja con nosotros',
         navContact: 'Contáctanos',
         heroEyebrow: 'Descubre cocina casera — Australia',
-        heroH1: 'Real Sobre<br>Perfecto.',
+        heroH1: 'Real sobre perfecto —<br>sin atajos.',
         heroChipOpen: 'Haz clic aquí',
         dialogEyebrow: 'Descubre cocina casera',
         dialogTitle: 'Sé de los primeros en probarlo.',
