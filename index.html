@@ -151,6 +151,20 @@
     align-items: center;
     min-height: 2.4rem;
   }
+  /* Logo + "Get your QR" start pulled in toward center and ease out to the
+     true left edge once the page scrolls — same idea as tryholo.ai's header,
+     where the logo/CTA sit closer together at rest and spread to the edges
+     on scroll. .social-row (already pushed right via margin-left:auto)
+     gets the mirrored treatment below. */
+  .header-left {
+    display: inline-flex;
+    align-items: center;
+    transform: translateX(46px);
+    transition: transform 0.5s cubic-bezier(.22,.9,.32,1);
+  }
+  header.scrolled .header-left {
+    transform: translateX(0);
+  }
   .site-nav {
     position: absolute;
     left: 50%;
@@ -274,6 +288,22 @@
     align-items: center;
     gap: 1.3rem;
   }
+  /* Mirrors .header-left: starts pulled in from the right edge, eases out
+     once the page scrolls. Scoped to the header's own social row so the
+     footer's (same markup, different section) is unaffected. */
+  .header-row .social-row {
+    transform: translateX(-46px);
+    transition: transform 0.5s cubic-bezier(.22,.9,.32,1);
+  }
+  header.scrolled .header-row .social-row {
+    transform: translateX(0);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .header-left,
+    .header-row .social-row {
+      transition: none;
+    }
+  }
   /* Round icon buttons with a color fill that rises from the bottom on
      hover (a CSS stand-in for the pasted React tooltip component — no
      React/build step here) plus a matching tooltip label underneath. */
@@ -354,7 +384,16 @@
     .header-row { flex-direction: column; align-items: center; gap: 0.9rem; }
     .site-nav { position: static; transform: none; }
     .social-row { margin-left: 0; }
-    .header-logo { transform: translateX(4px); }
+    /* Stacked and centered here, so the scroll-linked spread-to-the-edges
+       effect doesn't apply — just the small "off-center" correction. */
+    .header-left,
+    header.scrolled .header-left {
+      transform: translateX(4px);
+    }
+    .header-row .social-row,
+    header.scrolled .header-row .social-row {
+      transform: none;
+    }
   }
 
   /* ---------- hero ---------- */
@@ -1672,18 +1711,20 @@
 
 <header class="wrap">
   <div class="header-row">
-    <a class="header-logo" href="#" aria-label="Solub Food — back to top">
-      <svg class="logo-icon" viewBox="560 290 930 1050" aria-hidden="true"><use href="#logo-mark" x="560" y="290" width="930" height="1050"></use></svg>
-      <span class="wisp"></span>
-      <span class="wisp"></span>
-      <span class="wisp"></span>
-    </a>
-    <button type="button" class="qr-cta" id="openQrCta" aria-label="Get your QR — join the waitlist">
-      <span class="qr-cta-icon-wrap">
+    <div class="header-left">
+      <a class="header-logo" href="#" aria-label="Solub Food — back to top">
         <svg class="logo-icon" viewBox="560 290 930 1050" aria-hidden="true"><use href="#logo-mark" x="560" y="290" width="930" height="1050"></use></svg>
-      </span>
-      <span class="qr-cta-text">Get your QR</span>
-    </button>
+        <span class="wisp"></span>
+        <span class="wisp"></span>
+        <span class="wisp"></span>
+      </a>
+      <button type="button" class="qr-cta" id="openQrCta" aria-label="Get your QR — join the waitlist">
+        <span class="qr-cta-icon-wrap">
+          <svg class="logo-icon" viewBox="560 290 930 1050" aria-hidden="true"><use href="#logo-mark" x="560" y="290" width="930" height="1050"></use></svg>
+        </span>
+        <span class="qr-cta-text">Get your QR</span>
+      </button>
+    </div>
     <nav class="site-nav" aria-label="Main">
       <a href="#about" data-i18n="navAbout">About us</a>
       <a href="#waitlistForm" data-i18n="navOrder">Place an order</a>
@@ -2217,6 +2258,22 @@
     dialog.addEventListener('close', function () {
       if (video) video.pause();
     });
+  })();
+
+  (function headerSpread() {
+    // Logo/QR-cta and the social icons start pulled in toward center and
+    // ease out to the header's true edges once the page scrolls (see the
+    // .header-left / .header-row .social-row CSS) — toggled by a class
+    // rather than driven every frame, since it's a two-state effect, not a
+    // continuous scrub.
+    var header = document.querySelector('header');
+    if (!header) return;
+    var threshold = 24;
+    function update() {
+      header.classList.toggle('scrolled', window.scrollY > threshold);
+    }
+    update();
+    window.addEventListener('scroll', update, { passive: true });
   })();
 
   (function scrollTop() {
