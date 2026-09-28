@@ -987,7 +987,11 @@
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(0,0,0,0) 55%, var(--bg-soft) 100%);
+    /* A longer, 3-stop fade — the old 2-stop version (transparent until
+       55%, then straight to solid) read as a hard line cutting across
+       brighter video/photo content right at the seam. Starting earlier
+       and ramping more gradually blends it instead. */
+    background: linear-gradient(180deg, rgba(44,44,44,0) 20%, rgba(44,44,44,0.75) 70%, var(--bg-soft) 100%);
   }
   .dialog-body {
     padding: 1.5rem 1.7rem 1.7rem;
