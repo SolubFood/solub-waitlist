@@ -1047,6 +1047,29 @@
   }
   .dish-dialog .dialog-banner { height: 220px; background: #000; }
   .dish-dialog .dialog-banner video { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .dish-dialog-restaurant {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 0 0.4rem;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 1.02rem;
+    color: var(--ink);
+  }
+  .dish-dialog-restaurant:empty { display: none; }
+  .dish-dialog-restaurant .example-badge {
+    font-family: 'Space Mono', monospace;
+    font-weight: 400;
+    font-size: 0.6rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 0.15rem 0.45rem;
+    border-radius: 999px;
+    background: rgba(235,167,33,0.15);
+    color: var(--ember-bright);
+    border: 1px solid rgba(235,167,33,0.3);
+  }
   .dish-dialog-meta {
     display: flex;
     align-items: center;
@@ -1134,6 +1157,18 @@
     background: var(--card);
     border: 1px solid var(--line);
     text-align: left;
+    padding: 0;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+    transition: transform 0.3s cubic-bezier(.22,.9,.32,1), box-shadow 0.3s ease;
+  }
+  .marketplace-card:hover,
+  .marketplace-card:focus-visible {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 28px -16px rgba(0,0,0,0.6);
   }
   .marketplace-card img {
     width: 100%;
@@ -1892,6 +1927,7 @@
     <video id="dishDialogVideo" muted loop playsinline></video>
   </div>
   <div class="dialog-body">
+    <p class="dish-dialog-restaurant" id="dishDialogRestaurant"></p>
     <div class="dish-dialog-meta" id="dishDialogMeta"></div>
     <h3 id="dishDialogTitle"></h3>
     <p id="dishDialogText"></p>
@@ -2210,6 +2246,21 @@
       es: 'El plato cargado de Colombia —chicharrón crujiente, chorizo ahumado, arroz, frijoles y huevo frito, todo junto.' }
   ];
 
+  // Hypothetical example cooks/restaurants for the marketplace preview —
+  // clearly fictional (see the "Example" badge in the dialog and the
+  // dialog's own disclaimer), not real businesses, since the founding cook
+  // network doesn't exist yet. One per DISH_INFO entry, same order.
+  var MOCK_RESTAURANTS = [
+    { name: 'Cocina de la Abuela Rosa', area: 'West End, Brisbane', areaEs: 'West End, Brisbane' },
+    { name: 'Completos Santiago', area: 'Logan', areaEs: 'Logan' },
+    { name: 'Arepas de Doña Marta', area: 'Sunnybank', areaEs: 'Sunnybank' },
+    { name: 'Empanadas del Sur', area: 'Redcliffe', areaEs: 'Redcliffe' },
+    { name: 'Dulce Buenos Aires', area: 'Fortitude Valley', areaEs: 'Fortitude Valley' },
+    { name: 'El Rincón Peruano', area: 'Inala', areaEs: 'Inala' },
+    { name: 'La Parrilla de Mateo', area: 'Chermside', areaEs: 'Chermside' },
+    { name: 'Sabor Paisa', area: 'Southport, Gold Coast', areaEs: 'Southport, Gold Coast' }
+  ];
+
   var COUNTRY_NAME = {
     co: { en: 'Colombia', es: 'Colombia' }, ve: { en: 'Venezuela', es: 'Venezuela' },
     gy: { en: 'Guyana', es: 'Guyana' }, sr: { en: 'Suriname', es: 'Surinam' },
@@ -2284,7 +2335,7 @@
   // country, fact, mini-map) the filmstrip's own preview already shows,
   // just opened in a dialog instead of a FLIP-zoom, since marquee tiles are
   // mid-scroll when clicked and don't have a stable position to zoom from.
-  function openDishDialog(i) {
+  function openDishDialog(i, restaurant) {
     var dialog = document.getElementById('dishDialog');
     if (!dialog) return;
     var info = DISH_INFO[i] || DISH_INFO[0];
@@ -2296,6 +2347,15 @@
     video.src = dishClips[i] || dishClips[0];
     video.poster = 'assets/img/posters/clip-' + (i + 2) + '.jpg';
     video.play().catch(function () {});
+
+    var restaurantEl = document.getElementById('dishDialogRestaurant');
+    if (restaurant) {
+      var exampleWord = currentLang === 'es' ? 'Ejemplo' : 'Example';
+      var area = currentLang === 'es' ? restaurant.areaEs : restaurant.area;
+      restaurantEl.innerHTML = restaurant.name + ' · ' + area + ' <span class="example-badge">' + exampleWord + '</span>';
+    } else {
+      restaurantEl.textContent = '';
+    }
 
     document.getElementById('dishDialogMeta').innerHTML =
       (FLAG_SVG[country.en] || '') +
@@ -2493,29 +2553,35 @@
 
     DISH_INFO.forEach(function (info, i) {
       var country = DISH_COUNTRY[i] || DISH_COUNTRY[0];
-      var card = document.createElement('div');
+      var restaurant = MOCK_RESTAURANTS[i] || MOCK_RESTAURANTS[0];
+      var card = document.createElement('button');
+      card.type = 'button';
       card.className = 'marketplace-card';
       var img = document.createElement('img');
       img.src = 'assets/img/posters/clip-' + (i + 2) + '.jpg';
-      img.alt = info.title;
+      img.alt = restaurant.name;
       img.loading = 'lazy';
       var body = document.createElement('div');
       body.className = 'marketplace-card-body';
       var tag = document.createElement('span');
       tag.className = 'marketplace-card-tag';
-      tag.innerHTML = (FLAG_SVG[country.en] || '') + '<span>' + (currentLang === 'es' ? country.es : country.en) + '</span>';
+      tag.innerHTML = (FLAG_SVG[country.en] || '') + '<span>' + (currentLang === 'es' ? restaurant.areaEs : restaurant.area) + '</span>';
       var title = document.createElement('span');
       title.className = 'marketplace-card-title';
-      title.textContent = info.title;
+      title.textContent = restaurant.name;
       var status = document.createElement('span');
       status.className = 'marketplace-card-status';
-      status.textContent = currentLang === 'es' ? 'Próximamente' : 'Coming soon';
+      status.textContent = currentLang === 'es' ? 'Ejemplo' : 'Example';
       body.appendChild(tag);
       body.appendChild(title);
       body.appendChild(document.createElement('br'));
       body.appendChild(status);
       card.appendChild(img);
       card.appendChild(body);
+      card.addEventListener('click', function () {
+        dialog.close();
+        openDishDialog(i, restaurant);
+      });
       grid.appendChild(card);
     });
 
@@ -3050,7 +3116,7 @@
         cravingH2: 'Whatever you’re craving, someone’s cooking it.',
         marketEyebrow: 'Preview',
         marketTitle: 'This is what ordering on Solub will look like.',
-        marketDesc: 'We’re building the founding cook network right now — no live orders yet. Here’s a taste of what’s already cooking, so you know what to expect.',
+        marketDesc: 'We’re building the founding cook network right now — these are example cooks, not real listings yet. Here’s the idea, so you know what to expect at launch.',
         marketFoot: 'Want to be notified the moment a cook near you goes live?',
         marketJoinBtn: 'Join the waitlist →',
         filmstripEyebrow: 'From the kitchens',
@@ -3118,7 +3184,7 @@
         cravingH2: 'Lo que se te antoje, alguien lo está cocinando.',
         marketEyebrow: 'Vista previa',
         marketTitle: 'Así se va a ver pedir en Solub.',
-        marketDesc: 'Estamos armando la red de cocineros fundadores ahora mismo — todavía no hay pedidos en vivo. Esto es una muestra de lo que ya se está cocinando, para que sepas qué esperar.',
+        marketDesc: 'Estamos armando la red de cocineros fundadores ahora mismo — estos son cocineros de ejemplo, no listados reales todavía. Así es la idea, para que sepas qué esperar en el lanzamiento.',
         marketFoot: '¿Quieres que te avisemos apenas haya un cocinero cerca de ti?',
         marketJoinBtn: 'Únete a la lista de espera →',
         filmstripEyebrow: 'Desde las cocinas',
