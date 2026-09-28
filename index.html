@@ -188,58 +188,17 @@
   .site-nav a:focus-visible {
     color: var(--ember-bright);
   }
-  .header-logo {
-    position: relative;
-    display: inline-flex;
-    color: #FFFFFF;
-    transition: color 0.2s ease;
-  }
-  .header-logo:hover,
-  .header-logo:focus-visible {
-    color: var(--ember-bright);
-  }
-  .header-logo .logo-icon {
-    width: 34px;
-    height: auto;
-    display: block;
-  }
-  /* Ambient smoke wisps drifting off the flame tip — the flame sits in the
-     upper-right of the mark's viewBox, so the wisps spawn there too. */
-  .header-logo .wisp {
-    position: absolute;
-    top: 2px;
-    left: 62%;
-    width: 3px;
-    height: 3px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.6);
-    filter: blur(1px);
-    pointer-events: none;
-    opacity: 0;
-    animation: wisp-rise 3.4s ease-out infinite;
-  }
-  .header-logo .wisp:nth-child(3) { left: 70%; animation-delay: 1.15s; }
-  .header-logo .wisp:nth-child(4) { left: 56%; animation-delay: 2.3s; }
-  @keyframes wisp-rise {
-    0% { transform: translate(0, 0) scale(0.6); opacity: 0; }
-    18% { opacity: 0.65; }
-    100% { transform: translate(4px, -16px) scale(1.8); opacity: 0; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .header-logo .wisp { animation: none; display: none; }
-  }
-  /* "Get your QR" — a second, explicitly-clickable entry point into the
-     waitlist dialog, since the "Click here" hover-reveal in the hero has
-     no equivalent affordance on touch devices. The ring pulses on a loop
-     (not just on hover) so it reads as tappable on mobile too. */
+  /* "Get your QR" — the single header brand link: logo + wisps + label,
+     one click target, opening the waitlist dialog. The ring pulses on a
+     loop (not just on hover) so it reads as tappable on mobile too, since
+     the "Click here" hover-reveal in the hero has no touch equivalent. */
   .qr-cta {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.55rem;
     background: none;
     border: none;
     padding: 0;
-    margin-left: 0.9rem;
     color: #FFFFFF;
     cursor: pointer;
     font-family: 'Space Mono', monospace;
@@ -254,9 +213,33 @@
     display: inline-flex;
   }
   .qr-cta-icon-wrap .logo-icon {
-    width: 24px;
+    width: 34px;
     height: auto;
     display: block;
+  }
+  /* Ambient smoke wisps drifting off the mark. */
+  .qr-cta-icon-wrap .wisp {
+    position: absolute;
+    top: 2px;
+    left: 62%;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.6);
+    filter: blur(1px);
+    pointer-events: none;
+    opacity: 0;
+    animation: wisp-rise 3.4s ease-out infinite;
+  }
+  .qr-cta-icon-wrap .wisp:nth-child(3) { left: 70%; animation-delay: 1.15s; }
+  .qr-cta-icon-wrap .wisp:nth-child(4) { left: 56%; animation-delay: 2.3s; }
+  @keyframes wisp-rise {
+    0% { transform: translate(0, 0) scale(0.6); opacity: 0; }
+    18% { opacity: 0.65; }
+    100% { transform: translate(4px, -16px) scale(1.8); opacity: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .qr-cta-icon-wrap .wisp { animation: none; display: none; }
   }
   .qr-cta-icon-wrap::after {
     content: "";
@@ -449,11 +432,12 @@
   .marquee-row {
     overflow: hidden;
     display: flex;
-    /* Extra vertical room so a hovered tile can grow (same scale as the
-       filmstrip cards below) without getting clipped by this row's own
-       overflow:hidden (needed for the horizontal scroll). */
-    padding: 4.5rem 0;
-    margin: -4.5rem 0;
+    /* Extra vertical room so a hovered tile's modest grow (see
+       .marquee-tile:hover) doesn't get clipped top/bottom by this row's
+       own overflow:hidden (still needed horizontally, to hide the
+       duplicated tiles behind the seamless loop). */
+    padding: 1.5rem 0;
+    margin: -1.5rem 0;
   }
   .marquee-track {
     display: flex;
@@ -482,9 +466,15 @@
     transition: transform 0.4s cubic-bezier(.22,.9,.32,1), box-shadow 0.3s ease, opacity 0.3s ease;
   }
   .marquee-tile:hover {
-    transform: translateY(-16px) scaleX(1.559) scaleY(1.527);
-    opacity: 0.92;
-    box-shadow: 0 1px 0 rgba(255,255,255,0.18) inset, 0 34px 60px -18px rgba(0,0,0,0.8);
+    /* Smaller than the filmstrip cards' hover-grow on purpose: these tiles
+       scroll continuously and sit right up against their neighbors with
+       only a 1rem gap, so a hovered tile can be anywhere — including right
+       at the row's left/right edge, where .marquee-row's overflow:hidden
+       (required to hide the duplicated tiles behind the seamless loop)
+       clips anything that grows past it. A modest scale keeps the grown
+       tile within that margin almost all the time instead of getting cut. */
+    transform: translateY(-6px) scale(1.14);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.18) inset, 0 20px 34px -16px rgba(0,0,0,0.75);
     z-index: 5;
   }
   .marquee-tile video {
@@ -1957,15 +1947,12 @@
 <header class="wrap">
   <div class="header-row">
     <div class="header-left">
-      <a class="header-logo" href="#" aria-label="Solub Food — back to top">
-        <svg class="logo-icon" viewBox="560 290 930 1050" aria-hidden="true"><use href="#logo-mark" x="560" y="290" width="930" height="1050"></use></svg>
-        <span class="wisp"></span>
-        <span class="wisp"></span>
-        <span class="wisp"></span>
-      </a>
       <button type="button" class="qr-cta" id="openQrCta" aria-label="Get your QR — join the waitlist">
         <span class="qr-cta-icon-wrap">
           <svg class="logo-icon" viewBox="560 290 930 1050" aria-hidden="true"><use href="#logo-mark" x="560" y="290" width="930" height="1050"></use></svg>
+          <span class="wisp"></span>
+          <span class="wisp"></span>
+          <span class="wisp"></span>
         </span>
         <span class="qr-cta-text">Get your QR</span>
       </button>
