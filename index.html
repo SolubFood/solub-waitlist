@@ -40,10 +40,17 @@
     *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
   }
 
+  /* Brick-wall backdrop cropped from the neon-sign mockup's own background
+     (the same reference photo the logo was traced from) — a clean margin
+     of wall, clear of the acrylic panel/sign, tiled and darkened so the
+     site's white text keeps its contrast on top. */
   body {
     margin: 0;
     overflow-x: hidden;
-    background-color: var(--bg);
+    background-color: #0c0808;
+    background-image: url('assets/img/brick-bg.jpg');
+    background-repeat: repeat;
+    background-attachment: fixed;
     color: var(--ink);
     font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
     font-size: 1.05rem;
