@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; base-uri 'self'; object-src 'none';">
+<title>Privacy Policy — Solub Food</title>
+<meta name="description" content="How Solub Food collects and uses the information you give us through this site.">
+<meta name="theme-color" content="#000000">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Newsreader:ital,wght@0,400;0,500;0,600;1,400&family=Space+Mono:wght@400;700&display=swap">
+<style>
+  :root {
+    --bg: #000000;
+    --bg-soft: #2C2C2C;
+    --card: #2C2C2C;
+    --ink: #FFFFFF;
+    --ink-muted: #D6D6D6;
+    --ember: #EBA721;
+    --ember-bright: #F7D36F;
+    --sage: #A3331C;
+    --line: rgba(255,255,255,0.17);
+    --line-soft: rgba(255,255,255,0.09);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
+    font-size: 1.05rem;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 1.5rem; }
+  a { color: var(--ember-bright); }
+  header.site-header {
+    border-bottom: 1px solid var(--line-soft);
+    padding: 1.2rem 0;
+  }
+  header.site-header .wrap { display: flex; align-items: center; justify-content: space-between; }
+  .brand-link { display: inline-flex; align-items: center; gap: 0.55rem; color: #FFFFFF; text-decoration: none; }
+  .brand-link .logo-icon { width: 28px; height: auto; display: block; }
+  .brand-link span { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 0.95rem; }
+  .back-link { font-family: 'Space Mono', monospace; font-size: 0.78rem; color: var(--ink-muted); text-decoration: none; }
+  .back-link:hover { color: var(--ember-bright); }
+  main { padding: 3rem 0 4rem; }
+  main h1 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.8rem, 4vw, 2.4rem);
+    margin: 0 0 0.4rem;
+  }
+  .byline { font-family: 'Space Mono', monospace; font-size: 0.78rem; color: var(--ink-muted); margin: 0 0 2.4rem; }
+  main h2 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 1.15rem;
+    margin: 2.2rem 0 0.7rem;
+  }
+  main p, main li { color: var(--ink-muted); }
+  main ul { padding-left: 1.3rem; }
+  .placeholder { color: var(--ember-bright); }
+  .note-box {
+    margin-top: 2.6rem;
+    padding: 1.2rem 1.4rem;
+    border-radius: 12px;
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--ink-muted);
+  }
+  footer {
+    border-top: 1px solid var(--line-soft);
+    padding: 3rem 0 1.6rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--ink-muted);
+  }
+  .footer-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 2rem; padding-bottom: 2.2rem; }
+  @media (max-width: 820px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 520px) { .footer-grid { grid-template-columns: 1fr; gap: 2rem; text-align: center; } }
+  .footer-brand { display: flex; flex-direction: column; gap: 1rem; }
+  .footer-brand .flogo { display: flex; align-items: center; gap: 0.6rem; }
+  .footer-mark { width: 24px; height: auto; color: var(--ink); flex-shrink: 0; }
+  .footer-wordmark { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 0.95rem; color: var(--ink); }
+  .footer-desc { margin: 0; font-family: 'Newsreader', Georgia, serif; font-size: 0.92rem; line-height: 1.5; color: var(--ink-muted); max-width: 32ch; }
+  .footer-col-title { margin: 0 0 0.3rem; font-weight: 700; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink); }
+  .footer-col ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.65rem; }
+  .footer-col a { color: var(--ink-muted); text-decoration: none; }
+  .footer-col a:hover { color: var(--ember-bright); }
+  .footer-sep { border: none; border-top: 1px solid var(--line-soft); margin: 0 0 1.4rem; }
+  .footer-copy { margin: 0; text-align: center; font-size: 0.75rem; }
+</style>
+</head>
+<body>
+<svg style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false">
+  <symbol id="logo-mark" viewBox="560 290 930 1050" fill="currentColor"><defs><mask id="m1"><rect x="0" y="0" width="2048" height="2048" fill="#fff"/><path d="M1116.0 1267.0 L1092.0 1264.4 L1059.0 1246.5 L1046.0 1232.1 L1040.2 1216.0 L1038.7 1201.0 L1045.3 1166.0 L1046.8 1118.0 L1058.2 1070.0 L1068.4 975.0 L1066.5 963.0 L1062.0 954.7 L1053.0 946.2 L1032.0 933.3 L1020.0 919.0 L986.3 854.0 L988.0 821.0 L993.4 806.0 L1009.0 782.0 L1010.5 771.0 L1008.5 762.0 L1003.0 757.7 L986.0 761.5 L972.0 758.2 L957.6 749.0 L939.4 725.0 L927.3 716.0 L904.0 708.2 L887.0 696.0 L865.0 695.2 L846.0 691.1 L804.0 671.0 L791.0 658.3 L786.0 637.1 L780.8 627.0 L754.2 595.0 L750.0 592.7 L748.5 597.0 L763.1 631.0 L758.0 638.4 L751.0 637.0 L717.1 594.0 L697.9 558.0 L693.2 541.0 L694.6 534.0 L699.2 529.0 L719.0 527.8 L746.0 537.3 L787.0 537.5 L795.0 541.7 L814.0 559.4 L839.0 563.1 L866.4 597.0 L869.8 642.0 L873.0 649.2 L880.0 655.0 L899.0 656.8 L924.0 631.4 L935.0 628.5 L946.0 631.1 L950.7 637.0 L951.4 646.0 L944.0 675.0 L947.0 677.6 L963.8 678.0 L973.0 685.3 L977.4 697.0 L975.9 723.0 L982.0 730.5 L988.0 732.0 L1006.0 729.6 L1026.0 733.2 L1043.7 718.0 L1063.0 712.3 L1110.0 723.1 L1140.9 723.0 L1151.1 729.0 L1177.0 752.2 L1211.0 762.6 L1220.0 767.7 L1233.1 784.0 L1244.0 808.6 L1263.0 812.4 L1287.0 824.0 L1312.0 827.9 L1344.1 844.0 L1352.6 853.0 L1355.5 864.0 L1352.6 878.0 L1342.5 897.0 L1324.0 920.0 L1316.2 961.0 L1306.0 981.8 L1290.0 995.6 L1265.0 1004.4 L1253.8 1011.0 L1248.9 1019.0 L1242.0 1044.4 L1218.4 1076.0 L1205.0 1088.2 L1186.0 1094.0 L1180.5 1111.0 L1175.4 1118.0 L1152.0 1128.1 L1130.3 1147.0 L1127.7 1164.0 L1114.9 1179.0 L1117.7 1190.0 L1116.6 1198.0 L1101.8 1215.0 L1098.8 1222.0 L1100.0 1230.0 L1104.8 1238.0 L1124.3 1250.0 L1124.4 1261.0 L1116.0 1267.0Z M1034.0 656.1 L1019.0 654.2 L1001.0 640.9 L988.0 635.5 L966.0 636.0 L962.2 632.0 L962.4 627.0 L970.0 619.9 L982.0 615.8 L994.0 615.8 L1010.0 619.9 L1047.0 641.1 L1049.3 647.0 L1047.8 652.0 L1034.0 656.1Z M1068.0 677.0 L1052.0 674.9 L1046.8 669.0 L1048.0 664.0 L1062.4 647.0 L1072.0 645.7 L1083.0 648.9 L1092.0 653.8 L1098.6 661.0 L1098.6 667.0 L1094.0 671.3 L1068.0 677.0Z M1117.0 674.1 L1108.0 673.1 L1105.4 669.0 L1106.3 665.0 L1115.0 660.8 L1124.0 662.3 L1125.0 669.7 L1117.0 674.1Z M1028.0 677.0 L1014.0 674.1 L1010.4 670.0 L1011.0 665.3 L1018.0 662.5 L1029.0 665.1 L1033.1 672.0 L1028.0 677.0Z" fill="#000"/></mask></defs><path d="M1024 1319 L750.2 1106.1 A446 446 0 1 1 1297.8 1106.1 Z" fill="currentColor" mask="url(#m1)"/></symbol>
+</svg>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand-link" href="index.html">
+      <svg class="logo-icon" viewBox="560 290 930 1050" aria-hidden="true"><use href="#logo-mark" x="560" y="290" width="930" height="1050"></use></svg>
+      <span>Solub Food</span>
+    </a>
+    <a class="back-link" href="index.html">← Back to home</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1>Privacy Policy</h1>
+  <p class="byline">Last updated: 28 September 2026 · Version 1.0</p>
+
+  <h2>1. Who we are</h2>
+  <p>Solub Food ("we", "us") is a guide and community about Latin American food and culture, launching in the Gold Coast, Queensland. The website is operated by <span class="placeholder">[LEGAL NAME OF OPERATOR — e.g. "[Full name] trading as Solub Food" or "Solub Food Pty Ltd"]</span>, ABN <span class="placeholder">[ABN]</span>. Contact: <a href="mailto:hello@teamsolub.com">hello@teamsolub.com</a>.</p>
+  <p>We're a guide only. We don't prepare, sell or deliver food, and we don't process payments for food.</p>
+  <p>We aim to handle personal information in line with the Australian Privacy Principles in the Privacy Act 1988 (Cth).</p>
+
+  <h2>2. What we collect today</h2>
+  <p>Solub Food is in its earliest days: there are no user accounts yet, and no live directory of restaurants. Here's what we actually collect, through the forms on this site:</p>
+  <ul>
+    <li><strong>Join the waitlist</strong> — your name and suburb/postcode.</li>
+    <li><strong>Become a founding chef</strong> — your name, phone or Instagram handle, and the dishes you cook.</li>
+    <li><strong>Newsletter signup</strong> — your email address.</li>
+    <li>Anything you tell us directly, if you email us.</li>
+  </ul>
+  <p>We don't collect payment details, health or allergy information, identity documents, or date of birth through this site.</p>
+
+  <h2>3. Why we collect it</h2>
+  <ul>
+    <li>To let you know when Solub Food launches and keep you updated on our progress.</li>
+    <li>To review founding-chef applications.</li>
+    <li>To reply if you contact us.</li>
+  </ul>
+
+  <h2>4. How your information is submitted</h2>
+  <p>Our forms are processed by <a href="https://formsubmit.co/" target="_blank" rel="noopener noreferrer">formsubmit.co</a>, a third-party form-delivery service, which forwards your submission to our inbox (hello@teamsolub.com). <span class="placeholder">[CONFIRM: formsubmit.co's data handling and storage location — see their own privacy policy]</span>. We don't run our own server or database at this stage.</p>
+
+  <h2>5. Who we share it with</h2>
+  <p>We never sell your personal information. We don't share it with any restaurant or third party for marketing purposes. It's used only by the Solub Food team.</p>
+
+  <h2>6. Where it's stored</h2>
+  <p>This website is hosted on GitHub Pages (GitHub, Inc., based in the United States). Form submissions pass through formsubmit.co <span class="placeholder">[CONFIRM: location]</span>. As we build real accounts and a live restaurant marketplace, this section will be updated to name our database and authentication provider and where they store data.</p>
+
+  <h2>7. How long we keep it</h2>
+  <p>We keep waitlist and founding-chef application details until launch, so we can follow up with you, or until you ask us to delete them.</p>
+
+  <h2>8. Your choices and rights</h2>
+  <p>You can ask us to access, correct or delete your information anytime by emailing <a href="mailto:hello@teamsolub.com">hello@teamsolub.com</a>. We'll respond within a reasonable time — normally 30 days.</p>
+
+  <h2>9. Cookies</h2>
+  <p>This site doesn't use tracking or advertising cookies, and we don't run analytics tools at this stage.</p>
+
+  <h2>10. Complaints</h2>
+  <p>If you have a privacy concern, contact us at <a href="mailto:hello@teamsolub.com">hello@teamsolub.com</a>. If you're not satisfied with our response, you can contact the Office of the Australian Information Commissioner (OAIC) at <a href="https://www.oaic.gov.au" target="_blank" rel="noopener noreferrer">www.oaic.gov.au</a>.</p>
+
+  <h2>11. Changes</h2>
+  <p>As Solub Food grows — user accounts, a live restaurant directory and community features are all on our roadmap — this policy will be updated to reflect what we actually do, with a new date and version number.</p>
+
+  <div class="note-box">
+    This is an early-stage draft describing what this website does today. It hasn't been reviewed by a lawyer yet, and will be updated as Solub Food adds real accounts, a restaurant marketplace and community features.
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="flogo">
+          <svg class="logo-icon footer-mark" viewBox="560 290 930 1050" aria-hidden="true"><use href="#logo-mark" x="560" y="290" width="930" height="1050"></use></svg>
+          <span class="footer-wordmark">Solub Food — Real Over Perfect</span>
+        </div>
+        <p class="footer-desc">We bring Latin America to you — real home cooks, real recipes.</p>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">Sitemap</p>
+        <ul>
+          <li><a href="index.html#about">About us</a></li>
+          <li><a href="index.html#waitlistForm">Place an order</a></li>
+          <li><a href="index.html#cookForm">Work with us</a></li>
+          <li><a href="mailto:hello@teamsolub.com">Contact us</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">Other Pages</p>
+        <ul>
+          <li><a href="terms.html">Terms &amp; Conditions</a></li>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">Contact Details</p>
+        <ul>
+          <li><a href="mailto:hello@teamsolub.com">hello@teamsolub.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <hr class="footer-sep">
+    <p class="footer-copy">©2026 Solub Food. All Rights Reserved.</p>
+  </div>
+</footer>
+
+</body>
+</html>

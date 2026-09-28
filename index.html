@@ -880,6 +880,8 @@
     color: var(--ink-muted);
     line-height: 1.5;
   }
+  .fineprint a { color: var(--ink-muted); text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 2px; }
+  .fineprint a:hover { color: var(--ember-bright); }
   .cta-form { display: flex; flex-direction: column; }
   .cta-form[hidden] { display: none; }
   .cta-form .btn { width: 100%; margin-top: 0.15rem; }
@@ -1969,7 +1971,7 @@
       <input type="text" name="_honey" class="cta-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
       <button type="submit" class="btn primary liquid-btn" data-i18n="dialogBtn">Click Here</button>
     </form>
-    <span class="fineprint" data-i18n="dialogFineprint">We’ll only use this to reach you about the waitlist — no spam.</span>
+    <span class="fineprint" data-i18n="dialogFineprint">We’ll only use this to reach you about the waitlist — no spam. See our <a href="privacy.html">Privacy Policy</a>.</span>
     <p class="form-status" aria-live="polite"></p>
   </div>
 </dialog>
@@ -2131,7 +2133,7 @@
           <input type="text" name="_honey" class="cta-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
           <button type="submit" class="btn primary scramble-btn" data-i18n="discoverBtn">Join the waitlist →</button>
         </form>
-        <span class="fineprint" data-i18n="discoverFineprint">We’ll only use this to reach you about the waitlist — no spam.</span>
+        <span class="fineprint" data-i18n="discoverFineprint">We’ll only use this to reach you about the waitlist — no spam. See our <a href="privacy.html">Privacy Policy</a>.</span>
         <p class="form-status" aria-live="polite"></p>
         <div class="waitlist-celebrate" id="waitlistCelebrate" aria-hidden="true">
           <svg class="logo-icon celebrate-icon" viewBox="560 290 930 1050"><use href="#logo-mark" x="560" y="290" width="930" height="1050"></use></svg>
@@ -2153,7 +2155,7 @@
           <input type="text" name="_honey" class="cta-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
           <button type="submit" class="btn primary" data-i18n="cookBtn">Apply to cook →</button>
         </form>
-        <span class="fineprint" data-i18n="cookFineprint">We’ll only use this to reach you about your application — no spam.</span>
+        <span class="fineprint" data-i18n="cookFineprint">We’ll only use this to reach you about your application — no spam. See our <a href="privacy.html">Privacy Policy</a>.</span>
         <p class="form-status" aria-live="polite"></p>
       </div>
     </div>
@@ -2251,8 +2253,8 @@
     <div class="footer-col">
       <p class="footer-col-title" data-i18n="footerOtherPages">Other Pages</p>
       <ul>
-        <li><a href="#" data-i18n="footerTerms">Terms &amp; Conditions</a></li>
-        <li><a href="#" data-i18n="footerPrivacy">Privacy Policy</a></li>
+        <li><a href="terms.html" data-i18n="footerTerms">Terms &amp; Conditions</a></li>
+        <li><a href="privacy.html" data-i18n="footerPrivacy">Privacy Policy</a></li>
       </ul>
     </div>
 
@@ -3172,7 +3174,7 @@
         dialogDesc: 'Real home cooks near you, real recipes, real stories — we’ll let you know the moment Solub Food launches.',
         dialogEmailPh: 'Your email',
         dialogBtn: 'Click Here',
-        dialogFineprint: 'We’ll only use this to reach you about the waitlist — no spam.',
+        dialogFineprint: 'We’ll only use this to reach you about the waitlist — no spam. See our <a href="privacy.html">Privacy Policy</a>.',
         dialogSuccess: 'You’re on the list! We’ll be in touch.',
         storyQuote: '&ldquo;We’re here to offer you comfort and enjoyment. You know food is just the surface — what it really means is disconnecting, stepping into another reality of comfort. We want to show you our reality, not the typical options. We want to invite you to discover a different perspective on food: a shared story.&rdquo;',
         storyStamp: 'That is Solub Food’s destination.',
@@ -3186,14 +3188,14 @@
         discoverH3: 'Join the waitlist',
         discoverP: 'Be first to discover the home cooks near you — real people, real recipes, and the stories behind them. No generic listings, no stock photos of food that isn’t theirs.',
         discoverBtn: 'Join the waitlist →',
-        discoverFineprint: 'We’ll only use this to reach you about the waitlist — no spam.',
+        discoverFineprint: 'We’ll only use this to reach you about the waitlist — no spam. See our <a href="privacy.html">Privacy Policy</a>.',
         discoverNamePh: 'Your name',
         discoverSuburbPh: 'Suburb / postcode',
         cookTag: 'For the cooks',
         cookH3: 'Become a Founding Chef',
         cookP: 'Grew up cooking dishes your family never wrote down? Solub Food helps you sell what you already know how to make — you keep what you earn, minus a small commission for handling the sale.',
         cookBtn: 'Apply to cook →',
-        cookFineprint: 'We’ll only use this to reach you about your application — no spam.',
+        cookFineprint: 'We’ll only use this to reach you about your application — no spam. See our <a href="privacy.html">Privacy Policy</a>.',
         cookNamePh: 'Your name',
         cookContactPh: 'Phone or Instagram',
         cookDishPh: 'Dish(es) you cook',
@@ -3247,7 +3249,7 @@
         dialogDesc: 'Cocineros caseros reales cerca de ti, recetas reales, historias reales — te avisaremos en cuanto Solub Food se lance.',
         dialogEmailPh: 'Tu correo',
         dialogBtn: 'Haz clic aquí',
-        dialogFineprint: 'Solo usaremos esto para contactarte sobre la lista de espera — sin spam.',
+        dialogFineprint: 'Solo usaremos esto para contactarte sobre la lista de espera — sin spam. Consulta nuestra <a href="privacy.html">Política de Privacidad</a>.',
         dialogSuccess: '¡Ya estás en la lista! Te contactaremos pronto.',
         storyQuote: '&ldquo;Estamos aquí para ofrecerte comodidad y disfrute. Sabes que la comida es solo la superficie que significa desconexión y entrar a otra realidad de confort. Queremos mostrarte nuestra realidad, no las típicas opciones. Queremos invitarte a descubrir una perspectiva diferente de la comida, una historia compartida.&rdquo;',
         storyStamp: 'Ese es el destino de Solub Food.',
@@ -3261,14 +3263,14 @@
         discoverH3: 'Únete a la lista de espera',
         discoverP: 'Sé el primero en descubrir a los cocineros caseros cerca de ti — personas reales, recetas reales y las historias detrás de ellas. Sin listados genéricos, sin fotos de stock de comida que no es suya.',
         discoverBtn: 'Únete a la lista de espera →',
-        discoverFineprint: 'Solo usaremos esto para contactarte sobre la lista de espera — sin spam.',
+        discoverFineprint: 'Solo usaremos esto para contactarte sobre la lista de espera — sin spam. Consulta nuestra <a href="privacy.html">Política de Privacidad</a>.',
         discoverNamePh: 'Tu nombre',
         discoverSuburbPh: 'Suburbio / código postal',
         cookTag: 'Para los cocineros',
         cookH3: 'Conviértete en Chef Fundador',
         cookP: '¿Creciste cocinando platos que tu familia nunca escribió? Solub Food te ayuda a vender lo que ya sabes hacer — te quedas con lo que ganas, menos una pequeña comisión por gestionar la venta.',
         cookBtn: 'Postúlate para cocinar →',
-        cookFineprint: 'Solo usaremos esto para contactarte sobre tu postulación — sin spam.',
+        cookFineprint: 'Solo usaremos esto para contactarte sobre tu postulación — sin spam. Consulta nuestra <a href="privacy.html">Política de Privacidad</a>.',
         cookNamePh: 'Tu nombre',
         cookContactPh: 'Teléfono o Instagram',
         cookDishPh: 'Plato(s) que cocinas',
