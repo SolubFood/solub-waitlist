@@ -2102,8 +2102,8 @@
     </div>
     <nav class="site-nav" aria-label="Main">
       <a href="#about" data-i18n="navAbout">About us</a>
-      <a href="#waitlistForm" class="js-open-marketplace" data-i18n="navOrder">Place an order</a>
-      <a href="#cookForm" data-i18n="navWork">Work with us</a>
+      <a href="#" class="js-open-marketplace" data-i18n="navOrder">Place an order</a>
+      <a href="mailto:hello@teamsolub.com" data-i18n="navWork">Work with us</a>
       <a href="mailto:hello@teamsolub.com" data-i18n="navContact">Contact us</a>
     </nav>
     <div class="social-row">
@@ -2169,17 +2169,6 @@
   </div>
 </section>
 
-<section class="community wrap">
-  <div class="community-bg" id="communityBg" aria-hidden="true"></div>
-  <div class="community-fg">
-  <span class="eyebrow"><span class="ember-dot"></span><span data-i18n="communityEyebrow">South America</span></span>
-  <h2 class="reveal-up" data-i18n="communityH2">We are a community. We feel the food.</h2>
-  <div class="community-video-wrap">
-    <video class="community-video" src="assets/videos/community.mp4" muted loop playsinline autoplay preload="auto" poster="assets/img/posters/community.jpg"></video>
-  </div>
-  </div>
-</section>
-
 <section class="paths wrap">
   <span class="eyebrow"><span class="ember-dot"></span><span data-i18n="pathsEyebrow">Two ways in</span></span>
   <div class="paths-header">
@@ -2194,48 +2183,6 @@
     <div class="paths-photo-wrap">
       <img class="paths-photo" src="assets/img/paths-co.jpg" alt="Colombia" loading="lazy">
       <svg class="paths-photo-flag" viewBox="0 0 3 2" role="img" aria-label="Colombia"><rect width="3" height="2" fill="#FCD116"/><rect y="1" width="3" height="0.5" fill="#003893"/><rect y="1.5" width="3" height="0.5" fill="#CE1126"/></svg>
-    </div>
-  </div>
-  <div class="pathgrid">
-    <div class="card discover">
-      <span class="tag" data-i18n="discoverTag">For the curious</span>
-      <h3 data-i18n="discoverH3">Join the waitlist</h3>
-      <p data-i18n="discoverP">Be first to discover the home cooks near you — real people, real recipes, and the stories behind them. No generic listings, no stock photos of food that isn't theirs.</p>
-      <div class="tearline"></div>
-      <div class="stub">
-        <form class="cta-form" id="waitlistForm" action="https://formsubmit.co/ajax/hello@teamsolub.com" method="POST" novalidate>
-          <input type="text" name="name" class="cta-input" required maxlength="80" autocomplete="name" data-i18n-placeholder="discoverNamePh" placeholder="Your name">
-          <input type="text" name="suburb" class="cta-input" required maxlength="80" autocomplete="address-level2" data-i18n-placeholder="discoverSuburbPh" placeholder="Suburb / postcode">
-          <input type="hidden" name="_subject" value="New Solub Food waitlist signup">
-          <input type="hidden" name="_captcha" value="false">
-          <input type="text" name="_honey" class="cta-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
-          <button type="submit" class="btn primary scramble-btn" data-i18n="discoverBtn">Join the waitlist →</button>
-        </form>
-        <span class="fineprint" data-i18n="discoverFineprint">We’ll only use this to reach you about the waitlist — no spam. See our <a href="privacy.html">Privacy Policy</a>.</span>
-        <p class="form-status" aria-live="polite"></p>
-        <div class="waitlist-celebrate" id="waitlistCelebrate" aria-hidden="true">
-          <svg class="logo-icon celebrate-icon" viewBox="560 290 930 1050"><use href="#logo-mark" x="560" y="290" width="930" height="1050"></use></svg>
-        </div>
-      </div>
-    </div>
-    <div class="card cook">
-      <span class="tag" data-i18n="cookTag">For the cooks</span>
-      <h3 data-i18n="cookH3">Become a Founding Chef</h3>
-      <p data-i18n="cookP">Grew up cooking dishes your family never wrote down? Solub Food helps you sell what you already know how to make — you keep what you earn, minus a small commission for handling the sale.</p>
-      <div class="tearline"></div>
-      <div class="stub">
-        <form class="cta-form" id="cookForm" action="https://formsubmit.co/ajax/chefs@teamsolub.com" method="POST" novalidate>
-          <input type="text" name="name" class="cta-input" required maxlength="80" autocomplete="name" data-i18n-placeholder="cookNamePh" placeholder="Your name">
-          <input type="text" name="contact" class="cta-input" required maxlength="80" autocomplete="tel" data-i18n-placeholder="cookContactPh" placeholder="Phone or Instagram">
-          <input type="text" name="dishes" class="cta-input" required maxlength="200" data-i18n-placeholder="cookDishPh" placeholder="Dish(es) you cook">
-          <input type="hidden" name="_subject" value="New Founding Chef application">
-          <input type="hidden" name="_captcha" value="false">
-          <input type="text" name="_honey" class="cta-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
-          <button type="submit" class="btn primary" data-i18n="cookBtn">Apply to cook →</button>
-        </form>
-        <span class="fineprint" data-i18n="cookFineprint">We’ll only use this to reach you about your application — no spam. See our <a href="privacy.html">Privacy Policy</a>.</span>
-        <p class="form-status" aria-live="polite"></p>
-      </div>
     </div>
   </div>
 </section>
@@ -2282,7 +2229,7 @@
 <section class="final-cta wrap">
   <h2 class="reveal-up" data-i18n="finalCtaH2">You don't need to travel to Latin America.</h2>
   <p data-i18n="finalCtaP">We bring Latin America to you — real home cooks, real recipes. Join the waitlist, it takes ten seconds.</p>
-  <a class="btn primary final-cta-btn scramble-btn" href="#waitlistForm" data-i18n="finalCtaBtn">Join the waitlist →</a>
+  <a class="btn primary final-cta-btn scramble-btn" href="#" data-i18n="finalCtaBtn">Join the waitlist →</a>
 </section>
 
 <footer class="wrap">
@@ -2322,8 +2269,8 @@
       <p class="footer-col-title" data-i18n="footerSitemap">Sitemap</p>
       <ul>
         <li><a href="#about" data-i18n="navAbout">About us</a></li>
-        <li><a href="#waitlistForm" class="js-open-marketplace" data-i18n="navOrder">Place an order</a></li>
-        <li><a href="#cookForm" data-i18n="navWork">Work with us</a></li>
+        <li><a href="#" class="js-open-marketplace" data-i18n="navOrder">Place an order</a></li>
+        <li><a href="mailto:hello@teamsolub.com" data-i18n="navWork">Work with us</a></li>
         <li><a href="mailto:hello@teamsolub.com" data-i18n="navContact">Contact us</a></li>
       </ul>
     </div>
@@ -2650,17 +2597,17 @@
     els.forEach(function (el) { io.observe(el); });
   })();
 
-  (function finalCtaJump() {
-    // The closing "Ready to be first?" CTA still jumps to the waitlist card
-    // and focuses its name field, so the click carries straight into typing.
+  (function finalCtaOpen() {
+    // The dedicated waitlist/cook-application cards were removed, so the
+    // closing CTA now opens the same email-capture dialog every other
+    // "join" entry point on the page uses.
     var chips = document.querySelectorAll('.final-cta-btn');
     if (!chips.length) return;
     chips.forEach(function (chip) {
-      chip.addEventListener('click', function () {
-        window.setTimeout(function () {
-          var input = document.querySelector('#waitlistForm input[name="name"]');
-          if (input) input.focus({ preventScroll: true });
-        }, 550);
+      chip.addEventListener('click', function (e) {
+        e.preventDefault();
+        var dialog = document.getElementById('newsletterDialog');
+        if (dialog) dialog.showModal();
       });
     });
   })();
@@ -3476,34 +3423,6 @@
       document.dispatchEvent(new Event('i18n:changed'));
     }
 
-    function celebrateWaitlist() {
-      var el = document.getElementById('waitlistCelebrate');
-      if (!el) return;
-      el.classList.add('show');
-
-      if (reduceMotion) return;
-      var rect = el.getBoundingClientRect();
-      var cx = rect.left + rect.width / 2;
-      var cy = rect.top + rect.height / 2;
-      var count = 14;
-      for (var i = 0; i < count; i++) {
-        (function (i) {
-          window.setTimeout(function () {
-            var spread = (Math.random() - 0.5) * rect.width * 1.4;
-            var spark = document.createElement('span');
-            spark.className = 'ember-spark';
-            var size = 4 + Math.random() * 5;
-            spark.style.setProperty('--size', size + 'px');
-            spark.style.setProperty('--x', (cx + spread * 0.3) + 'px');
-            spark.style.setProperty('--y', cy + 'px');
-            spark.style.setProperty('--dx', spread + 'px');
-            document.body.appendChild(spark);
-            spark.addEventListener('animationend', function () { spark.remove(); });
-          }, i * 18);
-        })(i);
-      }
-    }
-
     function wireCtaForm(formId, successKey, mailFallback) {
       var form = document.getElementById(formId);
       if (!form) return;
@@ -3530,7 +3449,6 @@
           form.hidden = true;
           status.className = 'form-status success';
           status.textContent = dict[successKey];
-          if (formId === 'waitlistForm') celebrateWaitlist();
         }).catch(function () {
           btn.disabled = false;
           status.className = 'form-status error';
@@ -3538,8 +3456,6 @@
         });
       });
     }
-    wireCtaForm('waitlistForm', 'formSuccessDiscover', 'hello@teamsolub.com');
-    wireCtaForm('cookForm', 'formSuccessCook', 'chefs@teamsolub.com');
     wireCtaForm('newsletterForm', 'dialogSuccess', 'hello@teamsolub.com');
 
     applyLang(currentLang);
