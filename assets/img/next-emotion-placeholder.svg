@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2a1510"/>
+      <stop offset="100%" stop-color="#160b08"/>
+    </linearGradient>
+    <radialGradient id="doorGlow" cx="50%" cy="35%" r="75%">
+      <stop offset="0%" stop-color="#F7D36F" stop-opacity="0.9"/>
+      <stop offset="55%" stop-color="#EBA721" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#EBA721" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="floorGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1c0f0b"/>
+      <stop offset="100%" stop-color="#0d0605"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="420" fill="url(#skyGrad)"/>
+
+  <!-- brick wall texture, simple repeating rects -->
+  <g opacity="0.25" fill="#3a2018">
+    <g>
+      <rect x="0" y="20" width="60" height="22"/><rect x="70" y="20" width="60" height="22"/><rect x="140" y="20" width="60" height="22"/><rect x="210" y="20" width="60" height="22"/><rect x="280" y="20" width="60" height="22"/><rect x="350" y="20" width="60" height="22"/><rect x="420" y="20" width="60" height="22"/><rect x="490" y="20" width="60" height="22"/><rect x="560" y="20" width="60" height="22"/><rect x="630" y="20" width="60" height="22"/><rect x="700" y="20" width="60" height="22"/><rect x="770" y="20" width="60" height="22"/>
+    </g>
+    <g transform="translate(35,52)">
+      <rect x="0" y="0" width="60" height="22"/><rect x="70" y="0" width="60" height="22"/><rect x="140" y="0" width="60" height="22"/><rect x="210" y="0" width="60" height="22"/><rect x="280" y="0" width="60" height="22"/><rect x="350" y="0" width="60" height="22"/><rect x="420" y="0" width="60" height="22"/><rect x="490" y="0" width="60" height="22"/><rect x="560" y="0" width="60" height="22"/><rect x="630" y="0" width="60" height="22"/><rect x="700" y="0" width="60" height="22"/>
+    </g>
+    <g transform="translate(0,104)">
+      <rect x="0" y="0" width="60" height="22"/><rect x="70" y="0" width="60" height="22"/><rect x="140" y="0" width="60" height="22"/><rect x="210" y="0" width="60" height="22"/><rect x="280" y="0" width="60" height="22"/><rect x="350" y="0" width="60" height="22"/><rect x="420" y="0" width="60" height="22"/><rect x="490" y="0" width="60" height="22"/><rect x="560" y="0" width="60" height="22"/><rect x="630" y="0" width="60" height="22"/><rect x="700" y="0" width="60" height="22"/><rect x="770" y="0" width="60" height="22"/>
+    </g>
+  </g>
+
+  <!-- warm glow spilling from the doorway -->
+  <rect x="0" y="0" width="800" height="420" fill="url(#doorGlow)"/>
+
+  <!-- string lights -->
+  <path d="M40,60 Q400,140 760,60" stroke="#6b4a2a" stroke-width="2" fill="none" opacity="0.6"/>
+  <g fill="#F7D36F">
+    <circle cx="90" cy="72" r="4"/><circle cx="160" cy="92" r="4"/><circle cx="230" cy="107" r="4"/><circle cx="300" cy="117" r="4"/><circle cx="370" cy="122" r="4.5"/><circle cx="430" cy="122" r="4.5"/><circle cx="500" cy="117" r="4"/><circle cx="570" cy="107" r="4"/><circle cx="640" cy="92" r="4"/><circle cx="710" cy="72" r="4"/>
+  </g>
+  <g fill="#F7D36F" opacity="0.35">
+    <circle cx="90" cy="72" r="9"/><circle cx="230" cy="107" r="9"/><circle cx="370" cy="122" r="10"/><circle cx="500" cy="117" r="9"/><circle cx="640" cy="92" r="9"/>
+  </g>
+
+  <!-- awning -->
+  <rect x="300" y="150" width="200" height="22" fill="#A3331C"/>
+  <g fill="#CC3621">
+    <polygon points="300,172 320,172 310,196"/>
+    <polygon points="340,172 360,172 350,196"/>
+    <polygon points="380,172 400,172 390,196"/>
+    <polygon points="420,172 440,172 430,196"/>
+    <polygon points="460,172 480,172 470,196"/>
+  </g>
+
+  <!-- doorway -->
+  <rect x="330" y="172" width="140" height="170" rx="4" fill="#efc77a" opacity="0.55"/>
+  <rect x="345" y="186" width="110" height="140" rx="2" fill="#160b08" opacity="0.5"/>
+  <!-- a small figure silhouette inside, suggesting life without being a specific person -->
+  <ellipse cx="400" cy="300" rx="14" ry="20" fill="#2a1510" opacity="0.7"/>
+  <circle cx="400" cy="272" r="9" fill="#2a1510" opacity="0.7"/>
+
+  <!-- windows either side -->
+  <rect x="150" y="200" width="100" height="90" rx="3" fill="#efc77a" opacity="0.4"/>
+  <rect x="160" y="210" width="80" height="70" rx="2" fill="#160b08" opacity="0.45"/>
+  <rect x="550" y="200" width="100" height="90" rx="3" fill="#efc77a" opacity="0.4"/>
+  <rect x="560" y="210" width="80" height="70" rx="2" fill="#160b08" opacity="0.45"/>
+
+  <!-- floor -->
+  <rect x="0" y="330" width="800" height="90" fill="url(#floorGrad)"/>
+
+  <!-- bistro table + two chairs, simple silhouette -->
+  <g fill="#0d0605">
+    <rect x="236" y="300" width="6" height="40"/>
+    <ellipse cx="239" cy="298" rx="30" ry="8"/>
+    <rect x="200" y="330" width="14" height="26"/>
+    <rect x="264" y="330" width="14" height="26"/>
+    <path d="M198,330 q12,-22 18,0" stroke="#0d0605" stroke-width="6" fill="none"/>
+    <path d="M262,330 q12,-22 18,0" stroke="#0d0605" stroke-width="6" fill="none"/>
+  </g>
+  <g fill="#0d0605">
+    <rect x="556" y="300" width="6" height="40"/>
+    <ellipse cx="559" cy="298" rx="30" ry="8"/>
+    <rect x="520" y="330" width="14" height="26"/>
+    <rect x="584" y="330" width="14" height="26"/>
+    <path d="M518,330 q12,-22 18,0" stroke="#0d0605" stroke-width="6" fill="none"/>
+    <path d="M582,330 q12,-22 18,0" stroke="#0d0605" stroke-width="6" fill="none"/>
+  </g>
+
+  <!-- vignette -->
+  <rect width="800" height="420" fill="#000000" opacity="0.18"/>
+</svg>

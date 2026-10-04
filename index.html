@@ -2033,13 +2033,25 @@
   .next-emotion {
     display: inline-flex;
     flex-direction: column;
-    gap: 0.4rem;
-    padding: 0.9rem 1.2rem;
+    gap: 0.5rem;
+    padding: 0;
     border: 1px solid var(--line);
     border-radius: 14px;
     background: rgba(0,0,0,0.35);
     margin-bottom: 1.6rem;
     max-width: 440px;
+    overflow: hidden;
+  }
+  .next-emotion-art {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 800 / 280;
+  }
+  .next-emotion-art img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
   }
   .next-emotion-label {
     font-family: 'Space Mono', monospace;
@@ -2047,17 +2059,26 @@
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--ember-bright);
+    padding: 0 1.2rem;
   }
   .emotion-loading {
+    position: absolute;
+    top: 0.8rem;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
     align-items: center;
-    gap: 0.6rem;
+    gap: 0.5rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 999px;
+    background: rgba(12,8,6,0.65);
+    backdrop-filter: blur(2px);
   }
   .emotion-spinner {
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
-    border: 2.5px solid rgba(255,255,255,0.18);
+    border: 2.5px solid rgba(255,255,255,0.22);
     border-top-color: var(--ember-bright);
     animation: emotion-spin 0.85s linear infinite;
     flex-shrink: 0;
@@ -2066,8 +2087,8 @@
   .emotion-loading-text {
     font-family: 'Space Mono', monospace;
     font-weight: 700;
-    font-size: 0.92rem;
-    letter-spacing: 0.06em;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
     color: #FFFFFF;
   }
   .emotion-loading-text .dots span {
@@ -2082,6 +2103,7 @@
     font-size: 0.85rem;
     color: var(--ink-muted);
     margin: 0;
+    padding: 0 1.2rem 1rem;
   }
   @media (prefers-reduced-motion: reduce) {
     .emotion-spinner { animation: none; }
@@ -2401,11 +2423,14 @@
     <h1>Latin America,<br>felt on the Gold Coast.</h1>
     <p class="hero-sub reveal-up">We're building a catalogue of Latin emotions — nights, flavours and stories you can live without a passport. 📍 Gold Coast, QLD.</p>
     <div class="next-emotion reveal-up">
-      <span class="next-emotion-label">Next emotion</span>
-      <div class="emotion-loading">
-        <span class="emotion-spinner" aria-hidden="true"></span>
-        <span class="emotion-loading-text">EMOTION LOADING<span class="dots"><span>.</span><span>.</span><span>.</span></span></span>
+      <div class="next-emotion-art">
+        <img src="assets/img/next-emotion-placeholder.svg" alt="" loading="lazy">
+        <span class="emotion-loading">
+          <span class="emotion-spinner" aria-hidden="true"></span>
+          <span class="emotion-loading-text">LOADING<span class="dots"><span>.</span><span>.</span><span>.</span></span></span>
+        </span>
       </div>
+      <span class="next-emotion-label">Next emotion</span>
       <p class="next-emotion-note">First emotion — November 2026. Nothing's confirmed yet — we only announce a restaurant once it's locked in.</p>
     </div>
     <div class="hero-chips">
