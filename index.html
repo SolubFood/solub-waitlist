@@ -4,8 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://formsubmit.co; form-action 'self' https://formsubmit.co; base-uri 'self'; object-src 'none';">
-<title>Solub Food — Real Over Perfect</title>
-<meta name="description" content="Solub Food helps you discover the home cooks near you — real people, real recipes, real stories. You don't need to travel to Latin America — we bring Latin America to you.">
+<title>SolubFood — Unlock Latin emotions on the Gold Coast</title>
+<meta name="description" content="SolubFood is a catalogue of Latin emotions on the Gold Coast — real nights inside real Latin restaurants. Latin America, felt on the Gold Coast, without a passport.">
+<meta property="og:title" content="SolubFood — Unlock Latin emotions on the Gold Coast">
+<meta property="og:description" content="Latin America, felt on the Gold Coast. Join free and get your SolubFood QR.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://teamsolub.com/">
 <meta name="google-site-verification" content="ZIfBgz4Ohe4am5wnDQGKJKTBfGDkd8l4YmU6oRO9zCY" />
 <meta name="theme-color" content="#000000">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -2010,6 +2014,254 @@
     text-align: center;
     font-size: 0.75rem;
   }
+  .footer-abn {
+    margin: -0.4rem 0 0;
+    font-size: 0.7rem;
+    color: var(--ink-muted);
+    opacity: 0.75;
+  }
+
+  /* ---------- hero: sub + next-emotion loading block ---------- */
+  .hero-sub {
+    font-family: 'Newsreader', serif;
+    font-size: clamp(0.95rem, 1.6vw, 1.15rem);
+    color: var(--ink-muted);
+    max-width: 46ch;
+    margin: 0.9rem 0 1.6rem;
+    line-height: 1.5;
+  }
+  .next-emotion {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: 0.9rem 1.2rem;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: rgba(0,0,0,0.35);
+    margin-bottom: 1.6rem;
+    max-width: 440px;
+  }
+  .next-emotion-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ember-bright);
+  }
+  .emotion-loading {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .emotion-spinner {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2.5px solid rgba(255,255,255,0.18);
+    border-top-color: var(--ember-bright);
+    animation: emotion-spin 0.85s linear infinite;
+    flex-shrink: 0;
+  }
+  @keyframes emotion-spin { to { transform: rotate(360deg); } }
+  .emotion-loading-text {
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    font-size: 0.92rem;
+    letter-spacing: 0.06em;
+    color: #FFFFFF;
+  }
+  .emotion-loading-text .dots span {
+    animation: emotion-dot 1.4s infinite;
+    opacity: 0.2;
+  }
+  .emotion-loading-text .dots span:nth-child(2) { animation-delay: 0.2s; }
+  .emotion-loading-text .dots span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes emotion-dot { 0%, 100% { opacity: 0.2; } 50% { opacity: 1; } }
+  .next-emotion-note {
+    font-family: 'Newsreader', serif;
+    font-size: 0.85rem;
+    color: var(--ink-muted);
+    margin: 0;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .emotion-spinner { animation: none; }
+    .emotion-loading-text .dots span { animation: none; opacity: 1; }
+  }
+
+  /* ---------- how it works (repurposed craving-grid) ---------- */
+  .craving-card {
+    background: var(--card);
+    border: 1px solid var(--line-soft);
+  }
+  .craving-card:hover { transform: translateY(-4px); box-shadow: 0 18px 32px -16px rgba(0,0,0,0.5); }
+  .craving-step {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--sage);
+    color: #FFFFFF;
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    font-size: 0.9rem;
+  }
+  .craving-card h3 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    margin: 0.8rem 0 0.3rem;
+    color: #FFFFFF;
+  }
+  .craving-card p {
+    font-family: 'Newsreader', serif;
+    font-size: 0.9rem;
+    color: var(--ink-muted);
+    margin: 0;
+    line-height: 1.45;
+  }
+
+  /* ---------- experiences: lock/unlock grid ---------- */
+  .experiences { padding: 1rem 0 3rem; text-align: center; }
+  .experiences h2 { font-size: clamp(1.4rem, 2.6vw, 1.9rem); max-width: 30ch; margin: 0.6rem auto 0.5rem; }
+  .experiences-sub { color: var(--ink-muted); max-width: 52ch; margin: 0 auto 2rem; font-family: 'Newsreader', serif; }
+  .experience-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
+    text-align: left;
+  }
+  @media (max-width: 820px) { .experience-grid { grid-template-columns: 1fr; } }
+  .experience-card {
+    position: relative;
+    border-radius: 18px;
+    overflow: hidden;
+    border: 1px solid var(--line-soft);
+    background: var(--card);
+    padding: 1.3rem;
+    min-height: 260px;
+    display: flex;
+    flex-direction: column;
+  }
+  .experience-card-art {
+    height: 120px;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--sage), #3a1309);
+  }
+  .experience-card.is-unlocked .experience-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.55rem;
+    border-radius: 999px;
+    background: var(--ember-bright);
+    color: #1a1208;
+  }
+  .experience-card h3 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    margin: 0 0 0.35rem;
+    color: #FFFFFF;
+  }
+  .experience-card p {
+    font-family: 'Newsreader', serif;
+    font-size: 0.88rem;
+    color: var(--ink-muted);
+    margin: 0;
+    line-height: 1.45;
+  }
+  .experience-card.is-locked {
+    background: repeating-linear-gradient(135deg, rgba(255,255,255,0.03) 0 10px, rgba(255,255,255,0.01) 10px 20px), var(--card);
+  }
+  .experience-card.is-locked h3 { color: var(--ink-muted); letter-spacing: 0.08em; }
+  .experience-card-art--locked {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.04);
+    color: var(--ink-muted);
+  }
+  .experience-card-art--locked svg { width: 34px; height: 34px; opacity: 0.6; }
+  .experiences-count {
+    margin-top: 1.6rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--ink-muted);
+    letter-spacing: 0.04em;
+  }
+
+  /* ---------- join strip ---------- */
+  .join-strip { padding: 2.4rem 0; text-align: center; }
+  .join-strip h2 { font-size: clamp(1.4rem, 2.6vw, 1.9rem); max-width: 28ch; margin: 0.6rem auto 0.6rem; }
+  .join-strip-sub { color: var(--ink-muted); max-width: 46ch; margin: 0 auto 1.4rem; font-family: 'Newsreader', serif; }
+  .join-strip-btn { display: inline-flex; }
+
+  /* ---------- for-restaurants teaser ---------- */
+  .for-restaurants-teaser { padding: 2.4rem 0; }
+  .for-restaurants-teaser-inner {
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 2rem;
+    text-align: center;
+    background: rgba(163,51,28,0.12);
+  }
+  .for-restaurants-teaser-eyebrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ember-bright);
+    margin: 0 0 0.5rem;
+  }
+  .for-restaurants-teaser-inner h2 { margin: 0 0 0.6rem; font-size: clamp(1.3rem, 2.4vw, 1.7rem); }
+  .for-restaurants-teaser-inner p { color: var(--ink-muted); max-width: 46ch; margin: 0 auto 1.2rem; font-family: 'Newsreader', serif; }
+  .btn.ghost {
+    display: inline-flex;
+    padding: 0.7rem 1.4rem;
+    border-radius: 999px;
+    border: 1px solid var(--ember-bright);
+    color: var(--ember-bright);
+    text-decoration: none;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.82rem;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .btn.ghost:hover { background: var(--ember-bright); color: #1a1208; }
+
+  /* ---------- join dialog: consent checkbox + member QR ---------- */
+  .cta-consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    font-family: 'Newsreader', serif;
+    font-size: 0.82rem;
+    color: var(--ink-muted);
+    margin: 0.2rem 0 0.8rem;
+    cursor: pointer;
+  }
+  .cta-consent input { margin-top: 0.2rem; flex-shrink: 0; }
+  .member-qr {
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 12px;
+    background: #FFFFFF;
+    text-align: center;
+  }
+  .dialog-body p.member-qr-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    color: #1a1208;
+    margin: 0 0 0.7rem;
+  }
+  .member-qr-code { max-width: 180px; margin: 0 auto; }
+  .member-qr-code svg { width: 100%; height: auto; display: block; }
 </style>
 </head>
 <body>
@@ -2033,54 +2285,29 @@
   <div class="dialog-banner">
     <img src="assets/img/posters/clip-4.jpg" alt="" loading="lazy">
   </div>
-  <div class="dialog-body">
-    <span class="eyebrow"><span class="ember-dot"></span><span data-i18n="dialogEyebrow">Home kitchen discovery</span></span>
-    <h3 data-i18n="dialogTitle">Be the first to taste it.</h3>
-    <p data-i18n="dialogDesc">Real home cooks near you, real recipes, real stories — we'll let you know the moment Solub Food launches.</p>
+  <div class="dialog-body" id="newsletterDialogBody">
+    <span class="eyebrow"><span class="ember-dot"></span><span>Join SolubFood</span></span>
+    <h3>Unlock your SolubFood QR.</h3>
+    <p>Join free. You'll get your own SolubFood QR, first word on the next emotion, and your discount at every restaurant partner.</p>
     <form class="cta-form" id="newsletterForm" action="https://formsubmit.co/ajax/hello@teamsolub.com" method="POST" novalidate>
-      <input type="email" name="email" class="cta-input" required data-i18n-placeholder="dialogEmailPh" placeholder="Your email" autocomplete="email">
-      <input type="hidden" name="_subject" value="New Solub Food newsletter signup">
+      <input type="text" name="name" class="cta-input" required placeholder="Your name" autocomplete="name">
+      <input type="email" name="email" class="cta-input" required placeholder="Your email" autocomplete="email">
+      <input type="text" name="suburb" class="cta-input" required placeholder="Your suburb" autocomplete="address-level2">
+      <label class="cta-consent">
+        <input type="checkbox" name="consent" required>
+        <span>Yes, email me about upcoming SolubFood emotions.</span>
+      </label>
+      <input type="hidden" name="_subject" value="New SolubFood member">
       <input type="hidden" name="_captcha" value="false">
       <input type="text" name="_honey" class="cta-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
-      <button type="submit" class="btn primary liquid-btn" data-i18n="dialogBtn">Click Here</button>
+      <button type="submit" class="btn primary liquid-btn">Join SolubFood</button>
     </form>
-    <span class="fineprint" data-i18n="dialogFineprint">We’ll only use this to reach you about the waitlist — no spam. See our <a href="privacy.html">Privacy Policy</a>.</span>
+    <span class="fineprint">We'll only use this to reach you about emotions — no spam. See our <a href="privacy.html">Privacy Policy</a>.</span>
     <p class="form-status" aria-live="polite"></p>
-  </div>
-</dialog>
-
-<dialog class="dish-dialog" id="dishDialog">
-  <button type="button" class="dialog-close" id="dishDialogClose" aria-label="Close">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
-  </button>
-  <div class="dialog-banner">
-    <video id="dishDialogVideo" muted loop playsinline></video>
-  </div>
-  <div class="dialog-body">
-    <p class="dish-dialog-restaurant" id="dishDialogRestaurant"></p>
-    <div class="dish-dialog-meta" id="dishDialogMeta"></div>
-    <h3 id="dishDialogTitle"></h3>
-    <p id="dishDialogText"></p>
-    <div class="dish-dialog-fact">
-      <div class="frame-preview-map" id="dishDialogMap"></div>
-      <p id="dishDialogFact"></p>
+    <div class="member-qr" id="memberQr" hidden>
+      <p class="member-qr-label">This is your SolubFood QR — screenshot it. Show it at the door to check in.</p>
+      <div class="member-qr-code" id="memberQrCode"></div>
     </div>
-  </div>
-</dialog>
-
-<dialog class="marketplace-dialog" id="marketplaceDialog">
-  <button type="button" class="dialog-close" id="marketplaceDialogClose" aria-label="Close">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
-  </button>
-  <div class="marketplace-head">
-    <span class="eyebrow"><span class="ember-dot"></span><span data-i18n="marketEyebrow">Preview</span></span>
-    <h3 data-i18n="marketTitle">This is what ordering on Solub will look like.</h3>
-    <p data-i18n="marketDesc">We're building the founding cook network right now — no live orders yet. Here's a taste of what's already cooking, so you know what to expect.</p>
-  </div>
-  <div class="marketplace-grid" id="marketplaceGrid"></div>
-  <div class="marketplace-foot">
-    <p data-i18n="marketFoot">Want to be notified the moment a cook near you goes live?</p>
-    <button type="button" class="btn primary scramble-btn" id="marketplaceJoinBtn" data-i18n="marketJoinBtn">Join the waitlist →</button>
   </div>
 </dialog>
 
@@ -2097,10 +2324,10 @@
       </button>
     </div>
     <nav class="site-nav" aria-label="Main">
-      <a href="#about" data-i18n="navAbout">About us</a>
-      <a href="#" class="js-open-marketplace" data-i18n="navOrder">Place an order</a>
-      <a href="mailto:hello@teamsolub.com" data-i18n="navWork">Work with us</a>
-      <a href="mailto:hello@teamsolub.com" data-i18n="navContact">Contact us</a>
+      <a href="#emotions">Emotions</a>
+      <a href="#experiences">Experiences</a>
+      <a href="for-restaurants.html">For Restaurants</a>
+      <a href="mailto:hello@teamsolub.com">Contact us</a>
     </nav>
     <div class="social-row">
       <a href="https://www.instagram.com/solubfood/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="social-item">
@@ -2110,122 +2337,145 @@
         </span>
         <span class="social-tooltip" style="background:#bc1888">Instagram</span>
       </a>
-      <span class="social-icon social-item" aria-hidden="true">
-        <span class="social-circle">
-        <span class="social-fill" style="background:#25D366"></span>
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.001 2C6.478 2 2 6.477 2 12c0 1.876.52 3.63 1.42 5.13L2 22l4.99-1.393A9.958 9.958 0 0 0 12.001 22C17.523 22 22 17.523 22 12S17.523 2 12.001 2zm0 18.2a8.176 8.176 0 0 1-4.417-1.293l-.317-.19-3.09.863.833-2.987-.207-.326A8.176 8.176 0 0 1 3.8 12c0-4.522 3.679-8.2 8.201-8.2 4.521 0 8.2 3.678 8.2 8.2 0 4.522-3.679 8.2-8.2 8.2zm4.471-6.138c-.245-.123-1.45-.716-1.675-.798-.225-.082-.389-.123-.552.123-.164.246-.633.798-.776.961-.143.164-.286.185-.531.062-.245-.123-1.036-.382-1.973-1.218-.729-.65-1.221-1.453-1.364-1.699-.143-.246-.015-.379.108-.501.11-.11.245-.286.368-.43.123-.143.164-.246.246-.41.082-.164.041-.307-.02-.43-.062-.123-.552-1.33-.757-1.822-.199-.478-.402-.413-.552-.42-.143-.008-.307-.008-.47-.008a.9.9 0 0 0-.654.307c-.225.246-.858.839-.858 2.046s.879 2.373 1.001 2.537c.123.164 1.729 2.64 4.189 3.702.585.253 1.042.404 1.398.517.587.187 1.121.16 1.544.097.471-.07 1.45-.593 1.655-1.166.204-.573.204-1.064.143-1.166-.06-.103-.225-.164-.47-.286z"/></svg>
-        </span>
-        <span class="social-tooltip" style="background:#25D366">WhatsApp</span>
-      </span>
-      <span class="social-icon social-item" aria-hidden="true">
-        <span class="social-circle">
-        <span class="social-fill" style="background:#1877F2"></span>
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-7.75h2.6l.39-3.02h-2.99V8.31c0-.87.24-1.47 1.5-1.47h1.6V4.14C16.34 4.1 15.44 4 14.38 4c-2.21 0-3.72 1.35-3.72 3.83v2.4H8.06v3.02h2.6V21h2.84z"/></svg>
-        </span>
-        <span class="social-tooltip" style="background:#1877F2">Facebook</span>
-      </span>
     </div>
   </div>
 </header>
 
-<section class="hero wrap">
+<section class="hero wrap" id="emotions">
   <div class="hero-content">
-    <h1 data-i18n="heroH1">Get your QR<br>to the nearest local.</h1>
+    <h1>Latin America,<br>felt on the Gold Coast.</h1>
+    <p class="hero-sub reveal-up">We're building a catalogue of Latin emotions — nights, flavours and stories you can live without a passport. 📍 Gold Coast, QLD.</p>
+    <div class="next-emotion reveal-up">
+      <span class="next-emotion-label">Next emotion</span>
+      <div class="emotion-loading">
+        <span class="emotion-spinner" aria-hidden="true"></span>
+        <span class="emotion-loading-text">EMOTION LOADING<span class="dots"><span>.</span><span>.</span><span>.</span></span></span>
+      </div>
+      <p class="next-emotion-note">First emotion — November 2026. Nothing's confirmed yet — we only announce a restaurant once it's locked in.</p>
+    </div>
     <div class="hero-chips">
-      <button type="button" class="hero-launcher" id="openNewsletterDialog" aria-label="Get your QR">
+      <button type="button" class="hero-launcher" id="openNewsletterDialog" aria-label="Join SolubFood">
         <span class="launcher-fill" aria-hidden="true"></span>
         <span class="launcher-icon" aria-hidden="true">
           <svg class="logo-icon" viewBox="0 0 1080 1080"><use href="#logo-mark" x="0" y="0" width="1080" height="1080"></use></svg>
         </span>
-        <span class="launcher-text" data-i18n="heroChipOpen">QR</span>
+        <span class="launcher-text">Join</span>
         <span class="launcher-status" aria-hidden="true"></span>
       </button>
     </div>
   </div>
-  <div class="hero-marquee" id="heroMarquee" aria-hidden="true"></div>
 </section>
 
 <section class="craving-grid wrap">
-  <span class="eyebrow"><span class="ember-dot"></span><span data-i18n="cravingEyebrow">Taste the range</span></span>
-  <h2 class="reveal-up" data-i18n="cravingH2">How this works</h2>
-  <div class="craving-cards" id="cravingCards"></div>
-</section>
-
-<section class="filmstrip-section wrap">
-  <span class="eyebrow"><span class="ember-dot"></span><span data-i18n="filmstripEyebrow">From the kitchens</span></span>
-  <h2 class="reveal-up" data-i18n="filmstripH2">Dishes that build connections.</h2>
-  <div class="filmstrip-wrap">
-    <button type="button" class="film-nav prev" id="filmPrev" aria-label="Previous dishes">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-    </button>
-    <div class="filmstrip" id="filmstrip"></div>
-    <button type="button" class="film-nav next" id="filmNext" aria-label="Next dishes">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-    </button>
-  </div>
-</section>
-
-<section class="paths wrap">
-  <span class="eyebrow"><span class="ember-dot"></span><span data-i18n="pathsEyebrow">Two ways in</span></span>
-  <div class="paths-header">
-    <div class="paths-photo-wrap">
-      <img class="paths-photo" src="assets/img/paths-cl.jpg" alt="Chile" loading="lazy">
-      <svg class="paths-photo-flag" viewBox="0 0 3 2" role="img" aria-label="Chile"><rect width="3" height="2" fill="#D52B1E"/><rect width="3" height="1" fill="#fff"/><rect width="1" height="1" fill="#0039A6"/><polygon points="0.5,0.14 0.61,0.46 0.95,0.46 0.67,0.65 0.78,0.97 0.5,0.78 0.22,0.97 0.33,0.65 0.05,0.46 0.39,0.46" fill="#fff"/></svg>
+  <span class="eyebrow"><span class="ember-dot"></span><span>Taste the range</span></span>
+  <h2 class="reveal-up">How this works</h2>
+  <div class="craving-cards">
+    <div class="craving-card">
+      <span class="craving-step">1</span>
+      <h3>Join SolubFood</h3>
+      <p>Sign up free and get your own SolubFood QR — your proof of membership.</p>
     </div>
-    <div class="paths-intro">
-      <h2 class="reveal-up" data-i18n="pathsH2">The feeling of being alive is daring to experience something for the first time.</h2>
-      <p class="paths-sub reveal-up" data-i18n="pathsSub">Help us create those moments and feel something different: a different connection, a different identity.</p>
+    <div class="craving-card">
+      <span class="craving-step">2</span>
+      <h3>Show up to an emotion</h3>
+      <p>A real night inside a real Latin restaurant partner — dancing, food, stories.</p>
     </div>
-    <div class="paths-photo-wrap">
-      <img class="paths-photo" src="assets/img/paths-co.jpg" alt="Colombia" loading="lazy">
-      <svg class="paths-photo-flag" viewBox="0 0 3 2" role="img" aria-label="Colombia"><rect width="3" height="2" fill="#FCD116"/><rect y="1" width="3" height="0.5" fill="#003893"/><rect y="1.5" width="3" height="0.5" fill="#CE1126"/></svg>
+    <div class="craving-card">
+      <span class="craving-step">3</span>
+      <h3>Scan your QR</h3>
+      <p>Unlock your discount at the restaurant — and the next emotion for everyone.</p>
     </div>
   </div>
+</section>
+
+<section class="experiences wrap" id="experiences">
+  <span class="eyebrow"><span class="ember-dot"></span><span>Where it happens</span></span>
+  <h2 class="reveal-up">Unlock the map.</h2>
+  <p class="experiences-sub reveal-up">Every restaurant partner is a real place, announced only once it's confirmed. The next one stays locked until then.</p>
+  <div class="experience-grid">
+    <div class="experience-card is-unlocked">
+      <span class="experience-badge">Example</span>
+      <div class="experience-card-art" aria-hidden="true"></div>
+      <h3>A real restaurant partner</h3>
+      <p>Gold Coast, QLD — this is what an unlocked experience will look like once our first partner is confirmed.</p>
+    </div>
+    <div class="experience-card is-locked">
+      <div class="experience-card-art experience-card-art--locked" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+      </div>
+      <h3>???</h3>
+      <p>Unlocking soon — nothing's confirmed yet.</p>
+    </div>
+    <div class="experience-card is-locked">
+      <div class="experience-card-art experience-card-art--locked" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+      </div>
+      <h3>???</h3>
+      <p>Unlocking soon — nothing's confirmed yet.</p>
+    </div>
+  </div>
+  <p class="experiences-count reveal-up">0 unlocked · 7 to go before July 2027</p>
+</section>
+
+<section class="join-strip wrap" id="join">
+  <span class="eyebrow"><span class="ember-dot"></span><span>Join SolubFood</span></span>
+  <h2 class="reveal-up">Join free. Get your SolubFood QR.</h2>
+  <p class="join-strip-sub reveal-up">No accounts, no catch — just your name, email and suburb. We'll tell you the moment the first emotion unlocks.</p>
+  <button type="button" class="btn primary join-strip-btn scramble-btn js-open-join">Join SolubFood →</button>
 </section>
 
 <section class="story wrap">
   <div class="story-content">
-    <blockquote class="reveal-up" data-i18n="storyQuote">&ldquo;We’re here to offer you comfort and enjoyment. You know food is just the surface — what it really means is disconnecting, stepping into another reality of comfort. We want to show you our reality, not the typical options. We want to invite you to discover a different perspective on food: a shared story.&rdquo;</blockquote>
-    <p class="stamp reveal-up" data-i18n="storyStamp">That is Solub Food’s destination.</p>
+    <span class="eyebrow"><span class="ember-dot"></span><span>Documentaries</span></span>
+    <blockquote class="reveal-up">&ldquo;We're here to offer you comfort and enjoyment. You know food is just the surface — what it really means is disconnecting, stepping into another reality of comfort. We want to show you our reality, not the typical options. We want to invite you to discover a different perspective on food: a shared story.&rdquo;</blockquote>
+    <p class="stamp reveal-up">Our manifesto — the trailer for what's coming. First documentary: coming soon.</p>
   </div>
 </section>
 
 <section class="problem wrap" id="about">
   <div class="problem-panel">
-    <p class="lead-line flag-text reveal-up" data-i18n="problemLead">We make Latin America feel Aussie.</p>
-    <p data-i18n="problemP1">We tell the story because real experience and emotion come from people — and we won't regret spreading what we already know is possible to feel.</p>
-    <a class="closer" href="https://www.instagram.com/solubfood/" target="_blank" rel="noopener noreferrer" data-i18n="problemCloser">Real over perfect.</a>
-    <div class="paths-flags" id="pathsFlags"></div>
+    <p class="lead-line flag-text reveal-up">We make Latin America feel Aussie.</p>
+    <p>We tell the story because real experience and emotion come from people — and we won't regret spreading what we already know is possible to feel. SolubFood is run by Benjamin Arevalo and Gibril, building the founding restaurant network from the ground up, starting here on the Gold Coast.</p>
+    <a class="closer" href="https://www.instagram.com/solubfood/" target="_blank" rel="noopener noreferrer">Real over perfect.</a>
   </div>
 </section>
 
 <section class="honesty wrap">
-  <span class="eyebrow"><span class="ember-dot"></span><span data-i18n="honestyEyebrow">Where we're at</span></span>
-  <p class="reveal-up" data-i18n="honestyIntro">Solub Food is in its earliest days — we're building the founding chef network from the ground up, starting here in Queensland.</p>
+  <span class="eyebrow"><span class="ember-dot"></span><span>Where we're at</span></span>
+  <p class="reveal-up">SolubFood is in its earliest days — we're building the founding restaurant network from the ground up, starting here on the Gold Coast.</p>
   <div class="trust-grid">
     <div class="trust-card">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5z"/><path d="M9 12l2 2 4-4"/></svg>
-      <h3 data-i18n="trust1Title">Reviewed profiles</h3>
-      <p data-i18n="trust1P">Every home cook's profile is reviewed before it goes live.</p>
+      <h3>Confirmed before we reveal</h3>
+      <p>We only announce a restaurant, date or venue once it's locked in writing — never before.</p>
     </div>
     <div class="trust-card">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 2h6l3 3v15a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/><path d="M9 11h6M9 15h4"/></svg>
-      <h3 data-i18n="trust2Title">Council registration noted</h3>
-      <p data-i18n="trust2P">Where council registration applies, we note it right on the profile.</p>
+      <h3>No fake hype</h3>
+      <p>No countdown timers, no fake scarcity — just honest progress as we unlock each experience.</p>
     </div>
     <div class="trust-card">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
-      <h3 data-i18n="trust3Title">No overpromising</h3>
-      <p data-i18n="trust3P">We'll never claim more certainty than we actually have.</p>
+      <h3>Filmed with consent</h3>
+      <p>Every documentary and clip is made with the people in it, always.</p>
     </div>
   </div>
-  <p class="honesty-promise reveal-up" data-i18n="honestyP2">What we can promise: you'll always know who made your food, and why.</p>
+  <p class="honesty-promise reveal-up">What we can promise: you'll always know which emotions are real, and which are still locked.</p>
+</section>
+
+<section class="for-restaurants-teaser wrap">
+  <div class="for-restaurants-teaser-inner reveal-up">
+    <p class="for-restaurants-teaser-eyebrow">Own a Latin restaurant?</p>
+    <h2>Your story deserves an audience.</h2>
+    <p>Let's build your experience together — real customers, proven with every QR scan.</p>
+    <a class="btn ghost for-restaurants-teaser-btn" href="for-restaurants.html">For restaurant owners →</a>
+  </div>
 </section>
 
 <section class="final-cta wrap">
-  <h2 class="reveal-up" data-i18n="finalCtaH2">You don't need to travel to Latin America.</h2>
-  <p data-i18n="finalCtaP">We bring Latin America to you — real home cooks, real recipes. Join the waitlist, it takes ten seconds.</p>
-  <a class="btn primary final-cta-btn scramble-btn" href="#" data-i18n="finalCtaBtn">Join the waitlist →</a>
+  <h2 class="reveal-up">You don't need to travel to Latin America.</h2>
+  <p>Just unlock it. Join SolubFood — it takes ten seconds.</p>
+  <button type="button" class="btn primary final-cta-btn scramble-btn js-open-join">Join SolubFood →</button>
 </section>
 
 <footer class="wrap">
@@ -2233,9 +2483,10 @@
     <div class="footer-brand">
       <div class="flogo">
         <svg class="logo-icon footer-mark" viewBox="0 0 1080 1080" aria-hidden="true"><use href="#logo-mark" x="0" y="0" width="1080" height="1080"></use></svg>
-        <span class="footer-wordmark" data-i18n="footerTagline">Solub Food — Real Over Perfect</span>
+        <span class="footer-wordmark">SolubFood — Real Over Perfect</span>
       </div>
-      <p class="footer-desc" data-i18n="footerDesc">We bring Latin America to you — real home cooks, real recipes.</p>
+      <p class="footer-desc">Latin America, felt on the Gold Coast — real emotions, real restaurants, real stories.</p>
+      <p class="footer-abn">ABN 71 700 489 661</p>
       <div class="social-row">
         <a href="https://www.instagram.com/solubfood/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="social-item">
           <span class="social-circle">
@@ -2244,43 +2495,30 @@
           </span>
           <span class="social-tooltip" style="background:#bc1888">Instagram</span>
         </a>
-        <span class="social-icon social-item" aria-hidden="true">
-          <span class="social-circle">
-          <span class="social-fill" style="background:#25D366"></span>
-          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.001 2C6.478 2 2 6.477 2 12c0 1.876.52 3.63 1.42 5.13L2 22l4.99-1.393A9.958 9.958 0 0 0 12.001 22C17.523 22 22 17.523 22 12S17.523 2 12.001 2zm0 18.2a8.176 8.176 0 0 1-4.417-1.293l-.317-.19-3.09.863.833-2.987-.207-.326A8.176 8.176 0 0 1 3.8 12c0-4.522 3.679-8.2 8.201-8.2 4.521 0 8.2 3.678 8.2 8.2 0 4.522-3.679 8.2-8.2 8.2zm4.471-6.138c-.245-.123-1.45-.716-1.675-.798-.225-.082-.389-.123-.552.123-.164.246-.633.798-.776.961-.143.164-.286.185-.531.062-.245-.123-1.036-.382-1.973-1.218-.729-.65-1.221-1.453-1.364-1.699-.143-.246-.015-.379.108-.501.11-.11.245-.286.368-.43.123-.143.164-.246.246-.41.082-.164.041-.307-.02-.43-.062-.123-.552-1.33-.757-1.822-.199-.478-.402-.413-.552-.42-.143-.008-.307-.008-.47-.008a.9.9 0 0 0-.654.307c-.225.246-.858.839-.858 2.046s.879 2.373 1.001 2.537c.123.164 1.729 2.64 4.189 3.702.585.253 1.042.404 1.398.517.587.187 1.121.16 1.544.097.471-.07 1.45-.593 1.655-1.166.204-.573.204-1.064.143-1.166-.06-.103-.225-.164-.47-.286z"/></svg>
-          </span>
-          <span class="social-tooltip" style="background:#25D366">WhatsApp</span>
-        </span>
-        <span class="social-icon social-item" aria-hidden="true">
-          <span class="social-circle">
-          <span class="social-fill" style="background:#1877F2"></span>
-          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-7.75h2.6l.39-3.02h-2.99V8.31c0-.87.24-1.47 1.5-1.47h1.6V4.14C16.34 4.1 15.44 4 14.38 4c-2.21 0-3.72 1.35-3.72 3.83v2.4H8.06v3.02h2.6V21h2.84z"/></svg>
-          </span>
-          <span class="social-tooltip" style="background:#1877F2">Facebook</span>
-        </span>
       </div>
     </div>
 
     <div class="footer-col">
-      <p class="footer-col-title" data-i18n="footerSitemap">Sitemap</p>
+      <p class="footer-col-title">Sitemap</p>
       <ul>
-        <li><a href="#about" data-i18n="navAbout">About us</a></li>
-        <li><a href="#" class="js-open-marketplace" data-i18n="navOrder">Place an order</a></li>
-        <li><a href="mailto:hello@teamsolub.com" data-i18n="navWork">Work with us</a></li>
-        <li><a href="mailto:hello@teamsolub.com" data-i18n="navContact">Contact us</a></li>
+        <li><a href="#emotions">Emotions</a></li>
+        <li><a href="#experiences">Experiences</a></li>
+        <li><a href="for-restaurants.html">For Restaurants</a></li>
+        <li><a href="mailto:hello@teamsolub.com">Contact us</a></li>
       </ul>
     </div>
 
     <div class="footer-col">
-      <p class="footer-col-title" data-i18n="footerOtherPages">Other Pages</p>
+      <p class="footer-col-title">Other Pages</p>
       <ul>
-        <li><a href="terms.html" data-i18n="footerTerms">Terms &amp; Conditions</a></li>
-        <li><a href="privacy.html" data-i18n="footerPrivacy">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms &amp; Conditions</a></li>
+        <li><a href="tickets.html">Event Ticket Terms</a></li>
+        <li><a href="privacy.html">Privacy Policy</a></li>
       </ul>
     </div>
 
     <div class="footer-col">
-      <p class="footer-col-title" data-i18n="footerContactDetails">Contact Details</p>
+      <p class="footer-col-title">Contact Details</p>
       <ul>
         <li><a class="mail" href="mailto:hello@teamsolub.com">hello@teamsolub.com</a></li>
       </ul>
@@ -2288,292 +2526,12 @@
   </div>
 
   <hr class="footer-sep">
-  <p class="footer-copy"><span id="footerYear"></span> Solub Food. <span data-i18n="footerRights">All Rights Reserved.</span></p>
+  <p class="footer-copy"><span id="footerYear"></span> SolubFood. All Rights Reserved.</p>
 </footer>
 
+<script src="assets/js/qrcode.js"></script>
 <script>
-  var dishClips = [2, 3, 4, 5, 6, 7, 8, 9].map(function (n) { return 'assets/videos/clip-' + n + '.mp4'; });
-
-  // Small self-drawn flag SVGs (no emoji — those render inconsistently across platforms).
-  var FLAG_SVG = {
-    Peru: '<svg class="reel-flag" viewBox="0 0 3 2" aria-hidden="true"><rect width="3" height="2" fill="#fff"/><rect width="1" height="2" fill="#D91023"/><rect x="2" width="1" height="2" fill="#D91023"/></svg>',
-    Chile: '<svg class="reel-flag" viewBox="0 0 3 2" aria-hidden="true"><rect width="3" height="2" fill="#D52B1E"/><rect width="3" height="1" fill="#fff"/><rect width="1" height="1" fill="#0039A6"/><polygon points="0.5,0.14 0.61,0.46 0.95,0.46 0.67,0.65 0.78,0.97 0.5,0.78 0.22,0.97 0.33,0.65 0.05,0.46 0.39,0.46" fill="#fff"/></svg>',
-    Colombia: '<svg class="reel-flag" viewBox="0 0 3 2" aria-hidden="true"><rect width="3" height="2" fill="#CE1126"/><rect width="3" height="1.5" fill="#003893"/><rect width="3" height="1" fill="#FCD116"/></svg>',
-    Argentina: '<svg class="reel-flag" viewBox="0 0 3 2" aria-hidden="true"><rect width="3" height="2" fill="#fff"/><rect width="3" height="0.667" fill="#75AADB"/><rect width="3" height="0.667" y="1.333" fill="#75AADB"/><circle cx="1.5" cy="1" r="0.24" fill="#F6B40E" stroke="#85340A" stroke-width="0.02"/></svg>'
-  };
-
-  // Country of origin for each dish clip, in order (clip-2 .. clip-9).
-  var DISH_COUNTRY = [
-    { en: 'Peru', es: 'Perú' },
-    { en: 'Chile', es: 'Chile' },
-    { en: 'Colombia', es: 'Colombia' },
-    { en: 'Chile', es: 'Chile' },
-    { en: 'Argentina', es: 'Argentina' },
-    { en: 'Peru', es: 'Perú' },
-    { en: 'Argentina', es: 'Argentina' },
-    { en: 'Colombia', es: 'Colombia' }
-  ];
-
-  // Real dish name + a 1-2 sentence origin/history for each clip, in order. Titles
-  // stay unilingual (they're the dish's own name); only the description translates.
-  var DISH_INFO = [
-    { title: 'Tres Leches',
-      craving: 'Tres leches, made properly.', cravingEs: 'Tres leches, como se debe.',
-      en: 'A sponge cake soaked in three kinds of milk — evaporated, condensed, and cream — until it turns rich and custardy. A dessert-table staple across Peru and much of Latin America.',
-      es: 'Un bizcocho empapado en tres tipos de leche —evaporada, condensada y crema— hasta quedar rico y cremoso. Un clásico de sobremesa en Perú y gran parte de América Latina.' },
-    { title: 'Completo Italiano',
-      craving: 'A hot dog that outdoes the original.', cravingEs: 'Un hot dog que supera al original.',
-      en: 'Chile’s take on the hot dog, piled with tomato, mayonnaise, and avocado — colors said to echo the Italian flag. A fixture of Chilean street food since the early 20th century.',
-      es: 'La versión chilena del hot dog, con tomate, mayonesa y palta —colores que, se dice, recuerdan la bandera italiana. Un clásico de la comida callejera chilena desde principios del siglo XX.' },
-    { title: 'Arepas Con Carne Mechada',
-      craving: 'Arepas stuffed with carne mechada.', cravingEs: 'Arepas rellenas de carne mechada.',
-      en: 'Grilled corn cakes split and filled with carne mechada — beef slow-cooked until it shreds. An everyday staple across Colombia, where every region shapes its arepa a little differently.',
-      es: 'Tortas de maíz asadas, abiertas y rellenas de carne mechada —res cocida a fuego lento hasta deshilacharse. Un alimento cotidiano en toda Colombia, donde cada región le da su propia forma a la arepa.' },
-    { title: 'Empanada de Pino',
-      craving: 'An empanada worth queuing for.', cravingEs: 'Una empanada que vale la cola.',
-      en: 'A baked pastry filled with pino — hand-chopped beef, onion, a black olive, and a slice of hard-boiled egg. Chile’s signature empanada, especially around Fiestas Patrias.',
-      es: 'Una empanada horneada rellena de pino —carne picada a cuchillo, cebolla, una aceituna negra y una rodaja de huevo duro. La empanada insignia de Chile, sobre todo en Fiestas Patrias.' },
-    { title: 'Alfajor',
-      craving: 'Dulce de leche, two cookies deep.', cravingEs: 'Dulce de leche entre dos galletas.',
-      en: 'Two soft cookies sandwiching a thick layer of dulce de leche, often rolled in coconut or dipped in chocolate. One of Argentina’s most-loved everyday sweets.',
-      es: 'Dos galletas suaves que envuelven una gruesa capa de dulce de leche, a veces cubiertas de coco rallado o bañadas en chocolate. Uno de los dulces cotidianos más queridos de Argentina.' },
-    { title: 'Sandwich de Chicharrón',
-      craving: 'Crispy pork, no shortcuts.', cravingEs: 'Chicharrón crujiente, sin atajos.',
-      en: 'Crisp fried pork tucked into bread with camote and salsa criolla. A classic Peruvian sandwich, sold from carts long before sunrise.',
-      es: 'Cerdo frito y crujiente en pan, con camote y salsa criolla. Un sándwich peruano clásico, vendido en carritos mucho antes del amanecer.' },
-    { title: 'Milanesa a la Napolitana',
-      craving: 'Schnitzel, home-style not takeaway.', cravingEs: 'Milanesa casera, no de rotisería.',
-      en: "Argentina's crispy beef schnitzel — melted cheese, ham, rich tomato sauce. Home-style, not takeaway-style.",
-      es: 'El milanesa crujiente de Argentina —queso derretido, jamón y una salsa de tomate espesa. Estilo casero, no de rotisería.' },
-    { title: 'Bandeja Paisa',
-      craving: 'One plate, everything on it.', cravingEs: 'Un plato con todo servido.',
-      en: "Colombia's loaded plate — crispy pork crackling, smoky sausage, rice, beans and a fried egg, all in one dish.",
-      es: 'El plato cargado de Colombia —chicharrón crujiente, chorizo ahumado, arroz, frijoles y huevo frito, todo junto.' }
-  ];
-
-  // Hypothetical example cooks/restaurants for the marketplace preview —
-  // clearly fictional (see the "Example" badge in the dialog and the
-  // dialog's own disclaimer), not real businesses, since the founding cook
-  // network doesn't exist yet. One per DISH_INFO entry, same order.
-  var MOCK_RESTAURANTS = [
-    { name: 'Cocina de la Abuela Rosa', area: 'West End, Brisbane', areaEs: 'West End, Brisbane' },
-    { name: 'Completos Santiago', area: 'Logan', areaEs: 'Logan' },
-    { name: 'Arepas de Doña Marta', area: 'Sunnybank', areaEs: 'Sunnybank' },
-    { name: 'Empanadas del Sur', area: 'Redcliffe', areaEs: 'Redcliffe' },
-    { name: 'Dulce Buenos Aires', area: 'Fortitude Valley', areaEs: 'Fortitude Valley' },
-    { name: 'El Rincón Peruano', area: 'Inala', areaEs: 'Inala' },
-    { name: 'La Parrilla de Mateo', area: 'Chermside', areaEs: 'Chermside' },
-    { name: 'Sabor Paisa', area: 'Southport, Gold Coast', areaEs: 'Southport, Gold Coast' }
-  ];
-
-  var COUNTRY_NAME = {
-    co: { en: 'Colombia', es: 'Colombia' }, ve: { en: 'Venezuela', es: 'Venezuela' },
-    gy: { en: 'Guyana', es: 'Guyana' }, sr: { en: 'Suriname', es: 'Surinam' },
-    ec: { en: 'Ecuador', es: 'Ecuador' }, pe: { en: 'Peru', es: 'Perú' },
-    br: { en: 'Brazil', es: 'Brasil' }, bo: { en: 'Bolivia', es: 'Bolivia' },
-    py: { en: 'Paraguay', es: 'Paraguay' }, cl: { en: 'Chile', es: 'Chile' },
-    ar: { en: 'Argentina', es: 'Argentina' }, uy: { en: 'Uruguay', es: 'Uruguay' },
-    mx: { en: 'Mexico', es: 'México' },
-    gt: { en: 'Guatemala', es: 'Guatemala' }, hn: { en: 'Honduras', es: 'Honduras' },
-    sv: { en: 'El Salvador', es: 'El Salvador' }, ni: { en: 'Nicaragua', es: 'Nicaragua' },
-    cr: { en: 'Costa Rica', es: 'Costa Rica' }, pa: { en: 'Panama', es: 'Panamá' },
-    cu: { en: 'Cuba', es: 'Cuba' }, do: { en: 'Dominican Republic', es: 'República Dominicana' }
-  };
-
-  var COUNTRY_INFO = {
-    pe: { en: 'Home to ceviche and one of the most biodiverse cuisines on Earth, shaped by coast, Andes, and Amazon alike.', es: 'Cuna del ceviche y una de las cocinas más biodiversas del mundo, moldeada por la costa, los Andes y la Amazonía.' },
-    cl: { en: 'The world’s longest country, stretching over 4,300 km from desert to glacier.', es: 'El país más largo del mundo, con más de 4.300 km desde el desierto hasta los glaciares.' },
-    co: { en: 'Home to more bird species than any other country on Earth, and the birthplace of the arepa.', es: 'El país con más especies de aves del mundo, y cuna de la arepa.' },
-    ar: { en: 'Famous for asado, the slow-cooked barbecue that turns a Sunday into an all-day gathering.', es: 'Famosa por el asado, la parrilla lenta que convierte un domingo en una reunión de todo el día.' },
-    br: { en: 'South America’s largest country, home to most of the Amazon rainforest.', es: 'El país más grande de Sudamérica, hogar de la mayor parte de la selva amazónica.' },
-    ve: { en: 'Home to Angel Falls, the tallest uninterrupted waterfall on Earth.', es: 'Hogar del Salto Ángel, la catarata ininterrumpida más alta del mundo.' },
-    ec: { en: 'Named for the equator, which runs directly through the country.', es: 'Su nombre viene de la línea ecuatorial, que atraviesa el país.' },
-    bo: { en: 'Home to the Salar de Uyuni, the largest salt flat on Earth.', es: 'Hogar del Salar de Uyuni, el desierto de sal más grande del mundo.' },
-    py: { en: 'One of only two landlocked countries in South America, along with Bolivia.', es: 'Uno de los dos únicos países sin salida al mar en Sudamérica, junto con Bolivia.' },
-    uy: { en: 'One of the most stable democracies in Latin America — and famous for having more cattle than people.', es: 'Una de las democracias más estables de América Latina, y famoso por tener más ganado que habitantes.' },
-    gy: { en: 'The only country in South America where English is the official language.', es: 'El único país de Sudamérica donde el inglés es el idioma oficial.' },
-    sr: { en: 'The smallest sovereign country in South America, and one of the most forested nations on Earth.', es: 'El país soberano más pequeño de Sudamérica, y una de las naciones con mayor cobertura forestal del mundo.' }
-  };
-
-  // Country code for each dish's origin, so the reel hover-preview can look up
-  // COUNTRY_INFO / the mini-map by code instead of by display name.
-  var DISH_COUNTRY_CODE = { Peru: 'pe', Chile: 'cl', Colombia: 'co', Argentina: 'ar' };
-
-  // One real characteristic photo per country, shown in the reel hover-preview.
-  var LANDMARK_PHOTO = {
-    pe: 'assets/img/country-pe.jpg',
-    cl: 'assets/img/country-cl.jpg',
-    co: 'assets/img/country-co.jpg',
-    ar: 'assets/img/country-ar.jpg'
-  };
-
-  // Same South America outline the map section below uses, kept here so the
-  // hover-preview mini-map can highlight just this dish's country of origin.
-  var SA_MAP_PATHS = [
-    { code: 'co', d: 'M234.326,498.251l-1.781-0.182l-11.773,9.707l-1.245,3.414l-1.608,0.182l0.717,7.546l-4.105,10.07l4.46,3.776l5.714,0.363l3.924,5.757l5.705,0.183l-0.182,4.312h2.135l2.316-7.909l-2.144-2.694l0.536-5.031l4.46-0.363l-0.536-11.688l-9.993-3.232l-2.316-6.293L234.326,498.251L234.326,498.251z' },
-    { code: 've', d: 'M231.5,503.558l0.38,2.239l2.809,0.892l0.64-4.124l2.965-3.068l2.965,3.475l6.82,1.859l5.774-1.211l3.933,4.849l2.965,1.858l-3.25,4.953l1.089,3.752l-1.858,2.299l-1.928,1.616l-4.175-2.102l-0.959,0.969v2.99l3.052,1.452l-2.248,2.43l-2.248,2.43l-2.965-0.242l-2.982-3.275l-0.631-12.326l-10.183-3.476l-1.85-5.42L231.5,503.558L231.5,503.558z' },
-    { code: 'gy', d: 'M261.399,510.654l6.241,5.652l-2.481,2.87l-0.199,1.703l3.259,3.362l-0.078,3.232l-5.67,2.16l-3.397-4.59l0.726-5.515l-1.452-4.105L261.399,510.654L261.399,510.654z' },
-    { code: 'sr', d: 'M268.384,516.715l1.763,1.616l2.731-1.694l2.49,0.078l-0.32,0.968l-1.046,2.179l-0.164,5.421l-4.97,2.022l0.242-3.476l-3.207-2.991l0.164-1.538L268.384,516.715L268.384,516.715z' },
-    { code: 'ec', d: 'M213.986,529.43l-4.088,2.541l-0.294,3.771l-0.821,1.234l2.576,2.473l-1.115,1.219l0.259,3.113l4.607,1.098l6.976-8.256l-0.017-2.878l-3.345-0.216L213.986,529.43L213.986,529.43z' },
-    { code: 'ec', d: 'M183.533,531.443l-0.536,2.378l-0.994,1.002l0.683,1.228l1.754-0.69l0.838-1.461l-0.536-1.537L183.533,531.443L183.533,531.443z' },
-    { code: 'pe', d: 'M209.518,541.246l-1.677,1.695l0.113,2.703l14.643,26.694l15.205,9.802l2.351-3.941l0.562-8.669l-1.228-5.402l-4.141-6.984l-2.463,0.786l-1.115,1.236l-4.918-5.636l1.228-6.647l5.705-3.717l-0.449-3.492l-5.809-0.226l-3.017-5.064l-1.677-0.562l0.113,3.044l-7.486,8.895l-5.593-1.349L209.518,541.246L209.518,541.246z' },
-    { code: 'br', d: 'M286.631,618.464l5.402-10.391l0.198-8.73l10.079-6.501h5.645l4.435-7.512l0.804-14.418l-1.815-3.855l10.684-9.751l0.406-10.761l-14.514-7.105l-17.53-5.48l-8.264-0.812l2.221-4.669l-0.604-7.104l-1.808-0.596l-2.671,5.308l-1.4,1.754l-3.595-1.59l-12.093,4.261l-4.028-5.073l0.648-5.299l-3.804,3.872l-4.201-2.265l-0.424,0.597l0.009,1.841l3.622,1.945l-5.437,5.73l-3.432-0.034l-3.475-3.535l-3.933,0.121l-0.484,4.2l2.256,2.739l-2.663,8.532l-3.112,0.241l-4.953,3.13l-1.21,6.146l4.296,4.599l0.787-0.89l3.017-0.812l2.576,4.34l7.374-3.164l2.861,0.165l1.971,6.976l10.52,3.337l1.815,5.564l4.478,0.537l2.135,5.314l-1.443,4.729l1.884,2.474l-0.276,3.683l5.048-0.477l4.625,5.844l-0.363,4.105l2.74,2.316l-6.57,9.95L286.631,618.464L286.631,618.464z' },
-    { code: 'bo', d: 'M238.631,561.361l7.114-3.104l2.351,0.226l1.565,6.534l10.839,3.604l1.79,5.523l4.469,0.562l1.902,4.729l-1.34,4.278l-7.27,0.562l-2.68,6.872l-5.705-0.112l-1.79-0.337l-3.293,3.197l-1.625-0.156l-5.593-12.957l1.547-2.316l0.545-9.163l-1.383-5.455L238.631,561.361L238.631,561.361z' },
-    { code: 'py', d: 'M267.199,584.458l1.902,2.074l-0.225,4.392l5.48-0.338l4.141,5.299l-0.337,4.729l-2.681,4.054L270,604.893l-0.225-2.256l1.564-3.718l-5.368-3.38h-4.469l-3.354-3.604l2.438-6.968L267.199,584.458L267.199,584.458z' },
-    { code: 'cl', d: 'M261.391,683.51l-3.691,8.109l6.371,0.674l0.112-5.403L261.391,683.51L261.391,683.51z' },
-    { code: 'cl', d: 'M260.137,682.239l-2.775,3.068l-0.337,3.604l-5.368-3.043l-5.705-8.221l-1.677-2.932l2.351-3.043l-0.225-3.83l-2.68-1.124l-2.126-1.572l0.449-2.144l2.792-0.787l0.562-12.387l-4.356-2.48l-2.844-64.477l0.735-1.278l5.567,12.836l1.781,0.035l0.579,2.049l-2.369,2.868l-2.723,15.448l3.873,11.895l-1.79,9.007l6.31,26.485l0.666,15.49l4.521,5.229L260.137,682.239L260.137,682.239z' },
-    { code: 'cl', d: 'M241.717,649.833l-1.115,1.686l0.562,2.932l1.115,0.112l0.562-3.718L241.717,649.833L241.717,649.833z' },
-    { code: 'ar', d: 'M279.05,600.613l1.677,1.571l-6.371,9.467l-2.239,2.479l0.777,10.813l4.918,5.974l-4.132,7.209l-3.129,1.35h-3.579l1.003,5.627l-5.593,1.92l1.34,4.729l-3.354,10.701l4.141,3.38l-2.239,5.515l-3.804,5.975l2.014,4.165l-4.918,0.786l-4.028-4.951l-0.674-15.432l-6.258-26.209l1.893-9.163l-4.028-11.713l2.68-15.204l2.463-2.931l-0.605-2.222l3.164-2.888l7.054,0.483l3.942,4.21l4.555,0.078l4.668,2.853l-1.375,3.217l0.329,3.25l6.612-0.312L279.05,600.613L279.05,600.613z' },
-    { code: 'ar', d: 'M264.745,687.564l0.225,4.951l3.803-0.337l3.242-2.144l-5.48-1.124L264.745,687.564L264.745,687.564z' },
-    { code: 'uy', d: 'M274.633,612.481l-1.773,1.894l0.735,10.183l5.566,1.615l7.08-7.097L274.633,612.481L274.633,612.481z' }
-  ];
-
-  function miniMapSvg(code) {
-    var shapes = SA_MAP_PATHS.map(function (p) {
-      var fill = p.code === code ? '#F7D36F' : 'rgba(255,255,255,0.16)';
-      return '<path d="' + p.d + '" fill="' + fill + '"/>';
-    }).join('');
-    return '<svg viewBox="167 483.1 170.5 224.4" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' + shapes + '</svg>';
-  }
-
-  // Shared by the hero marquee clips: same dish info (title, description,
-  // country, fact, mini-map) the filmstrip's own preview already shows,
-  // just opened in a dialog instead of a FLIP-zoom, since marquee tiles are
-  // mid-scroll when clicked and don't have a stable position to zoom from.
-  function openDishDialog(i, restaurant) {
-    var dialog = document.getElementById('dishDialog');
-    if (!dialog) return;
-    var info = DISH_INFO[i] || DISH_INFO[0];
-    var country = DISH_COUNTRY[i] || DISH_COUNTRY[0];
-    var code = DISH_COUNTRY_CODE[country.en] || 'pe';
-    var countryFact = COUNTRY_INFO[code];
-
-    var video = document.getElementById('dishDialogVideo');
-    video.src = dishClips[i] || dishClips[0];
-    video.poster = 'assets/img/posters/clip-' + (i + 2) + '.jpg';
-    video.play().catch(function () {});
-
-    var restaurantEl = document.getElementById('dishDialogRestaurant');
-    if (restaurant) {
-      var exampleWord = currentLang === 'es' ? 'Ejemplo' : 'Example';
-      var area = currentLang === 'es' ? restaurant.areaEs : restaurant.area;
-      restaurantEl.innerHTML = restaurant.name + ' · ' + area + ' <span class="example-badge">' + exampleWord + '</span>';
-    } else {
-      restaurantEl.textContent = '';
-    }
-
-    document.getElementById('dishDialogMeta').innerHTML =
-      (FLAG_SVG[country.en] || '') +
-      '<span class="dish-dialog-country">' + (currentLang === 'es' ? country.es : country.en) + '</span>';
-    document.getElementById('dishDialogTitle').textContent = info.title;
-    document.getElementById('dishDialogText').textContent = currentLang === 'es' ? info.es : info.en;
-    document.getElementById('dishDialogMap').innerHTML = miniMapSvg(code);
-    document.getElementById('dishDialogFact').textContent = countryFact ? (currentLang === 'es' ? countryFact.es : countryFact.en) : '';
-
-    dialog.showModal();
-  }
-
-  // Full flag artwork (same simplified geometry as the small reel badges), used as a background watermark.
-  var FLAG_SVG_MARKUP = {
-    co: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="2" fill="#FCD116"/><rect y="1" width="3" height="0.5" fill="#003893"/><rect y="1.5" width="3" height="0.5" fill="#CE1126"/></svg>',
-    ve: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="0.667" fill="#FCD116"/><rect y="0.667" width="3" height="0.667" fill="#00247D"/><rect y="1.333" width="3" height="0.667" fill="#CF142B"/></svg>',
-    gy: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="2" fill="#009739"/><polygon points="0,0 1.9,1 0,2" fill="#FCD116"/><polygon points="0,0.35 1.2,1 0,1.65" fill="#CE1126"/></svg>',
-    sr: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="2" fill="#377E3F"/><rect y="0.4" width="3" height="0.2" fill="#fff"/><rect y="0.6" width="3" height="0.8" fill="#B40A2D"/><rect y="1.4" width="3" height="0.2" fill="#fff"/><circle cx="1.5" cy="1" r="0.18" fill="#ECC81D"/></svg>',
-    ec: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="2" fill="#FCD116"/><rect y="1" width="3" height="0.5" fill="#0072CE"/><rect y="1.5" width="3" height="0.5" fill="#EF3340"/></svg>',
-    pe: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="2" fill="#fff"/><rect width="1" height="2" fill="#D91023"/><rect x="2" width="1" height="2" fill="#D91023"/></svg>',
-    br: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="2" fill="#009739"/><polygon points="1.5,0.15 2.75,1 1.5,1.85 0.25,1" fill="#FEDD00"/><circle cx="1.5" cy="1" r="0.45" fill="#002776"/></svg>',
-    bo: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="0.667" fill="#D52B1E"/><rect y="0.667" width="3" height="0.667" fill="#F9E300"/><rect y="1.333" width="3" height="0.667" fill="#007934"/></svg>',
-    py: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="0.667" fill="#D52B1E"/><rect y="0.667" width="3" height="0.667" fill="#fff"/><rect y="1.333" width="3" height="0.667" fill="#0038A8"/></svg>',
-    cl: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="2" fill="#D52B1E"/><rect width="3" height="1" fill="#fff"/><rect width="1" height="1" fill="#0039A6"/><polygon points="0.5,0.14 0.61,0.46 0.95,0.46 0.67,0.65 0.78,0.97 0.5,0.78 0.22,0.97 0.33,0.65 0.05,0.46 0.39,0.46" fill="#fff"/></svg>',
-    ar: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="2" fill="#fff"/><rect width="3" height="0.667" fill="#75AADB"/><rect width="3" height="0.667" y="1.333" fill="#75AADB"/><circle cx="1.5" cy="1" r="0.24" fill="#F6B40E" stroke="#85340A" stroke-width="0.02"/></svg>',
-    uy: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="2" fill="#fff"/><rect y="0.222" width="3" height="0.222" fill="#0038A8"/><rect y="0.667" width="3" height="0.222" fill="#0038A8"/><rect y="1.111" width="3" height="0.222" fill="#0038A8"/><rect y="1.556" width="3" height="0.222" fill="#0038A8"/><rect width="1.3" height="1" fill="#fff"/><circle cx="0.65" cy="0.5" r="0.22" fill="#FCD116"/></svg>',
-    mx: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="2" fill="#fff"/><rect width="1" height="2" fill="#006341"/><rect x="2" width="1" height="2" fill="#CE1126"/></svg>',
-    gt: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="2" fill="#fff"/><rect width="1" height="2" fill="#4997D0"/><rect x="2" width="1" height="2" fill="#4997D0"/></svg>',
-    hn: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="2" fill="#fff"/><rect width="3" height="0.667" fill="#0073CF"/><rect y="1.333" width="3" height="0.667" fill="#0073CF"/></svg>',
-    sv: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="2" fill="#fff"/><rect width="3" height="0.667" fill="#0047AB"/><rect y="1.333" width="3" height="0.667" fill="#0047AB"/></svg>',
-    ni: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="2" fill="#fff"/><rect width="3" height="0.667" fill="#0067C6"/><rect y="1.333" width="3" height="0.667" fill="#0067C6"/></svg>',
-    cr: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="2" fill="#002B7F"/><rect y="0.2" width="3" height="1.6" fill="#fff"/><rect y="0.5" width="3" height="1" fill="#CE1126"/></svg>',
-    pa: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="2" fill="#fff"/><rect x="1.5" width="1.5" height="1" fill="#DA121A"/><rect y="1" width="1.5" height="1" fill="#0072C6"/></svg>',
-    cu: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="2" fill="#fff"/><rect width="3" height="0.4" fill="#002A8F"/><rect y="0.8" width="3" height="0.4" fill="#002A8F"/><rect y="1.6" width="3" height="0.4" fill="#002A8F"/><polygon points="0,0 1.3,1 0,2" fill="#CF142B"/><polygon points="0.35,0.72 0.47,1 0.35,1.28 0.55,1.08 0.83,1.08 0.6,0.92 0.68,0.66 0.45,0.82" fill="#fff"/></svg>',
-    do: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2"><rect width="3" height="2" fill="#fff"/><rect width="1.3" height="0.85" fill="#002D62"/><rect x="1.7" width="1.3" height="0.85" fill="#CE1126"/><rect y="1.15" width="1.3" height="0.85" fill="#CE1126"/><rect x="1.7" y="1.15" width="1.3" height="0.85" fill="#002D62"/></svg>'
-  };
-
-  function flagBackgroundUrl(code) {
-    var markup = FLAG_SVG_MARKUP[code];
-    if (!markup) return 'none';
-    return 'url("data:image/svg+xml,' + encodeURIComponent(markup) + '")';
-  }
-
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  // The page ships in English and leaves translation to the browser's own
-  // translate feature, so there is no in-page language state to restore.
-  var currentLang = 'en';
-
-  (function heroMarquee() {
-    var mount = document.getElementById('heroMarquee');
-    if (!mount) return;
-
-    // Two rows sliding opposite directions, each built from half the dish
-    // clips. Every row's video set is rendered twice back-to-back (see the
-    // .marquee-track CSS) so the scroll loop has no seam.
-    var rowA = dishClips.slice(0, 4);
-    var rowB = dishClips.slice(4, 8);
-
-    function makeGroup(clips) {
-      var group = document.createElement('div');
-      group.className = 'marquee-group';
-      clips.forEach(function (src) {
-        var tile = document.createElement('div');
-        tile.className = 'marquee-tile';
-
-        var video = document.createElement('video');
-        video.src = src;
-        video.muted = true;
-        video.loop = true;
-        video.playsInline = true;
-        video.autoplay = true;
-        video.preload = 'auto';
-        var m = src.match(/clip-(\d+)\.mp4$/);
-        var dishIdx = m ? Number(m[1]) - 2 : 0;
-        if (m) video.poster = 'assets/img/posters/clip-' + m[1] + '.jpg';
-
-        var watermark = document.createElement('div');
-        watermark.className = 'marquee-watermark';
-        watermark.setAttribute('aria-hidden', 'true');
-        watermark.innerHTML = '<svg viewBox="0 0 1080 1080"><use href="#logo-mark" x="0" y="0" width="1080" height="1080"></use></svg>';
-
-        var country = DISH_COUNTRY[dishIdx] || DISH_COUNTRY[0];
-        var reel = document.createElement('span');
-        reel.className = 'reel i18n-reel';
-        reel.dataset.idx = dishIdx;
-        reel.innerHTML = (FLAG_SVG[country.en] || '') + '<span class="reel-label">' + (currentLang === 'es' ? country.es : country.en) + '</span>';
-
-        tile.appendChild(video);
-        tile.appendChild(watermark);
-        tile.appendChild(reel);
-        tile.addEventListener('click', function () {
-          if (m) openDishDialog(dishIdx);
-        });
-        group.appendChild(tile);
-      });
-      return group;
-    }
-
-    [{ clips: rowA, reverse: true }, { clips: rowB, reverse: false }].forEach(function (rowDef) {
-      var row = document.createElement('div');
-      row.className = 'marquee-row' + (rowDef.reverse ? ' reverse' : '');
-      var track = document.createElement('div');
-      track.className = 'marquee-track';
-      track.appendChild(makeGroup(rowDef.clips));
-      track.appendChild(makeGroup(rowDef.clips));
-      row.appendChild(track);
-      mount.appendChild(row);
-    });
-
-    mount.querySelectorAll('video').forEach(function (v) {
-      v.play().catch(function () {});
-    });
-  })();
 
   (function scrollReveal() {
     var els = document.querySelectorAll('.reveal-up');
@@ -2594,10 +2552,9 @@
   })();
 
   (function finalCtaOpen() {
-    // The dedicated waitlist/cook-application cards were removed, so the
-    // closing CTA now opens the same email-capture dialog every other
-    // "join" entry point on the page uses.
-    var chips = document.querySelectorAll('.final-cta-btn');
+    // Every secondary "join" entry point on the page (final CTA, the join
+    // strip) opens the same member-signup dialog as the header/hero buttons.
+    var chips = document.querySelectorAll('.js-open-join');
     if (!chips.length) return;
     chips.forEach(function (chip) {
       chip.addEventListener('click', function (e) {
@@ -2665,82 +2622,6 @@
     dialog.addEventListener('click', function (e) {
       if (e.target === dialog) dialog.close();
     });
-  })();
-
-  (function dishDialogClose() {
-    var dialog = document.getElementById('dishDialog');
-    var closeBtn = document.getElementById('dishDialogClose');
-    if (!dialog || !closeBtn) return;
-
-    var video = document.getElementById('dishDialogVideo');
-    closeBtn.addEventListener('click', function () { dialog.close(); });
-    dialog.addEventListener('click', function (e) {
-      if (e.target === dialog) dialog.close();
-    });
-    dialog.addEventListener('close', function () {
-      if (video) video.pause();
-    });
-  })();
-
-  (function marketplaceDialog() {
-    var dialog = document.getElementById('marketplaceDialog');
-    var navLinks = document.querySelectorAll('.js-open-marketplace');
-    var closeBtn = document.getElementById('marketplaceDialogClose');
-    var joinBtn = document.getElementById('marketplaceJoinBtn');
-    var grid = document.getElementById('marketplaceGrid');
-    if (!dialog || !navLinks.length || !grid) return;
-
-    DISH_INFO.forEach(function (info, i) {
-      var country = DISH_COUNTRY[i] || DISH_COUNTRY[0];
-      var restaurant = MOCK_RESTAURANTS[i] || MOCK_RESTAURANTS[0];
-      var card = document.createElement('button');
-      card.type = 'button';
-      card.className = 'marketplace-card';
-      var img = document.createElement('img');
-      img.src = 'assets/img/posters/clip-' + (i + 2) + '.jpg';
-      img.alt = restaurant.name;
-      img.loading = 'lazy';
-      var body = document.createElement('div');
-      body.className = 'marketplace-card-body';
-      var tag = document.createElement('span');
-      tag.className = 'marketplace-card-tag';
-      tag.innerHTML = (FLAG_SVG[country.en] || '') + '<span>' + (currentLang === 'es' ? restaurant.areaEs : restaurant.area) + '</span>';
-      var title = document.createElement('span');
-      title.className = 'marketplace-card-title';
-      title.textContent = restaurant.name;
-      var status = document.createElement('span');
-      status.className = 'marketplace-card-status';
-      status.textContent = currentLang === 'es' ? 'Ejemplo' : 'Example';
-      body.appendChild(tag);
-      body.appendChild(title);
-      body.appendChild(document.createElement('br'));
-      body.appendChild(status);
-      card.appendChild(img);
-      card.appendChild(body);
-      card.addEventListener('click', function () {
-        dialog.close();
-        openDishDialog(i, restaurant);
-      });
-      grid.appendChild(card);
-    });
-
-    navLinks.forEach(function (link) {
-      link.addEventListener('click', function (e) {
-        e.preventDefault();
-        dialog.showModal();
-      });
-    });
-    closeBtn.addEventListener('click', function () { dialog.close(); });
-    dialog.addEventListener('click', function (e) {
-      if (e.target === dialog) dialog.close();
-    });
-    if (joinBtn) {
-      joinBtn.addEventListener('click', function () {
-        dialog.close();
-        var newsletter = document.getElementById('newsletterDialog');
-        if (newsletter) newsletter.showModal();
-      });
-    }
   })();
 
   (function headerSpread() {
@@ -2836,359 +2717,6 @@
     });
   })();
 
-  (function pathsFlags() {
-    var row = document.getElementById('pathsFlags');
-    if (!row) return;
-    // Spanish-speaking Latin America + Central America — not the full
-    // South America map (that one, above, still shows all 12 including
-    // Brazil/Guyana/Suriname since it's a literal map, not a language list).
-    var order = ['mx', 'gt', 'hn', 'sv', 'ni', 'cr', 'pa', 'cu', 'do',
-      'co', 've', 'ec', 'pe', 'bo', 'py', 'cl', 'ar', 'uy'];
-    order.forEach(function (code) {
-      var wrap = document.createElement('span');
-      wrap.innerHTML = FLAG_SVG_MARKUP[code] || '';
-      var svg = wrap.firstChild;
-      if (!svg) return;
-      svg.classList.add('i18n-flagrow');
-      svg.dataset.code = code;
-      var name = (COUNTRY_NAME[code] || {})[currentLang] || code;
-      var titleEl = document.createElementNS('http://www.w3.org/2000/svg', 'title');
-      titleEl.textContent = name;
-      svg.insertBefore(titleEl, svg.firstChild);
-      row.appendChild(svg);
-    });
-  })();
-
-  (function cravingGrid() {
-    var mount = document.getElementById('cravingCards');
-    if (!mount) return;
-    // Warm-toned variations on the site's own palette instead of modedu's
-    // pastel blues/pinks/greens, so the grid reads as "one family" of
-    // colors rather than a rainbow.
-    var colors = ['#A3331C', '#C77D22', '#8C1F0F', '#D9A441', '#5C1A12', '#E08830', '#7A2418', '#B8862E'];
-
-    DISH_INFO.forEach(function (info, i) {
-      var country = DISH_COUNTRY[i] || DISH_COUNTRY[0];
-      var card = document.createElement('button');
-      card.type = 'button';
-      card.className = 'craving-card';
-      card.style.background = colors[i % colors.length];
-
-      var tag = document.createElement('span');
-      tag.className = 'craving-tag';
-      tag.innerHTML = (FLAG_SVG[country.en] || '') + '<span>' + (currentLang === 'es' ? country.es : country.en) + '</span>';
-
-      var line = document.createElement('span');
-      line.className = 'craving-line';
-      line.textContent = currentLang === 'es' ? info.cravingEs : info.craving;
-
-      card.appendChild(tag);
-      card.appendChild(line);
-      card.addEventListener('click', function () { openDishDialog(i); });
-      mount.appendChild(card);
-    });
-  })();
-
-  (function filmstrip() {
-    var strip = document.getElementById('filmstrip');
-    var videos = [];
-    dishClips.forEach(function (src, i) {
-      var slot = document.createElement('div');
-      slot.className = 'frame-slot';
-      var frame = document.createElement('div');
-      frame.className = 'frame';
-      var reel = document.createElement('span');
-      reel.className = 'reel i18n-reel';
-      reel.dataset.idx = i;
-      var country = DISH_COUNTRY[i] || DISH_COUNTRY[0];
-      reel.innerHTML = (FLAG_SVG[country.en] || '') + '<span class="reel-label">' + (currentLang === 'es' ? country.es : country.en) + '</span>';
-      var video = document.createElement('video');
-      video.src = src;
-      video.muted = true;
-      video.loop = true;
-      video.playsInline = true;
-      video.preload = 'none';
-      video.poster = 'assets/img/posters/clip-' + (i + 2) + '.jpg';
-      // clip-5 (Chile, reel index 3) is a near-static shot — add a slow drift so the tile doesn't read as frozen.
-      if (src.indexOf('clip-5.mp4') !== -1) {
-        video.className = 'kenburns';
-      }
-      videos.push(video);
-
-      var closeBtn = document.createElement('button');
-      closeBtn.type = 'button';
-      closeBtn.className = 'frame-close';
-      closeBtn.setAttribute('aria-label', 'Close');
-      closeBtn.textContent = '×';
-
-      var info = DISH_INFO[i] || DISH_INFO[0];
-      var caption = document.createElement('div');
-      caption.className = 'frame-caption';
-      var title = document.createElement('span');
-      title.className = 'frame-caption-title';
-      title.textContent = info.title;
-      var text = document.createElement('p');
-      text.className = 'frame-caption-text i18n-caption';
-      text.dataset.idx = i;
-      text.textContent = currentLang === 'es' ? info.es : info.en;
-      caption.appendChild(title);
-      caption.appendChild(text);
-
-      var code = DISH_COUNTRY_CODE[country.en] || 'pe';
-      var countryFact = COUNTRY_INFO[code];
-      var preview = document.createElement('div');
-      preview.className = 'frame-preview';
-      var photo = document.createElement('div');
-      photo.className = 'frame-preview-photo';
-      var photoImg = document.createElement('img');
-      photoImg.src = LANDMARK_PHOTO[code] || '';
-      photoImg.loading = 'lazy';
-      photoImg.alt = currentLang === 'es' ? country.es : country.en;
-      photoImg.className = 'i18n-preview';
-      photoImg.dataset.idx = i;
-      photo.appendChild(photoImg);
-      var body = document.createElement('div');
-      body.className = 'frame-preview-body';
-      var countryLabel = document.createElement('span');
-      countryLabel.className = 'frame-preview-country i18n-preview';
-      countryLabel.dataset.idx = i;
-      countryLabel.textContent = currentLang === 'es' ? country.es : country.en;
-      var fact = document.createElement('p');
-      fact.className = 'frame-preview-fact i18n-preview';
-      fact.dataset.idx = i;
-      fact.textContent = countryFact ? (currentLang === 'es' ? countryFact.es : countryFact.en) : '';
-      body.appendChild(countryLabel);
-      body.appendChild(fact);
-      var mapEl = document.createElement('div');
-      mapEl.className = 'frame-preview-map';
-      mapEl.innerHTML = miniMapSvg(code);
-      preview.appendChild(photo);
-      preview.appendChild(body);
-      preview.appendChild(mapEl);
-
-      var watermark = document.createElement('div');
-      watermark.className = 'frame-watermark';
-      watermark.setAttribute('aria-hidden', 'true');
-      watermark.innerHTML = '<svg viewBox="0 0 1080 1080"><use href="#logo-mark" x="0" y="0" width="1080" height="1080"></use></svg>';
-
-      frame.appendChild(video);
-      frame.appendChild(watermark);
-      frame.appendChild(reel);
-      frame.appendChild(closeBtn);
-      frame.appendChild(caption);
-      frame.appendChild(preview);
-      slot.appendChild(frame);
-      strip.appendChild(slot);
-    });
-
-    // Only stream/decode a tile's video once it's actually scrolled into view —
-    // with 8 clips, autoplaying every tile at once meant up to 8 concurrent
-    // full video streams (plus whichever clip the hero was already playing),
-    // burning mobile data on footage nobody was looking at.
-    if ('IntersectionObserver' in window) {
-      var filmstripIO = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          var v = entry.target;
-          var frame = v.closest('.frame');
-          if (entry.isIntersecting) {
-            v.play().catch(function () {});
-          } else if (!frame || !frame.classList.contains('is-zoomed')) {
-            // Zooming moves the frame to position:fixed, centered on the full
-            // viewport — that can read as "not intersecting" against the
-            // filmstrip's own (much smaller) scroll box. Never pause a video
-            // just because it's mid-zoom; only pause it once it's actually
-            // scrolled off-screen in the strip.
-            v.pause();
-          }
-        });
-      }, { root: strip, rootMargin: '0px 120px', threshold: 0.15 });
-      videos.forEach(function (v) { filmstripIO.observe(v); });
-    } else {
-      videos.forEach(function (v) { v.autoplay = true; v.play().catch(function () {}); });
-    }
-
-    var prevBtn = document.getElementById('filmPrev');
-    var nextBtn = document.getElementById('filmNext');
-
-    function step() {
-      var first = strip.querySelector('.frame-slot');
-      if (!first) return 220;
-      var gap = parseFloat(getComputedStyle(strip).columnGap || getComputedStyle(strip).gap) || 0;
-      return first.getBoundingClientRect().width + gap;
-    }
-
-    function updateNavState() {
-      var maxScroll = strip.scrollWidth - strip.clientWidth - 1;
-      prevBtn.disabled = strip.scrollLeft <= 0;
-      nextBtn.disabled = strip.scrollLeft >= maxScroll;
-    }
-
-    prevBtn.addEventListener('click', function () {
-      strip.scrollBy({ left: -step(), behavior: reduceMotion ? 'auto' : 'smooth' });
-    });
-    nextBtn.addEventListener('click', function () {
-      strip.scrollBy({ left: step(), behavior: reduceMotion ? 'auto' : 'smooth' });
-    });
-    strip.addEventListener('scroll', updateNavState, { passive: true });
-    window.addEventListener('resize', updateNavState);
-    updateNavState();
-  })();
-
-  (function dishSpotlight() {
-    if (reduceMotion) return;
-
-    var scrim = document.getElementById('dishScrim');
-    var strip = document.getElementById('filmstrip');
-    var active = null;
-
-    function activate(frame) {
-      if (active === frame) return;
-      if (active) restore(active);
-
-      strip.classList.add('spotlight-active');
-      var r = frame.getBoundingClientRect();
-      frame.dataset.rect = JSON.stringify({ left: r.left, top: r.top, width: r.width, height: r.height });
-
-      frame.style.position = 'fixed';
-      frame.style.margin = '0';
-      frame.style.left = r.left + 'px';
-      frame.style.top = r.top + 'px';
-      frame.style.width = r.width + 'px';
-      frame.style.height = r.height + 'px';
-      frame.style.zIndex = '960';
-      frame.classList.add('is-zoomed');
-      void frame.offsetWidth;
-
-      var targetH = Math.min(window.innerHeight * 0.82, 720);
-      var targetW = targetH * 4 / 5;
-      if (targetW > window.innerWidth * 0.88) {
-        targetW = window.innerWidth * 0.88;
-        targetH = targetW * 5 / 4;
-      }
-      frame.style.left = ((window.innerWidth - targetW) / 2) + 'px';
-      frame.style.top = ((window.innerHeight - targetH) / 2) + 'px';
-      frame.style.width = targetW + 'px';
-      frame.style.height = targetH + 'px';
-
-      scrim.classList.add('show');
-      active = frame;
-    }
-
-    function restore(frame) {
-      var r = JSON.parse(frame.dataset.rect || '{}');
-      frame.style.left = (r.left || 0) + 'px';
-      frame.style.top = (r.top || 0) + 'px';
-      frame.style.width = (r.width || 0) + 'px';
-      frame.style.height = (r.height || 0) + 'px';
-      frame.classList.remove('is-zoomed');
-
-      var done = function (e) {
-        if (e && e.propertyName !== 'width') return;
-        frame.style.position = '';
-        frame.style.margin = '';
-        frame.style.left = '';
-        frame.style.top = '';
-        frame.style.width = '';
-        frame.style.height = '';
-        frame.style.zIndex = '';
-        frame.removeEventListener('transitionend', done);
-      };
-      frame.addEventListener('transitionend', done);
-
-      if (active === frame) {
-        active = null;
-        scrim.classList.remove('show');
-        strip.classList.remove('spotlight-active');
-      }
-    }
-
-    document.querySelectorAll('.frame').forEach(function (frame) {
-      frame.addEventListener('click', function (e) {
-        if (frame.classList.contains('is-zoomed')) {
-          restore(frame);
-        } else {
-          activate(frame);
-        }
-      });
-      var closeBtn = frame.querySelector('.frame-close');
-      if (closeBtn) {
-        closeBtn.addEventListener('click', function (e) {
-          e.stopPropagation();
-          restore(frame);
-        });
-      }
-    });
-
-    scrim.addEventListener('click', function () {
-      if (active) restore(active);
-    });
-
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && active) restore(active);
-    });
-  })();
-
-  (function countryMap() {
-    var panel = document.getElementById('countryInfo');
-    var titleEl = document.getElementById('countryInfoTitle');
-    var textEl = document.getElementById('countryInfoText');
-    var bg = document.getElementById('communityBg');
-    if (!panel || !bg) return;
-
-    var activeCode = null;
-
-    function render(code) {
-      var name = (COUNTRY_NAME[code] || {})[currentLang] || code;
-      var text = (COUNTRY_INFO[code] || {})[currentLang] || '';
-      titleEl.textContent = name;
-      textEl.textContent = text;
-    }
-
-    function setFlagBg(code) {
-      if (!code) {
-        bg.classList.remove('show');
-        return;
-      }
-      bg.style.setProperty('--flag-img', flagBackgroundUrl(code));
-      bg.classList.add('show');
-    }
-
-    function show(code) {
-      activeCode = code;
-      render(code);
-      panel.classList.add('show');
-      setFlagBg(code);
-    }
-
-    function hide() {
-      activeCode = null;
-      panel.classList.remove('show');
-      setFlagBg(null);
-    }
-
-    document.querySelectorAll('.sa-map g').forEach(function (g) {
-      g.addEventListener('mouseenter', function () {
-        var code = g.querySelector('.country').dataset.country;
-        setFlagBg(code);
-      });
-      g.addEventListener('mouseleave', function () {
-        setFlagBg(activeCode);
-      });
-      g.addEventListener('click', function () {
-        var code = g.querySelector('.country').dataset.country;
-        if (activeCode === code && panel.classList.contains('show')) {
-          hide();
-          return;
-        }
-        show(code);
-      });
-    });
-
-    document.addEventListener('i18n:changed', function () {
-      if (activeCode) render(activeCode);
-    });
-  })();
-
   (function emberTrail() {
     var canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     if (reduceMotion || !canHover) return;
@@ -3214,248 +2742,75 @@
     }, { passive: true });
   })();
 
-  (function i18n() {
-    var I18N = {
-      en: {
-        navAbout: 'About us',
-        navOrder: 'Place an order',
-        navWork: 'Work with us',
-        navContact: 'Contact us',
-        heroEyebrow: 'Home kitchen discovery — Australia',
-        heroH1: 'Get your QR<br>to the nearest local.',
-        heroChipOpen: 'QR',
-        dialogEyebrow: 'Home kitchen discovery',
-        dialogTitle: 'Be the first to taste it.',
-        dialogDesc: 'Real home cooks near you, real recipes, real stories — we’ll let you know the moment Solub Food launches.',
-        dialogEmailPh: 'Your email',
-        dialogBtn: 'Click Here',
-        dialogFineprint: 'We’ll only use this to reach you about the waitlist — no spam. See our <a href="privacy.html">Privacy Policy</a>.',
-        dialogSuccess: 'You’re on the list! We’ll be in touch.',
-        storyQuote: '&ldquo;We’re here to offer you comfort and enjoyment. You know food is just the surface — what it really means is disconnecting, stepping into another reality of comfort. We want to show you our reality, not the typical options. We want to invite you to discover a different perspective on food: a shared story.&rdquo;',
-        storyStamp: 'That is Solub Food’s destination.',
-        problemLead: 'We make Latin America feel Aussie.',
-        problemP1: 'We tell the story because real experience and emotion come from people — and we won’t regret spreading what we already know is possible to feel.',
-        problemCloser: 'Real over perfect.',
-        pathsEyebrow: 'Two ways in',
-        pathsH2: 'The feeling of being alive is daring to experience something for the first time.',
-        pathsSub: 'Help us create those moments and feel something different: a different connection, a different identity.',
-        discoverTag: 'For the curious',
-        discoverH3: 'Join the waitlist',
-        discoverP: 'Be first to discover the home cooks near you — real people, real recipes, and the stories behind them. No generic listings, no stock photos of food that isn’t theirs.',
-        discoverBtn: 'Join the waitlist →',
-        discoverFineprint: 'We’ll only use this to reach you about the waitlist — no spam. See our <a href="privacy.html">Privacy Policy</a>.',
-        discoverNamePh: 'Your name',
-        discoverSuburbPh: 'Suburb / postcode',
-        cookTag: 'For the cooks',
-        cookH3: 'Become a Founding Chef',
-        cookP: 'Grew up cooking dishes your family never wrote down? Solub Food helps you sell what you already know how to make — you keep what you earn, minus a small commission for handling the sale.',
-        cookBtn: 'Apply to cook →',
-        cookFineprint: 'We’ll only use this to reach you about your application — no spam. See our <a href="privacy.html">Privacy Policy</a>.',
-        cookNamePh: 'Your name',
-        cookContactPh: 'Phone or Instagram',
-        cookDishPh: 'Dish(es) you cook',
-        formSending: 'Sending…',
-        formSuccessDiscover: 'You’re on the list! We’ll be in touch.',
-        formSuccessCook: 'Application received! We’ll be in touch.',
-        formError: 'Something went wrong — email us directly at',
-        cravingEyebrow: 'Taste the range',
-        cravingH2: 'How this works',
-        marketEyebrow: 'Preview',
-        marketTitle: 'This is what ordering on Solub will look like.',
-        marketDesc: 'We’re building the founding cook network right now — these are example cooks, not real listings yet. Here’s the idea, so you know what to expect at launch.',
-        marketFoot: 'Want to be notified the moment a cook near you goes live?',
-        marketJoinBtn: 'Join the waitlist →',
-        filmstripEyebrow: 'From the kitchens',
-        filmstripH2: 'Dishes that build connections.',
-        communityEyebrow: 'South America',
-        communityH2: 'We are a community. We feel the food.',
-        honestyEyebrow: 'Where we’re at',
-        honestyIntro: 'Solub Food is in its earliest days — we’re building the founding chef network from the ground up, starting here in Queensland.',
-        trust1Title: 'Reviewed profiles',
-        trust1P: 'Every home cook’s profile is reviewed before it goes live.',
-        trust2Title: 'Council registration noted',
-        trust2P: 'Where council registration applies, we note it right on the profile.',
-        trust3Title: 'No overpromising',
-        trust3P: 'We’ll never claim more certainty than we actually have.',
-        honestyP2: 'What we can promise: you’ll always know who made your food, and why.',
-        finalCtaH2: 'You don’t need to travel to Latin America.',
-        finalCtaP: 'We bring Latin America to you — real home cooks, real recipes. Join the waitlist, it takes ten seconds.',
-        finalCtaBtn: 'Join the waitlist →',
-        footerTagline: 'Solub Food — Real Over Perfect',
-        footerDesc: 'We bring Latin America to you — real home cooks, real recipes.',
-        footerSitemap: 'Sitemap',
-        footerOtherPages: 'Other Pages',
-        footerTerms: 'Terms & Conditions',
-        footerPrivacy: 'Privacy Policy',
-        footerContactDetails: 'Contact Details',
-        footerRights: 'All Rights Reserved.',
-        mapCredit: 'Map data adapted from <a href="https://github.com/flekschas/simple-world-map" target="_blank" rel="noopener noreferrer">simple-world-map</a> (CC BY-SA 3.0).'
-      },
-      es: {
-        navAbout: 'Sobre nosotros',
-        navOrder: 'Realiza un pedido',
-        navWork: 'Trabaja con nosotros',
-        navContact: 'Contáctanos',
-        heroEyebrow: 'Descubre cocina casera — Australia',
-        heroH1: 'Consigue tu QR<br>al local más cercano.',
-        heroChipOpen: 'QR',
-        dialogEyebrow: 'Descubre cocina casera',
-        dialogTitle: 'Sé de los primeros en probarlo.',
-        dialogDesc: 'Cocineros caseros reales cerca de ti, recetas reales, historias reales — te avisaremos en cuanto Solub Food se lance.',
-        dialogEmailPh: 'Tu correo',
-        dialogBtn: 'Haz clic aquí',
-        dialogFineprint: 'Solo usaremos esto para contactarte sobre la lista de espera — sin spam. Consulta nuestra <a href="privacy.html">Política de Privacidad</a>.',
-        dialogSuccess: '¡Ya estás en la lista! Te contactaremos pronto.',
-        storyQuote: '&ldquo;Estamos aquí para ofrecerte comodidad y disfrute. Sabes que la comida es solo la superficie que significa desconexión y entrar a otra realidad de confort. Queremos mostrarte nuestra realidad, no las típicas opciones. Queremos invitarte a descubrir una perspectiva diferente de la comida, una historia compartida.&rdquo;',
-        storyStamp: 'Ese es el destino de Solub Food.',
-        problemLead: 'Hacemos que Latinoamérica se sienta australiana.',
-        problemP1: 'Contamos la historia porque la experiencia y la emoción reales vienen de las personas — y no nos arrepentiremos de difundir lo que ya sabemos que es posible sentir.',
-        problemCloser: 'Real sobre perfecto.',
-        pathsEyebrow: 'Dos formas de entrar',
-        pathsH2: 'La sensación de estar vivo es la de atrevernos a experimentar cosas por primera vez.',
-        pathsSub: 'Ayúdanos a crear esos momentos y a que sientas algo diferente: una conexión e identidad diferente.',
-        discoverTag: 'Para los curiosos',
-        discoverH3: 'Únete a la lista de espera',
-        discoverP: 'Sé el primero en descubrir a los cocineros caseros cerca de ti — personas reales, recetas reales y las historias detrás de ellas. Sin listados genéricos, sin fotos de stock de comida que no es suya.',
-        discoverBtn: 'Únete a la lista de espera →',
-        discoverFineprint: 'Solo usaremos esto para contactarte sobre la lista de espera — sin spam. Consulta nuestra <a href="privacy.html">Política de Privacidad</a>.',
-        discoverNamePh: 'Tu nombre',
-        discoverSuburbPh: 'Suburbio / código postal',
-        cookTag: 'Para los cocineros',
-        cookH3: 'Conviértete en Chef Fundador',
-        cookP: '¿Creciste cocinando platos que tu familia nunca escribió? Solub Food te ayuda a vender lo que ya sabes hacer — te quedas con lo que ganas, menos una pequeña comisión por gestionar la venta.',
-        cookBtn: 'Postúlate para cocinar →',
-        cookFineprint: 'Solo usaremos esto para contactarte sobre tu postulación — sin spam. Consulta nuestra <a href="privacy.html">Política de Privacidad</a>.',
-        cookNamePh: 'Tu nombre',
-        cookContactPh: 'Teléfono o Instagram',
-        cookDishPh: 'Plato(s) que cocinas',
-        formSending: 'Enviando…',
-        formSuccessDiscover: '¡Ya estás en la lista! Te contactaremos pronto.',
-        formSuccessCook: '¡Postulación recibida! Te contactaremos pronto.',
-        formError: 'Algo salió mal — escríbenos directo a',
-        cravingEyebrow: 'Un poco de todo',
-        cravingH2: 'Cómo funciona',
-        marketEyebrow: 'Vista previa',
-        marketTitle: 'Así se va a ver pedir en Solub.',
-        marketDesc: 'Estamos armando la red de cocineros fundadores ahora mismo — estos son cocineros de ejemplo, no listados reales todavía. Así es la idea, para que sepas qué esperar en el lanzamiento.',
-        marketFoot: '¿Quieres que te avisemos apenas haya un cocinero cerca de ti?',
-        marketJoinBtn: 'Únete a la lista de espera →',
-        filmstripEyebrow: 'Desde las cocinas',
-        filmstripH2: 'Platos que construyen conexiones.',
-        communityEyebrow: 'Sudamérica',
-        communityH2: 'Somos una comunidad. Sentimos la comida.',
-        honestyEyebrow: 'Dónde estamos',
-        honestyIntro: 'Solub Food está en sus primeros días — estamos construyendo la red de chefs fundadores desde cero, empezando aquí en Queensland.',
-        trust1Title: 'Perfiles revisados',
-        trust1P: 'Revisamos el perfil de cada cocinero casero antes de publicarlo.',
-        trust2Title: 'Registro municipal indicado',
-        trust2P: 'Cuando aplica el registro municipal, lo indicamos directamente en el perfil.',
-        trust3Title: 'Sin promesas de más',
-        trust3P: 'Nunca afirmaremos tener más certeza de la que realmente tenemos.',
-        honestyP2: 'Lo que sí podemos prometer: siempre sabrás quién hizo tu comida, y por qué.',
-        finalCtaH2: 'No hace falta que viajes a Latinoamérica.',
-        finalCtaP: 'Te traemos Latinoamérica a ti — cocineros caseros reales, recetas reales. Únete a la lista de espera, toma diez segundos.',
-        finalCtaBtn: 'Únete a la lista de espera →',
-        footerTagline: 'Solub Food — Real Sobre Perfecto',
-        footerDesc: 'Te traemos Latinoamérica a ti — cocineros caseros reales, recetas reales.',
-        footerSitemap: 'Mapa del sitio',
-        footerOtherPages: 'Otras páginas',
-        footerTerms: 'Términos y Condiciones',
-        footerPrivacy: 'Política de Privacidad',
-        footerContactDetails: 'Datos de contacto',
-        footerRights: 'Todos los derechos reservados.',
-        mapCredit: 'Datos del mapa adaptados de <a href="https://github.com/flekschas/simple-world-map" target="_blank" rel="noopener noreferrer">simple-world-map</a> (CC BY-SA 3.0).'
+  (function memberQr() {
+    // Generates the member's personal SolubFood QR entirely client-side
+    // (no backend) once they join — it encodes a per-browser random member
+    // id, not their email, so the QR image itself never carries personal
+    // data. The id is what they show at a restaurant partner to check in.
+    function makeMemberId() {
+      var bytes = new Uint8Array(8);
+      (window.crypto || window.msCrypto).getRandomValues(bytes);
+      return Array.prototype.map.call(bytes, function (b) { return b.toString(16).padStart(2, '0'); }).join('').toUpperCase();
+    }
+
+    function renderQr(container, text) {
+      if (typeof qrcode !== 'function' || !container) return;
+      try {
+        var qr = qrcode(0, 'M');
+        qr.addData(text);
+        qr.make();
+        container.innerHTML = qr.createSvgTag({ scalable: true });
+      } catch (err) {
+        container.textContent = text;
       }
+    }
+
+    window.__solubRenderMemberQr = function (bodyEl) {
+      var wrap = bodyEl.querySelector('#memberQr');
+      var codeEl = bodyEl.querySelector('#memberQrCode');
+      if (!wrap || !codeEl) return;
+      var memberId = 'SOLUB-' + makeMemberId();
+      renderQr(codeEl, 'https://teamsolub.com/checkin.html?m=' + memberId);
+      wrap.hidden = false;
     };
-
-    function applyLang(lang) {
-      var dict = I18N[lang] || I18N.en;
-      currentLang = lang;
-      document.documentElement.lang = lang;
-
-      document.querySelectorAll('[data-i18n]').forEach(function (el) {
-        var key = el.getAttribute('data-i18n');
-        if (dict[key] != null) el.innerHTML = dict[key];
-        var hrefAttr = el.getAttribute('data-href-' + lang);
-        if (hrefAttr) el.setAttribute('href', hrefAttr);
-      });
-
-      document.querySelectorAll('[data-i18n-placeholder]').forEach(function (el) {
-        var phKey = el.getAttribute('data-i18n-placeholder');
-        if (dict[phKey] != null) el.setAttribute('placeholder', dict[phKey]);
-      });
-
-      document.querySelectorAll('.i18n-reel').forEach(function (el) {
-        var country = DISH_COUNTRY[Number(el.dataset.idx)] || DISH_COUNTRY[0];
-        var label = el.querySelector('.reel-label');
-        if (label) label.textContent = lang === 'es' ? country.es : country.en;
-      });
-
-      document.querySelectorAll('.frame-preview-country.i18n-preview').forEach(function (el) {
-        var country = DISH_COUNTRY[Number(el.dataset.idx)] || DISH_COUNTRY[0];
-        el.textContent = lang === 'es' ? country.es : country.en;
-      });
-      document.querySelectorAll('.frame-preview-fact.i18n-preview').forEach(function (el) {
-        var country = DISH_COUNTRY[Number(el.dataset.idx)] || DISH_COUNTRY[0];
-        var code = DISH_COUNTRY_CODE[country.en] || 'pe';
-        var countryFact = COUNTRY_INFO[code];
-        el.textContent = countryFact ? (lang === 'es' ? countryFact.es : countryFact.en) : '';
-      });
-      document.querySelectorAll('img.i18n-preview').forEach(function (el) {
-        var country = DISH_COUNTRY[Number(el.dataset.idx)] || DISH_COUNTRY[0];
-        el.alt = lang === 'es' ? country.es : country.en;
-      });
-      document.querySelectorAll('.i18n-caption').forEach(function (el) {
-        var info = DISH_INFO[Number(el.dataset.idx)] || DISH_INFO[0];
-        el.textContent = lang === 'es' ? info.es : info.en;
-      });
-      document.querySelectorAll('.i18n-flagrow').forEach(function (el) {
-        var code = el.dataset.code;
-        var name = (COUNTRY_NAME[code] || {})[lang] || code;
-        var titleEl = el.querySelector('title');
-        if (titleEl) titleEl.textContent = name;
-      });
-
-      document.dispatchEvent(new Event('i18n:changed'));
-    }
-
-    function wireCtaForm(formId, successKey, mailFallback) {
-      var form = document.getElementById(formId);
-      if (!form) return;
-      var status = form.parentElement.querySelector('.form-status');
-      var btn = form.querySelector('button[type="submit"]');
-
-      form.addEventListener('submit', function (e) {
-        e.preventDefault();
-        if (!form.checkValidity()) { form.reportValidity(); return; }
-        var honey = form.querySelector('.cta-honey');
-        if (honey && honey.value) return;
-
-        var dict = I18N[currentLang] || I18N.en;
-        btn.disabled = true;
-        status.className = 'form-status';
-        status.textContent = dict.formSending;
-
-        fetch(form.action, {
-          method: 'POST',
-          headers: { Accept: 'application/json' },
-          body: new FormData(form)
-        }).then(function (res) {
-          if (!res.ok) throw new Error('bad status');
-          form.hidden = true;
-          status.className = 'form-status success';
-          status.textContent = dict[successKey];
-        }).catch(function () {
-          btn.disabled = false;
-          status.className = 'form-status error';
-          status.innerHTML = dict.formError + ' <a href="mailto:' + mailFallback + '">' + mailFallback + '</a>';
-        });
-      });
-    }
-    wireCtaForm('newsletterForm', 'dialogSuccess', 'hello@teamsolub.com');
-
-    applyLang(currentLang);
   })();
+
+  (function wireCtaForm() {
+    var form = document.getElementById('newsletterForm');
+    if (!form) return;
+    var body = document.getElementById('newsletterDialogBody');
+    var status = form.parentElement.querySelector('.form-status');
+    var btn = form.querySelector('button[type="submit"]');
+    var mailFallback = 'hello@teamsolub.com';
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (!form.checkValidity()) { form.reportValidity(); return; }
+      var honey = form.querySelector('.cta-honey');
+      if (honey && honey.value) return;
+
+      btn.disabled = true;
+      status.className = 'form-status';
+      status.textContent = 'Sending…';
+
+      fetch(form.action, {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+        body: new FormData(form)
+      }).then(function (res) {
+        if (!res.ok) throw new Error('bad status');
+        form.hidden = true;
+        status.className = 'form-status success';
+        status.textContent = "You're in! Welcome to SolubFood.";
+        if (window.__solubRenderMemberQr) window.__solubRenderMemberQr(body);
+      }).catch(function () {
+        btn.disabled = false;
+        status.className = 'form-status error';
+        status.innerHTML = 'Something went wrong — email us directly at <a href="mailto:' + mailFallback + '">' + mailFallback + '</a>';
+      });
+    });
+  })();
+
 </script>
 
 </body>
