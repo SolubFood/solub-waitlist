@@ -2266,42 +2266,38 @@
   /* ---------- cookie banner ---------- */
   .cookie-banner {
     position: fixed;
-    left: 1rem;
-    right: 1rem;
-    bottom: 1rem;
+    left: 0;
+    right: 0;
+    bottom: 0;
     z-index: 1200;
-    max-width: 640px;
-    margin: 0 auto;
-    background: var(--bg-soft);
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    padding: 1.1rem 1.3rem;
-    box-shadow: 0 20px 40px -16px rgba(0,0,0,0.6);
+    background: var(--bg);
+    border-top: 1px solid var(--line-soft);
+    padding: 0.7rem 1.2rem;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 1rem;
+    justify-content: center;
+    gap: 0.8rem 1.2rem;
   }
   .cookie-banner[hidden] { display: none; }
   .cookie-banner p {
-    flex: 1 1 320px;
     margin: 0;
-    font-family: 'Newsreader', serif;
-    font-size: 0.85rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.74rem;
     color: var(--ink-muted);
-    line-height: 1.5;
+    line-height: 1.4;
   }
   .cookie-banner p a { color: var(--ember-bright); }
   .cookie-banner-actions {
     display: flex;
-    gap: 0.6rem;
+    gap: 0.5rem;
     flex-shrink: 0;
   }
   .cookie-banner .btn {
-    padding: 0.55rem 1.1rem;
+    padding: 0.4rem 0.9rem;
     border-radius: 999px;
     font-family: 'Space Mono', monospace;
-    font-size: 0.78rem;
+    font-size: 0.74rem;
     font-weight: 700;
     border: none;
     cursor: pointer;
@@ -2310,8 +2306,8 @@
   .cookie-banner .btn.ghost { background: none; border: 1px solid var(--line); color: var(--ink-muted); }
   .cookie-banner .btn.ghost:hover { color: var(--ink); border-color: var(--ink-muted); }
   @media (max-width: 520px) {
-    .cookie-banner { flex-direction: column; align-items: stretch; }
-    .cookie-banner-actions { justify-content: flex-end; }
+    .cookie-banner { justify-content: flex-start; }
+    .cookie-banner-actions { justify-content: flex-end; width: 100%; }
   }
 </style>
 </head>
@@ -2324,7 +2320,7 @@
 <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 
 <div class="cookie-banner" id="cookieBanner" role="dialog" aria-label="Cookie notice" hidden>
-  <p>We use privacy-friendly analytics to see where visitors come from — no ads trackers are active yet, and we'll ask again before any go live. Read more in our <a href="privacy.html">Privacy Policy</a>.</p>
+  <p>We use analytics to see where visitors come from. <a href="privacy.html">Privacy Policy</a></p>
   <div class="cookie-banner-actions">
     <button type="button" class="btn ghost" id="cookieDecline">Decline</button>
     <button type="button" class="btn primary" id="cookieAccept">Accept</button>
