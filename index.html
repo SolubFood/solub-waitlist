@@ -2332,7 +2332,7 @@
     .cookie-banner-actions { justify-content: flex-end; width: 100%; }
   }
 
-  /* ---------- intro splash: flight-path animation ---------- */
+  /* ---------- intro splash: logo bloom in/out ---------- */
   .intro-splash {
     position: fixed;
     inset: 0;
@@ -2341,36 +2341,38 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 1.2rem;
+    gap: 1.1rem;
     background: var(--bg);
     opacity: 1;
     transition: opacity 0.4s ease;
   }
   .intro-splash.is-done { opacity: 0; pointer-events: none; }
   .intro-splash[hidden] { display: none; }
-  .intro-splash-svg {
-    width: min(86vw, 460px);
-    height: auto;
-    overflow: visible;
-  }
-  .intro-route, .intro-point {
+  .intro-logo-wrap {
+    position: relative;
+    width: 108px;
+    height: 108px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     opacity: 0;
-    animation: intro-fade-in 0.5s ease forwards;
-    animation-delay: 0.05s;
+    transform: scale(0.55);
+    animation: intro-logo-bloom 0.6s cubic-bezier(.22,.9,.32,1) forwards;
   }
-  .intro-point text {
-    font-family: 'Space Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 0.05em;
-    fill: var(--ink-muted);
+  .intro-logo-ring {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    animation: intro-ring-spin 1.5s linear infinite;
   }
-  .intro-point-dest text { fill: var(--ember-bright); }
-  .intro-plane {
-    opacity: 0;
-    animation: intro-fade-in 0.2s ease forwards;
-    animation-delay: 0.3s;
+  .intro-logo-icon {
+    position: relative;
+    width: 60px;
+    height: 60px;
   }
-  @keyframes intro-fade-in { to { opacity: 1; } }
+  @keyframes intro-logo-bloom { to { opacity: 1; transform: scale(1); } }
+  @keyframes intro-ring-spin { to { transform: rotate(360deg); } }
   .intro-title {
     font-family: 'Bricolage Grotesque', sans-serif;
     font-weight: 800;
@@ -2379,8 +2381,9 @@
     letter-spacing: 0.01em;
     opacity: 0;
     animation: intro-fade-in 0.5s ease forwards;
-    animation-delay: 1.9s;
+    animation-delay: 0.5s;
   }
+  @keyframes intro-fade-in { to { opacity: 1; } }
   @media (prefers-reduced-motion: reduce) {
     .intro-splash { display: none !important; }
   }
@@ -2392,31 +2395,19 @@
 </svg>
 
 <div class="intro-splash" id="introSplash" aria-hidden="true">
-  <svg class="intro-splash-svg" viewBox="0 0 400 240" preserveAspectRatio="xMidYMid meet">
-    <defs>
-      <filter id="planeShadow" x="-50%" y="-50%" width="200%" height="200%">
-        <feDropShadow dx="0" dy="2" stdDeviation="2.5" flood-color="#000000" flood-opacity="0.45"/>
-      </filter>
-    </defs>
-    <path id="flightPath" d="M44,196 Q200,24 356,166" fill="none" stroke="none"/>
-    <path class="intro-route" d="M44,196 Q200,24 356,166" fill="none" stroke="#F7D36F" stroke-width="1.4" stroke-dasharray="3 5" opacity="0.55"/>
-    <g class="intro-point intro-point-origin">
-      <circle cx="44" cy="196" r="4.5" fill="#CC3621"/>
-      <circle cx="44" cy="196" r="9" fill="none" stroke="#CC3621" stroke-width="1.4" opacity="0.6"/>
-      <text x="44" y="216" text-anchor="middle">LATIN AMERICA</text>
-    </g>
-    <g class="intro-point intro-point-dest">
-      <circle cx="356" cy="166" r="4.5" fill="#F7D36F"/>
-      <circle cx="356" cy="166" r="9" fill="none" stroke="#F7D36F" stroke-width="1.4" opacity="0.6"/>
-      <text x="356" y="146" text-anchor="middle">AUSTRALIA</text>
-    </g>
-    <g class="intro-plane" filter="url(#planeShadow)">
-      <use href="#logo-mark" x="-13" y="-13" width="26" height="26"/>
-      <animateMotion dur="1.7s" begin="0.35s" fill="freeze" rotate="auto" keyPoints="0;1" keyTimes="0;1" calcMode="spline" keySplines="0.3 0 0.2 1">
-        <mpath href="#flightPath"/>
-      </animateMotion>
-    </g>
-  </svg>
+  <div class="intro-logo-wrap">
+    <svg class="intro-logo-ring" viewBox="0 0 120 120" aria-hidden="true">
+      <defs>
+        <linearGradient id="introRingGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#F7D36F" stop-opacity="0"/>
+          <stop offset="50%" stop-color="#F7D36F"/>
+          <stop offset="100%" stop-color="#CC3621" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <circle cx="60" cy="60" r="52" fill="none" stroke="url(#introRingGrad)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="46 280"/>
+    </svg>
+    <svg class="intro-logo-icon" viewBox="0 0 1080 1080" aria-hidden="true"><use href="#logo-mark" x="0" y="0" width="1080" height="1080"></use></svg>
+  </div>
   <div class="intro-title">SolubFood</div>
 </div>
 
@@ -2709,7 +2700,7 @@
       splash.classList.add('is-done');
       setTimeout(function () { splash.hidden = true; }, 420);
     }
-    var timer = setTimeout(finish, 2700);
+    var timer = setTimeout(finish, 2200);
     // Tapping the splash skips straight to the site, same as a repeat visit.
     splash.addEventListener('click', function () {
       clearTimeout(timer);
