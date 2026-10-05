@@ -396,6 +396,38 @@
     align-items: center;
     gap: 2rem;
     padding: 2rem 0;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 100vw;
+    margin-left: -50vw;
+    z-index: 0;
+  }
+  .hero-bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.3) 35%, rgba(0,0,0,0.55) 75%, var(--bg) 100%),
+      linear-gradient(90deg, rgba(0,0,0,0.35), transparent 30%, transparent 70%, rgba(0,0,0,0.35));
+  }
+  .hero-bg-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-bg-video { display: none; }
+    .hero-bg {
+      background-image: url('assets/img/plane-bg-poster.jpg');
+      background-size: cover;
+      background-position: center;
+    }
   }
   .hero-content {
     position: relative;
@@ -2491,6 +2523,12 @@
 </header>
 
 <section class="hero wrap" id="emotions">
+  <div class="hero-bg" aria-hidden="true">
+    <video class="hero-bg-video" id="heroBgVideo" autoplay muted loop playsinline preload="auto" poster="assets/img/plane-bg-poster.jpg">
+      <source src="assets/videos/plane-bg.webm" type="video/webm">
+      <source src="assets/videos/plane-bg.mp4" type="video/mp4">
+    </video>
+  </div>
   <div class="hero-content">
     <h1>Latin America,<br>felt on the Gold Coast.</h1>
     <p class="hero-sub reveal-up">We're building a catalogue of Latin emotions — nights, flavours and stories you can live without a passport. 📍 Gold Coast, QLD.</p>
