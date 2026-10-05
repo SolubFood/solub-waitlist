@@ -2397,10 +2397,6 @@
       <filter id="planeShadow" x="-50%" y="-50%" width="200%" height="200%">
         <feDropShadow dx="0" dy="2" stdDeviation="2.5" flood-color="#000000" flood-opacity="0.45"/>
       </filter>
-      <linearGradient id="planeGrad" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%" stop-color="#FFFFFF"/>
-        <stop offset="100%" stop-color="#D6D6D6"/>
-      </linearGradient>
     </defs>
     <path id="flightPath" d="M44,196 Q200,24 356,166" fill="none" stroke="none"/>
     <path class="intro-route" d="M44,196 Q200,24 356,166" fill="none" stroke="#F7D36F" stroke-width="1.4" stroke-dasharray="3 5" opacity="0.55"/>
@@ -2415,7 +2411,7 @@
       <text x="356" y="146" text-anchor="middle">AUSTRALIA</text>
     </g>
     <g class="intro-plane" filter="url(#planeShadow)">
-      <path fill="url(#planeGrad)" d="M16,0 L6,-2.2 L-2,-2 L-8,-13 L-11,-13 L-6,-1.6 L-13,-1.2 L-16,-3.5 L-16,-1 L-13,0 L-16,1 L-16,3.5 L-13,1.2 L-6,1.6 L-11,13 L-8,13 L-2,2 L6,2.2 Z"/>
+      <use href="#logo-mark" x="-13" y="-13" width="26" height="26"/>
       <animateMotion dur="1.7s" begin="0.35s" fill="freeze" rotate="auto" keyPoints="0;1" keyTimes="0;1" calcMode="spline" keySplines="0.3 0 0.2 1">
         <mpath href="#flightPath"/>
       </animateMotion>
@@ -2701,16 +2697,15 @@
   (function introSplash() {
     var splash = document.getElementById('introSplash');
     if (!splash) return;
-    var seen = false;
-    try { seen = sessionStorage.getItem('solub_intro_seen') === '1'; } catch (err) {}
 
-    if (reduceMotion || seen) {
+    // Plays on every full page load (not just once per session) per
+    // explicit request: this is the site's "entering/loading" moment.
+    if (reduceMotion) {
       splash.hidden = true;
       return;
     }
 
     function finish() {
-      try { sessionStorage.setItem('solub_intro_seen', '1'); } catch (err) {}
       splash.classList.add('is-done');
       setTimeout(function () { splash.hidden = true; }, 420);
     }
