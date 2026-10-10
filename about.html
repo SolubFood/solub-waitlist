@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; base-uri 'self'; object-src 'none';">
-<title>Terms of Use — SolubFood</title>
-<meta name="description" content="The terms that apply to using the SolubFood website and joining SolubFood.">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://formsubmit.co; form-action 'self' https://formsubmit.co; base-uri 'self'; object-src 'none';">
+<title>About — SolubFood</title>
+<meta name="description" content="Who's behind SolubFood — a catalogue of Latin emotions on the Gold Coast, built in the open by its two founders.">
 <meta name="theme-color" content="#000000">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
@@ -16,62 +16,85 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Newsreader:ital,wght@0,400;0,500;0,600;1,400&family=Space+Mono:wght@400;700&display=swap">
 <style>
   :root {
-    --bg: #000000;
-    --bg-soft: #2C2C2C;
-    --card: #2C2C2C;
-    --ink: #FFFFFF;
-    --ink-muted: #D6D6D6;
-    --ember: #EBA721;
-    --ember-bright: #F7D36F;
-    --sage: #A3331C;
-    --line: rgba(255,255,255,0.17);
-    --line-soft: rgba(255,255,255,0.09);
+    --bg: #000000; --bg-soft: #2C2C2C; --card: #2C2C2C; --ink: #FFFFFF; --ink-muted: #D6D6D6;
+    --ember: #EBA721; --ember-bright: #F7D36F; --sage: #A3331C;
+    --line: rgba(255,255,255,0.17); --line-soft: rgba(255,255,255,0.09);
   }
   * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--ink);
-    font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
-    font-size: 1.05rem;
-    line-height: 1.65;
-    -webkit-font-smoothing: antialiased;
-  }
-  .wrap { max-width: 760px; margin: 0 auto; padding: 0 1.5rem; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: 'Newsreader', Georgia, serif; font-size: 1.05rem; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 0 1.5rem; }
   a { color: var(--ember-bright); }
-  header.site-header {
-    border-bottom: 1px solid var(--line-soft);
-    padding: 1.2rem 0;
-  }
+  header.site-header { border-bottom: 1px solid var(--line-soft); padding: 1.2rem 0; }
   header.site-header .wrap { display: flex; align-items: center; justify-content: space-between; }
   .brand-link { display: inline-flex; align-items: center; gap: 0.55rem; color: #FFFFFF; text-decoration: none; }
   .brand-link .logo-icon { width: 28px; height: auto; display: block; }
   .brand-link span { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 0.95rem; }
   .back-link { font-family: 'Space Mono', monospace; font-size: 0.78rem; color: var(--ink-muted); text-decoration: none; }
   .back-link:hover { color: var(--ember-bright); }
-  main { padding: 3rem 0 4rem; }
-  main h1 {
+  main { padding: 0 0 4rem; }
+  .ab-hero { padding: 3.2rem 0 2rem; text-align: center; }
+  .ab-eyebrow { font-family: 'Space Mono', monospace; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ember-bright); }
+  .ab-hero h1 { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.1; margin: 0.6rem 0 0.9rem; }
+  .ab-hero p { color: var(--ink-muted); max-width: 54ch; margin: 0 auto; font-size: 1.05rem; }
+  section.ab-block { padding: 2.4rem 0; border-top: 1px solid var(--line-soft); }
+  section.ab-block h2 { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: clamp(1.3rem, 2.6vw, 1.7rem); margin: 0 0 1.4rem; }
+  section.ab-block > .wrap > p { color: var(--ink-muted); }
+  .founder {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 1.3rem;
+    align-items: start;
+    margin-bottom: 2rem;
+  }
+  .founder:last-child { margin-bottom: 0; }
+  @media (max-width: 560px) {
+    .founder { grid-template-columns: 76px 1fr; gap: 1rem; }
+  }
+  .founder-photo {
+    width: 120px;
+    height: 120px;
+    border-radius: 14px;
+    background: var(--card);
+    border: 1px solid var(--line-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink-muted);
+    flex-shrink: 0;
+  }
+  @media (max-width: 560px) {
+    .founder-photo { width: 76px; height: 76px; border-radius: 10px; }
+  }
+  .founder-photo svg { width: 36px; height: 36px; opacity: 0.4; }
+  .founder-name {
     font-family: 'Bricolage Grotesque', sans-serif;
     font-weight: 800;
-    font-size: clamp(1.8rem, 4vw, 2.4rem);
-    margin: 0 0 0.4rem;
-  }
-  .byline { font-family: 'Space Mono', monospace; font-size: 0.78rem; color: var(--ink-muted); margin: 0 0 2.4rem; }
-  main h2 {
-    font-family: 'Bricolage Grotesque', sans-serif;
-    font-weight: 700;
     font-size: 1.15rem;
-    margin: 2.2rem 0 0.7rem;
+    color: #FFFFFF;
+    margin: 0;
   }
-  main p, main li { color: var(--ink-muted); }
-  main ul { padding-left: 1.3rem; }
-  footer {
-    border-top: 1px solid var(--line-soft);
-    padding: 3rem 0 1.6rem;
+  .founder-role {
     font-family: 'Space Mono', monospace;
-    font-size: 0.8rem;
-    color: var(--ink-muted);
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ember-bright);
   }
+  .founder-updated {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--ink-muted);
+    opacity: 0.75;
+    margin: 0.15rem 0 0.6rem;
+  }
+  .founder-bio {
+    font-family: 'Newsreader', serif;
+    font-size: 0.95rem;
+    color: var(--ink-muted);
+    margin: 0;
+    line-height: 1.55;
+  }
+  footer { border-top: 1px solid var(--line-soft); padding: 3rem 0 1.6rem; font-family: 'Space Mono', monospace; font-size: 0.8rem; color: var(--ink-muted); }
   .footer-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 2rem; padding-bottom: 2.2rem; }
   @media (max-width: 820px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 520px) { .footer-grid { grid-template-columns: 1fr; gap: 2rem; text-align: center; } }
@@ -103,48 +126,46 @@
   </div>
 </header>
 
-<main class="wrap">
-  <h1>Terms of Use</h1>
-  <p class="byline">Last updated: 4 October 2026 · Version 2.0</p>
+<main>
+  <div class="ab-hero wrap">
+    <p class="ab-eyebrow">About SolubFood</p>
+    <h1>We make Latin America feel Aussie.</h1>
+    <p>Real over perfect — a catalogue of Latin emotions built on the Gold Coast, by two people figuring it out in the open.</p>
+  </div>
 
-  <h2>1. About these Terms</h2>
-  <p>These Terms apply to your use of the SolubFood website and to joining SolubFood. The site is operated by Benjamin Javier Arevalo Rodriguez, ABN 71 700 489 661, co-founded with Gibril ("SolubFood", "we", "us"). By using this site, joining SolubFood or submitting a form, you agree to these Terms and to our <a href="privacy.html">Privacy Policy</a>.</p>
+  <section class="ab-block wrap">
+    <h2>Who's behind it</h2>
+    <p style="margin:0 0 1.6rem;">Not résumés — this is updated as we go, because we'd rather tell you where we actually are than a polished story written once and left to go stale.</p>
 
-  <h2>2. What SolubFood is</h2>
-  <p>SolubFood is a catalogue of Latin emotions — nights, flavours and stories you can live without a passport — currently in its earliest days on the Gold Coast. We organise and host "emotions": real nights inside real Latin restaurant partners. This site doesn't offer user accounts, online ordering, or food delivery, and we don't prepare, sell or deliver food. We don't process ticket payments ourselves — see Section 4.</p>
+    <div class="founder">
+      <div class="founder-photo" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+      </div>
+      <div>
+        <p class="founder-name">Benjamin Arevalo</p>
+        <p class="founder-role">Founder</p>
+        <p class="founder-updated">Updated October 2026</p>
+        <p class="founder-bio">This is me building something from scratch, in real time — not a résumé, just the work as it happens. SolubFood started as an idea I couldn't stop thinking about, and every month I'll update this with where it's actually at.</p>
+      </div>
+    </div>
 
-  <h2>3. Joining SolubFood</h2>
-  <ul>
-    <li>Joining SolubFood doesn't create a binding agreement or a paid membership — it registers your interest and generates your personal SolubFood QR, which identifies you when you check in at an emotion or a restaurant partner.</li>
-    <li>Your SolubFood QR is personal to you. Please don't share it or use someone else's.</li>
-    <li>Please give accurate information when you join or check in.</li>
-    <li>See our <a href="privacy.html">Privacy Policy</a> for what we do with your details.</li>
-  </ul>
+    <div class="founder">
+      <div class="founder-photo" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+      </div>
+      <div>
+        <p class="founder-name">Gibril</p>
+        <p class="founder-role">Co-founder</p>
+        <p class="founder-updated">Updated October 2026</p>
+        <p class="founder-bio">[Placeholder — waiting on Gibril's own words: what brought him to this, what he's learning along the way. Same rule as above: real, not polished, updated monthly.]</p>
+      </div>
+    </div>
+  </section>
 
-  <h2>4. Emotions and tickets</h2>
-  <p>Entry to an emotion is usually a small symbolic fee. Tickets are sold through a separate, external ticketing platform, not by SolubFood directly — that platform handles your payment under its own terms. Refunds, age restrictions and filming/photography consent for emotions are covered in our <a href="tickets.html">Event Ticket Terms</a>, which apply alongside these Terms whenever you attend an emotion.</p>
-  <p>We only announce an emotion, a restaurant partner, a date or a venue once it's confirmed in writing with that restaurant. Anything shown as locked or "coming soon" is not a promise of a date, venue or lineup.</p>
-
-  <h2>5. Site content</h2>
-  <p>Content on this site (text, images, video, design and our brand) belongs to us or our licensors. You may view it for personal, non-commercial use.</p>
-
-  <h2>6. Acceptable use</h2>
-  <p>You agree not to misuse the site or SolubFood — for example, by scraping data, disrupting the site, submitting false information, or sharing or misusing a SolubFood QR (yours or someone else's).</p>
-
-  <h2>7. Your consumer rights</h2>
-  <p>Nothing in these Terms excludes, restricts or modifies any right or remedy you have under the Australian Consumer Law or any other law that can't be excluded.</p>
-
-  <h2>8. Limitation of liability</h2>
-  <p>To the extent permitted by law, we provide this site "as is" and don't guarantee it will always be available or error-free, and we don't guarantee that any emotion will go ahead as planned. We aren't liable for indirect or consequential loss arising from your use of the site or attendance at an emotion. This clause doesn't limit any liability that can't be limited by law.</p>
-
-  <h2>9. Changes</h2>
-  <p>As SolubFood grows — ticketing integration, a restaurant-partner dashboard and new emotions are all on our roadmap — these Terms will be updated accordingly, with a new date and version. Continued use of the site after a change means you accept the update.</p>
-
-  <h2>10. Governing law</h2>
-  <p>These Terms are governed by the laws of Queensland, Australia.</p>
-
-  <h2>11. Contact</h2>
-  <p><a href="mailto:hello@teamsolub.com">hello@teamsolub.com</a></p>
+  <section class="ab-block wrap">
+    <h2>What we're building</h2>
+    <p>SolubFood is a catalogue of Latin emotions for the Gold Coast — real nights inside real Latin restaurants, built for Australians who want to feel Latin America without a passport. We organise and pay for every emotion, prove it with every QR scan, and we'll never announce a restaurant, date or venue that isn't confirmed in writing.</p>
+  </section>
 </main>
 
 <footer>
@@ -162,6 +183,8 @@
         <ul>
           <li><a href="index.html">Home</a></li>
           <li><a href="about.html">About us</a></li>
+          <li><a href="index.html#experiences">Experiences</a></li>
+          <li><a href="for-restaurants.html">For Restaurants</a></li>
           <li><a href="mailto:hello@teamsolub.com">Contact us</a></li>
         </ul>
       </div>
