@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://formsubmit.co; form-action 'self' https://formsubmit.co; base-uri 'self'; object-src 'none';">
 <title>For Restaurants — SolubFood</title>
 <meta name="description" content="Partner with SolubFood: real customers, proven with every QR scan, for Latin restaurants on the Gold Coast.">
-<meta name="theme-color" content="#000000">
+<meta name="theme-color" content="#FFFFFF">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
@@ -16,24 +16,24 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Newsreader:ital,wght@0,400;0,500;0,600;1,400&family=Space+Mono:wght@400;700&display=swap">
 <style>
   :root {
-    --bg: #000000; --bg-soft: #2C2C2C; --card: #2C2C2C; --ink: #FFFFFF; --ink-muted: #D6D6D6;
+    --bg: #FFFFFF; --bg-soft: #F2EEE6; --card: #F2EEE6; --ink: #1A1A1A; --ink-muted: #5C5C5C;
     --ember: #EBA721; --ember-bright: #F7D36F; --sage: #A3331C;
-    --line: rgba(255,255,255,0.17); --line-soft: rgba(255,255,255,0.09);
+    --line: rgba(0,0,0,0.14); --line-soft: rgba(0,0,0,0.08);
   }
   * { box-sizing: border-box; }
   body { margin: 0; background: var(--bg); color: var(--ink); font-family: 'Newsreader', Georgia, serif; font-size: 1.05rem; line-height: 1.65; -webkit-font-smoothing: antialiased; }
   .wrap { max-width: 860px; margin: 0 auto; padding: 0 1.5rem; }
-  a { color: var(--ember-bright); }
+  a { color: #CC3621; }
   header.site-header { border-bottom: 1px solid var(--line-soft); padding: 1.2rem 0; }
   header.site-header .wrap { display: flex; align-items: center; justify-content: space-between; }
-  .brand-link { display: inline-flex; align-items: center; gap: 0.55rem; color: #FFFFFF; text-decoration: none; }
+  .brand-link { display: inline-flex; align-items: center; gap: 0.55rem; color: var(--ink); text-decoration: none; }
   .brand-link .logo-icon { width: 28px; height: auto; display: block; }
   .brand-link span { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 0.95rem; }
   .back-link { font-family: 'Space Mono', monospace; font-size: 0.78rem; color: var(--ink-muted); text-decoration: none; }
-  .back-link:hover { color: var(--ember-bright); }
+  .back-link:hover { color: #CC3621; }
   main { padding: 0 0 4rem; }
   .fr-hero { padding: 3.2rem 0 2rem; text-align: center; }
-  .fr-eyebrow { font-family: 'Space Mono', monospace; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ember-bright); }
+  .fr-eyebrow { font-family: 'Space Mono', monospace; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: #CC3621; }
   .fr-hero h1 { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.1; margin: 0.6rem 0 0.9rem; }
   .fr-hero p { color: var(--ink-muted); max-width: 54ch; margin: 0 auto; font-size: 1.05rem; }
   .fr-cta { display: inline-block; margin-top: 1.6rem; padding: 0.85rem 1.7rem; border-radius: 999px; background: var(--sage); color: #FFFFFF; text-decoration: none; font-family: 'Space Mono', monospace; font-size: 0.86rem; font-weight: 700; transition: background 0.2s ease; }
@@ -45,13 +45,13 @@
   @media (max-width: 760px) { .fr-steps { grid-template-columns: 1fr; } }
   .fr-step { background: var(--card); border: 1px solid var(--line-soft); border-radius: 14px; padding: 1.2rem; }
   .fr-step span { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; background: var(--sage); color: #fff; font-family: 'Space Mono', monospace; font-weight: 700; font-size: 0.85rem; margin-bottom: 0.6rem; }
-  .fr-step h3 { font-family: 'Bricolage Grotesque', sans-serif; font-size: 1rem; margin: 0 0 0.3rem; color: #FFFFFF; }
+  .fr-step h3 { font-family: 'Bricolage Grotesque', sans-serif; font-size: 1rem; margin: 0 0 0.3rem; color: var(--ink); }
   .fr-step p { margin: 0; font-size: 0.9rem; }
   .fr-includes { list-style: none; margin: 1.2rem 0 0; padding: 0; display: grid; gap: 0.6rem; }
   .fr-includes li { padding-left: 1.6rem; position: relative; color: var(--ink-muted); }
-  .fr-includes li::before { content: "✓"; position: absolute; left: 0; color: var(--ember-bright); font-weight: 700; }
+  .fr-includes li::before { content: "✓"; position: absolute; left: 0; color: #CC3621; font-weight: 700; }
   .fr-price { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 1.6rem; margin-top: 1rem; text-align: center; }
-  .fr-price .amount { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 2.2rem; color: var(--ember-bright); }
+  .fr-price .amount { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 2.2rem; color: #CC3621; }
   .fr-price .amount span { font-size: 1rem; color: var(--ink-muted); font-weight: 400; }
   .fr-price p { margin: 0.4rem 0 0; }
   .fr-closing { text-align: center; padding: 3rem 0; }
@@ -68,7 +68,7 @@
   .footer-col-title { margin: 0 0 0.3rem; font-weight: 700; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink); }
   .footer-col ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.65rem; }
   .footer-col a { color: var(--ink-muted); text-decoration: none; }
-  .footer-col a:hover { color: var(--ember-bright); }
+  .footer-col a:hover { color: #CC3621; }
   .footer-sep { border: none; border-top: 1px solid var(--line-soft); margin: 0 0 1.4rem; }
   .footer-copy { margin: 0; text-align: center; font-size: 0.75rem; }
 </style>
