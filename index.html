@@ -1356,14 +1356,11 @@
   }
   .craving-cards {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 1rem;
     text-align: left;
   }
-  @media (max-width: 900px) {
-    .craving-cards { grid-template-columns: repeat(2, 1fr); }
-  }
-  @media (max-width: 520px) {
+  @media (max-width: 720px) {
     .craving-cards { grid-template-columns: 1fr; }
   }
   .craving-card {
@@ -2103,8 +2100,44 @@
   .craving-card {
     background: var(--card);
     border: 1px solid var(--line-soft);
+    overflow: hidden;
   }
   .craving-card:hover { transform: translateY(-4px); box-shadow: 0 18px 32px -16px rgba(0,0,0,0.5); }
+  /* Cursor-reactive spotlight glow, vanilla CSS/JS take on a pasted
+     React "GlowCard" spec — each card tracks the pointer's position
+     relative to its own box (--mx/--my, see cravingSpotlight() below)
+     rather than a viewport-fixed background, since background-attachment:
+     fixed breaks once the card itself gets a hover transform. */
+  .craving-card::before,
+  .craving-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background-repeat: no-repeat;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+  }
+  .craving-card::before {
+    background-image: radial-gradient(260px 260px at calc(var(--mx, -9999) * 1px) calc(var(--my, -9999) * 1px), rgba(204,54,33,0.28), transparent 70%);
+  }
+  .craving-card::after {
+    padding: 2px;
+    background-image: radial-gradient(320px 320px at calc(var(--mx, -9999) * 1px) calc(var(--my, -9999) * 1px), rgba(237,226,206,0.9), transparent 70%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+  .craving-card:hover::before,
+  .craving-card:hover::after,
+  .craving-card:focus-visible::before,
+  .craving-card:focus-visible::after {
+    opacity: 1;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .craving-card::before, .craving-card::after { display: none; }
+  }
   .craving-step {
     display: inline-flex;
     align-items: center;
@@ -3030,6 +3063,29 @@
     hero.addEventListener('pointerleave', onLeave, { passive: true });
     window.addEventListener('resize', function () { resize(); seed(); });
     raf = requestAnimationFrame(frame);
+  })();
+
+  (function cravingSpotlight() {
+    var cards = document.querySelectorAll('.craving-card');
+    if (!cards.length || reduceMotion) return;
+    cards.forEach(function (card) {
+      var ticking = false;
+      var lastX = -9999, lastY = -9999;
+      function apply() {
+        ticking = false;
+        card.style.setProperty('--mx', lastX.toFixed(0));
+        card.style.setProperty('--my', lastY.toFixed(0));
+      }
+      card.addEventListener('pointermove', function (e) {
+        var r = card.getBoundingClientRect();
+        lastX = e.clientX - r.left;
+        lastY = e.clientY - r.top;
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(apply);
+        }
+      }, { passive: true });
+    });
   })();
 
   (function headerSpread() {
