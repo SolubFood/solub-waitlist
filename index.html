@@ -51,10 +51,7 @@
   body {
     margin: 0;
     overflow-x: hidden;
-    background-color: #0c0808;
-    background-image: url('assets/img/brick-bg.jpg');
-    background-repeat: repeat;
-    background-attachment: fixed;
+    background-color: #000000;
     color: var(--ink);
     font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
     font-size: 1.05rem;
@@ -228,51 +225,6 @@
     width: auto;
     display: block;
   }
-  /* Ambient smoke wisps drifting off the mark — anchored over the red
-     bite-mark circle in the wordmark (~32px, ~17px at this display height). */
-  .qr-cta-icon-wrap .wisp {
-    position: absolute;
-    top: 10px;
-    left: 32px;
-    width: 3px;
-    height: 3px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.6);
-    filter: blur(1px);
-    pointer-events: none;
-    opacity: 0;
-    animation: wisp-rise 3.4s ease-out infinite;
-  }
-  .qr-cta-icon-wrap .wisp:nth-child(3) { left: 38px; animation-delay: 1.15s; }
-  .qr-cta-icon-wrap .wisp:nth-child(4) { left: 26px; animation-delay: 2.3s; }
-  @keyframes wisp-rise {
-    0% { transform: translate(0, 0) scale(0.6); opacity: 0; }
-    18% { opacity: 0.65; }
-    100% { transform: translate(4px, -16px) scale(1.8); opacity: 0; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .qr-cta-icon-wrap .wisp { animation: none; display: none; }
-  }
-  .qr-cta-icon-wrap::after {
-    content: "";
-    position: absolute;
-    width: 24px;
-    height: 24px;
-    left: 20px;
-    top: 5px;
-    border-radius: 50%;
-    border: 1.5px solid var(--ember-bright);
-    opacity: 0;
-    animation: qr-ping 2.2s ease-out infinite;
-  }
-  @keyframes qr-ping {
-    0% { transform: scale(0.8); opacity: 0.9; }
-    70% { transform: scale(1.6); opacity: 0; }
-    100% { opacity: 0; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .qr-cta-icon-wrap::after { animation: none; display: none; }
-  }
   .social-row {
     margin-left: auto;
     display: flex;
@@ -396,6 +348,18 @@
     align-items: center;
     gap: 2rem;
     padding: 2rem 0;
+    overflow: hidden;
+  }
+  .hero-flow-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    display: block;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-flow-canvas { display: none; }
   }
   .hero-content {
     position: relative;
@@ -2533,9 +2497,6 @@
       <button type="button" class="qr-cta" id="openQrCta" aria-label="SolubFood — join the waitlist">
         <span class="qr-cta-icon-wrap">
           <img class="qr-wordmark" src="assets/img/logo-wordmark.png" alt="SolubFood">
-          <span class="wisp"></span>
-          <span class="wisp"></span>
-          <span class="wisp"></span>
         </span>
       </button>
     </div>
@@ -2559,6 +2520,7 @@
 </header>
 
 <section class="hero wrap" id="emotions">
+  <canvas class="hero-flow-canvas" id="heroFlowCanvas" aria-hidden="true"></canvas>
   <div class="hero-content">
     <h1>Latin America,<br>felt on the Gold Coast.</h1>
     <p class="hero-sub reveal-up">We're building a catalogue of Latin emotions — nights, flavours and stories you can live without a passport. 📍 Gold Coast, QLD.</p>
@@ -2914,6 +2876,132 @@
     dialog.addEventListener('click', function (e) {
       if (e.target === dialog) dialog.close();
     });
+  })();
+
+  // Lightweight, hand-rolled reimplementation of the pasted canvas "data
+  // rain" flow-field reference — no React/Tailwind here, and no vortex
+  // physics/bloom-canvas/adaptive-quality system either: this keeps only
+  // its core idea (soft flowing lines that react to the cursor) at a
+  // particle count and render cost that stays smooth on mobile, in the
+  // brand's own warm palette instead of the reference's cyan/purple/pink.
+  (function heroFlow() {
+    var canvas = document.getElementById('heroFlowCanvas');
+    var hero = document.querySelector('.hero');
+    if (!canvas || !hero || reduceMotion) return;
+    var ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    var COLORS = ['rgba(235,167,33,', 'rgba(247,211,111,', 'rgba(204,54,33,', 'rgba(163,51,28,'];
+    var MAX_PARTICLES = 90;
+    var particles = [];
+    var w = 0, h = 0, dpr = 1;
+    var mouseX = -9999, mouseY = -9999, mouseActive = false;
+    var raf = 0;
+    var last = 0;
+    var t = 0;
+
+    function resize() {
+      var rect = hero.getBoundingClientRect();
+      w = Math.max(1, rect.width);
+      h = Math.max(1, rect.height);
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.round(w * dpr);
+      canvas.height = Math.round(h * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    function makeParticle() {
+      return {
+        x: Math.random() * w,
+        y: Math.random() * h,
+        vx: 0, vy: 0,
+        baseSpeed: 6 + Math.random() * 10,
+        phase: Math.random() * Math.PI * 2,
+        size: 1 + Math.random() * 1.6,
+        color: COLORS[Math.floor(Math.random() * COLORS.length)],
+        alpha: 0.22 + Math.random() * 0.3,
+        trail: []
+      };
+    }
+
+    function seed() {
+      particles = [];
+      var count = Math.min(MAX_PARTICLES, Math.max(36, Math.round((w * h) / 9000)));
+      for (var i = 0; i < count; i++) particles.push(makeParticle());
+    }
+
+    function onMove(e) {
+      var rect = hero.getBoundingClientRect();
+      mouseX = e.clientX - rect.left;
+      mouseY = e.clientY - rect.top;
+      mouseActive = true;
+    }
+    function onLeave() { mouseActive = false; mouseX = -9999; mouseY = -9999; }
+
+    function step(dt) {
+      t += dt;
+      ctx.clearRect(0, 0, w, h);
+      ctx.globalCompositeOperation = 'lighter';
+      for (var i = 0; i < particles.length; i++) {
+        var p = particles[i];
+        var wave = Math.sin(t * 0.6 + p.phase + p.y * 0.01) * 10;
+        var tx = wave;
+        var ty = -p.baseSpeed;
+
+        if (mouseActive) {
+          var dx = p.x - mouseX, dy = p.y - mouseY;
+          var d2 = dx * dx + dy * dy;
+          var R = 120;
+          if (d2 < R * R) {
+            var d = Math.sqrt(d2) || 1;
+            var f = (1 - d / R) * 60;
+            tx += (dx / d) * f;
+            ty += (dy / d) * f;
+          }
+        }
+
+        p.vx += (tx - p.vx) * 0.04;
+        p.vy += (ty - p.vy) * 0.04;
+        p.x += p.vx * dt;
+        p.y += p.vy * dt;
+
+        if (p.y < -20) { p.y = h + 20; p.x = Math.random() * w; p.trail.length = 0; }
+        if (p.x < -20) p.x = w + 20;
+        if (p.x > w + 20) p.x = -20;
+
+        p.trail.push(p.x, p.y);
+        if (p.trail.length > 16) p.trail.splice(0, 2);
+
+        ctx.beginPath();
+        ctx.strokeStyle = p.color + p.alpha + ')';
+        ctx.lineWidth = p.size;
+        ctx.lineCap = 'round';
+        for (var k = 0; k < p.trail.length - 2; k += 2) {
+          if (k === 0) ctx.moveTo(p.trail[k], p.trail[k + 1]);
+          ctx.lineTo(p.trail[k + 2], p.trail[k + 3]);
+        }
+        ctx.stroke();
+      }
+      ctx.globalCompositeOperation = 'source-over';
+    }
+
+    function frame(now) {
+      if (!document.hidden) {
+        var dt = Math.min(0.05, (now - last) / 1000 || 0.016);
+        last = now;
+        step(dt);
+      } else {
+        last = now;
+      }
+      raf = requestAnimationFrame(frame);
+    }
+
+    resize();
+    seed();
+    hero.addEventListener('pointermove', onMove, { passive: true });
+    hero.addEventListener('pointerleave', onLeave, { passive: true });
+    window.addEventListener('resize', function () { resize(); seed(); });
+    raf = requestAnimationFrame(frame);
   })();
 
   (function headerSpread() {
