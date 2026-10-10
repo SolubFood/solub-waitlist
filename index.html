@@ -449,47 +449,33 @@
   @media (prefers-reduced-motion: reduce) {
     .hero h1 { animation: none; opacity: 1; filter: none; transform: none; }
   }
-  /* Same spinning-ring technique as the intro splash's logo, reused
-     behind the hero headline per request — same 6 photos, bigger radius
-     to clear the wider two-line title. */
+  /* Vanilla reimplementation of a pasted React "Skiper49" Swiper
+     coverflow carousel — dropped the 3D coverflow tilt/Swiper.js
+     dependency per explicit feedback that the photos should stay
+     straight and clearly visible, not rotated. Kept its core idea: the
+     same 6 photos, one frame visible at a time, auto-advancing. */
   .hero-title-wrap {
     position: relative;
   }
-  .hero-title-ring-stage {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    perspective: 700px;
-    pointer-events: none;
-    z-index: 0;
-  }
-  .hero-title-ring {
-    position: relative;
-    width: 1px;
-    height: 1px;
-    transform: rotateX(60deg);
-    transform-style: preserve-3d;
-    animation: intro-ring-spin 14s linear infinite;
-  }
-  .hero-title-ring-item {
-    position: absolute;
-    top: -28px;
-    left: -28px;
-    width: 56px;
-    height: 56px;
-    border-radius: 12px;
+  .hero-carousel {
+    width: 100%;
+    max-width: 440px;
+    margin: 0.4rem auto 0;
+    border-radius: 16px;
     overflow: hidden;
-    opacity: 0.8;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.22);
+    box-shadow: 0 14px 34px -16px rgba(0,0,0,0.3);
   }
-  .hero-title-ring-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .hero-carousel-track {
+    display: flex;
+    transition: transform 0.6s cubic-bezier(.22,.9,.32,1);
+  }
+  .hero-carousel-slide {
+    flex: 0 0 100%;
+    aspect-ratio: 16 / 9;
+  }
+  .hero-carousel-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
   @media (prefers-reduced-motion: reduce) {
-    .hero-title-ring-stage { display: none; }
-  }
-  @media (max-width: 640px) {
-    .hero-title-ring-stage { display: none; }
+    .hero-carousel-track { transition: none; }
   }
   .hero h1 em {
     font-style: normal;
@@ -2712,19 +2698,19 @@
   </svg>
   <div class="hero-content">
     <div class="hero-title-wrap">
-      <div class="hero-title-ring-stage" aria-hidden="true">
-        <div class="hero-title-ring">
-          <div class="hero-title-ring-item" style="transform: rotate(0deg) translate(150px) rotate(0deg);"><img src="assets/img/country-ar.jpg" alt="" loading="eager"></div>
-          <div class="hero-title-ring-item" style="transform: rotate(60deg) translate(150px) rotate(-60deg);"><img src="assets/img/country-cl.jpg" alt="" loading="eager"></div>
-          <div class="hero-title-ring-item" style="transform: rotate(120deg) translate(150px) rotate(-120deg);"><img src="assets/img/country-co.jpg" alt="" loading="eager"></div>
-          <div class="hero-title-ring-item" style="transform: rotate(180deg) translate(150px) rotate(-180deg);"><img src="assets/img/country-pe.jpg" alt="" loading="eager"></div>
-          <div class="hero-title-ring-item" style="transform: rotate(240deg) translate(150px) rotate(-240deg);"><img src="assets/img/paths-cl.jpg" alt="" loading="eager"></div>
-          <div class="hero-title-ring-item" style="transform: rotate(300deg) translate(150px) rotate(-300deg);"><img src="assets/img/paths-co.jpg" alt="" loading="eager"></div>
-        </div>
-      </div>
       <h1>Latin America,<br>felt on the Gold Coast.</h1>
     </div>
     <p class="hero-sub reveal-up">We're building a catalogue of Latin emotions — nights, flavours and stories you can live without a passport. 📍 Gold Coast, QLD.</p>
+    <div class="hero-carousel reveal-up" id="heroCarousel" aria-hidden="true">
+      <div class="hero-carousel-track" id="heroCarouselTrack">
+        <div class="hero-carousel-slide"><img src="assets/img/country-ar.jpg" alt="" loading="eager"></div>
+        <div class="hero-carousel-slide"><img src="assets/img/country-cl.jpg" alt="" loading="eager"></div>
+        <div class="hero-carousel-slide"><img src="assets/img/country-co.jpg" alt="" loading="eager"></div>
+        <div class="hero-carousel-slide"><img src="assets/img/country-pe.jpg" alt="" loading="eager"></div>
+        <div class="hero-carousel-slide"><img src="assets/img/paths-cl.jpg" alt="" loading="eager"></div>
+        <div class="hero-carousel-slide"><img src="assets/img/paths-co.jpg" alt="" loading="eager"></div>
+      </div>
+    </div>
     <div class="next-emotion reveal-up">
       <div class="next-emotion-art">
         <img src="assets/img/next-emotion-placeholder.svg" alt="" loading="lazy">
@@ -3147,6 +3133,40 @@
     window.addEventListener('resize', resize);
     spawnTimer = window.setInterval(spawn, SPAWN_MS);
     raf = requestAnimationFrame(step);
+  })();
+
+  // Vanilla reimplementation of a pasted React "Skiper49" Swiper coverflow
+  // carousel — no Swiper.js/framer-motion here, and no 3D coverflow tilt
+  // either per explicit feedback (photos straight and clearly visible).
+  // Kept just its core behavior: one photo visible at a time, sliding to
+  // the next automatically every 5s.
+  (function heroCarousel() {
+    var track = document.getElementById('heroCarouselTrack');
+    if (!track) return;
+    var slides = track.children;
+    if (!slides.length) return;
+    var index = 0;
+    var timer = null;
+
+    function show(i) {
+      index = i;
+      track.style.transform = 'translateX(-' + (index * 100) + '%)';
+    }
+    function next() {
+      show((index + 1) % slides.length);
+    }
+    function start() {
+      stop();
+      timer = window.setInterval(function () {
+        if (!document.hidden) next();
+      }, 5000);
+    }
+    function stop() {
+      if (timer) { clearInterval(timer); timer = null; }
+    }
+
+    show(0);
+    if (!reduceMotion) start();
   })();
 
   (function cravingSpotlight() {
