@@ -2211,6 +2211,68 @@
     color: var(--ink-muted);
   }
   .experience-card-art--locked svg { width: 34px; height: 34px; opacity: 0.6; }
+  .experience-interest {
+    margin-top: 1rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid var(--line-soft);
+  }
+  .experience-interest-title {
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ember-bright);
+    margin: 0 0 0.25rem;
+  }
+  .experience-interest-sub {
+    font-family: 'Newsreader', serif;
+    font-size: 0.8rem;
+    color: var(--ink-muted);
+    margin: 0 0 0.6rem;
+    line-height: 1.4;
+  }
+  .experience-interest-form {
+    display: flex;
+    gap: 0.4rem;
+  }
+  .experience-interest-input {
+    flex: 1 1 auto;
+    min-width: 0;
+    font-family: 'Newsreader', serif;
+    font-size: 0.85rem;
+    color: var(--ink);
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.22);
+    border-radius: 8px;
+    padding: 0.5rem 0.65rem;
+  }
+  .experience-interest-input::placeholder { color: var(--ink-muted); opacity: 0.85; }
+  .experience-interest-input:focus-visible { outline: 2px solid var(--ember-bright); outline-offset: 1px; }
+  .experience-interest-btn {
+    flex-shrink: 0;
+    padding: 0.5rem 0.85rem;
+    border-radius: 8px;
+    border: none;
+    background: var(--sage);
+    color: #FFFFFF;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.76rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s ease, opacity 0.2s ease;
+  }
+  .experience-interest-btn:hover { background: #c23f24; }
+  .experience-interest-btn:disabled { opacity: 0.6; cursor: default; }
+  .experience-interest-form[hidden] { display: none; }
+  .experience-interest-status {
+    margin: 0.5rem 0 0;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.74rem;
+    min-height: 1em;
+  }
+  .experience-interest-status.success { color: var(--ember-bright); }
+  .experience-interest-status.error { color: #e8745a; }
   .experiences-count {
     margin-top: 1.6rem;
     font-family: 'Space Mono', monospace;
@@ -2550,6 +2612,22 @@
       <div class="experience-card-art" aria-hidden="true"></div>
       <h3>A real restaurant partner</h3>
       <p>Gold Coast, QLD — this is what an unlocked experience will look like once our first partner is confirmed.</p>
+      <div class="experience-interest" data-experience-id="experience-1" data-experience-title="A real restaurant partner">
+        <p class="experience-interest-title">Get updates</p>
+        <p class="experience-interest-sub">Leave your email to get notified about this experience.</p>
+        <form class="experience-interest-form" action="https://formsubmit.co/ajax/hello@teamsolub.com" method="POST" novalidate>
+          <input type="email" name="email" class="experience-interest-input" placeholder="your@email.com" required>
+          <input type="hidden" name="experienceId" value="experience-1">
+          <input type="hidden" name="experienceTitle" value="A real restaurant partner">
+          <input type="hidden" name="source" value="website-experiences">
+          <input type="hidden" name="timestamp" class="experience-interest-ts" value="">
+          <input type="hidden" name="_subject" value="SolubFood experience interest: A real restaurant partner">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="text" name="_honey" class="cta-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <button type="submit" class="experience-interest-btn">Notify me</button>
+        </form>
+        <p class="experience-interest-status" aria-live="polite"></p>
+      </div>
     </div>
     <div class="experience-card is-locked">
       <div class="experience-card-art experience-card-art--locked" aria-hidden="true">
@@ -2557,6 +2635,22 @@
       </div>
       <h3>???</h3>
       <p>Unlocking soon — nothing's confirmed yet.</p>
+      <div class="experience-interest" data-experience-id="experience-2" data-experience-title="Unlocking soon #2">
+        <p class="experience-interest-title">Get updates</p>
+        <p class="experience-interest-sub">Leave your email to get notified about this experience.</p>
+        <form class="experience-interest-form" action="https://formsubmit.co/ajax/hello@teamsolub.com" method="POST" novalidate>
+          <input type="email" name="email" class="experience-interest-input" placeholder="your@email.com" required>
+          <input type="hidden" name="experienceId" value="experience-2">
+          <input type="hidden" name="experienceTitle" value="Unlocking soon #2">
+          <input type="hidden" name="source" value="website-experiences">
+          <input type="hidden" name="timestamp" class="experience-interest-ts" value="">
+          <input type="hidden" name="_subject" value="SolubFood experience interest: Unlocking soon #2">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="text" name="_honey" class="cta-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <button type="submit" class="experience-interest-btn">Notify me</button>
+        </form>
+        <p class="experience-interest-status" aria-live="polite"></p>
+      </div>
     </div>
     <div class="experience-card is-locked">
       <div class="experience-card-art experience-card-art--locked" aria-hidden="true">
@@ -2564,6 +2658,22 @@
       </div>
       <h3>???</h3>
       <p>Unlocking soon — nothing's confirmed yet.</p>
+      <div class="experience-interest" data-experience-id="experience-3" data-experience-title="Unlocking soon #3">
+        <p class="experience-interest-title">Get updates</p>
+        <p class="experience-interest-sub">Leave your email to get notified about this experience.</p>
+        <form class="experience-interest-form" action="https://formsubmit.co/ajax/hello@teamsolub.com" method="POST" novalidate>
+          <input type="email" name="email" class="experience-interest-input" placeholder="your@email.com" required>
+          <input type="hidden" name="experienceId" value="experience-3">
+          <input type="hidden" name="experienceTitle" value="Unlocking soon #3">
+          <input type="hidden" name="source" value="website-experiences">
+          <input type="hidden" name="timestamp" class="experience-interest-ts" value="">
+          <input type="hidden" name="_subject" value="SolubFood experience interest: Unlocking soon #3">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="text" name="_honey" class="cta-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <button type="submit" class="experience-interest-btn">Notify me</button>
+        </form>
+        <p class="experience-interest-status" aria-live="polite"></p>
+      </div>
     </div>
   </div>
   <p class="experiences-count reveal-up">0 unlocked · 7 to go before July 2027</p>
@@ -3025,6 +3135,61 @@
         btn.disabled = false;
         status.className = 'form-status error';
         status.innerHTML = 'Something went wrong — email us directly at <a href="mailto:' + mailFallback + '">' + mailFallback + '</a>';
+      });
+    });
+  })();
+
+  // Reusable per-Experience "interest" capture — not a ticket or a QR, just
+  // a lightweight "notify me" email registration. <ExperienceInterestForm
+  // experienceId=... /> would be the React equivalent; here it's one
+  // function wired to every .experience-interest-form on the page, each
+  // reading its own experienceId/title off the card's data attributes.
+  //
+  // PHASE 2 (not built yet, intentionally): once an experience actually
+  // unlocks, send these registrants an automatic confirmation/notification
+  // email, and/or fold them into SolubFood's general member QR flow
+  // (see memberQr() above) instead of this separate capture.
+  (function wireExperienceInterestForms() {
+    var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    document.querySelectorAll('.experience-interest-form').forEach(function (form) {
+      var status = form.parentElement.querySelector('.experience-interest-status');
+      var btn = form.querySelector('.experience-interest-btn');
+      var emailInput = form.querySelector('.experience-interest-input');
+      var tsInput = form.querySelector('.experience-interest-ts');
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var honey = form.querySelector('.cta-honey');
+        if (honey && honey.value) return;
+
+        var email = emailInput.value.trim();
+        if (!EMAIL_RE.test(email)) {
+          status.className = 'experience-interest-status error';
+          status.textContent = 'Please enter a valid email.';
+          emailInput.focus();
+          return;
+        }
+
+        if (tsInput) tsInput.value = new Date().toISOString();
+        btn.disabled = true;
+        status.className = 'experience-interest-status';
+        status.textContent = 'Sending…';
+
+        fetch(form.action, {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: new FormData(form)
+        }).then(function (res) {
+          if (!res.ok) throw new Error('bad status');
+          form.hidden = true;
+          status.className = 'experience-interest-status success';
+          status.textContent = "Done — we'll email you updates.";
+        }).catch(function () {
+          btn.disabled = false;
+          status.className = 'experience-interest-status error';
+          status.textContent = "Something went wrong — try again in a moment.";
+        });
       });
     });
   })();
