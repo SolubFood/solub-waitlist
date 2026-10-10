@@ -2468,6 +2468,46 @@
     transform: scale(0.55);
     animation: intro-logo-bloom 0.6s cubic-bezier(.22,.9,.32,1) forwards;
   }
+  /* Vanilla reimplementation of a pasted React "Carousel360" component —
+     dropped the drag/autoplay-index/prev-next-button machinery (the
+     splash isn't interactive and is only on screen ~2.2s) and kept just
+     its geometry: images arranged in a circle via rotate+translate+
+     counter-rotate, tilted in 3D and spun with a single CSS animation
+     instead of per-frame framer-motion springs. Uses real unused photos
+     already in assets/img instead of the reference's stock Unsplash set. */
+  .intro-ring-stage {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: 480px;
+    pointer-events: none;
+    opacity: 0;
+    animation: intro-ring-fade-in 0.5s ease forwards;
+    animation-delay: 0.55s;
+  }
+  .intro-ring {
+    position: relative;
+    width: 1px;
+    height: 1px;
+    transform: rotateX(60deg);
+    transform-style: preserve-3d;
+    animation: intro-ring-spin 9s linear infinite;
+  }
+  .intro-ring-item {
+    position: absolute;
+    top: -21px;
+    left: -21px;
+    width: 42px;
+    height: 42px;
+    border-radius: 9px;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.25);
+  }
+  .intro-ring-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  @keyframes intro-ring-spin { to { transform: rotateX(60deg) rotateZ(360deg); } }
+  @keyframes intro-ring-fade-in { to { opacity: 1; } }
   .intro-logo-draw {
     position: absolute;
     inset: 0;
@@ -2517,6 +2557,16 @@
 
 <div class="intro-splash" id="introSplash" aria-hidden="true">
   <div class="intro-logo-wrap">
+    <div class="intro-ring-stage">
+      <div class="intro-ring">
+        <div class="intro-ring-item" style="transform: rotate(0deg) translate(88px) rotate(0deg);"><img src="assets/img/country-ar.jpg" alt="" loading="eager"></div>
+        <div class="intro-ring-item" style="transform: rotate(60deg) translate(88px) rotate(-60deg);"><img src="assets/img/country-cl.jpg" alt="" loading="eager"></div>
+        <div class="intro-ring-item" style="transform: rotate(120deg) translate(88px) rotate(-120deg);"><img src="assets/img/country-co.jpg" alt="" loading="eager"></div>
+        <div class="intro-ring-item" style="transform: rotate(180deg) translate(88px) rotate(-180deg);"><img src="assets/img/country-pe.jpg" alt="" loading="eager"></div>
+        <div class="intro-ring-item" style="transform: rotate(240deg) translate(88px) rotate(-240deg);"><img src="assets/img/paths-cl.jpg" alt="" loading="eager"></div>
+        <div class="intro-ring-item" style="transform: rotate(300deg) translate(88px) rotate(-300deg);"><img src="assets/img/paths-co.jpg" alt="" loading="eager"></div>
+      </div>
+    </div>
     <svg class="intro-logo-draw" viewBox="0 0 120 120" aria-hidden="true">
       <circle class="intro-logo-draw-circle" cx="60" cy="60" r="48" fill="none" stroke="#CC3621" stroke-width="3"/>
     </svg>
