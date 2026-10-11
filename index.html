@@ -3047,7 +3047,7 @@
       statusEl.innerHTML = '<span class="launcher-spinner"></span><span>0%</span>';
       var pctText = statusEl.querySelector('span:last-child');
       var timer = setInterval(function () {
-        pct = Math.min(100, pct + 9);
+        pct = Math.min(100, pct + 16);
         fillEl.style.width = pct + '%';
         pctText.textContent = pct + '%';
         if (pct >= 100) {
@@ -3061,9 +3061,9 @@
             fillEl.style.width = '0%';
             statusEl.innerHTML = '';
             busy = false;
-          }, 420);
+          }, 220);
         }
-      }, 45);
+      }, 30);
     });
     if (qrBtn) {
       qrBtn.addEventListener('click', function () {
