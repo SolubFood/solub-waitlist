@@ -438,6 +438,7 @@
     font-size: clamp(2.5rem, 5vw, 4.2rem);
     line-height: 1.0;
     color: #CC3621;
+    text-shadow: 0 0 1px #fff, 0 0 3px rgba(255,255,255,0.9), 0 0 16px rgba(255,255,255,0.85), 0 2px 4px rgba(255,255,255,0.9);
     opacity: 0;
     filter: blur(6px);
     transform: translateY(6px);
@@ -453,7 +454,10 @@
      coverflow carousel — dropped the 3D coverflow tilt/Swiper.js
      dependency per explicit feedback that the photos should stay
      straight and clearly visible, not rotated. Kept its core idea: the
-     same 6 photos, one frame visible at a time, auto-advancing. */
+     same 6 photos, one frame visible at a time, auto-advancing. Sits
+     behind the headline (--behind modifier) rather than below it, per
+     follow-up request — the h1's text-shadow halo above keeps the red
+     letters legible over whichever photo is showing. */
   .hero-title-wrap {
     position: relative;
   }
@@ -465,14 +469,25 @@
     overflow: hidden;
     box-shadow: 0 14px 34px -16px rgba(0,0,0,0.3);
   }
+  .hero-carousel--behind {
+    position: absolute;
+    inset: -0.6rem -0.8rem;
+    max-width: none;
+    margin: 0;
+    z-index: 0;
+    box-shadow: none;
+    border-radius: 20px;
+  }
   .hero-carousel-track {
     display: flex;
+    height: 100%;
     transition: transform 0.6s cubic-bezier(.22,.9,.32,1);
   }
   .hero-carousel-slide {
     flex: 0 0 100%;
     aspect-ratio: 16 / 9;
   }
+  .hero-carousel--behind .hero-carousel-slide { aspect-ratio: auto; }
   .hero-carousel-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
   @media (prefers-reduced-motion: reduce) {
     .hero-carousel-track { transition: none; }
@@ -2698,19 +2713,19 @@
   </svg>
   <div class="hero-content">
     <div class="hero-title-wrap">
+      <div class="hero-carousel hero-carousel--behind" id="heroCarousel" aria-hidden="true">
+        <div class="hero-carousel-track" id="heroCarouselTrack">
+          <div class="hero-carousel-slide"><img src="assets/img/country-ar.jpg" alt="" loading="eager"></div>
+          <div class="hero-carousel-slide"><img src="assets/img/country-cl.jpg" alt="" loading="eager"></div>
+          <div class="hero-carousel-slide"><img src="assets/img/country-co.jpg" alt="" loading="eager"></div>
+          <div class="hero-carousel-slide"><img src="assets/img/country-pe.jpg" alt="" loading="eager"></div>
+          <div class="hero-carousel-slide"><img src="assets/img/paths-cl.jpg" alt="" loading="eager"></div>
+          <div class="hero-carousel-slide"><img src="assets/img/paths-co.jpg" alt="" loading="eager"></div>
+        </div>
+      </div>
       <h1>Latin America,<br>felt on the Gold Coast.</h1>
     </div>
     <p class="hero-sub reveal-up">We're building a catalogue of Latin emotions — nights, flavours and stories you can live without a passport. 📍 Gold Coast, QLD.</p>
-    <div class="hero-carousel reveal-up" id="heroCarousel" aria-hidden="true">
-      <div class="hero-carousel-track" id="heroCarouselTrack">
-        <div class="hero-carousel-slide"><img src="assets/img/country-ar.jpg" alt="" loading="eager"></div>
-        <div class="hero-carousel-slide"><img src="assets/img/country-cl.jpg" alt="" loading="eager"></div>
-        <div class="hero-carousel-slide"><img src="assets/img/country-co.jpg" alt="" loading="eager"></div>
-        <div class="hero-carousel-slide"><img src="assets/img/country-pe.jpg" alt="" loading="eager"></div>
-        <div class="hero-carousel-slide"><img src="assets/img/paths-cl.jpg" alt="" loading="eager"></div>
-        <div class="hero-carousel-slide"><img src="assets/img/paths-co.jpg" alt="" loading="eager"></div>
-      </div>
-    </div>
     <div class="next-emotion reveal-up">
       <div class="next-emotion-art">
         <img src="assets/img/next-emotion-placeholder.svg" alt="" loading="lazy">
