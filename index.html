@@ -689,6 +689,69 @@
   @media (prefers-reduced-motion: reduce) {
     .hero-launcher, .hero-launcher .launcher-icon, .hero-launcher .launcher-text, .launcher-spinner { transition: none; animation: none; }
   }
+  /* The simple black "Join" button that took over the hero-launcher's old
+     spot — same click → %-fill → checkmark → open-dialog animation
+     (newsletterDialog() still targets #openNewsletterDialog unchanged),
+     just a plain black pill with text instead of the icon/hover-reveal
+     circle, which moved down to the join-strip section instead. */
+  .btn-join-simple {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 48px;
+    min-width: 112px;
+    padding: 0 1.6rem;
+    border-radius: 999px;
+    border: none;
+    background: #000000;
+    color: #FFFFFF;
+    cursor: pointer;
+    overflow: hidden;
+    box-shadow: 0 10px 30px -12px rgba(0,0,0,0.5);
+  }
+  .btn-join-simple .launcher-fill {
+    position: absolute;
+    inset: 0;
+    width: 0%;
+    background: #CC3621;
+    z-index: 0;
+  }
+  .btn-join-simple .launcher-text {
+    position: relative;
+    z-index: 1;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    transition: opacity 0.15s ease;
+  }
+  .btn-join-simple.is-loading .launcher-text,
+  .btn-join-simple.is-done .launcher-text {
+    opacity: 0;
+  }
+  .btn-join-simple .launcher-status {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    opacity: 0;
+    white-space: nowrap;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    transition: opacity 0.15s ease;
+  }
+  .btn-join-simple.is-loading .launcher-status,
+  .btn-join-simple.is-done .launcher-status {
+    opacity: 1;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .btn-join-simple .launcher-text, .btn-join-simple .launcher-status, .launcher-spinner { transition: none; animation: none; }
+  }
   /* ---------- story ---------- */
   .story {
     padding: 3rem 0 3.5rem;
@@ -2729,11 +2792,8 @@
       <p class="next-emotion-note">First emotion — November 2026. Nothing's confirmed yet — we only announce a restaurant once it's locked in.</p>
     </div>
     <div class="hero-chips">
-      <button type="button" class="hero-launcher" id="openNewsletterDialog" aria-label="Join SolubFood">
+      <button type="button" class="btn-join-simple" id="openNewsletterDialog" aria-label="Join SolubFood">
         <span class="launcher-fill" aria-hidden="true"></span>
-        <span class="launcher-icon" aria-hidden="true">
-          <svg class="logo-icon" viewBox="0 0 1080 1080"><use href="#logo-mark" x="0" y="0" width="1080" height="1080"></use></svg>
-        </span>
         <span class="launcher-text">Join</span>
         <span class="launcher-status" aria-hidden="true"></span>
       </button>
@@ -2850,7 +2910,13 @@
   <span class="eyebrow"><span class="ember-dot"></span><span>Join SolubFood</span></span>
   <h2 class="reveal-up">Join free. Get your SolubFood QR.</h2>
   <p class="join-strip-sub reveal-up">No accounts, no catch — just your name, email and suburb. We'll tell you the moment the first emotion unlocks.</p>
-  <button type="button" class="btn primary join-strip-btn scramble-btn js-open-join">Join SolubFood →</button>
+  <button type="button" class="hero-launcher join-strip-btn js-open-join" aria-label="Join SolubFood">
+    <span class="launcher-fill" aria-hidden="true"></span>
+    <span class="launcher-icon" aria-hidden="true">
+      <svg class="logo-icon" viewBox="0 0 1080 1080"><use href="#logo-mark" x="0" y="0" width="1080" height="1080"></use></svg>
+    </span>
+    <span class="launcher-text">Join</span>
+  </button>
 </section>
 
 <section class="story wrap">
