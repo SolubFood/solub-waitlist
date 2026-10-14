@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOLUB — Unlock the map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/globe.gl@2.32.2/dist/globe.gl.min.js"></script>
+<style>
+  /* ===========================================================
+     BASE / LAYOUT
+     =========================================================== */
+  :root {
+    --bg: #0B0B0F;
+    --panel-bg: rgba(15,15,20,0.55);
+    --ink: rgba(255,255,255,0.92);
+    --ink-muted: rgba(255,255,255,0.6);
+    --accent: #E5382B;
+    --accent-warm: #FFB347;
+    --atmo: #6B8CFF;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+  h1, h2, h3, .sg { font-family: 'Space Grotesk', 'Inter', sans-serif; }
+
+  /* ===========================================================
+     SECTION / TEASER (level 0)
+     =========================================================== */
+  .map-section {
+    position: relative;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 4rem 1.5rem 5rem;
+    text-align: center;
+  }
+  .map-eyebrow {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-warm);
+  }
+  .map-section h2 {
+    font-size: clamp(1.6rem, 3.4vw, 2.3rem);
+    margin: 0.5rem 0 0.6rem;
+  }
+  .map-section-sub {
+    color: var(--ink-muted);
+    max-width: 52ch;
+    margin: 0 auto 2rem;
+    font-size: 0.98rem;
+    line-height: 1.55;
+  }
+  .teaser-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    height: 420px;
+    margin: 0 auto;
+    border-radius: 50%;
+    cursor: pointer;
+    isolation: isolate;
+  }
+  .teaser-wrap::before {
+    content: "";
+    position: absolute;
+    inset: -40px;
+    background: radial-gradient(circle, rgba(107,140,255,0.16), transparent 70%);
+    z-index: -1;
+    pointer-events: none;
+  }
+  #teaserGlobe { width: 420px; height: 420px; }
+  .teaser-hint {
+    margin-top: 1.1rem;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    color: var(--ink-muted);
+  }
+  @media (max-width: 480px) {
+    .teaser-wrap { width: 300px; height: 300px; }
+    #teaserGlobe { width: 300px; height: 300px; }
+  }
+
+  /* ===========================================================
+     FULLSCREEN OVERLAY (levels 1 & 2)
+     =========================================================== */
+  .globe-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    z-index: 2000;
+    opacity: 0;
+    transform: scale(0.92);
+    pointer-events: none;
+    transition: opacity 600ms ease-out, transform 600ms ease-out;
+  }
+  .globe-overlay.is-open {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+  }
+  .globe-overlay::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(107,140,255,0.10), transparent 60%);
+    pointer-events: none;
+  }
+  #fullGlobe { position: absolute; inset: 0; }
+
+  .overlay-close {
+    position: absolute;
+    top: 1.2rem;
+    right: 1.2rem;
+    z-index: 10;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.16);
+    background: rgba(15,15,20,0.6);
+    backdrop-filter: blur(10px);
+    color: var(--ink);
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .overlay-close:hover { background: rgba(229,56,43,0.75); }
+
+  .breadcrumb {
+    position: absolute;
+    top: 1.2rem;
+    left: 1.2rem;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.02em;
+    color: var(--ink-muted);
+    background: rgba(15,15,20,0.5);
+    backdrop-filter: blur(10px);
+    padding: 0.5rem 0.8rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .breadcrumb button {
+    background: none;
+    border: none;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    padding: 0;
+  }
+  .breadcrumb button:hover,
+  .breadcrumb .crumb-current {
+    color: var(--ink);
+  }
+  .breadcrumb .sep { opacity: 0.4; }
+
+  /* ===========================================================
+     SIDE PANEL
+     =========================================================== */
+  .side-panel {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    bottom: 16px;
+    width: 360px;
+    max-width: calc(100% - 32px);
+    background: var(--panel-bg);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px;
+    padding: 1.6rem 1.5rem;
+    overflow-y: auto;
+    z-index: 9;
+    transform: translateX(-24px);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 400ms ease, opacity 400ms ease;
+  }
+  .side-panel.is-visible {
+    transform: translateX(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .panel-flag { font-size: 2.4rem; line-height: 1; display: block; margin-bottom: 0.5rem; }
+  .panel-name { font-size: 1.6rem; margin: 0 0 0.2rem; }
+  .panel-tagline { color: var(--accent-warm); font-size: 0.86rem; margin: 0 0 1rem; font-weight: 500; }
+  .panel-desc { color: var(--ink-muted); font-size: 0.92rem; line-height: 1.6; margin: 0 0 1.1rem; }
+  .panel-connection {
+    background: rgba(229,56,43,0.12);
+    border: 1px solid rgba(229,56,43,0.25);
+    border-radius: 12px;
+    padding: 0.8rem 1rem;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin: 0 0 1.2rem;
+  }
+  .panel-connection strong { display: block; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent-warm); margin-bottom: 0.3rem; }
+  .panel-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.4rem; }
+  .panel-chip {
+    font-size: 0.78rem;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 999px;
+    padding: 0.35rem 0.75rem;
+  }
+  .panel-section-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-muted);
+    margin: 0 0 0.6rem;
+  }
+  .city-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.5rem; }
+  .city-item {
+    width: 100%;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 0.7rem 0.9rem;
+    color: var(--ink);
+    font: inherit;
+    font-size: 0.88rem;
+    cursor: pointer;
+  }
+  .city-item:hover, .city-item:focus-visible { background: rgba(229,56,43,0.18); border-color: rgba(229,56,43,0.4); outline: none; }
+  .city-item .lock { opacity: 0.6; font-size: 0.9rem; }
+  .city-locked-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent-warm);
+    background: rgba(255,179,71,0.12);
+    border: 1px solid rgba(255,179,71,0.3);
+    border-radius: 999px;
+    padding: 0.35rem 0.7rem;
+    margin-bottom: 0.9rem;
+  }
+  .panel-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: none;
+    border: none;
+    color: var(--ink-muted);
+    font: inherit;
+    font-size: 0.8rem;
+    cursor: pointer;
+    padding: 0;
+    margin-bottom: 1rem;
+  }
+  .panel-back:hover { color: var(--ink); }
+
+  @media (max-width: 768px) {
+    .side-panel {
+      top: auto;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      max-width: 100%;
+      height: 45vh;
+      border-radius: 20px 20px 0 0;
+      transform: translateY(100%);
+      transition: transform 400ms ease, opacity 400ms ease;
+    }
+    .side-panel.is-visible { transform: translateY(0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .globe-overlay, .side-panel { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===========================================================
+     MARKUP: teaser section + fullscreen overlay + side panel
+     =========================================================== -->
+<section class="map-section">
+  <span class="map-eyebrow">Where it happens</span>
+  <h2>Unlock the map.</h2>
+  <p class="map-section-sub">Latinoamérica y Australia, conectadas. Explorá el globo y descubrí las ciudades que ya laten — y las que todavía esperan su momento.</p>
+
+  <div class="teaser-wrap" id="teaserWrap" role="button" tabindex="0" aria-label="Explorar el mapa interactivo">
+    <div id="teaserGlobe"></div>
+  </div>
+  <p class="teaser-hint">Toca el globo para explorar</p>
+</section>
+
+<div class="globe-overlay" id="globeOverlay">
+  <div id="fullGlobe"></div>
+
+  <nav class="breadcrumb" id="breadcrumb" aria-label="Navegación del mapa"></nav>
+  <button class="overlay-close" id="overlayClose" aria-label="Cerrar mapa">✕</button>
+
+  <aside class="side-panel" id="sidePanel" role="dialog" aria-live="polite" aria-label="Información del lugar seleccionado"></aside>
+</div>
+
+<script>
+/* =============================================================
+   DATA — edita acá nombres, textos y coordenadas
+   ============================================================= */
+const GOLD_COAST = { lat: -28.0167, lng: 153.4000 };
+
+const DATA = {
+  countries: [
+    {
+      iso: 'MEX', name: 'México', flag: '🇲🇽',
+      capital: { lat: 19.4326, lng: -99.1332 },
+      tagline: 'Donde el picante se vuelve fiesta',
+      description: 'Tacos, mariachis y colores que no piden permiso. México es la puerta de entrada a una Latinoamérica que grita en vez de susurrar.',
+      connection: 'En Gold Coast, el picante mexicano encuentra el sol australiano — la misma intensidad, otro idioma.',
+      chips: ['🌮 Tacos al pastor', '🎺 Mariachi', '🌶️ El chile fue moneda azteca'],
+      cities: [
+        { name: 'Ciudad de México', lat: 19.4326, lng: -99.1332, description: 'La capital más grande de Latinoamérica, cuna de sabores intensos y mercados que nunca duermen.', locked: false },
+        { name: 'Guadalajara', lat: 20.6597, lng: -103.3496, description: 'Hogar del mariachi, el tequila y una tradición que se canta a gritos.', locked: true }
+      ]
+    },
+    {
+      iso: 'COL', name: 'Colombia', flag: '🇨🇴',
+      capital: { lat: 4.7110, lng: -74.0721 },
+      tagline: 'Café, salsa y una alegría que no se apaga',
+      description: 'Entre montañas y costa, Colombia mezcla ritmo caribeño con calidez andina. Cada ciudad baila distinto, pero todas bailan.',
+      connection: 'La misma calidez cafetera, servida en una noche de Gold Coast.',
+      chips: ['☕ Bandeja paisa', '💃 Salsa', '🦜 Récord mundial en especies de aves'],
+      cities: [
+        { name: 'Bogotá', lat: 4.7110, lng: -74.0721, description: 'Entre montañas, la capital cafetera se mueve al ritmo de la salsa y el rock bogotano.', locked: false },
+        { name: 'Medellín', lat: 6.2442, lng: -75.5812, description: 'La ciudad de la eterna primavera, reinventada una y otra vez.', locked: true }
+      ]
+    },
+    {
+      iso: 'PER', name: 'Perú', flag: '🇵🇪',
+      capital: { lat: -12.0464, lng: -77.0428 },
+      tagline: 'La cocina que conquistó el mundo',
+      description: 'Perú convirtió su cocina en embajada. Entre el mar, los Andes y la selva, cada plato cuenta una geografía entera.',
+      connection: 'Gold Coast ya tiene mar y sol — le faltaba el ceviche.',
+      chips: ['🍋 Ceviche', '🎵 Huayno', '🏔️ Machu Picchu nunca fue hallado por los españoles'],
+      cities: [
+        { name: 'Lima', lat: -12.0464, lng: -77.0428, description: 'Capital gastronómica de América, donde el Pacífico se sirve en plato.', locked: false },
+        { name: 'Cusco', lat: -13.5319, lng: -71.9675, description: 'La antigua capital inca, a un paso del cielo.', locked: true }
+      ]
+    },
+    {
+      iso: 'CHL', name: 'Chile', flag: '🇨🇱',
+      capital: { lat: -33.4489, lng: -70.6693 },
+      tagline: 'El país más largo y angosto del planeta',
+      description: 'Desierto, cordillera, mar y hielo en un solo país. Chile es contraste — y eso se siente también en su mesa.',
+      connection: 'Un país entre el desierto y el mar, igual que la costa dorada australiana.',
+      chips: ['🥟 Empanadas de pino', '🎸 Cueca', '🏜️ El Atacama es el desierto más seco del mundo'],
+      cities: [
+        { name: 'Santiago', lat: -33.4489, lng: -70.6693, description: 'Rodeada de cordillera, la capital mezcla tradición y una escena gastronómica en ebullición.', locked: false },
+        { name: 'Valparaíso', lat: -33.0472, lng: -71.6127, description: 'Puerto, cerros y arte callejero sobre el Pacífico.', locked: true }
+      ]
+    },
+    {
+      iso: 'ARG', name: 'Argentina', flag: '🇦🇷',
+      capital: { lat: -34.6037, lng: -58.3816 },
+      tagline: 'Pasión, carne y tango hasta el amanecer',
+      description: 'Argentina vive de noche y come de sobremesa. El asado no es una comida, es un ritual que dura horas.',
+      connection: 'La parrilla cruza el Pacífico y se enciende en Gold Coast.',
+      chips: ['🥩 Asado', '💃 Tango', '⚽ Cuna de Maradona y Messi'],
+      cities: [
+        { name: 'Buenos Aires', lat: -34.6037, lng: -58.3816, description: 'La capital que nunca se sienta — tango, fútbol y café a cualquier hora.', locked: false },
+        { name: 'Córdoba', lat: -31.4201, lng: -64.1888, description: 'Universitaria, serrana y con un acento inconfundible.', locked: true }
+      ]
+    },
+    {
+      iso: 'BRA', name: 'Brasil', flag: '🇧🇷',
+      capital: { lat: -15.7939, lng: -47.8828 },
+      tagline: 'El ritmo que mueve a un continente',
+      description: 'Brasil es tamaño y color. De la selva a la costa, cada región tiene su propio compás — y todos terminan en samba.',
+      connection: 'El verano brasileño y el verano de Gold Coast son casi el mismo verano.',
+      chips: ['🍖 Feijoada', '🥁 Samba', '🌳 60% del Amazonas es territorio brasileño'],
+      cities: [
+        { name: 'Río de Janeiro', lat: -22.9068, lng: -43.1729, description: 'Playa, samba y un paisaje que parece hecho a propósito.', locked: false },
+        { name: 'São Paulo', lat: -23.5505, lng: -46.6333, description: 'La metrópolis que nunca apaga la cocina.', locked: true }
+      ]
+    },
+    {
+      iso: 'VEN', name: 'Venezuela', flag: '🇻🇪',
+      capital: { lat: 10.4806, lng: -66.9036 },
+      tagline: 'Dulce, cálido y lleno de color',
+      description: 'Entre el Caribe y los Andes, Venezuela cocina con calidez de familia grande y música que no se queda quieta.',
+      connection: 'El mismo calor caribeño, ahora con acento australiano.',
+      chips: ['🫓 Arepas', '🎶 Joropo', '🏞️ El Salto Ángel es la catarata más alta del mundo'],
+      cities: [
+        { name: 'Caracas', lat: 10.4806, lng: -66.9036, description: 'Entre montañas, una ciudad que vive rápido y come con cariño.', locked: false },
+        { name: 'Maracaibo', lat: 10.6666, lng: -71.6124, description: 'Calor, lago y una identidad que no se parece a ninguna otra.', locked: true }
+      ]
+    }
+  ],
+  australia: {
+    iso: 'AUS', name: 'Australia', flag: '🇦🇺',
+    tagline: 'Donde Latinoamérica se siente como en casa',
+    description: 'Gold Coast es el punto de encuentro: sol, playa y una comunidad lista para recibir cada emoción latina que cruce el Pacífico.',
+    connection: 'El destino final de cada arco en este mapa — y el comienzo de cada emotion de SOLUB.',
+    chips: ['🦘 Barbie (barbacoa)', '🌊 Cultura surf', '☀️ Más de 300 días de sol al año'],
+    cities: [
+      { name: 'Gold Coast', lat: -28.0167, lng: 153.4000, description: 'Donde todo se encuentra.', locked: false },
+      { name: 'Brisbane', lat: -27.4698, lng: 153.0251, description: 'La capital de Queensland, a un paso de la costa.', locked: true },
+      { name: 'Sydney', lat: -33.8688, lng: 151.2093, description: 'El ícono australiano, puerta de entrada al país.', locked: true }
+    ]
+  }
+};
+
+// Set de ISOs destacables (clickeables) en el globo
+const HIGHLIGHT_ISOS = new Set(DATA.countries.map(c => c.iso).concat([DATA.australia.iso]));
+
+function findCountryByIso(iso) {
+  if (iso === DATA.australia.iso) return DATA.australia;
+  return DATA.countries.find(c => c.iso === iso) || null;
+}
+
+/* =============================================================
+   ESTADO / NAVEGACIÓN
+   ============================================================= */
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const state = {
+  open: false,          // overlay fullscreen abierto
+  country: null,        // objeto país seleccionado (o Australia)
+  city: null            // objeto ciudad seleccionada
+};
+
+/* =============================================================
+   ARCOS — de cada capital latina a Gold Coast
+   ============================================================= */
+function buildArcs() {
+  return DATA.countries.map(c => ({
+    startLat: c.capital.lat,
+    startLng: c.capital.lng,
+    endLat: GOLD_COAST.lat,
+    endLng: GOLD_COAST.lng,
+    iso: c.iso
+  }));
+}
+const ARCS = buildArcs();
+
+/* =============================================================
+   GLOBO — construcción compartida (teaser + fullscreen)
+   ============================================================= */
+function makeGlobeInstance(el, { interactive }) {
+  const globe = Globe()(el)
+    .backgroundColor('rgba(0,0,0,0)')
+    .showAtmosphere(true)
+    .atmosphereColor('#6B8CFF')
+    .atmosphereAltitude(0.15)
+    .polygonsData([])
+    .polygonCapColor(() => 'rgba(255,255,255,0.06)')
+    .polygonSideColor(() => 'rgba(0,0,0,0.15)')
+    .polygonStrokeColor(() => 'rgba(255,255,255,0.12)')
+    .polygonAltitude(0.01)
+    .arcsData(ARCS)
+    .arcColor(() => ['#E5382B', '#FFB347'])
+    .arcStroke(0.45)
+    .arcDashLength(0.4)
+    .arcDashGap(2)
+    .arcDashAnimateTime(reduceMotion ? 0 : 2200)
+    .arcAltitudeAutoScale(0.3)
+    .pointsData([])
+    .ringsData([])
+    .ringColor(() => t => `rgba(255,179,71,${1 - t})`)
+    .ringMaxRadius(2.2)
+    .ringPropagationSpeed(reduceMotion ? 0 : 1.8)
+    .ringRepeatPeriod(reduceMotion ? 0 : 1600);
+
+  globe.globeMaterial().color.set('#14141A');
+  globe.globeMaterial().shininess = 4;
+
+  // Luz direccional desde arriba-izquierda para dar volumen
+  const scene = globe.scene();
+  const dirLight = new THREE.DirectionalLight(0xffffff, 0.9);
+  dirLight.position.set(-2, 2, 1);
+  scene.add(dirLight);
+  scene.add(new THREE.AmbientLight(0xffffff, 0.55));
+
+  globe.controls().enableZoom = !!interactive;
+  globe.controls().enablePan = false;
+  globe.controls().autoRotate = !reduceMotion;
+  globe.controls().autoRotateSpeed = interactive ? 0 : 0.6;
+
+  return globe;
+}
+
+let teaserGlobe, fullGlobe;
+let countriesGeo = null;
+
+/* =============================================================
+   CARGA DE GEOJSON (contornos de países, Natural Earth 110m)
+   ============================================================= */
+fetch('https://cdn.jsdelivr.net/gh/vasturiano/globe.gl@master/example/datasets/ne_110m_admin_0_countries.geojson')
+  .then(res => res.json())
+  .then(geo => {
+    countriesGeo = geo.features;
+    teaserGlobe.polygonsData(countriesGeo);
+    fullGlobe.polygonsData(countriesGeo);
+    applyPolygonStyles();
+  })
+  .catch(err => {
+    console.error('No se pudo cargar el GeoJSON de países', err);
+  });
+
+function isoOf(feat) {
+  const p = feat.properties || {};
+  return p.ISO_A3 || p.ADM0_A3 || p.ADM0_A3_US || null;
+}
+
+/* =============================================================
+   ESTILOS DE POLÍGONOS (color/altura según selección)
+   ============================================================= */
+let hoveredFeat = null;
+
+function applyPolygonStyles() {
+  [teaserGlobe, fullGlobe].forEach(g => {
+    if (!g) return;
+    g.polygonCapColor(feat => {
+      const iso = isoOf(feat);
+      const isHighlight = HIGHLIGHT_ISOS.has(iso);
+      if (!isHighlight) return 'rgba(255,255,255,0.06)';
+      const selectedIso = state.country ? state.country.iso : null;
+      if (selectedIso && iso !== selectedIso) return 'rgba(229,56,43,0.18)';
+      return iso === 'AUS' ? 'rgba(229,56,43,0.85)' : 'rgba(229,56,43,0.75)';
+    });
+    g.polygonStrokeColor(feat => {
+      const iso = isoOf(feat);
+      if (iso === 'AUS') return 'rgba(255,200,170,0.9)';
+      return HIGHLIGHT_ISOS.has(iso) ? 'rgba(255,255,255,0.35)' : 'rgba(255,255,255,0.12)';
+    });
+    g.polygonAltitude(feat => {
+      const iso = isoOf(feat);
+      if (state.country && iso === state.country.iso) return 0.06;
+      if (feat === hoveredFeat) return 0.03;
+      return 0.01;
+    });
+  });
+}
+
+/* =============================================================
+   PUNTOS Y ANILLOS DE CIUDADES
+   ============================================================= */
+function applyCityPoints() {
+  const cities = state.country ? state.country.cities : [];
+  const pointsData = cities.map(city => ({ ...city, country: state.country }));
+  fullGlobe
+    .pointsData(pointsData)
+    .pointLat('lat').pointLng('lng')
+    .pointColor(d => d === state.city ? '#FFB347' : '#E5382B')
+    .pointAltitude(0.015)
+    .pointRadius(0.45)
+    .pointLabel(d => d.name)
+    .onPointClick(d => selectCity(d))
+    .ringsData(pointsData)
+    .ringLat('lat').ringLng('lng')
+    .ringColor(() => t => `rgba(255,179,71,${Math.max(0, 1 - t)})`)
+    .ringMaxRadius(2.4)
+    .ringPropagationSpeed(reduceMotion ? 0 : 1.6)
+    .ringRepeatPeriod(reduceMotion ? 0 : 1500);
+}
+
+/* =============================================================
+   ARCO DESTACADO AL SELECCIONAR PAÍS
+   ============================================================= */
+function applyArcStyles() {
+  fullGlobe.arcColor(d => {
+    if (!state.country) return ['#E5382B', '#FFB347'];
+    return d.iso === state.country.iso ? ['#FFB347', '#FFD9A0'] : ['rgba(229,56,43,0.25)', 'rgba(255,179,71,0.25)'];
+  });
+  fullGlobe.arcStroke(d => (state.country && d.iso === state.country.iso) ? 0.7 : 0.3);
+}
+
+/* =============================================================
+   INICIALIZACIÓN
+   ============================================================= */
+window.addEventListener('DOMContentLoaded', () => {
+  teaserGlobe = makeGlobeInstance(document.getElementById('teaserGlobe'), { interactive: false });
+  teaserGlobe.width(420).height(420);
+  teaserGlobe.pointOfView({ lat: 10, lng: -60, altitude: 2.2 }, 0);
+
+  fullGlobe = makeGlobeInstance(document.getElementById('fullGlobe'), { interactive: true });
+  sizeFullGlobe();
+  fullGlobe.pointOfView({ lat: 5, lng: -40, altitude: 2.4 }, 0);
+
+  fullGlobe.onPolygonClick(feat => {
+    const iso = isoOf(feat);
+    if (!HIGHLIGHT_ISOS.has(iso)) return;
+    const country = findCountryByIso(iso);
+    if (country) selectCountry(country);
+  });
+  fullGlobe.onPolygonHover(feat => {
+    const iso = feat ? isoOf(feat) : null;
+    hoveredFeat = (iso && HIGHLIGHT_ISOS.has(iso)) ? feat : null;
+    document.getElementById('fullGlobe').style.cursor = hoveredFeat ? 'pointer' : 'grab';
+    applyPolygonStyles();
+  });
+
+  document.getElementById('teaserWrap').addEventListener('click', openOverlay);
+  document.getElementById('teaserWrap').addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openOverlay(); }
+  });
+  document.getElementById('overlayClose').addEventListener('click', closeOverlay);
+
+  window.addEventListener('resize', sizeFullGlobe);
+  document.addEventListener('keydown', e => {
+    if (e.key !== 'Escape' || !state.open) return;
+    if (state.city) { backToCountry(); }
+    else if (state.country) { backToWorld(); }
+    else { closeOverlay(); }
+  });
+
+  renderBreadcrumb();
+});
+
+function sizeFullGlobe() {
+  if (!fullGlobe) return;
+  fullGlobe.width(window.innerWidth).height(window.innerHeight);
+}
+
+/* =============================================================
+   NAVEGACIÓN ENTRE NIVELES
+   ============================================================= */
+function openOverlay() {
+  state.open = true;
+  const overlay = document.getElementById('globeOverlay');
+  overlay.classList.add('is-open');
+  teaserGlobe.controls().autoRotate = false;
+  fullGlobe.controls().autoRotate = false;
+  renderBreadcrumb();
+}
+
+function closeOverlay() {
+  state.open = false;
+  state.country = null;
+  state.city = null;
+  document.getElementById('globeOverlay').classList.remove('is-open');
+  document.getElementById('sidePanel').classList.remove('is-visible');
+  teaserGlobe.controls().autoRotate = !reduceMotion;
+  fullGlobe.pointOfView({ lat: 5, lng: -40, altitude: 2.4 }, reduceMotion ? 0 : 800);
+  applyPolygonStyles();
+  applyArcStyles();
+  renderBreadcrumb();
+}
+
+function selectCountry(country) {
+  state.country = country;
+  state.city = null;
+  fullGlobe.pointOfView({ lat: country.capital ? country.capital.lat : country.cities[0].lat,
+                           lng: country.capital ? country.capital.lng : country.cities[0].lng,
+                           altitude: 0.9 }, reduceMotion ? 0 : 1200);
+  applyPolygonStyles();
+  applyArcStyles();
+  applyCityPoints();
+  renderPanel();
+  renderBreadcrumb();
+}
+
+function selectCity(city) {
+  state.city = city;
+  fullGlobe.pointOfView({ lat: city.lat, lng: city.lng, altitude: 0.35 }, reduceMotion ? 0 : 1000);
+  applyCityPoints();
+  renderPanel();
+  renderBreadcrumb();
+}
+
+function backToWorld() {
+  state.country = null;
+  state.city = null;
+  fullGlobe.pointOfView({ lat: 5, lng: -40, altitude: 2.4 }, reduceMotion ? 0 : 1000);
+  applyPolygonStyles();
+  applyArcStyles();
+  fullGlobe.pointsData([]).ringsData([]);
+  document.getElementById('sidePanel').classList.remove('is-visible');
+  renderBreadcrumb();
+}
+
+function backToCountry() {
+  if (!state.country) return backToWorld();
+  state.city = null;
+  fullGlobe.pointOfView({ lat: state.country.capital.lat, lng: state.country.capital.lng, altitude: 0.9 }, reduceMotion ? 0 : 900);
+  applyCityPoints();
+  renderPanel();
+  renderBreadcrumb();
+}
+
+/* =============================================================
+   BREADCRUMB
+   ============================================================= */
+function renderBreadcrumb() {
+  const el = document.getElementById('breadcrumb');
+  if (!state.open) { el.innerHTML = ''; return; }
+  const parts = [];
+  parts.push(state.country
+    ? '<button type="button" data-crumb="world">Mundo</button>'
+    : '<span class="crumb-current">Mundo</span>');
+  if (state.country) {
+    parts.push('<span class="sep">›</span>');
+    parts.push(state.city
+      ? `<button type="button" data-crumb="country">${state.country.name}</button>`
+      : `<span class="crumb-current">${state.country.name}</span>`);
+  }
+  if (state.city) {
+    parts.push('<span class="sep">›</span>');
+    parts.push(`<span class="crumb-current">${state.city.name}</span>`);
+  }
+  el.innerHTML = parts.join('');
+  el.querySelectorAll('button[data-crumb]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (btn.dataset.crumb === 'world') backToWorld();
+      else if (btn.dataset.crumb === 'country') backToCountry();
+    });
+  });
+}
+
+/* =============================================================
+   PANEL LATERAL
+   ============================================================= */
+function renderPanel() {
+  const panel = document.getElementById('sidePanel');
+  if (!state.country) { panel.classList.remove('is-visible'); panel.innerHTML = ''; return; }
+
+  const c = state.country;
+  let html = '';
+
+  if (state.city) {
+    html += `<button type="button" class="panel-back" id="panelBackBtn">← ${c.name}</button>`;
+    html += `<span class="panel-flag">${c.flag}</span>`;
+    html += `<h3 class="panel-name">${state.city.name}</h3>`;
+    if (state.city.locked) {
+      const idx = c.cities.findIndex(ct => ct === state.city) + 1;
+      html += `<span class="city-locked-badge">🔒 Experience #0${idx} — Próximamente</span>`;
+    }
+    html += `<p class="panel-desc">${state.city.description}</p>`;
+  } else {
+    html += `<span class="panel-flag">${c.flag}</span>`;
+    html += `<h3 class="panel-name">${c.name}</h3>`;
+    html += `<p class="panel-tagline">${c.tagline}</p>`;
+    html += `<p class="panel-desc">${c.description}</p>`;
+    html += `<div class="panel-connection"><strong>Conexión con Gold Coast</strong>${c.connection}</div>`;
+    html += `<div class="panel-chips">${c.chips.map(ch => `<span class="panel-chip">${ch}</span>`).join('')}</div>`;
+    html += `<p class="panel-section-title">Ciudades</p>`;
+    html += `<ul class="city-list">`;
+    c.cities.forEach((city, i) => {
+      html += `<li><button type="button" class="city-item" data-city-index="${i}">
+        <span>${city.name}</span>
+        ${city.locked ? '<span class="lock">🔒</span>' : '<span class="lock">✓</span>'}
+      </button></li>`;
+    });
+    html += `</ul>`;
+  }
+
+  panel.innerHTML = html;
+  panel.classList.add('is-visible');
+
+  const backBtn = document.getElementById('panelBackBtn');
+  if (backBtn) backBtn.addEventListener('click', backToCountry);
+  panel.querySelectorAll('.city-item').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const idx = Number(btn.dataset.cityIndex);
+      selectCity(c.cities[idx]);
+    });
+  });
+}
+</script>
+</body>
+</html>
