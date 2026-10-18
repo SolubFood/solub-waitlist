@@ -2127,12 +2127,16 @@
     position: relative;
     width: 100%;
     aspect-ratio: 800 / 280;
+    background: linear-gradient(155deg, #CC3621, #7a2012);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.9rem;
   }
-  .next-emotion-art img {
-    width: 100%;
-    height: 100%;
-    display: block;
-    object-fit: cover;
+  .next-emotion-art .logo-icon {
+    width: 46px;
+    height: 46px;
   }
   .next-emotion-label {
     font-family: 'Space Mono', monospace;
@@ -2143,17 +2147,9 @@
     padding: 0 1.2rem;
   }
   .emotion-loading {
-    position: absolute;
-    top: 0.8rem;
-    left: 50%;
-    transform: translateX(-50%);
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.4rem 0.8rem;
-    border-radius: 999px;
-    background: rgba(12,8,6,0.65);
-    backdrop-filter: blur(2px);
   }
   .emotion-spinner {
     width: 16px;
@@ -2998,7 +2994,7 @@
     <p class="hero-sub reveal-up">We're building a catalogue of Latin emotions — nights, flavours and stories you can live without a passport. 📍 Gold Coast, QLD.</p>
     <div class="next-emotion reveal-up">
       <div class="next-emotion-art">
-        <img src="assets/img/next-emotion-placeholder.svg" alt="" loading="lazy">
+        <svg class="logo-icon" viewBox="0 0 1080 1080" aria-hidden="true"><use href="#logo-mark" x="0" y="0" width="1080" height="1080"></use></svg>
         <span class="emotion-loading">
           <span class="emotion-spinner" aria-hidden="true"></span>
           <span class="emotion-loading-text">LOADING<span class="dots"><span>.</span><span>.</span><span>.</span></span></span>
