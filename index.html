@@ -440,7 +440,6 @@
   .hero-col-left { grid-area: left; }
   .hero-col-center { grid-area: center; }
   .hero-col-right { grid-area: right; }
-  .hero-col-right .hero-chips { justify-content: center; }
   .hero-readmore {
     font-family: 'Space Mono', monospace;
     font-size: 0.78rem;
@@ -1443,6 +1442,9 @@
   .craving-grid {
     padding: 1rem 0 0.5rem;
     text-align: center;
+  }
+  .craving-grid .hero-chips {
+    margin: 0 auto 1rem;
   }
   .craving-grid h2 {
     font-size: clamp(1.4rem, 2.6vw, 1.9rem);
@@ -2682,7 +2684,7 @@
     content: "";
     position: absolute;
     inset: -40px;
-    background: radial-gradient(circle, rgba(107,140,255,0.16), transparent 70%);
+    background: radial-gradient(circle, rgba(255,138,76,0.18), transparent 70%);
     z-index: -1;
     pointer-events: none;
   }
@@ -3013,22 +3015,22 @@
       <div class="map-teaser-wrap" id="teaserWrap" role="button" tabindex="0" aria-label="Explore the interactive map">
         <div id="teaserGlobe"></div>
       </div>
+      <p class="map-teaser-hint">Tap a country to see its story</p>
     </div>
     <div class="hero-col hero-col-right">
       <h1>Latin America.<br>Felt on the Gold Coast.</h1>
-      <div class="hero-chips">
-        <button type="button" class="btn-join-simple" id="openNewsletterDialog" aria-label="Join SolubFood">
-          <span class="launcher-fill" aria-hidden="true"></span>
-          <span class="launcher-text">Join</span>
-          <span class="launcher-status" aria-hidden="true"></span>
-        </button>
-      </div>
     </div>
   </div>
 </section>
 
 <section class="craving-grid wrap" id="how-it-works">
-  <span class="eyebrow"><span class="ember-dot"></span><span>Taste the range</span></span>
+  <div class="hero-chips">
+    <button type="button" class="btn-join-simple" id="openNewsletterDialog" aria-label="Join SolubFood">
+      <span class="launcher-fill" aria-hidden="true"></span>
+      <span class="launcher-text">Join</span>
+      <span class="launcher-status" aria-hidden="true"></span>
+    </button>
+  </div>
   <h2 class="reveal-up">How this works</h2>
   <div class="craving-cards">
     <div class="craving-card">
@@ -3802,12 +3804,12 @@
       var g = Globe()(el)
         .backgroundColor('rgba(0,0,0,0)')
         .showAtmosphere(true)
-        .atmosphereColor('#6B8CFF')
-        .atmosphereAltitude(0.15)
+        .atmosphereColor('#FF9B54')
+        .atmosphereAltitude(0.17)
         .polygonsData([])
-        .polygonCapColor(function () { return 'rgba(255,255,255,0.06)'; })
-        .polygonSideColor(function () { return 'rgba(0,0,0,0.15)'; })
-        .polygonStrokeColor(function () { return 'rgba(255,255,255,0.12)'; })
+        .polygonCapColor(function () { return 'rgba(245,225,200,0.08)'; })
+        .polygonSideColor(function () { return 'rgba(20,8,6,0.2)'; })
+        .polygonStrokeColor(function () { return 'rgba(245,225,200,0.16)'; })
         .polygonAltitude(0.01)
         .arcsData(ARCS)
         .arcColor(function () { return ['#E5382B', '#FFB347']; })
@@ -3823,14 +3825,14 @@
         .ringPropagationSpeed(reduceMotion ? 0 : 1.8)
         .ringRepeatPeriod(reduceMotion ? 0 : 1600);
 
-      g.globeMaterial().color.set('#14141A');
+      g.globeMaterial().color.set('#2A1410');
       g.globeMaterial().shininess = 4;
 
       var scene = g.scene();
-      var dirLight = new THREE.DirectionalLight(0xffffff, 0.9);
+      var dirLight = new THREE.DirectionalLight(0xffddbb, 0.9);
       dirLight.position.set(-2, 2, 1);
       scene.add(dirLight);
-      scene.add(new THREE.AmbientLight(0xffffff, 0.55));
+      scene.add(new THREE.AmbientLight(0xffe4cc, 0.55));
 
       g.controls().enableZoom = !!interactive;
       g.controls().enablePan = false;
@@ -3851,7 +3853,7 @@
         if (!g) return;
         g.polygonCapColor(function (feat) {
           var iso = isoOf(feat);
-          if (!HIGHLIGHT_ISOS[iso]) return 'rgba(255,255,255,0.06)';
+          if (!HIGHLIGHT_ISOS[iso]) return 'rgba(245,225,200,0.08)';
           var selectedIso = mapState.country ? mapState.country.iso : null;
           if (selectedIso && iso !== selectedIso) return 'rgba(229,56,43,0.18)';
           return iso === 'AUS' ? 'rgba(229,56,43,0.85)' : 'rgba(229,56,43,0.75)';
@@ -3859,7 +3861,7 @@
         g.polygonStrokeColor(function (feat) {
           var iso = isoOf(feat);
           if (iso === 'AUS') return 'rgba(255,200,170,0.9)';
-          return HIGHLIGHT_ISOS[iso] ? 'rgba(255,255,255,0.35)' : 'rgba(255,255,255,0.12)';
+          return HIGHLIGHT_ISOS[iso] ? 'rgba(255,230,210,0.4)' : 'rgba(245,225,200,0.16)';
         });
         g.polygonAltitude(function (feat) {
           var iso = isoOf(feat);
@@ -4013,6 +4015,19 @@
     sizeTeaserGlobe();
     window.addEventListener('resize', sizeTeaserGlobe);
     teaserGlobe.pointOfView({ lat: 10, lng: -60, altitude: 2.2 }, 0);
+
+    // Ambient capital-city pulse on the teaser, running even before anyone
+    // touches it, so the globe reads as "alive" from the first paint.
+    if (!reduceMotion) {
+      var capitalPulses = DATA.countries.map(function (c) {
+        return { lat: c.capital.lat, lng: c.capital.lng };
+      });
+      teaserGlobe.ringsData(capitalPulses).ringLat('lat').ringLng('lng')
+        .ringColor(function () { return function (t) { return 'rgba(255,154,84,' + (1 - t) + ')'; }; })
+        .ringMaxRadius(3.2)
+        .ringPropagationSpeed(1.1)
+        .ringRepeatPeriod(2600);
+    }
 
     fullGlobe = makeGlobeInstance(document.getElementById('fullGlobe'), true);
     sizeFullGlobe();
