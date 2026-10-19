@@ -436,11 +436,11 @@
     align-items: center;
     gap: 2rem;
   }
-  .hero-col { display: flex; flex-direction: column; }
-  .hero-col-left { grid-area: left; align-items: flex-start; text-align: left; }
-  .hero-col-center { grid-area: center; align-items: center; text-align: center; }
-  .hero-col-right { grid-area: right; align-items: flex-end; text-align: right; }
-  .hero-col-right .hero-chips { justify-content: flex-end; }
+  .hero-col { display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .hero-col-left { grid-area: left; }
+  .hero-col-center { grid-area: center; }
+  .hero-col-right { grid-area: right; }
+  .hero-col-right .hero-chips { justify-content: center; }
   .hero-readmore {
     font-family: 'Space Mono', monospace;
     font-size: 0.78rem;
@@ -449,7 +449,6 @@
     text-decoration: none;
     border-bottom: 1px solid var(--line);
     padding-bottom: 0.1rem;
-    align-self: flex-start;
   }
   .hero-readmore:hover { border-color: var(--ink); }
   @media (max-width: 980px) {
@@ -457,14 +456,7 @@
       grid-template-columns: 1fr;
       grid-template-areas: "right" "center" "left";
       gap: 1.6rem;
-      text-align: center;
     }
-    .hero-col-left, .hero-col-right {
-      align-items: center;
-      text-align: center;
-    }
-    .hero-col-right .hero-chips { justify-content: center; }
-    .hero-readmore { align-self: center; }
   }
   /* Two rows of dish clips sliding in opposite directions — a CSS/vanilla-JS
      stand-in for the pasted React Marquee component (no React/build step
@@ -3004,7 +2996,6 @@
 <section class="hero wrap" id="emotions">
   <div class="hero-layout">
     <div class="hero-col hero-col-left">
-      <p class="hero-sub reveal-up">We're building a catalogue of Latin emotions — nights, flavours and stories you can live without a passport. 📍 Gold Coast, QLD.</p>
       <div class="next-emotion reveal-up">
         <div class="next-emotion-art">
           <svg class="logo-icon" viewBox="0 0 1080 1080" aria-hidden="true"><use href="#logo-mark" x="0" y="0" width="1080" height="1080"></use></svg>
@@ -3022,7 +3013,6 @@
       <div class="map-teaser-wrap" id="teaserWrap" role="button" tabindex="0" aria-label="Explore the interactive map">
         <div id="teaserGlobe"></div>
       </div>
-      <p class="map-teaser-hint">Tap the globe to explore</p>
     </div>
     <div class="hero-col hero-col-right">
       <h1>Latin America.<br>Felt on the Gold Coast.</h1>
