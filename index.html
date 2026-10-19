@@ -389,30 +389,6 @@
     padding: 2rem 0;
     overflow: hidden;
   }
-  /* Gooey rising-blob background, vanilla reimplementation of a pasted
-     "MorphicBackground" React component — DOM circles spawned at the
-     bottom of the hero and animated upward with CSS transforms, merged
-     into liquid blobs via an SVG goo filter (blur + contrast-boosted
-     alpha) on the container instead of per-circle. */
-  .hero-morph-bg {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    overflow: hidden;
-    filter: url(#heroGoo);
-    pointer-events: none;
-  }
-  .hero-morph-bg .blob {
-    position: absolute;
-    top: 0;
-    left: 0;
-    border-radius: 50%;
-    will-change: transform;
-  }
-  .hero-morph-filter { position: absolute; width: 0; height: 0; overflow: hidden; }
-  @media (prefers-reduced-motion: reduce) {
-    .hero-morph-bg { display: none; }
-  }
   .hero-layout {
     position: relative;
     z-index: 2;
@@ -2144,31 +2120,21 @@
     line-height: 1.5;
   }
   .next-emotion {
-    display: inline-flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    padding: 0;
-    border: 1px solid var(--line);
-    border-radius: 14px;
-    background: rgba(0,0,0,0.35);
-    margin-bottom: 1.6rem;
-    max-width: 440px;
-    overflow: hidden;
-  }
-  .next-emotion-art {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 800 / 280;
-    background: linear-gradient(155deg, #CC3621, #7a2012);
     display: flex;
     flex-direction: column;
+    gap: 0.6rem;
+    margin-bottom: 1.6rem;
+    max-width: 440px;
+  }
+  .next-emotion-art {
+    display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 0.9rem;
+    gap: 0.8rem;
   }
   .next-emotion-art .logo-icon {
-    width: 46px;
-    height: 46px;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
   }
   .next-emotion-label {
     font-family: 'Space Mono', monospace;
@@ -2176,7 +2142,6 @@
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--ember-bright);
-    padding: 0 1.2rem;
   }
   .emotion-loading {
     display: flex;
@@ -2187,7 +2152,7 @@
     width: 16px;
     height: 16px;
     border-radius: 50%;
-    border: 2.5px solid rgba(255,255,255,0.22);
+    border: 2.5px solid var(--line);
     border-top-color: var(--ember-bright);
     animation: emotion-spin 0.85s linear infinite;
     flex-shrink: 0;
@@ -2198,7 +2163,7 @@
     font-weight: 700;
     font-size: 0.8rem;
     letter-spacing: 0.08em;
-    color: #FFFFFF;
+    color: var(--ink);
   }
   .emotion-loading-text .dots span {
     animation: emotion-dot 1.4s infinite;
@@ -2212,7 +2177,6 @@
     font-size: 0.85rem;
     color: var(--ink-muted);
     margin: 0;
-    padding: 0 1.2rem 1rem;
   }
   @media (prefers-reduced-motion: reduce) {
     .emotion-spinner { animation: none; }
@@ -3038,16 +3002,6 @@
 </header>
 
 <section class="hero wrap" id="emotions">
-  <div class="hero-morph-bg" id="heroMorphBg" aria-hidden="true"></div>
-  <svg class="hero-morph-filter" aria-hidden="true" focusable="false">
-    <defs>
-      <filter id="heroGoo">
-        <feGaussianBlur in="SourceGraphic" result="heroGooBlur" stdDeviation="10" />
-        <feColorMatrix in="heroGooBlur" result="heroGooMatrix" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -9" />
-        <feBlend in="SourceGraphic" in2="heroGooMatrix" />
-      </filter>
-    </defs>
-  </svg>
   <div class="hero-layout">
     <div class="hero-col hero-col-left">
       <p class="hero-sub reveal-up">We're building a catalogue of Latin emotions — nights, flavours and stories you can live without a passport. 📍 Gold Coast, QLD.</p>
@@ -3436,76 +3390,6 @@
     dialog.addEventListener('click', function (e) {
       if (e.target === dialog) dialog.close();
     });
-  })();
-
-  // Vanilla reimplementation of a pasted React "MorphicBackground"
-  // component — DOM circles rise from the bottom of the hero on a CSS
-  // transform loop (sine-wave drift + rotation, like the reference's
-  // Particle class) while an SVG goo filter on their shared container
-  // blurs + re-sharpens the alpha channel so nearby circles melt into
-  // single liquid blobs instead of staying separate dots. Brand colors
-  // (red/cream) alternate instead of the reference's single ballColor.
-  (function heroMorph() {
-    var container = document.getElementById('heroMorphBg');
-    var hero = document.querySelector('.hero');
-    if (!container || !hero || reduceMotion) return;
-
-    var COLORS = ['#CC3621', '#EDE2CE'];
-    var MAX_BLOBS = 26;
-    var SPAWN_MS = 280;
-    var blobs = [];
-    var w = 0, h = 0;
-    var raf = 0;
-    var spawnTimer = 0;
-
-    function resize() {
-      var rect = hero.getBoundingClientRect();
-      w = Math.max(1, rect.width);
-      h = Math.max(1, rect.height);
-    }
-
-    function spawn() {
-      if (document.hidden || blobs.length >= MAX_BLOBS) return;
-      var size = 18 + Math.random() * 46;
-      var el = document.createElement('div');
-      el.className = 'blob';
-      el.style.width = size + 'px';
-      el.style.height = size + 'px';
-      el.style.background = COLORS[Math.floor(Math.random() * COLORS.length)];
-      container.appendChild(el);
-      blobs.push({
-        el: el,
-        x: Math.random() * w,
-        y: h + size,
-        size: size,
-        speed: 0.35 + Math.random() * 0.45,
-        sway: (w / 3.2) * Math.random(),
-        steps: Math.max(1, h / 2),
-        rot: Math.random() * 360,
-        rotDir: Math.random() > 0.5 ? 1 : -1,
-        rotSpeed: 0.25 + Math.random() * 0.5
-      });
-    }
-
-    function step() {
-      for (var i = blobs.length - 1; i >= 0; i--) {
-        var b = blobs[i];
-        b.y -= b.speed;
-        b.rot += b.rotSpeed * b.rotDir;
-        var left = b.x + Math.sin((b.y * Math.PI) / b.steps) * b.sway;
-        b.el.style.transform = 'translate(' + left.toFixed(1) + 'px,' + b.y.toFixed(1) + 'px) rotate(' + b.rot.toFixed(1) + 'deg)';
-        if (b.y < -b.size) {
-          b.el.remove();
-          blobs.splice(i, 1);
-        }
-      }
-      raf = requestAnimationFrame(step);
-    }
-
-    resize();
-    window.addEventListener('resize', resize);
-    spawnTimer = window.setInterval(spawn, SPAWN_MS);
-    raf = requestAnimationFrame(step);
   })();
 
   (function cravingSpotlight() {
