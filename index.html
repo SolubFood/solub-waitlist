@@ -2406,8 +2406,8 @@
     font-family: 'Newsreader', serif;
     font-size: 0.85rem;
     color: var(--ink);
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.22);
+    background: rgba(0,0,0,0.03);
+    border: 1px solid rgba(0,0,0,0.18);
     border-radius: 8px;
     padding: 0.5rem 0.65rem;
   }
@@ -2482,6 +2482,121 @@
     transition: background 0.2s ease, color 0.2s ease;
   }
   .btn.ghost:hover { background: #CC3621; color: #FFFFFF; }
+
+  /* ---------- shop: first own-brand products, waitlist only ---------- */
+  .shop { padding: 1rem 0 3rem; text-align: center; }
+  .shop h2 { font-size: clamp(1.4rem, 2.6vw, 1.9rem); max-width: 34ch; margin: 0.6rem auto 0.5rem; }
+  .shop-sub { color: var(--ink-muted); max-width: 56ch; margin: 0 auto 2rem; font-family: 'Newsreader', serif; }
+  .shop-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
+    text-align: left;
+  }
+  @media (max-width: 820px) { .shop-grid { grid-template-columns: 1fr; } }
+  .shop-card {
+    position: relative;
+    border-radius: 18px;
+    overflow: hidden;
+    border: 1px solid var(--line-soft);
+    background: var(--card);
+    display: flex;
+    flex-direction: column;
+  }
+  .shop-card-media {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    background: linear-gradient(135deg, var(--sage), #3a1309);
+    overflow: hidden;
+  }
+  .shop-card-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .shop-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.55rem;
+    border-radius: 999px;
+    background: var(--ember-bright);
+    color: #1a1208;
+    z-index: 1;
+  }
+  .shop-card-body { padding: 1.3rem; display: flex; flex-direction: column; flex: 1; }
+  .shop-card h3 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin: 0 0 0.4rem;
+    color: var(--ink);
+  }
+  .shop-story {
+    font-family: 'Newsreader', serif;
+    font-size: 0.9rem;
+    color: var(--ink-muted);
+    margin: 0 0 0.5rem;
+    line-height: 1.5;
+  }
+  .shop-use {
+    font-family: 'Newsreader', serif;
+    font-size: 0.85rem;
+    color: var(--ink);
+    margin: 0 0 0.4rem;
+    line-height: 1.45;
+  }
+  .shop-use strong { font-weight: 700; }
+  .shop-producer {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.02em;
+    color: var(--ink-muted);
+    margin: 0 0 0.8rem;
+  }
+  .shop-status {
+    display: inline-flex;
+    align-self: flex-start;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+    background: rgba(0,0,0,0.05);
+    border: 1px solid var(--line);
+    color: var(--ink-muted);
+    margin-bottom: 0.8rem;
+  }
+  .shop-watch {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--ink-muted);
+    text-decoration: none;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 0.1rem;
+    align-self: flex-start;
+    margin-bottom: 1.1rem;
+  }
+  .shop-watch:hover, .shop-watch:focus-visible { color: var(--ink); border-color: var(--ink); }
+  .shop-watch:focus-visible { outline: 2px solid var(--ember-bright); outline-offset: 2px; }
+  .shop-interest-form { flex-direction: column; align-items: stretch; }
+  .shop-interest-form .experience-interest-input { width: 100%; }
+  .shop-note {
+    color: var(--ink-muted);
+    max-width: 56ch;
+    margin: 1.8rem auto 0;
+    font-family: 'Newsreader', serif;
+    font-size: 0.85rem;
+    text-align: center;
+  }
 
   /* ---------- join dialog: consent checkbox + member QR ---------- */
   .cta-consent {
@@ -3017,6 +3132,7 @@
       <a href="#emotions">Emotions</a>
       <a href="#experiences">Experiences</a>
       <a href="for-restaurants.html">For Restaurants</a>
+      <a href="#shop">Shop</a>
       <a href="mailto:hello@teamsolub.com">Contact us</a>
     </nav>
     <div class="social-row">
@@ -3242,6 +3358,80 @@
   </div>
 </section>
 
+<section class="shop wrap" id="shop">
+  <span class="eyebrow"><span class="ember-dot"></span><span>SolubFood Shop</span></span>
+  <h2 class="reveal-up">Taste Latin America at home.</h2>
+  <p class="shop-sub reveal-up">Real products from real people we've met. Filmed where they're made. Launching early 2027 — join the waitlist to be first.</p>
+
+  <div class="shop-grid">
+    <div class="shop-card reveal-up">
+      <div class="shop-card-media" data-video="assets/shop/merken-loop.mp4" data-poster="assets/shop/merken-poster.jpg">
+        <video class="shop-card-video" muted loop playsinline preload="none" aria-label="Merkén chilli being smoked over a wood fire in southern Chile — no audio"></video>
+        <span class="shop-badge">Chile</span>
+      </div>
+      <div class="shop-card-body">
+        <h3>Merkén Sea Salt</h3>
+        <p class="shop-story">Chilli smoked over a wood fire in southern Chile, blended with Chilean sea salt.</p>
+        <p class="shop-use"><strong>How to use:</strong> Sprinkle it on eggs, avo toast and your next barbie.</p>
+        <p class="shop-producer">Smoked by [producer name], [town], Chile</p>
+        <span class="shop-status">Coming early 2027</span>
+        <a class="shop-watch" href="#">Watch the story →</a>
+        <div class="experience-interest">
+          <p class="experience-interest-title">Get updates</p>
+          <p class="experience-interest-sub">Leave your details to join the waitlist for this product.</p>
+          <form class="experience-interest-form shop-interest-form" action="https://formsubmit.co/ajax/hello@teamsolub.com" method="POST" novalidate>
+            <input type="text" name="name" class="experience-interest-input" placeholder="Your name" required>
+            <input type="email" name="email" class="experience-interest-input" placeholder="your@email.com" required>
+            <input type="text" name="suburb" class="experience-interest-input" placeholder="Suburb">
+            <input type="hidden" name="product" value="merken">
+            <input type="hidden" name="source" value="shop">
+            <input type="hidden" name="timestamp" class="experience-interest-ts" value="">
+            <input type="hidden" name="_subject" value="SolubFood shop waitlist: Merkén Sea Salt">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="text" name="_honey" class="cta-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+            <button type="submit" class="experience-interest-btn">Join the waitlist</button>
+          </form>
+          <p class="experience-interest-status" aria-live="polite"></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="shop-card reveal-up">
+      <div class="shop-card-media" data-video="assets/shop/yerba-loop.mp4" data-poster="assets/shop/yerba-poster.jpg">
+        <video class="shop-card-video" muted loop playsinline preload="none" aria-label="Yerba mate being prepared in Misiones, Argentina — no audio"></video>
+        <span class="shop-badge">Argentina</span>
+      </div>
+      <div class="shop-card-body">
+        <h3>Yerba Mate</h3>
+        <p class="shop-story">South America's daily ritual — made to be shared.</p>
+        <p class="shop-use"><strong>How to use:</strong> Share a mate, or drink it ice-cold as tereré this summer.</p>
+        <p class="shop-producer">Grown by [producer name], Misiones, Argentina</p>
+        <span class="shop-status">Coming early 2027</span>
+        <a class="shop-watch" href="#">Watch the story →</a>
+        <div class="experience-interest">
+          <p class="experience-interest-title">Get updates</p>
+          <p class="experience-interest-sub">Leave your details to join the waitlist for this product.</p>
+          <form class="experience-interest-form shop-interest-form" action="https://formsubmit.co/ajax/hello@teamsolub.com" method="POST" novalidate>
+            <input type="text" name="name" class="experience-interest-input" placeholder="Your name" required>
+            <input type="email" name="email" class="experience-interest-input" placeholder="your@email.com" required>
+            <input type="text" name="suburb" class="experience-interest-input" placeholder="Suburb">
+            <input type="hidden" name="product" value="yerba-mate">
+            <input type="hidden" name="source" value="shop">
+            <input type="hidden" name="timestamp" class="experience-interest-ts" value="">
+            <input type="hidden" name="_subject" value="SolubFood shop waitlist: Yerba Mate">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="text" name="_honey" class="cta-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+            <button type="submit" class="experience-interest-btn">Join the waitlist</button>
+          </form>
+          <p class="experience-interest-status" aria-live="polite"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p class="shop-note reveal-up">No prices or orders yet. We only launch a product once it's sourced, tested and legally imported.</p>
+</section>
+
 <section class="final-cta wrap">
   <h2 class="reveal-up">You don't need to travel to Latin America.</h2>
   <p>Just unlock it. Join SolubFood — it takes ten seconds.</p>
@@ -3275,6 +3465,7 @@
         <li><a href="#emotions">Emotions</a></li>
         <li><a href="#experiences">Experiences</a></li>
         <li><a href="for-restaurants.html">For Restaurants</a></li>
+        <li><a href="#shop">Shop</a></li>
         <li><a href="mailto:hello@teamsolub.com">Contact us</a></li>
       </ul>
     </div>
@@ -3692,7 +3883,7 @@
     document.querySelectorAll('.experience-interest-form').forEach(function (form) {
       var status = form.parentElement.querySelector('.experience-interest-status');
       var btn = form.querySelector('.experience-interest-btn');
-      var emailInput = form.querySelector('.experience-interest-input');
+      var emailInput = form.querySelector('input[type="email"]');
       var tsInput = form.querySelector('.experience-interest-ts');
 
       form.addEventListener('submit', function (e) {
@@ -3728,6 +3919,53 @@
           status.textContent = "Something went wrong — try again in a moment.";
         });
       });
+    });
+  })();
+
+  // Shop product loops: each <video> starts with no src (preload="none")
+  // and only gets one once its card nears the viewport, so nothing
+  // downloads until it's actually about to be seen. The poster is
+  // preloaded through a plain Image() first and only applied if it
+  // actually resolves — same for the video itself via its error event —
+  // so a missing placeholder file (none of these exist yet) just leaves
+  // the card's brand-gradient background showing instead of a broken
+  // video/image glyph.
+  (function shopMedia() {
+    var mediaBoxes = document.querySelectorAll('.shop-card-media');
+    if (!mediaBoxes.length) return;
+
+    mediaBoxes.forEach(function (media) {
+      var video = media.querySelector('.shop-card-video');
+      var videoSrc = media.getAttribute('data-video');
+      var posterSrc = media.getAttribute('data-poster');
+      if (!video) return;
+
+      function tryPoster() {
+        if (!posterSrc) return;
+        var img = new Image();
+        img.onload = function () { video.poster = posterSrc; };
+        img.src = posterSrc;
+      }
+
+      if (reduceMotion) {
+        tryPoster();
+        return;
+      }
+
+      function load() {
+        tryPoster();
+        video.addEventListener('error', function () { video.style.display = 'none'; });
+        video.src = videoSrc;
+        video.play().catch(function () {});
+      }
+
+      if (!('IntersectionObserver' in window)) { load(); return; }
+      var io = new IntersectionObserver(function (entries, obs) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { load(); obs.unobserve(media); }
+        });
+      }, { rootMargin: '200px' });
+      io.observe(media);
     });
   })();
 
