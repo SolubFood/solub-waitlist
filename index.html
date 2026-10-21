@@ -2786,33 +2786,7 @@
   @keyframes intro-logo-bloom { to { opacity: 1; transform: scale(1); } }
   @keyframes intro-draw { to { stroke-dashoffset: 0; } }
   @keyframes intro-draw-fadeout { to { opacity: 0; } }
-  .intro-title {
-    font-family: 'Bricolage Grotesque', sans-serif;
-    font-weight: 800;
-    font-size: clamp(1.6rem, 5vw, 2.2rem);
-    color: var(--ink);
-    letter-spacing: 0.01em;
-  }
   @keyframes intro-fade-in { to { opacity: 1; } }
-  /* Vanilla reimplementation of a pasted React "TextRotate" component —
-     dropped the actual rotating-between-multiple-texts part (there's
-     nothing to rotate through for a single fixed wordmark shown once
-     per load) and kept its character-stagger spring-in entrance style:
-     each letter of "SolubFood" springs up into place on its own delay
-     instead of the whole word fading in as one block. Delays are set
-     per span below rather than computed in JS since the text is fixed. */
-  .intro-title-char {
-    display: inline-block;
-    opacity: 0;
-    transform: translateY(14px);
-    animation: intro-title-char-in 0.5s cubic-bezier(.34,1.56,.64,1) forwards;
-  }
-  @keyframes intro-title-char-in {
-    to { opacity: 1; transform: translateY(0); }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .intro-title-char { animation: none; opacity: 1; transform: none; }
-  }
   @media (prefers-reduced-motion: reduce) {
     .intro-splash { display: none !important; }
   }
@@ -3052,17 +3026,6 @@
       <circle class="intro-logo-draw-circle" cx="60" cy="60" r="48" fill="none" stroke="#CC3621" stroke-width="3"/>
     </svg>
     <svg class="intro-logo-icon" viewBox="0 0 1080 1080" aria-hidden="true"><use href="#logo-mark" x="0" y="0" width="1080" height="1080"></use></svg>
-  </div>
-  <div class="intro-title" aria-label="SolubFood">
-    <span class="intro-title-char" aria-hidden="true" style="animation-delay:0.95s">S</span>
-    <span class="intro-title-char" aria-hidden="true" style="animation-delay:0.985s">o</span>
-    <span class="intro-title-char" aria-hidden="true" style="animation-delay:1.02s">l</span>
-    <span class="intro-title-char" aria-hidden="true" style="animation-delay:1.055s">u</span>
-    <span class="intro-title-char" aria-hidden="true" style="animation-delay:1.09s">b</span>
-    <span class="intro-title-char" aria-hidden="true" style="animation-delay:1.125s">F</span>
-    <span class="intro-title-char" aria-hidden="true" style="animation-delay:1.16s">o</span>
-    <span class="intro-title-char" aria-hidden="true" style="animation-delay:1.195s">o</span>
-    <span class="intro-title-char" aria-hidden="true" style="animation-delay:1.23s">d</span>
   </div>
 </div>
 
