@@ -2784,12 +2784,20 @@
     pointer-events: none;
   }
   #teaserGlobe { width: 280px; height: 280px; }
+  /* Vanilla reimplementation of a pasted React "HyperText" component (no
+     React/framer-motion/build step here) — letters lock in left to right
+     from random alphabet noise instead of just fading in, plays once on
+     load and retriggers on hover, exactly like the reference's
+     triggerAnimation(). Already monospace/uppercase-ish in tone, which
+     suits this hint's existing Space Mono styling. */
   .map-teaser-hint {
     font-family: 'Space Mono', monospace;
     font-size: 0.78rem;
     letter-spacing: 0.04em;
+    text-transform: uppercase;
     color: var(--ink-muted);
     margin: 0.2rem 0 0;
+    cursor: default;
   }
   @media (max-width: 480px) {
     .map-teaser-wrap { width: 230px; height: 230px; }
@@ -3066,7 +3074,6 @@
       <a href="#experiences">Experiences</a>
       <a href="for-restaurants.html">For Restaurants</a>
       <a href="about.html">About us</a>
-      <a href="mailto:hello@teamsolub.com">Contact us</a>
     </nav>
     <div class="social-row">
       <a href="https://www.instagram.com/solubfood/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="social-item">
@@ -3100,7 +3107,7 @@
       <div class="map-teaser-wrap" id="teaserWrap" role="button" tabindex="0" aria-label="Explore the interactive map">
         <div id="teaserGlobe"></div>
       </div>
-      <p class="map-teaser-hint">Tap a country to see its story</p>
+      <p class="map-teaser-hint" id="mapTeaserHint">Tap a country to see its story</p>
     </div>
     <div class="hero-col hero-col-right">
       <h1 aria-label="Latin America. More than people."><span id="heroTypeTarget" aria-hidden="true"></span><span class="hero-cursor" aria-hidden="true"></span></h1>
@@ -3448,6 +3455,44 @@
       if (i <= fullText.length) setTimeout(type, speed);
     }
     setTimeout(type, 500);
+  })();
+
+  (function hyperHint() {
+    var el = document.getElementById('mapTeaserHint');
+    if (!el) return;
+    var text = el.textContent;
+
+    if (reduceMotion) return;
+
+    var ALPHA = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    function randLetter() { return ALPHA[Math.floor(Math.random() * ALPHA.length)]; }
+
+    // Time-based (not tick-count-based) so it reliably finishes in
+    // ~800ms of wall-clock time even on this page's busy main thread
+    // (the teaser globe's WebGL render loop competes for every frame) —
+    // a fixed-interval version of this starves badly under that load.
+    var duration = 800;
+    var raf = 0;
+    function scramble() {
+      if (raf) cancelAnimationFrame(raf);
+      var start = null;
+      function frame(ts) {
+        if (start === null) start = ts;
+        var fraction = Math.min(1, (ts - start) / duration);
+        var lockedCount = Math.floor(fraction * text.length);
+        var out = '';
+        for (var i = 0; i < text.length; i++) {
+          out += (text[i] === ' ') ? ' ' : (i < lockedCount ? text[i] : randLetter());
+        }
+        el.textContent = out;
+        if (fraction < 1) { raf = requestAnimationFrame(frame); }
+        else { el.textContent = text; }
+      }
+      raf = requestAnimationFrame(frame);
+    }
+
+    scramble();
+    el.addEventListener('mouseenter', scramble);
   })();
 
   (function introSplash() {
