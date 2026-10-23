@@ -318,7 +318,14 @@
   .founders { flex: 1 1 260px; min-width: 0; display: flex; align-items: center; gap: 14px; }
   .founder-photos { display: flex; }
   .founder-photo { width: 52px; height: 52px; border-radius: 999px; object-fit: cover; object-position: 50% 42%; border: 3px solid var(--cream); display: block; }
-  .founder-avatar { width: 52px; height: 52px; border-radius: 999px; background: var(--accent); color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 17px; border: 3px solid var(--cream); margin-left: -14px; }
+  .founder-avatar {
+    width: 52px; height: 52px; border-radius: 999px;
+    background: #FFFFFF; color: var(--ink-muted);
+    display: flex; align-items: center; justify-content: center;
+    border: 1.5px dashed var(--input-border);
+    margin-left: -14px;
+  }
+  .founder-note { font-size: 12px; color: var(--ink-muted); margin: 4px 0 0; }
   .founder-names { font-weight: 600; font-size: 15px; }
   .founder-role { font-size: 13px; color: var(--ink-muted); }
 
@@ -541,6 +548,7 @@
       <div class="manifesto-video" role="button" tabindex="0" aria-label="Play our manifesto trailer">
         <div class="manifesto-video-play"><svg width="26" height="26" viewBox="0 0 24 24" fill="#1A1714" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg></div>
         <div class="manifesto-video-label">Our manifesto — trailer</div>
+        <div class="manifesto-video-label" style="opacity: 0.7; font-size: 13px;">[Video goes here]</div>
       </div>
       <blockquote class="manifesto-quote">
         <p>&ldquo;Food is just the surface. What it really means is disconnecting, stepping into another reality of comfort. A shared story.&rdquo;</p>
@@ -609,11 +617,14 @@
       <div class="founders">
         <div class="founder-photos">
           <img class="founder-photo" src="assets/img/benjamin.jpg" alt="Benjamin Arevalo">
-          <div class="founder-avatar" aria-hidden="true">G</div>
+          <div class="founder-avatar" title="Gibril's photo goes here" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7"></path></svg>
+          </div>
         </div>
         <div>
           <div class="founder-names">Benjamin Arevalo &amp; Gibril</div>
           <div class="founder-role">Founders, SolubFood · Gold Coast</div>
+          <p class="founder-note">[Gibril's photo goes here]</p>
         </div>
       </div>
     </div>
