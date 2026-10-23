@@ -309,7 +309,51 @@
   .vision h2 { font-size: clamp(36px, 5vw, 64px); line-height: 1.0; margin: 14px 0 22px; max-width: 18ch; }
   .vision-sub { font-size: 19px; line-height: 1.55; color: var(--ink-soft); margin: 0 0 48px; max-width: 58ch; }
   .vision-grid { display: flex; flex-wrap: wrap; gap: 18px; margin-bottom: 48px; }
-  .vision-card { flex: 1 1 230px; min-width: 0; background: #FFFFFF; border: 1px solid var(--line); border-radius: 18px; padding: 26px; }
+  .vision-card {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    flex: 1 1 230px; min-width: 0;
+    background: #FFFFFF; border: 1px solid var(--line); border-radius: 18px; padding: 26px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .vision-card:hover, .vision-card:focus-within { transform: translateY(-3px); box-shadow: 0 16px 30px -18px rgba(26,23,20,0.35); }
+  /* Cursor-reactive spotlight glow, vanilla CSS/JS take on a pasted
+     React "GlowCard" spec — each card tracks the pointer relative to its
+     own box (--mx/--my, see visionCardGlow() below) instead of the
+     reference's viewport-fixed coordinates + background-attachment:
+     fixed, since that combo breaks the moment the card itself gets a
+     hover transform (the fixed background loses its frame of reference). */
+  .vision-card::before,
+  .vision-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+  }
+  .vision-card::before {
+    background-image: radial-gradient(240px 240px at calc(var(--mx, -9999) * 1px) calc(var(--my, -9999) * 1px), rgba(180,35,24,0.14), transparent 70%);
+  }
+  .vision-card::after {
+    padding: 2px;
+    background-image: radial-gradient(200px 200px at calc(var(--mx, -9999) * 1px) calc(var(--my, -9999) * 1px), rgba(180,35,24,0.6), transparent 70%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+  .vision-card:hover::before,
+  .vision-card:hover::after,
+  .vision-card:focus-within::before,
+  .vision-card:focus-within::after {
+    opacity: 1;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .vision-card { transition: none; }
+    .vision-card::before, .vision-card::after { display: none; }
+  }
   .vision-card .kicker { font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 14px; color: var(--accent); letter-spacing: 0.08em; }
   .vision-card h3 { font-size: 22px; margin: 8px 0 10px; }
   .vision-card p { font-size: 15px; line-height: 1.5; color: var(--ink-soft); margin: 0; }
@@ -939,6 +983,29 @@
         status.className = 'form-status error';
         status.innerHTML = 'Something went wrong — email us directly at <a href="mailto:' + mailFallback + '">' + mailFallback + '</a>';
       });
+    });
+  })();
+
+  (function visionCardGlow() {
+    var cards = document.querySelectorAll('.vision-card');
+    if (!cards.length || reduceMotion) return;
+    cards.forEach(function (card) {
+      var ticking = false;
+      var lastX = -9999, lastY = -9999;
+      function apply() {
+        ticking = false;
+        card.style.setProperty('--mx', lastX.toFixed(0));
+        card.style.setProperty('--my', lastY.toFixed(0));
+      }
+      card.addEventListener('pointermove', function (e) {
+        var r = card.getBoundingClientRect();
+        lastX = e.clientX - r.left;
+        lastY = e.clientY - r.top;
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(apply);
+        }
+      }, { passive: true });
     });
   })();
 
