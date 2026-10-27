@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://teamsolub.com/sitemap.xml
+Sitemap: https://solubfood.com/sitemap.xml

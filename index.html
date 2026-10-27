@@ -9,7 +9,7 @@
 <meta property="og:title" content="SolubFood — Latin America: more than people.">
 <meta property="og:description" content="Three countries, three condiments, and the people behind each one, brought to the Gold Coast one at a time.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://teamsolub.com/">
+<meta property="og:url" content="https://solubfood.com/">
 <meta name="google-site-verification" content="ZIfBgz4Ohe4am5wnDQGKJKTBfGDkd8l4YmU6oRO9zCY" />
 <meta name="theme-color" content="#FFFFFF">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -19,8 +19,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Inter:wght@400;500;600&display=swap">
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/globe.gl@2.32.2/dist/globe.gl.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js" integrity="sha384-qOkzR5Ke/XkQxuGVJ9hpFEpDlcoLtWwVYhnJf06cLIZa2vaIptSqaubivErzmD5O" crossorigin="anonymous" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/globe.gl@2.32.2/dist/globe.gl.min.js" integrity="sha384-omA7e/C7sSgm+cS3cQxKAjoJBfEm7k16J89V3IGabhNrgGWk0sNJ0seEY+p5JfG5" crossorigin="anonymous" defer></script>
 <style>
   :root {
     --bg: #FFFFFF;
@@ -773,7 +773,6 @@
       <input type="hidden" name="source" value="website-waitlist">
       <input type="hidden" name="timestamp" id="wlTimestamp" value="">
       <input type="hidden" name="_subject" value="New SolubFood waitlist signup">
-      <input type="hidden" name="_captcha" value="false">
       <input type="text" name="_honey" class="form-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
       <button type="submit" class="btn primary lg">Join the waitlist</button>
       <p class="form-fine">We'll only use this to contact you about SolubFood. Leave any time. <a href="privacy.html">Privacy Policy</a></p>
@@ -878,7 +877,7 @@
       var s = document.createElement('script');
       s.id = 'plausible-script';
       s.defer = true;
-      s.setAttribute('data-domain', 'teamsolub.com');
+      s.setAttribute('data-domain', 'solubfood.com');
       s.src = 'https://plausible.io/js/script.js';
       document.head.appendChild(s);
     }
@@ -944,7 +943,7 @@
       var codeEl = document.getElementById('memberQrCode');
       if (!wrap || !codeEl) return;
       var memberId = 'SOLUB-' + makeMemberId();
-      renderQr(codeEl, 'https://teamsolub.com/checkin.html?m=' + memberId);
+      renderQr(codeEl, 'https://solubfood.com/checkin.html?m=' + memberId);
       wrap.hidden = false;
     };
   })();
@@ -1085,7 +1084,7 @@
     window.addEventListener('resize', size);
     g.pointOfView({ lat: -10, lng: -95, altitude: 2.1 }, 0);
 
-    fetch('https://cdn.jsdelivr.net/gh/vasturiano/globe.gl@master/example/datasets/ne_110m_admin_0_countries.geojson')
+    fetch('https://cdn.jsdelivr.net/gh/vasturiano/globe.gl@v2.32.2/example/datasets/ne_110m_admin_0_countries.geojson')
       .then(function (res) { return res.json(); })
       .then(function (geo) { g.polygonsData(geo.features); })
       .catch(function (err) { console.error('Could not load globe outlines', err); });
