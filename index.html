@@ -373,6 +373,79 @@
   .founder-names { font-weight: 600; font-size: 15px; }
   .founder-role { font-size: 13px; color: var(--ink-muted); }
 
+  /* ---------- community: say it like a local ---------- */
+  .community { padding: 96px 0; background: var(--bg); }
+  .community h2 { font-size: clamp(32px, 4vw, 50px); line-height: 1.05; margin: 12px 0 14px; }
+  .community-sub { font-size: 18px; line-height: 1.55; color: var(--ink-soft); margin: 0 0 28px; max-width: 56ch; }
+  .country-filter { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+  .country-chip {
+    min-height: 40px;
+    padding: 0 16px;
+    border-radius: 999px;
+    border: 1px solid var(--line-strong);
+    background: #FFFFFF;
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .country-chip:hover { border-color: var(--ink-muted); }
+  .country-chip[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: #FFFFFF; }
+  .word-grid { display: flex; flex-wrap: wrap; gap: 18px; }
+  .word-card {
+    flex: 1 1 250px;
+    min-width: 0;
+    height: 230px;
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+    perspective: 1000px;
+  }
+  .word-card[hidden] { display: none; }
+  .word-inner {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.5s ease;
+  }
+  .word-card[aria-pressed="true"] .word-inner { transform: rotateY(180deg); }
+  .word-face {
+    position: absolute;
+    inset: 0;
+    border-radius: 18px;
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+  .word-front { background: var(--cream); border: 1px solid var(--line); }
+  .word-back { background: var(--ink); color: #FFFFFF; transform: rotateY(180deg); }
+  .word-country { font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
+  .word-term { font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 36px; letter-spacing: -0.02em; line-height: 1.05; margin: 10px 0 0; }
+  .word-hint { margin-top: auto; font-size: 13px; color: var(--ink-muted); }
+  .word-say { font-size: 13px; color: #F6CC63; font-weight: 600; letter-spacing: 0.04em; }
+  .word-meaning { font-size: 16px; line-height: 1.45; color: #FFFFFF; margin: 8px 0 0; }
+  .word-aussie { margin-top: auto; padding-top: 12px; border-top: 1px solid var(--dark-border); font-size: 14px; color: var(--dark-text); }
+  .word-aussie strong { color: #FFFFFF; }
+  .community-foot { font-size: 15px; color: var(--ink-muted); margin: 26px 0 0; }
+  @media (max-width: 600px) {
+    .word-grid { gap: 12px; }
+    .word-card { flex-basis: 140px; height: 250px; }
+    .word-face { padding: 16px; }
+    .word-term { font-size: 26px; }
+    .word-say { font-size: 12px; }
+    .word-meaning { font-size: 14px; }
+    .word-aussie { font-size: 13px; }
+  }
+
   /* ---------- el kiosko ---------- */
   .kiosko { padding: 96px 0; background: #0F0D0B; color: #FFFFFF; }
   .kiosko-head { display: flex; flex-wrap: wrap; align-items: center; gap: 40px; margin-bottom: 44px; }
@@ -560,6 +633,7 @@
     <nav class="main-nav" aria-label="Main">
       <a href="#origins">Origins</a>
       <a href="#vision">Our vision</a>
+      <a href="#community">Community</a>
       <a href="#kiosko">El Kiosko</a>
       <a href="kitchen.html">Kitchen</a>
       <a href="#events">Events</a>
@@ -693,6 +767,195 @@
         </div>
       </div>
     </div>
+  </div>
+</section>
+
+<section id="community" class="community">
+  <div class="wrap">
+    <div class="eyebrow">Community · Diccionario latino</div>
+    <h2>Say it like a local.</h2>
+    <p class="community-sub">Latin America is twenty countries, not one. Each has its own words, and most of them have an Aussie twin. Pick a country, tap a word.</p>
+    <div class="country-filter" role="group" aria-label="Filter words by country">
+      <button type="button" class="country-chip" data-country="all" aria-pressed="true">All</button>
+      <button type="button" class="country-chip" data-country="chile" aria-pressed="false">Chile</button>
+      <button type="button" class="country-chip" data-country="argentina" aria-pressed="false">Argentina</button>
+      <button type="button" class="country-chip" data-country="colombia" aria-pressed="false">Colombia</button>
+      <button type="button" class="country-chip" data-country="mexico" aria-pressed="false">México</button>
+      <button type="button" class="country-chip" data-country="peru" aria-pressed="false">Perú</button>
+      <button type="button" class="country-chip" data-country="cuba" aria-pressed="false">Cuba</button>
+      <button type="button" class="country-chip" data-country="venezuela" aria-pressed="false">Venezuela</button>
+    </div>
+    <div class="word-grid">
+      <button type="button" class="word-card" data-countries="chile" aria-pressed="false">
+        <span class="word-inner">
+          <span class="word-face word-front">
+            <span class="word-country">Chile</span>
+            <span class="word-term">Once</span>
+            <span class="word-hint">Tap to flip</span>
+          </span>
+          <span class="word-face word-back">
+            <span class="word-say">Say it: ON-seh</span>
+            <span class="word-meaning">Afternoon tea or a light evening meal: bread, avocado, tea.</span>
+            <span class="word-aussie">In Australia: <strong>arvo tea</strong></span>
+          </span>
+        </span>
+      </button>
+      <button type="button" class="word-card" data-countries="argentina chile" aria-pressed="false">
+        <span class="word-inner">
+          <span class="word-face word-front">
+            <span class="word-country">Argentina · Chile</span>
+            <span class="word-term">Previa</span>
+            <span class="word-hint">Tap to flip</span>
+          </span>
+          <span class="word-face word-back">
+            <span class="word-say">Say it: PREH-vee-ah</span>
+            <span class="word-meaning">Drinks with friends at home before heading out.</span>
+            <span class="word-aussie">In Australia: <strong>pre-drinks</strong></span>
+          </span>
+        </span>
+      </button>
+      <button type="button" class="word-card" data-countries="chile" aria-pressed="false">
+        <span class="word-inner">
+          <span class="word-face word-front">
+            <span class="word-country">Chile</span>
+            <span class="word-term">Bajón</span>
+            <span class="word-hint">Tap to flip</span>
+          </span>
+          <span class="word-face word-back">
+            <span class="word-say">Say it: bah-HON</span>
+            <span class="word-meaning">Late-night hunger, usually after a night out. (In Argentina it means a downer.)</span>
+            <span class="word-aussie">In Australia: <strong>the munchies</strong></span>
+          </span>
+        </span>
+      </button>
+      <button type="button" class="word-card" data-countries="colombia venezuela" aria-pressed="false">
+        <span class="word-inner">
+          <span class="word-face word-front">
+            <span class="word-country">Colombia · Venezuela</span>
+            <span class="word-term">Chévere</span>
+            <span class="word-hint">Tap to flip</span>
+          </span>
+          <span class="word-face word-back">
+            <span class="word-say">Say it: CHEH-veh-reh</span>
+            <span class="word-meaning">Great, cool, really good.</span>
+            <span class="word-aussie">In Australia: <strong>sweet as</strong></span>
+          </span>
+        </span>
+      </button>
+      <button type="button" class="word-card" data-countries="colombia" aria-pressed="false">
+        <span class="word-inner">
+          <span class="word-face word-front">
+            <span class="word-country">Colombia</span>
+            <span class="word-term">Parce</span>
+            <span class="word-hint">Tap to flip</span>
+          </span>
+          <span class="word-face word-back">
+            <span class="word-say">Say it: PAR-seh</span>
+            <span class="word-meaning">Friend, buddy. Short for parcero.</span>
+            <span class="word-aussie">In Australia: <strong>mate</strong></span>
+          </span>
+        </span>
+      </button>
+      <button type="button" class="word-card" data-countries="mexico peru" aria-pressed="false">
+        <span class="word-inner">
+          <span class="word-face word-front">
+            <span class="word-country">México · Perú</span>
+            <span class="word-term">Chamba</span>
+            <span class="word-hint">Tap to flip</span>
+          </span>
+          <span class="word-face word-back">
+            <span class="word-say">Say it: CHAM-bah</span>
+            <span class="word-meaning">Work, a job.</span>
+            <span class="word-aussie">In Australia: <strong>yakka</strong></span>
+          </span>
+        </span>
+      </button>
+      <button type="button" class="word-card" data-countries="chile cuba" aria-pressed="false">
+        <span class="word-inner">
+          <span class="word-face word-front">
+            <span class="word-country">Chile · Cuba</span>
+            <span class="word-term">Guagua</span>
+            <span class="word-hint">Tap to flip</span>
+          </span>
+          <span class="word-face word-back">
+            <span class="word-say">Say it: WAH-wah</span>
+            <span class="word-meaning">Same word, different country: a baby in Chile, a bus in Cuba.</span>
+            <span class="word-aussie">In Australia: <strong>bub / the bus</strong></span>
+          </span>
+        </span>
+      </button>
+      <button type="button" class="word-card" data-countries="chile argentina colombia mexico peru cuba venezuela" aria-pressed="false">
+        <span class="word-inner">
+          <span class="word-face word-front">
+            <span class="word-country">All of Latin America</span>
+            <span class="word-term">Sobremesa</span>
+            <span class="word-hint">Tap to flip</span>
+          </span>
+          <span class="word-face word-back">
+            <span class="word-say">Say it: soh-breh-MEH-sah</span>
+            <span class="word-meaning">Staying at the table to talk long after the meal is finished.</span>
+            <span class="word-aussie">In Australia: <strong>no word for it.</strong> It's yours now.</span>
+          </span>
+        </span>
+      </button>
+      <button type="button" class="word-card" data-countries="chile" aria-pressed="false">
+        <span class="word-inner">
+          <span class="word-face word-front">
+            <span class="word-country">Chile</span>
+            <span class="word-term">Pololo</span>
+            <span class="word-hint">Tap to flip</span>
+          </span>
+          <span class="word-face word-back">
+            <span class="word-say">Say it: poh-LOH-loh</span>
+            <span class="word-meaning">Boyfriend. Polola is girlfriend.</span>
+            <span class="word-aussie">In Australia: <strong>boyf / girlf</strong></span>
+          </span>
+        </span>
+      </button>
+      <button type="button" class="word-card" data-countries="argentina" aria-pressed="false">
+        <span class="word-inner">
+          <span class="word-face word-front">
+            <span class="word-country">Argentina</span>
+            <span class="word-term">Che</span>
+            <span class="word-hint">Tap to flip</span>
+          </span>
+          <span class="word-face word-back">
+            <span class="word-say">Say it: cheh</span>
+            <span class="word-meaning">What you say to get a friend's attention.</span>
+            <span class="word-aussie">In Australia: <strong>oi, mate</strong></span>
+          </span>
+        </span>
+      </button>
+      <button type="button" class="word-card" data-countries="mexico" aria-pressed="false">
+        <span class="word-inner">
+          <span class="word-face word-front">
+            <span class="word-country">México</span>
+            <span class="word-term">Ahorita</span>
+            <span class="word-hint">Tap to flip</span>
+          </span>
+          <span class="word-face word-back">
+            <span class="word-say">Say it: ah-oh-REE-tah</span>
+            <span class="word-meaning">"Right now"… which can mean in a minute, later, or never.</span>
+            <span class="word-aussie">In Australia: <strong>in a tick</strong></span>
+          </span>
+        </span>
+      </button>
+      <button type="button" class="word-card" data-countries="mexico peru" aria-pressed="false">
+        <span class="word-inner">
+          <span class="word-face word-front">
+            <span class="word-country">México · Perú</span>
+            <span class="word-term">Chela</span>
+            <span class="word-hint">Tap to flip</span>
+          </span>
+          <span class="word-face word-back">
+            <span class="word-say">Say it: CHEH-lah</span>
+            <span class="word-meaning">A beer.</span>
+            <span class="word-aussie">In Australia: <strong>a cold one</strong></span>
+          </span>
+        </span>
+      </button>
+    </div>
+    <p class="community-foot">A new word every week on <a href="https://www.instagram.com/solubfood/" target="_blank" rel="noopener noreferrer">Instagram @solubfood</a>.</p>
   </div>
 </section>
 
@@ -893,6 +1156,7 @@
         <div class="title">Explore</div>
         <a href="#origins">Origins</a>
         <a href="#vision">Our vision</a>
+        <a href="#community">Community</a>
         <a href="#kiosko">El Kiosko</a>
         <a href="kitchen.html">Kitchen</a>
         <a href="#events">Events</a>
@@ -1037,6 +1301,27 @@
         btn.disabled = false;
         status.className = 'form-status error';
         status.innerHTML = 'Something went wrong — email us directly at <a href="mailto:' + mailFallback + '">' + mailFallback + '</a>';
+      });
+    });
+  })();
+
+  (function communityWords() {
+    var chips = document.querySelectorAll('.country-chip');
+    var cards = document.querySelectorAll('.word-card');
+    if (!cards.length) return;
+    cards.forEach(function (card) {
+      card.addEventListener('click', function () {
+        card.setAttribute('aria-pressed', card.getAttribute('aria-pressed') === 'true' ? 'false' : 'true');
+      });
+    });
+    chips.forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        var country = chip.getAttribute('data-country');
+        chips.forEach(function (c) { c.setAttribute('aria-pressed', c === chip ? 'true' : 'false'); });
+        cards.forEach(function (card) {
+          var keys = card.getAttribute('data-countries').split(' ');
+          card.hidden = country !== 'all' && keys.indexOf(country) === -1;
+        });
       });
     });
   })();
