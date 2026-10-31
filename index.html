@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://plausible.io https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://formsubmit.co https://plausible.io https://cdn.jsdelivr.net; worker-src 'self' blob:; form-action 'self' https://formsubmit.co; base-uri 'self'; object-src 'none';">
 <title>SolubFood — Latin America: more than people.</title>
-<meta name="description" content="SolubFood brings condiments and stories from Peru, Chile and Argentina to the Gold Coast. Real producers, filmed where they're made. Join the waitlist.">
+<meta name="description" content="SolubFood brings Latin American food and culture to the Gold Coast. Coming soon: El Kiosko, a late-night Latin corner shop with home-style food from local Latin cooks. Join free.">
 <meta property="og:title" content="SolubFood — Latin America: more than people.">
-<meta property="og:description" content="Three countries, three condiments, and the people behind each one, brought to the Gold Coast one at a time.">
+<meta property="og:description" content="Latin American food and culture on the Gold Coast, told by the people who live it. Coming soon: El Kiosko.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://solubfood.com/">
 <meta name="google-site-verification" content="ZIfBgz4Ohe4am5wnDQGKJKTBfGDkd8l4YmU6oRO9zCY" />
@@ -373,52 +373,137 @@
   .founder-names { font-weight: 600; font-size: 15px; }
   .founder-role { font-size: 13px; color: var(--ink-muted); }
 
-  /* ---------- shop ---------- */
-  .shop { padding: 96px 0; background: var(--bg); }
-  .shop-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 22px; margin-bottom: 36px; }
-  .shop-head h2 { font-size: clamp(32px, 4vw, 50px); line-height: 1.05; margin: 12px 0 0; }
-  .shop-head-note { font-size: 15px; line-height: 1.5; color: var(--ink-muted); margin: 0; max-width: 38ch; }
-  .shop-grid { display: flex; flex-wrap: wrap; gap: 22px; }
-  .shop-card { flex: 1 1 300px; min-width: 0; border: 1px solid var(--line); border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; }
-  .shop-card-visual {
-    color: #FFFFFF;
-    padding: 18px;
-    height: 220px;
-    box-sizing: border-box;
+  /* ---------- community: say it like a local ---------- */
+  .community { padding: 96px 0; background: var(--bg); }
+  .community h2 { font-size: clamp(32px, 4vw, 50px); line-height: 1.05; margin: 12px 0 14px; }
+  .community-sub { font-size: 18px; line-height: 1.55; color: var(--ink-soft); margin: 0 0 28px; max-width: 56ch; }
+  .country-filter { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+  .country-chip {
+    min-height: 40px;
+    padding: 0 16px;
+    border-radius: 999px;
+    border: 1px solid var(--line-strong);
+    background: #FFFFFF;
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .country-chip:hover { border-color: var(--ink-muted); }
+  .country-chip[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: #FFFFFF; }
+  .word-grid { display: flex; flex-wrap: wrap; gap: 18px; }
+  .word-card {
+    flex: 1 1 250px;
+    min-width: 0;
+    height: 230px;
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+    perspective: 1000px;
+  }
+  .word-card[hidden] { display: none; }
+  .word-inner {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.5s ease;
+  }
+  .word-card[aria-pressed="true"] .word-inner { transform: rotateY(180deg); }
+  .word-face {
+    position: absolute;
+    inset: 0;
+    border-radius: 18px;
+    padding: 22px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
   }
-  .shop-card-visual.merken { background: #7A2418; }
-  .shop-card-visual.yerba { background: #4E5B31; }
-  .shop-card-visual.aji { background: #E0A42A; color: var(--ink); }
-  .shop-card-visual-top { display: flex; justify-content: space-between; align-items: center; }
-  .status-pill { font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: #FFFFFF; }
-  .shop-card-visual.merken .status-pill { color: var(--accent-dark); }
-  .shop-card-visual.yerba .status-pill { color: #3B4526; }
-  .shop-card-visual.aji .status-pill { background: var(--ink); color: #FFFFFF; }
-  .model-tag { font-size: 11px; opacity: 0.8; }
-  .product-placeholder {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Archivo', sans-serif;
-    font-weight: 700;
-    font-size: 13px;
-    letter-spacing: 0.04em;
+  .word-front { background: var(--cream); border: 1px solid var(--line); }
+  .word-back { background: var(--ink); color: #FFFFFF; transform: rotateY(180deg); }
+  .word-country { font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
+  .word-term { font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 36px; letter-spacing: -0.02em; line-height: 1.05; margin: 10px 0 0; }
+  .word-hint { margin-top: auto; font-size: 13px; color: var(--ink-muted); }
+  .word-say { font-size: 13px; color: #F6CC63; font-weight: 600; letter-spacing: 0.04em; }
+  .word-meaning { font-size: 16px; line-height: 1.45; color: #FFFFFF; margin: 8px 0 0; }
+  .word-aussie { margin-top: auto; padding-top: 12px; border-top: 1px solid var(--dark-border); font-size: 14px; color: var(--dark-text); }
+  .word-aussie strong { color: #FFFFFF; }
+  .community-foot { font-size: 15px; color: var(--ink-muted); margin: 26px 0 0; }
+  @media (max-width: 600px) {
+    .word-grid { gap: 12px; }
+    .word-card { flex-basis: 140px; height: 250px; }
+    .word-face { padding: 16px; }
+    .word-term { font-size: 26px; }
+    .word-say { font-size: 12px; }
+    .word-meaning { font-size: 14px; }
+    .word-aussie { font-size: 13px; }
+  }
+
+  /* ---------- el kiosko ---------- */
+  .kiosko { padding: 96px 0; background: #0F0D0B; color: #FFFFFF; }
+  .kiosko-head { display: flex; flex-wrap: wrap; align-items: center; gap: 40px; margin-bottom: 44px; }
+  .kiosko-copy { flex: 1 1 480px; min-width: 0; }
+  .kiosko-copy h2 { font-size: clamp(34px, 4.6vw, 58px); line-height: 1.02; color: #FFFFFF; margin: 14px 0 18px; max-width: 16ch; }
+  .kiosko-copy p { font-size: 18px; line-height: 1.55; color: var(--dark-text); margin: 0; max-width: 52ch; }
+  .kiosko-sign-wrap { flex: 1 1 300px; min-width: 0; display: flex; justify-content: center; }
+  /* CSS-only shopfront sign — stands in for the real store photo/render
+     until El Kiosko has an address. */
+  .kiosko-sign {
+    width: 100%;
+    max-width: 340px;
+    padding: 30px 26px;
+    border-radius: 20px;
+    border: 2px solid #F6CC63;
+    background: radial-gradient(circle at 50% 0%, rgba(246,204,99,0.16), transparent 70%), var(--dark-card);
+    box-shadow: 0 0 40px -8px rgba(246,204,99,0.45), inset 0 0 24px -10px rgba(246,204,99,0.5);
     text-align: center;
-    opacity: 0.85;
   }
-  /* Swap .product-placeholder's content for a real 3D model/viewer
-     component later (e.g. a 21st.dev <model-viewer>-style embed) — this
-     box is sized and ready for a drop-in replacement. */
-  .shop-card-body { padding: 24px; display: flex; flex-direction: column; gap: 9px; flex-grow: 1; }
-  .shop-card-origin { font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-muted); }
-  .shop-card-body h3 { font-size: 24px; letter-spacing: -0.02em; }
-  .shop-card-body p { font-size: 15px; line-height: 1.5; color: var(--ink-soft); margin: 0; }
-  .shop-card-body .producer-line { font-size: 14px; color: var(--ink-muted); margin-bottom: 6px; }
-  .shop-card-body .btn { margin-top: auto; width: 100%; }
+  .kiosko-sign .sign-small { font-size: 12px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dark-muted); }
+  .kiosko-sign .sign-name {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 800;
+    font-size: clamp(40px, 6vw, 56px);
+    letter-spacing: -0.02em;
+    line-height: 1;
+    color: #F6CC63;
+    text-shadow: 0 0 18px rgba(246,204,99,0.55);
+    margin: 10px 0 14px;
+  }
+  .kiosko-sign .sign-open {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--dark-border);
+    font-size: 13px;
+    font-weight: 600;
+    color: #FFFFFF;
+  }
+  .kiosko-sign .sign-open::before {
+    content: "";
+    width: 8px; height: 8px;
+    border-radius: 999px;
+    background: var(--accent);
+    box-shadow: 0 0 10px var(--accent);
+  }
+  .kiosko-grid { display: flex; flex-wrap: wrap; gap: 18px; margin-bottom: 44px; }
+  .kiosko-card { flex: 1 1 230px; min-width: 0; background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: 18px; padding: 24px; }
+  .kiosko-card .kicker { font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 14px; color: #F6CC63; letter-spacing: 0.08em; }
+  .kiosko-card h3 { font-size: 21px; color: #FFFFFF; margin: 8px 0 8px; }
+  .kiosko-card p { font-size: 15px; line-height: 1.5; color: var(--dark-text); margin: 0; }
+  .kiosko-card a { color: #F6CC63; }
+  .kiosko-card a:hover, .kiosko-card a:focus-visible { color: #FFFFFF; }
+  .kiosko-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 22px; padding-top: 32px; border-top: 1px solid var(--dark-border); }
+  .kiosko-foot h3 { font-size: 24px; color: #FFFFFF; margin: 0 0 6px; }
+  .kiosko-foot p { font-size: 14px; line-height: 1.5; color: var(--dark-muted); margin: 0; max-width: 52ch; }
 
   /* ---------- waitlist ---------- */
   .waitlist { padding: 96px 0; background: var(--cream); }
@@ -462,6 +547,8 @@
   fieldset.check-group legend { font-size: 14px; font-weight: 600; padding: 0; margin-bottom: 9px; }
   .check-row { display: flex; align-items: center; gap: 10px; font-size: 16px; min-height: 30px; }
   .check-row input { width: 19px; height: 19px; accent-color: var(--accent); flex-shrink: 0; }
+  fieldset.check-group.inline { flex-direction: row; flex-wrap: wrap; column-gap: 20px; row-gap: 4px; }
+  fieldset.check-group.inline legend { width: 100%; }
   .consent-row { display: flex; align-items: flex-start; gap: 10px; font-size: 14.5px; line-height: 1.45; color: var(--ink-soft); }
   .consent-row input { width: 19px; height: 19px; margin-top: 1px; accent-color: var(--accent); flex-shrink: 0; }
   .form-fine { font-size: 13px; line-height: 1.5; color: var(--ink-muted); margin: 0; }
@@ -475,17 +562,24 @@
   .member-qr-code { width: 170px; height: 170px; }
   .member-qr-code svg { width: 100%; height: 100%; }
 
-  /* ---------- restaurants summary ---------- */
-  .restaurants-teaser { padding: 96px 0; background: var(--bg); }
-  .restaurants-row { display: flex; flex-wrap: wrap; gap: 48px; align-items: center; }
-  .restaurants-copy { flex: 1 1 420px; min-width: 0; }
-  .restaurants-copy h2 { font-size: clamp(32px, 4vw, 50px); line-height: 1.05; margin: 12px 0 16px; }
-  .restaurants-copy p { font-size: 18px; line-height: 1.55; color: var(--ink-soft); margin: 0 0 26px; max-width: 42ch; }
-  .restaurants-steps { flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
-  .restaurants-step { display: flex; gap: 16px; padding: 20px; border: 1px solid var(--line); border-radius: 16px; }
-  .restaurants-step .num { font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 26px; color: var(--accent); min-width: 26px; }
-  .restaurants-step .t { font-weight: 600; font-size: 16px; margin-bottom: 4px; }
-  .restaurants-step .d { font-size: 14px; line-height: 1.5; color: var(--ink-soft); }
+  /* ---------- kitchen teaser ---------- */
+  .kitchen-teaser { padding: 96px 0; background: var(--bg); }
+  .kitchen-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 22px; margin-bottom: 36px; }
+  .kitchen-head h2 { font-size: clamp(32px, 4vw, 50px); line-height: 1.05; margin: 12px 0 14px; }
+  .kitchen-head p { font-size: 18px; line-height: 1.55; color: var(--ink-soft); margin: 0; max-width: 52ch; }
+  .cook-grid { display: flex; flex-wrap: wrap; gap: 22px; margin-bottom: 36px; }
+  .cook-card { flex: 1 1 280px; min-width: 0; border: 1.5px dashed var(--input-border); border-radius: 20px; padding: 24px; display: flex; gap: 16px; align-items: flex-start; }
+  .cook-avatar {
+    width: 64px; height: 64px; flex-shrink: 0;
+    border-radius: 999px;
+    background: var(--cream);
+    color: var(--ink-muted);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .cook-card .t { font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 19px; margin-bottom: 4px; }
+  .cook-card .m { font-size: 14px; color: var(--ink-muted); margin-bottom: 8px; }
+  .cook-card p { font-size: 14px; line-height: 1.5; color: var(--ink-soft); margin: 0; }
+  .kitchen-actions { display: flex; flex-wrap: wrap; gap: 12px; }
 
   /* ---------- events ---------- */
   .events { padding: 68px 0; background: var(--bg); border-top: 1px solid var(--line); }
@@ -537,11 +631,12 @@
   <div class="wrap header-row">
     <a href="#top" class="site-logo">SolubFood</a>
     <nav class="main-nav" aria-label="Main">
-      <a href="#shop">Shop</a>
+      <a href="#kiosko">El Kiosko</a>
+      <a href="kitchen.html">Kitchen</a>
       <a href="#origins">Origins</a>
-      <a href="#vision">Our vision</a>
-      <a href="for-restaurants.html">For Restaurants</a>
+      <a href="#community">Community</a>
       <a href="#events">Events</a>
+      <a href="#vision">Our vision</a>
     </nav>
     <a href="#waitlist" class="btn primary">Join the waitlist</a>
   </div>
@@ -552,12 +647,12 @@
     <div class="hero-copy">
       <div class="eyebrow">Latin America · Gold Coast</div>
       <h1>Latin America: more than people.</h1>
-      <p class="hero-sub">One ocean between us. Three countries, three condiments, and the people behind each one, brought to the Gold Coast one at a time.</p>
+      <p class="hero-sub">One ocean between us. Latin American food and culture, brought to the Gold Coast by the people who live it.</p>
       <div class="hero-actions">
-        <a href="#shop" class="btn primary lg">See the condiments</a>
+        <a href="#kiosko" class="btn primary lg">Discover El Kiosko</a>
         <a href="#origins" class="btn outline lg">Watch the origins</a>
       </div>
-      <p class="hero-fine">No prices or orders yet. We only launch a product once it's sourced, tested and legally imported.</p>
+      <p class="hero-fine">Nothing to buy yet. We're building the community first, and members hear about everything before anyone else.</p>
     </div>
     <div class="hero-visual">
       <div class="hero-video-frame">
@@ -569,16 +664,106 @@
           <div class="hero-video-caption">
             <div class="watch-label">Watch · 1 min</div>
             <div class="title">Meet SolubFood</div>
-            <div class="byline">With Benjamin Arevalo, founder</div>
+            <div class="byline">With Benjamin &amp; Gibril · Chile, Argentina &amp; the Gold Coast</div>
           </div>
         </div>
         <div class="hero-globe-wrap">
           <div class="hero-globe-badge">
-            <div id="heroGlobe" role="img" aria-label="Globe with routes from Lima, Santiago and Buenos Aires to the Gold Coast, Australia"></div>
+            <div id="heroGlobe" role="img" aria-label="Globe with routes from across Latin America to the Gold Coast, Australia"></div>
           </div>
         </div>
       </div>
-      <p class="hero-video-note" id="heroVideoNote">Brand video with Benjamin plays here · the 3D globe rotates on the live site</p>
+      <p class="hero-video-note" id="heroVideoNote">[Sketch] Intro video lands January 2027 · filmed in Antofagasta, Punta Arenas, Argentina &amp; the Gold Coast</p>
+    </div>
+  </div>
+</section>
+
+<section id="kiosko" class="kiosko">
+  <div class="wrap">
+    <div class="kiosko-head">
+      <div class="kiosko-copy">
+        <div class="eyebrow on-dark">El Kiosko by SolubFood · Coming to the Gold Coast</div>
+        <h2>When Gold Coast closes, Latin America opens.</h2>
+        <p>In Argentina, the kiosko is the corner shop that never seems to close: a snack, a cold drink, a phone charger, whatever the night needs. We're bringing it to the Gold Coast, with home-style Latin food cooked by Latin cooks who live here.</p>
+      </div>
+      <div class="kiosko-sign-wrap" aria-hidden="true">
+        <div class="kiosko-sign">
+          <div class="sign-small">SolubFood presents</div>
+          <div class="sign-name">El Kiosko</div>
+          <div class="sign-open">Open late. Really late.</div>
+        </div>
+      </div>
+    </div>
+    <div class="kiosko-grid">
+      <div class="kiosko-card">
+        <div class="kicker">COMIDA CASERA</div>
+        <h3>Home-style Latin food</h3>
+        <p>Cooked by Latin cooks from the Gold Coast, with their name on every dish. <a href="kitchen.html">Meet the Kitchen</a>.</p>
+      </div>
+      <div class="kiosko-card">
+        <div class="kicker">DE TODO</div>
+        <h3>Everything else, too</h3>
+        <p>Cold drinks, snacks, ice cream and the everyday things you suddenly need at midnight.</p>
+      </div>
+      <div class="kiosko-card">
+        <div class="kicker">DE NOCHE</div>
+        <h3>Open when others aren't</h3>
+        <p>Late nights, early shifts, and everything in between.</p>
+      </div>
+      <div class="kiosko-card">
+        <div class="kicker">COMO QUIERAS</div>
+        <h3>On your app or at the door</h3>
+        <p>Order on Uber Eats or DoorDash, or walk in and grab it yourself.</p>
+      </div>
+    </div>
+    <div class="kiosko-foot">
+      <div>
+        <h3>Where should El Kiosko open first?</h3>
+        <p>Vote when you join. No date or address yet, and we'll only announce a location once it's signed.</p>
+      </div>
+      <a href="#waitlist" class="btn primary lg">Vote for your area</a>
+    </div>
+  </div>
+</section>
+
+<section id="kitchen" class="kitchen-teaser">
+  <div class="wrap">
+    <div class="kitchen-head">
+      <div>
+        <div class="eyebrow">Kitchen</div>
+        <h2>The hands behind your food.</h2>
+        <p>Every dish at El Kiosko is cooked by a Latin cook here on the Gold Coast. You'll know their name, where they're from and why they cook it.</p>
+      </div>
+    </div>
+    <div class="cook-grid">
+      <div class="cook-card">
+        <div class="cook-avatar" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7"></path></svg></div>
+        <div>
+          <div class="t">[Cook's name]</div>
+          <div class="m">[Country] · [Gold Coast suburb]</div>
+          <p>[Signature dish and the story behind it.] Coming soon.</p>
+        </div>
+      </div>
+      <div class="cook-card">
+        <div class="cook-avatar" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7"></path></svg></div>
+        <div>
+          <div class="t">[Cook's name]</div>
+          <div class="m">[Country] · [Gold Coast suburb]</div>
+          <p>[Signature dish and the story behind it.] Coming soon.</p>
+        </div>
+      </div>
+      <div class="cook-card">
+        <div class="cook-avatar" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7"></path></svg></div>
+        <div>
+          <div class="t">[Cook's name]</div>
+          <div class="m">[Country] · [Gold Coast suburb]</div>
+          <p>[Signature dish and the story behind it.] Coming soon.</p>
+        </div>
+      </div>
+    </div>
+    <div class="kitchen-actions">
+      <a href="kitchen.html" class="btn primary lg" style="background: var(--ink)">Meet the Kitchen →</a>
+      <a href="kitchen.html#join" class="btn outline lg">Do you cook? Join us</a>
     </div>
   </div>
 </section>
@@ -586,8 +771,8 @@
 <section id="origins" class="origins">
   <div class="wrap">
     <div class="eyebrow on-dark">Origins</div>
-    <h2>Filmed where it's made.</h2>
-    <p class="origins-sub">We travel to meet the people behind each condiment and film them with their consent. Real over perfect.</p>
+    <h2>Filmed where it's lived.</h2>
+    <p class="origins-sub">We travel across Latin America to meet the people, the places and the food behind it all, and we film them with their consent. Real over perfect.</p>
     <div class="origins-top">
       <div class="manifesto-video" role="button" tabindex="0" aria-label="Play our manifesto trailer">
         <div class="manifesto-video-play"><svg width="26" height="26" viewBox="0 0 24 24" fill="#1A1714" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg></div>
@@ -601,27 +786,27 @@
     </div>
     <div class="episode-grid">
       <article class="episode-card">
-        <div class="episode-still ep1">[Still — southern Chile]</div>
+        <div class="episode-still ep1">[Still — Antofagasta]</div>
         <div class="episode-body">
-          <div class="episode-tag">Episode 01</div>
-          <h3 class="episode-title">Southern Chile: finding our merkén</h3>
+          <div class="episode-tag">Episode 01 · Chile</div>
+          <h3 class="episode-title">Antofagasta: the desert by the sea</h3>
           <div class="episode-status">Coming soon</div>
         </div>
       </article>
       <article class="episode-card">
-        <div class="episode-still ep2">[Still — Argentina]</div>
+        <div class="episode-still ep2">[Still — Punta Arenas]</div>
         <div class="episode-body">
-          <div class="episode-tag">Episode 02</div>
-          <h3 class="episode-title">Argentina: the yerba mate ritual</h3>
+          <div class="episode-tag">Episode 02 · Chile</div>
+          <h3 class="episode-title">Punta Arenas: the far south</h3>
           <div class="episode-status">Coming soon</div>
         </div>
       </article>
       <article class="episode-card">
-        <div class="episode-still ep3">[Still — Peru]</div>
+        <div class="episode-still ep3">[Still — Argentina]</div>
         <div class="episode-body">
-          <div class="episode-tag">Episode 03</div>
-          <h3 class="episode-title">Peru: ají amarillo in the kitchen</h3>
-          <div class="episode-status">Later</div>
+          <div class="episode-tag">Episode 03 · Argentina</div>
+          <h3 class="episode-title">Argentina: the kiosko on every corner</h3>
+          <div class="episode-status">Coming soon</div>
         </div>
       </article>
     </div>
@@ -629,105 +814,192 @@
   </div>
 </section>
 
-<section id="vision" class="vision">
+<section id="community" class="community">
   <div class="wrap">
-    <div class="eyebrow">Our vision</div>
-    <h2>A home, far from home.</h2>
-    <p class="vision-sub">SolubFood exists so Latin Americans on the Gold Coast feel at home, and so Australians can see Latin culture as it really is: visible, trusted, modern and built by its community. Not a stereotype.</p>
-    <div class="vision-grid">
-      <div class="vision-card">
-        <div class="kicker">HOGAR</div>
-        <h3>Home</h3>
-        <p>The flavours and rituals that make you feel you never left.</p>
-      </div>
-      <div class="vision-card">
-        <div class="kicker">INDEPENDENCIA</div>
-        <h3>Independence</h3>
-        <p>Producers and partners keep their own name, their own story and their own way of doing things.</p>
-      </div>
-      <div class="vision-card">
-        <div class="kicker">FAMILIARIDAD</div>
-        <h3>Familiarity</h3>
-        <p>Twenty countries, one community. Different accents, the same table.</p>
-      </div>
-      <div class="vision-card">
-        <div class="kicker">SIMPLICIDAD</div>
-        <h3>Simplicity</h3>
-        <p>Easy to find, easy to buy, easy to share. No passport needed.</p>
-      </div>
+    <div class="eyebrow">Community · Diccionario latino</div>
+    <h2>Say it like a local.</h2>
+    <p class="community-sub">Latin America is twenty countries, not one. Each has its own words, and most of them have an Aussie twin. Pick a country, tap a word.</p>
+    <div class="country-filter" role="group" aria-label="Filter words by country">
+      <button type="button" class="country-chip" data-country="all" aria-pressed="true">All</button>
+      <button type="button" class="country-chip" data-country="chile" aria-pressed="false">Chile</button>
+      <button type="button" class="country-chip" data-country="argentina" aria-pressed="false">Argentina</button>
+      <button type="button" class="country-chip" data-country="colombia" aria-pressed="false">Colombia</button>
+      <button type="button" class="country-chip" data-country="mexico" aria-pressed="false">México</button>
+      <button type="button" class="country-chip" data-country="peru" aria-pressed="false">Perú</button>
+      <button type="button" class="country-chip" data-country="cuba" aria-pressed="false">Cuba</button>
+      <button type="button" class="country-chip" data-country="venezuela" aria-pressed="false">Venezuela</button>
     </div>
-    <div class="vision-foot">
-      <p class="vision-quote">&ldquo;We don't sell ingredients. We sell a feeling from the other side of the world.&rdquo;</p>
-      <div class="founders">
-        <div class="founder-photos">
-          <img class="founder-photo" src="assets/img/benjamin.jpg" alt="Benjamin Arevalo">
-          <div class="founder-avatar" title="Gibril's photo goes here" aria-hidden="true">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7"></path></svg>
-          </div>
-        </div>
-        <div>
-          <div class="founder-names">Benjamin Arevalo &amp; Gibril</div>
-          <div class="founder-role">Founders, SolubFood · Gold Coast</div>
-          <p class="founder-note">[Gibril's photo goes here]</p>
-        </div>
-      </div>
+    <div class="word-grid">
+      <button type="button" class="word-card" data-countries="chile" aria-pressed="false">
+        <span class="word-inner">
+          <span class="word-face word-front">
+            <span class="word-country">Chile</span>
+            <span class="word-term">Once</span>
+            <span class="word-hint">Tap to flip</span>
+          </span>
+          <span class="word-face word-back">
+            <span class="word-say">Say it: ON-seh</span>
+            <span class="word-meaning">Afternoon tea or a light evening meal: bread, avocado, tea.</span>
+            <span class="word-aussie">In Australia: <strong>arvo tea</strong></span>
+          </span>
+        </span>
+      </button>
+      <button type="button" class="word-card" data-countries="argentina chile" aria-pressed="false">
+        <span class="word-inner">
+          <span class="word-face word-front">
+            <span class="word-country">Argentina · Chile</span>
+            <span class="word-term">Previa</span>
+            <span class="word-hint">Tap to flip</span>
+          </span>
+          <span class="word-face word-back">
+            <span class="word-say">Say it: PREH-vee-ah</span>
+            <span class="word-meaning">Drinks with friends at home before heading out.</span>
+            <span class="word-aussie">In Australia: <strong>pre-drinks</strong></span>
+          </span>
+        </span>
+      </button>
+      <button type="button" class="word-card" data-countries="chile" aria-pressed="false">
+        <span class="word-inner">
+          <span class="word-face word-front">
+            <span class="word-country">Chile</span>
+            <span class="word-term">Bajón</span>
+            <span class="word-hint">Tap to flip</span>
+          </span>
+          <span class="word-face word-back">
+            <span class="word-say">Say it: bah-HON</span>
+            <span class="word-meaning">Late-night hunger, usually after a night out. (In Argentina it means a downer.)</span>
+            <span class="word-aussie">In Australia: <strong>the munchies</strong></span>
+          </span>
+        </span>
+      </button>
+      <button type="button" class="word-card" data-countries="colombia venezuela" aria-pressed="false">
+        <span class="word-inner">
+          <span class="word-face word-front">
+            <span class="word-country">Colombia · Venezuela</span>
+            <span class="word-term">Chévere</span>
+            <span class="word-hint">Tap to flip</span>
+          </span>
+          <span class="word-face word-back">
+            <span class="word-say">Say it: CHEH-veh-reh</span>
+            <span class="word-meaning">Great, cool, really good.</span>
+            <span class="word-aussie">In Australia: <strong>sweet as</strong></span>
+          </span>
+        </span>
+      </button>
+      <button type="button" class="word-card" data-countries="colombia" aria-pressed="false">
+        <span class="word-inner">
+          <span class="word-face word-front">
+            <span class="word-country">Colombia</span>
+            <span class="word-term">Parce</span>
+            <span class="word-hint">Tap to flip</span>
+          </span>
+          <span class="word-face word-back">
+            <span class="word-say">Say it: PAR-seh</span>
+            <span class="word-meaning">Friend, buddy. Short for parcero.</span>
+            <span class="word-aussie">In Australia: <strong>mate</strong></span>
+          </span>
+        </span>
+      </button>
+      <button type="button" class="word-card" data-countries="mexico peru" aria-pressed="false">
+        <span class="word-inner">
+          <span class="word-face word-front">
+            <span class="word-country">México · Perú</span>
+            <span class="word-term">Chamba</span>
+            <span class="word-hint">Tap to flip</span>
+          </span>
+          <span class="word-face word-back">
+            <span class="word-say">Say it: CHAM-bah</span>
+            <span class="word-meaning">Work, a job.</span>
+            <span class="word-aussie">In Australia: <strong>yakka</strong></span>
+          </span>
+        </span>
+      </button>
+      <button type="button" class="word-card" data-countries="chile cuba" aria-pressed="false">
+        <span class="word-inner">
+          <span class="word-face word-front">
+            <span class="word-country">Chile · Cuba</span>
+            <span class="word-term">Guagua</span>
+            <span class="word-hint">Tap to flip</span>
+          </span>
+          <span class="word-face word-back">
+            <span class="word-say">Say it: WAH-wah</span>
+            <span class="word-meaning">Same word, different country: a baby in Chile, a bus in Cuba.</span>
+            <span class="word-aussie">In Australia: <strong>bub / the bus</strong></span>
+          </span>
+        </span>
+      </button>
+      <button type="button" class="word-card" data-countries="chile argentina colombia mexico peru cuba venezuela" aria-pressed="false">
+        <span class="word-inner">
+          <span class="word-face word-front">
+            <span class="word-country">All of Latin America</span>
+            <span class="word-term">Sobremesa</span>
+            <span class="word-hint">Tap to flip</span>
+          </span>
+          <span class="word-face word-back">
+            <span class="word-say">Say it: soh-breh-MEH-sah</span>
+            <span class="word-meaning">Staying at the table to talk long after the meal is finished.</span>
+            <span class="word-aussie">In Australia: <strong>no word for it.</strong> It's yours now.</span>
+          </span>
+        </span>
+      </button>
+      <button type="button" class="word-card" data-countries="chile" aria-pressed="false">
+        <span class="word-inner">
+          <span class="word-face word-front">
+            <span class="word-country">Chile</span>
+            <span class="word-term">Pololo</span>
+            <span class="word-hint">Tap to flip</span>
+          </span>
+          <span class="word-face word-back">
+            <span class="word-say">Say it: poh-LOH-loh</span>
+            <span class="word-meaning">Boyfriend. Polola is girlfriend.</span>
+            <span class="word-aussie">In Australia: <strong>boyf / girlf</strong></span>
+          </span>
+        </span>
+      </button>
+      <button type="button" class="word-card" data-countries="argentina" aria-pressed="false">
+        <span class="word-inner">
+          <span class="word-face word-front">
+            <span class="word-country">Argentina</span>
+            <span class="word-term">Che</span>
+            <span class="word-hint">Tap to flip</span>
+          </span>
+          <span class="word-face word-back">
+            <span class="word-say">Say it: cheh</span>
+            <span class="word-meaning">What you say to get a friend's attention.</span>
+            <span class="word-aussie">In Australia: <strong>oi, mate</strong></span>
+          </span>
+        </span>
+      </button>
+      <button type="button" class="word-card" data-countries="mexico" aria-pressed="false">
+        <span class="word-inner">
+          <span class="word-face word-front">
+            <span class="word-country">México</span>
+            <span class="word-term">Ahorita</span>
+            <span class="word-hint">Tap to flip</span>
+          </span>
+          <span class="word-face word-back">
+            <span class="word-say">Say it: ah-oh-REE-tah</span>
+            <span class="word-meaning">"Right now"… which can mean in a minute, later, or never.</span>
+            <span class="word-aussie">In Australia: <strong>in a tick</strong></span>
+          </span>
+        </span>
+      </button>
+      <button type="button" class="word-card" data-countries="mexico peru" aria-pressed="false">
+        <span class="word-inner">
+          <span class="word-face word-front">
+            <span class="word-country">México · Perú</span>
+            <span class="word-term">Chela</span>
+            <span class="word-hint">Tap to flip</span>
+          </span>
+          <span class="word-face word-back">
+            <span class="word-say">Say it: CHEH-lah</span>
+            <span class="word-meaning">A beer.</span>
+            <span class="word-aussie">In Australia: <strong>a cold one</strong></span>
+          </span>
+        </span>
+      </button>
     </div>
-  </div>
-</section>
-
-<section id="shop" class="shop">
-  <div class="wrap">
-    <div class="shop-head">
-      <div>
-        <div class="eyebrow">The SolubFood Shop</div>
-        <h2>Three countries. Three condiments.</h2>
-      </div>
-      <p class="shop-head-note">No prices or orders yet. Join the waitlist and you'll be first when each one lands.</p>
-    </div>
-    <div class="shop-grid">
-      <article class="shop-card">
-        <div class="shop-card-visual merken">
-          <div class="shop-card-visual-top"><span class="status-pill">Early 2027</span><span class="model-tag">3D</span></div>
-          <div class="product-placeholder" data-product-model="merken">Merkén<br>3D preview coming</div>
-        </div>
-        <div class="shop-card-body">
-          <div class="shop-card-origin">Chile</div>
-          <h3>Merkén Sea Salt</h3>
-          <p>Smoked chilli from southern Chile, blended with sea salt.</p>
-          <p><strong>How to use:</strong> eggs, avo toast and your next barbie.</p>
-          <p class="producer-line">Producer: being chosen on our trip through southern Chile.</p>
-          <a href="#waitlist" class="btn primary">Notify me</a>
-        </div>
-      </article>
-      <article class="shop-card">
-        <div class="shop-card-visual yerba">
-          <div class="shop-card-visual-top"><span class="status-pill">Soon</span><span class="model-tag">3D</span></div>
-          <div class="product-placeholder" data-product-model="yerba-mate">Yerba Mate<br>3D preview coming</div>
-        </div>
-        <div class="shop-card-body">
-          <div class="shop-card-origin">Argentina</div>
-          <h3>Yerba Mate</h3>
-          <p>South America's daily ritual, made to be shared.</p>
-          <p><strong>How to use:</strong> share a mate, or drink it ice-cold as tereré this summer.</p>
-          <p class="producer-line">Producer: to be confirmed.</p>
-          <a href="#waitlist" class="btn outline">Notify me</a>
-        </div>
-      </article>
-      <article class="shop-card">
-        <div class="shop-card-visual aji">
-          <div class="shop-card-visual-top"><span class="status-pill">Soon</span><span class="model-tag">3D</span></div>
-          <div class="product-placeholder" data-product-model="aji-amarillo">Ají Amarillo<br>3D preview coming</div>
-        </div>
-        <div class="shop-card-body">
-          <div class="shop-card-origin">Peru</div>
-          <h3>Ají Amarillo Paste</h3>
-          <p>Peru's golden chilli, made into a smooth, bright and fruity paste.</p>
-          <p><strong>How to use:</strong> stir it into mayo, marinades and roast potatoes.</p>
-          <p class="producer-line">Producer: to be confirmed. Restaurants first.</p>
-          <a href="#waitlist" class="btn outline">Notify me</a>
-        </div>
-      </article>
-    </div>
+    <p class="community-foot">A new word every week on <a href="https://www.instagram.com/solubfood/" target="_blank" rel="noopener noreferrer">Instagram @solubfood</a>.</p>
   </div>
 </section>
 
@@ -736,9 +1008,9 @@
     <div class="waitlist-copy">
       <div class="eyebrow">Get first access</div>
       <h2>Join free. Get your SolubFood QR.</h2>
-      <p>Your QR is your membership. It also tells us where you found us, so we know which stories bring people in.</p>
+      <p>Your QR is your membership. Tell us where you live and we'll know where El Kiosko should open first.</p>
       <div class="waitlist-perks">
-        <div><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B42318" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>First to buy each product</div>
+        <div><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B42318" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>First to know when and where El Kiosko opens</div>
         <div><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B42318" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>The origin stories as they're filmed</div>
         <div><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B42318" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>Invites to SolubFood nights</div>
       </div>
@@ -754,21 +1026,37 @@
         <div class="field">
           <label for="wl-type">I am…</label>
           <select id="wl-type" name="iAm">
-            <option>Cooking at home</option>
-            <option>A restaurant or café</option>
-            <option>Keen to sell SolubFood (Host)</option>
+            <option>Curious about Latin food</option>
+            <option>Latin American, living here</option>
+            <option>A cook who'd like to join the Kitchen</option>
+            <option>A business that wants to partner</option>
           </select>
         </div>
       </div>
       <fieldset class="check-group">
-        <legend>Which one do you want first?</legend>
-        <label class="check-row"><input type="checkbox" name="product_merken" value="Merkén — Chile" checked>Merkén — Chile</label>
-        <label class="check-row"><input type="checkbox" name="product_yerba" value="Yerba mate — Argentina">Yerba mate — Argentina</label>
-        <label class="check-row"><input type="checkbox" name="product_aji" value="Ají amarillo — Peru">Ají amarillo — Peru</label>
+        <legend>Where should El Kiosko open first? (optional)</legend>
+        <label class="check-row"><input type="radio" name="kioskoArea" value="Southport (hospital &amp; Griffith)">Southport (hospital &amp; Griffith)</label>
+        <label class="check-row"><input type="radio" name="kioskoArea" value="Surfers Paradise">Surfers Paradise</label>
+        <label class="check-row"><input type="radio" name="kioskoArea" value="Broadbeach">Broadbeach</label>
+        <label class="check-row"><input type="radio" name="kioskoArea" value="Robina">Robina</label>
+        <label class="check-row"><input type="radio" name="kioskoArea" value="Burleigh Heads">Burleigh Heads</label>
+        <label class="check-row"><input type="radio" name="kioskoArea" value="Somewhere else">Somewhere else</label>
+      </fieldset>
+      <fieldset class="check-group inline">
+        <legend>Would you order Latin food late at night?</legend>
+        <label class="check-row"><input type="radio" name="lateNight" value="Often">Often</label>
+        <label class="check-row"><input type="radio" name="lateNight" value="Sometimes">Sometimes</label>
+        <label class="check-row"><input type="radio" name="lateNight" value="Rarely">Rarely</label>
+      </fieldset>
+      <fieldset class="check-group inline">
+        <legend>Which delivery apps do you use?</legend>
+        <label class="check-row"><input type="checkbox" name="app_ubereats" value="Uber Eats">Uber Eats</label>
+        <label class="check-row"><input type="checkbox" name="app_doordash" value="DoorDash">DoorDash</label>
+        <label class="check-row"><input type="checkbox" name="app_none" value="Neither">Neither</label>
       </fieldset>
       <label class="consent-row">
         <input type="checkbox" name="marketingConsent" value="yes">
-        Yes, email me about SolubFood products and events.
+        Yes, email me about El Kiosko, new stories and events.
       </label>
       <input type="hidden" name="source" value="website-waitlist">
       <input type="hidden" name="timestamp" id="wlTimestamp" value="">
@@ -785,22 +1073,6 @@
   </div>
 </section>
 
-<section id="restaurants" class="restaurants-teaser">
-  <div class="wrap restaurants-row">
-    <div class="restaurants-copy">
-      <div class="eyebrow">For restaurants &amp; cafés</div>
-      <h2>Put Latin America on your table.</h2>
-      <p>Cook with our condiments or sell them at your counter. A QR on the table shows you exactly what sells. No monthly fee.</p>
-      <a href="for-restaurants.html" class="btn primary lg" style="background: var(--ink)">For restaurant owners →</a>
-    </div>
-    <div class="restaurants-steps">
-      <div class="restaurants-step"><div class="num">1</div><div><div class="t">Try it in your kitchen</div><div class="d">We bring samples of merkén and ají amarillo.</div></div></div>
-      <div class="restaurants-step"><div class="num">2</div><div><div class="t">Add the table QR</div><div class="d">Guests scan and buy. You see every sale.</div></div></div>
-      <div class="restaurants-step"><div class="num">3</div><div><div class="t">Get seen</div><div class="d">With your written OK, we tell your story on SolubFood.</div></div></div>
-    </div>
-  </div>
-</section>
-
 <section id="events" class="events">
   <div class="wrap events-row">
     <div class="events-copy">
@@ -812,16 +1084,62 @@
   </div>
 </section>
 
+<section id="vision" class="vision">
+  <div class="wrap">
+    <div class="eyebrow">Our vision</div>
+    <h2>A home, far from home.</h2>
+    <p class="vision-sub">SolubFood exists so Australians can live Latin culture as it really is (visible, trusted, modern and built by its community, not a stereotype) and so Latin Americans on the Gold Coast feel at home.</p>
+    <div class="vision-grid">
+      <div class="vision-card">
+        <div class="kicker">HOGAR</div>
+        <h3>Home</h3>
+        <p>The flavours and rituals that make you feel you never left.</p>
+      </div>
+      <div class="vision-card">
+        <div class="kicker">INDEPENDENCIA</div>
+        <h3>Independence</h3>
+        <p>Our cooks and partners keep their own name, their own story and their own way of doing things.</p>
+      </div>
+      <div class="vision-card">
+        <div class="kicker">FAMILIARIDAD</div>
+        <h3>Familiarity</h3>
+        <p>Twenty countries, one community. Different accents, the same table.</p>
+      </div>
+      <div class="vision-card">
+        <div class="kicker">SIMPLICIDAD</div>
+        <h3>Simplicity</h3>
+        <p>Easy to find, easy to buy, easy to share. No passport needed.</p>
+      </div>
+    </div>
+    <div class="vision-foot">
+      <p class="vision-quote">&ldquo;We don't just sell food. We sell a feeling from the other side of the world.&rdquo;</p>
+      <div class="founders">
+        <div class="founder-photos">
+          <img class="founder-photo" src="assets/img/benjamin.jpg" alt="Benjamin Arevalo">
+          <div class="founder-avatar" title="Gibril's photo goes here" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7"></path></svg>
+          </div>
+        </div>
+        <div>
+          <div class="founder-names">Benjamin Arevalo &amp; Gibril</div>
+          <div class="founder-role">Founder &amp; co-founder (marketing) · Gold Coast</div>
+          <p class="founder-note">[Gibril's photo goes here]</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="faq" class="faq">
   <div class="wrap">
     <h2>Questions.</h2>
     <div class="faq-grid">
-      <div class="faq-item"><h3>When can I buy?</h3><p>Merkén comes first, planned for early 2027. We only open orders once it's sourced, tested and cleared for import.</p></div>
-      <div class="faq-item"><h3>How much will it cost?</h3><p>Prices come with the launch. Waitlist members see them first.</p></div>
-      <div class="faq-item"><h3>Do you deliver?</h3><p>We start on the Gold Coast. Delivery details come with the launch.</p></div>
-      <div class="faq-item"><h3>Is it imported legally?</h3><p>That's our rule: no product goes on sale until it meets Australia's import and food-labelling requirements.</p></div>
-      <div class="faq-item"><h3>What is SolubFood?</h3><p>A Latin brand from the Gold Coast. We share the food and culture of South America, and sell condiments that carry its stories.</p></div>
-      <div class="faq-item"><h3>Can my restaurant stock it?</h3><p>Yes. See <a href="for-restaurants.html">For Restaurants</a>. There's no monthly fee.</p></div>
+      <div class="faq-item"><h3>What is SolubFood?</h3><p>A Latin brand from the Gold Coast. We share the food and culture of Latin America, and we're building El Kiosko, a late-night spot for home-style Latin food.</p></div>
+      <div class="faq-item"><h3>What is El Kiosko?</h3><p>A Latin corner shop that stays open late: home-style Latin food from local Latin cooks, plus drinks, snacks and the everyday things you need at night. Order on your delivery app or walk in.</p></div>
+      <div class="faq-item"><h3>When and where will it open?</h3><p>We're planning it now. There's no date or address yet. Members help choose the area and hear first.</p></div>
+      <div class="faq-item"><h3>Who cooks the food?</h3><p>Latin cooks who live on the Gold Coast. Every dish carries the name of the person who made it. Meet them in the <a href="kitchen.html">Kitchen</a>.</p></div>
+      <div class="faq-item"><h3>I cook Latin food. Can I join?</h3><p>Yes. Tell us about your food on the <a href="kitchen.html#join">Kitchen page</a>. Every dish has to come from a licensed kitchen and be labelled to Australian food standards.</p></div>
+      <div class="faq-item"><h3>How much will it cost?</h3><p>Prices come with the opening. Members see them first.</p></div>
     </div>
   </div>
 </section>
@@ -836,11 +1154,13 @@
       </div>
       <nav class="footer-col" aria-label="Footer">
         <div class="title">Explore</div>
-        <a href="#shop">Shop</a>
+        <a href="#kiosko">El Kiosko</a>
+        <a href="kitchen.html">Kitchen</a>
         <a href="#origins">Origins</a>
-        <a href="#vision">Our vision</a>
-        <a href="for-restaurants.html">For Restaurants</a>
+        <a href="#community">Community</a>
         <a href="#events">Events</a>
+        <a href="#vision">Our vision</a>
+        <a href="about.html">About us</a>
       </nav>
       <nav class="footer-col" aria-label="Legal">
         <div class="title">Legal</div>
@@ -902,7 +1222,7 @@
     });
   })();
 
-  // The brand video is a placeholder (per request) — this just gives
+  // The intro video is a sketch until January 2027 — this just gives
   // honest feedback instead of a dead button until the real .mp4 lands.
   // To wire the real video: replace the <img> in .hero-video with a
   // <video autoplay muted loop playsinline> (or controls) and drop this
@@ -913,7 +1233,7 @@
     if (!btn || !note) return;
     var defaultNote = note.textContent;
     btn.addEventListener('click', function () {
-      note.textContent = 'Full video coming soon.';
+      note.textContent = 'The full video lands in January 2027.';
       setTimeout(function () { note.textContent = defaultNote; }, 2600);
     });
   })();
@@ -985,6 +1305,27 @@
     });
   })();
 
+  (function communityWords() {
+    var chips = document.querySelectorAll('.country-chip');
+    var cards = document.querySelectorAll('.word-card');
+    if (!cards.length) return;
+    cards.forEach(function (card) {
+      card.addEventListener('click', function () {
+        card.setAttribute('aria-pressed', card.getAttribute('aria-pressed') === 'true' ? 'false' : 'true');
+      });
+    });
+    chips.forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        var country = chip.getAttribute('data-country');
+        chips.forEach(function (c) { c.setAttribute('aria-pressed', c === chip ? 'true' : 'false'); });
+        cards.forEach(function (card) {
+          var keys = card.getAttribute('data-countries').split(' ');
+          card.hidden = country !== 'all' && keys.indexOf(country) === -1;
+        });
+      });
+    });
+  })();
+
   (function visionCardGlow() {
     var cards = document.querySelectorAll('.vision-card');
     if (!cards.length || reduceMotion) return;
@@ -1010,9 +1351,9 @@
 
   // ===========================================================
   // Small decorative 3D globe (globe.gl / Three.js via CDN) in the hero
-  // video's corner — South America (Peru, Chile, Argentina) and
-  // Australia only, with dashed routes from Lima/Santiago/Buenos Aires
-  // to the Gold Coast. No labels, no click-to-expand: this is the
+  // video's corner — all of Latin America and Australia, with dashed
+  // routes to the Gold Coast from the places we film plus a few more
+  // across the region. No labels, no click-to-expand: this is the
   // site's existing globe engine, trimmed down to a quiet corner detail
   // instead of the earlier full interactive "unlock the map" feature.
   // ===========================================================
@@ -1022,11 +1363,17 @@
 
     var GOLD_COAST = { lat: -28.0167, lng: 153.4000 };
     var ROUTES = [
+      { lat: -23.6509, lng: -70.3975 },  // Antofagasta
+      { lat: -53.1638, lng: -70.9171 },  // Punta Arenas
+      { lat: -34.6037, lng: -58.3816 },  // Buenos Aires
       { lat: -12.0464, lng: -77.0428 },  // Lima
-      { lat: -33.4489, lng: -70.6693 },  // Santiago
-      { lat: -34.6037, lng: -58.3816 }   // Buenos Aires
+      { lat: 4.7110, lng: -74.0721 },    // Bogotá
+      { lat: 19.4326, lng: -99.1332 }    // Mexico City
     ];
-    var HIGHLIGHT = { PER: '#E0A42A', CHL: '#E0A42A', ARG: '#E0A42A', AUS: '#B42318' };
+    var LATAM = ['MEX', 'GTM', 'HND', 'SLV', 'NIC', 'CRI', 'PAN', 'CUB', 'DOM', 'HTI',
+                 'COL', 'VEN', 'ECU', 'PER', 'BOL', 'BRA', 'PRY', 'URY', 'ARG', 'CHL'];
+    var HIGHLIGHT = { AUS: '#B42318' };
+    LATAM.forEach(function (iso) { HIGHLIGHT[iso] = '#E0A42A'; });
 
     var ARCS = ROUTES.map(function (r) {
       return { startLat: r.lat, startLng: r.lng, endLat: GOLD_COAST.lat, endLng: GOLD_COAST.lng };
@@ -1082,7 +1429,7 @@
     }
     size();
     window.addEventListener('resize', size);
-    g.pointOfView({ lat: -10, lng: -95, altitude: 2.1 }, 0);
+    g.pointOfView({ lat: -5, lng: -90, altitude: 2.1 }, 0);
 
     fetch('https://cdn.jsdelivr.net/gh/vasturiano/globe.gl@v2.32.2/example/datasets/ne_110m_admin_0_countries.geojson')
       .then(function (res) { return res.json(); })
