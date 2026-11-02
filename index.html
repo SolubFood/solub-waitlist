@@ -303,6 +303,8 @@
   .episode-status { font-size: 14px; color: var(--dark-text); }
   .origins-follow { display: inline-flex; align-items: center; min-height: 44px; margin-top: 28px; color: #FFFFFF; font-weight: 600; font-size: 16px; text-decoration: none; }
   .origins-follow:hover, .origins-follow:focus-visible { color: #F6CC63; }
+  .origins-actions { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; margin-top: 28px; }
+  .origins-actions .origins-follow { margin-top: 0; }
 
   /* ---------- vision ---------- */
   .vision { background: var(--cream); padding: 96px 0; }
@@ -504,6 +506,7 @@
   .kiosko-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 22px; padding-top: 32px; border-top: 1px solid var(--dark-border); }
   .kiosko-foot h3 { font-size: 24px; color: #FFFFFF; margin: 0 0 6px; }
   .kiosko-foot p { font-size: 14px; line-height: 1.5; color: var(--dark-muted); margin: 0; max-width: 52ch; }
+  .kiosko-actions { display: flex; flex-wrap: wrap; gap: 12px; }
 
   /* ---------- waitlist ---------- */
   .waitlist { padding: 96px 0; background: var(--cream); }
@@ -649,10 +652,10 @@
       <h1>Latin America: more than people.</h1>
       <p class="hero-sub">One ocean between us. Latin American food and culture, brought to the Gold Coast by the people who live it.</p>
       <div class="hero-actions">
-        <a href="#kiosko" class="btn primary lg">Discover El Kiosko</a>
-        <a href="#origins" class="btn outline lg">Watch the origins</a>
+        <a href="#waitlist" class="btn primary lg">Join the waitlist (free)</a>
+        <a href="#kiosko" class="btn outline lg">Discover El Kiosko</a>
       </div>
-      <p class="hero-fine">Nothing to buy yet. We're building the community first, and members hear about everything before anyone else.</p>
+      <p class="hero-fine"><strong>Founding Members:</strong> the first 250 people to join taste El Kiosko's food first and get free invites to our Latin tasting nights.</p>
     </div>
     <div class="hero-visual">
       <div class="hero-video-frame">
@@ -674,6 +677,81 @@
         </div>
       </div>
       <p class="hero-video-note" id="heroVideoNote">[Sketch] Intro video lands January 2027 · filmed in Antofagasta, Punta Arenas, Argentina &amp; the Gold Coast</p>
+    </div>
+  </div>
+</section>
+
+<section id="waitlist" class="waitlist">
+  <div class="wrap waitlist-row">
+    <div class="waitlist-copy">
+      <div class="eyebrow">Founding Members · first 250 only</div>
+      <h2>Be the first to taste Latin America on the Gold Coast.</h2>
+      <p>Join free in 30 seconds. The first 250 members become Founding Members of SolubFood and El Kiosko.</p>
+      <div class="waitlist-perks">
+        <div><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B42318" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>First taste of El Kiosko's home-style Latin food</div>
+        <div><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B42318" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>Free invites to Latin tasting nights</div>
+        <div><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B42318" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>Your Founding Member QR, and a vote on where El Kiosko opens</div>
+      </div>
+    </div>
+
+    <form class="waitlist-form" id="waitlistForm" action="https://formsubmit.co/ajax/hello@teamsolub.com" method="POST" novalidate>
+      <div class="field-row">
+        <div class="field"><label for="wl-name">Name</label><input id="wl-name" name="name" type="text" placeholder="Your first name" required autocomplete="name"></div>
+        <div class="field"><label for="wl-email">Email</label><input id="wl-email" name="email" type="email" placeholder="you@email.com" required autocomplete="email"></div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label for="wl-suburb">Suburb</label><input id="wl-suburb" name="suburb" type="text" placeholder="e.g. Burleigh Heads" required autocomplete="address-level2"></div>
+        <div class="field">
+          <label for="wl-type">I am…</label>
+          <select id="wl-type" name="iAm">
+            <option>Curious about Latin food</option>
+            <option>Latin American, living here</option>
+            <option>A cook who'd like to join the Kitchen</option>
+            <option>A business that wants to partner</option>
+          </select>
+        </div>
+      </div>
+      <div class="field"><label for="wl-food">What Latin food would you love to try? (optional)</label><input id="wl-food" name="wantToTry" type="text" placeholder="e.g. empanadas, arepas, tacos"></div>
+      <fieldset class="check-group">
+        <legend>Where should El Kiosko open first? (optional)</legend>
+        <label class="check-row"><input type="radio" name="kioskoArea" value="Southport (hospital &amp; Griffith)">Southport (hospital &amp; Griffith)</label>
+        <label class="check-row"><input type="radio" name="kioskoArea" value="Surfers Paradise">Surfers Paradise</label>
+        <label class="check-row"><input type="radio" name="kioskoArea" value="Broadbeach">Broadbeach</label>
+        <label class="check-row"><input type="radio" name="kioskoArea" value="Robina">Robina</label>
+        <label class="check-row"><input type="radio" name="kioskoArea" value="Burleigh Heads">Burleigh Heads</label>
+        <label class="check-row"><input type="radio" name="kioskoArea" value="Somewhere else">Somewhere else</label>
+      </fieldset>
+      <fieldset class="check-group inline">
+        <legend>Would you order Latin food late at night? (optional)</legend>
+        <label class="check-row"><input type="radio" name="lateNight" value="Often">Often</label>
+        <label class="check-row"><input type="radio" name="lateNight" value="Sometimes">Sometimes</label>
+        <label class="check-row"><input type="radio" name="lateNight" value="Rarely">Rarely</label>
+      </fieldset>
+      <fieldset class="check-group inline">
+        <legend>Which delivery apps do you use? (optional)</legend>
+        <label class="check-row"><input type="checkbox" name="app_ubereats" value="Uber Eats">Uber Eats</label>
+        <label class="check-row"><input type="checkbox" name="app_doordash" value="DoorDash">DoorDash</label>
+        <label class="check-row"><input type="checkbox" name="app_none" value="Neither">Neither</label>
+      </fieldset>
+      <label class="consent-row">
+        <input type="checkbox" name="marketingConsent" value="yes">
+        Yes, email me about El Kiosko, new stories and events.
+      </label>
+      <input type="hidden" name="source" value="website-waitlist">
+      <input type="hidden" name="ref" id="wlRef" value="">
+      <input type="hidden" name="utm_source" id="wlUtmSource" value="">
+      <input type="hidden" name="utm_medium" id="wlUtmMedium" value="">
+      <input type="hidden" name="utm_campaign" id="wlUtmCampaign" value="">
+      <input type="hidden" name="timestamp" id="wlTimestamp" value="">
+      <input type="hidden" name="_subject" value="New SolubFood waitlist signup">
+      <input type="text" name="_honey" class="form-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button type="submit" class="btn primary lg">Join free as a Founding Member</button>
+      <p class="form-fine">We'll only use this to contact you about SolubFood. Leave any time. <a href="privacy.html">Privacy Policy</a></p>
+      <p class="form-status" aria-live="polite" id="waitlistStatus"></p>
+    </form>
+    <div class="member-qr" id="memberQr" hidden>
+      <p>This is your SolubFood QR — screenshot it. Show it at the door to check in.</p>
+      <div class="member-qr-code" id="memberQrCode"></div>
     </div>
   </div>
 </section>
@@ -718,10 +796,13 @@
     </div>
     <div class="kiosko-foot">
       <div>
-        <h3>Where should El Kiosko open first?</h3>
-        <p>Vote when you join. No date or address yet, and we'll only announce a location once it's signed.</p>
+        <h3>Take a look inside, in 3D.</h3>
+        <p>A first sketch of El Kiosko: the machines, the wall of 54 hot-food lockers, the community wall. We're planning to open in 2027. No address yet, and we'll only announce one once it's signed.</p>
       </div>
-      <a href="#waitlist" class="btn primary lg">Vote for your area</a>
+      <div class="kiosko-actions">
+        <a href="kiosko-3d.html" class="btn outline-dark lg">See El Kiosko in 3D</a>
+        <a href="#waitlist" class="btn primary lg">Join &amp; vote for your area</a>
+      </div>
     </div>
   </div>
 </section>
@@ -810,7 +891,10 @@
         </div>
       </article>
     </div>
-    <a href="https://www.instagram.com/solubfood/" target="_blank" rel="noopener noreferrer" class="origins-follow">Follow the trip on Instagram →</a>
+    <div class="origins-actions">
+      <a href="#waitlist" class="btn primary lg">Join the waitlist (free)</a>
+      <a href="https://www.instagram.com/solubfood/" target="_blank" rel="noopener noreferrer" class="origins-follow">Follow the trip on Instagram →</a>
+    </div>
   </div>
 </section>
 
@@ -999,77 +1083,7 @@
         </span>
       </button>
     </div>
-    <p class="community-foot">A new word every week on <a href="https://www.instagram.com/solubfood/" target="_blank" rel="noopener noreferrer">Instagram @solubfood</a>.</p>
-  </div>
-</section>
-
-<section id="waitlist" class="waitlist">
-  <div class="wrap waitlist-row">
-    <div class="waitlist-copy">
-      <div class="eyebrow">Get first access</div>
-      <h2>Join free. Get your SolubFood QR.</h2>
-      <p>Your QR is your membership. Tell us where you live and we'll know where El Kiosko should open first.</p>
-      <div class="waitlist-perks">
-        <div><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B42318" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>First to know when and where El Kiosko opens</div>
-        <div><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B42318" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>The origin stories as they're filmed</div>
-        <div><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B42318" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>Invites to SolubFood nights</div>
-      </div>
-    </div>
-
-    <form class="waitlist-form" id="waitlistForm" action="https://formsubmit.co/ajax/hello@teamsolub.com" method="POST" novalidate>
-      <div class="field-row">
-        <div class="field"><label for="wl-name">Name</label><input id="wl-name" name="name" type="text" placeholder="Your first name" required autocomplete="name"></div>
-        <div class="field"><label for="wl-email">Email</label><input id="wl-email" name="email" type="email" placeholder="you@email.com" required autocomplete="email"></div>
-      </div>
-      <div class="field-row">
-        <div class="field"><label for="wl-suburb">Suburb</label><input id="wl-suburb" name="suburb" type="text" placeholder="e.g. Burleigh Heads" required autocomplete="address-level2"></div>
-        <div class="field">
-          <label for="wl-type">I am…</label>
-          <select id="wl-type" name="iAm">
-            <option>Curious about Latin food</option>
-            <option>Latin American, living here</option>
-            <option>A cook who'd like to join the Kitchen</option>
-            <option>A business that wants to partner</option>
-          </select>
-        </div>
-      </div>
-      <fieldset class="check-group">
-        <legend>Where should El Kiosko open first? (optional)</legend>
-        <label class="check-row"><input type="radio" name="kioskoArea" value="Southport (hospital &amp; Griffith)">Southport (hospital &amp; Griffith)</label>
-        <label class="check-row"><input type="radio" name="kioskoArea" value="Surfers Paradise">Surfers Paradise</label>
-        <label class="check-row"><input type="radio" name="kioskoArea" value="Broadbeach">Broadbeach</label>
-        <label class="check-row"><input type="radio" name="kioskoArea" value="Robina">Robina</label>
-        <label class="check-row"><input type="radio" name="kioskoArea" value="Burleigh Heads">Burleigh Heads</label>
-        <label class="check-row"><input type="radio" name="kioskoArea" value="Somewhere else">Somewhere else</label>
-      </fieldset>
-      <fieldset class="check-group inline">
-        <legend>Would you order Latin food late at night?</legend>
-        <label class="check-row"><input type="radio" name="lateNight" value="Often">Often</label>
-        <label class="check-row"><input type="radio" name="lateNight" value="Sometimes">Sometimes</label>
-        <label class="check-row"><input type="radio" name="lateNight" value="Rarely">Rarely</label>
-      </fieldset>
-      <fieldset class="check-group inline">
-        <legend>Which delivery apps do you use?</legend>
-        <label class="check-row"><input type="checkbox" name="app_ubereats" value="Uber Eats">Uber Eats</label>
-        <label class="check-row"><input type="checkbox" name="app_doordash" value="DoorDash">DoorDash</label>
-        <label class="check-row"><input type="checkbox" name="app_none" value="Neither">Neither</label>
-      </fieldset>
-      <label class="consent-row">
-        <input type="checkbox" name="marketingConsent" value="yes">
-        Yes, email me about El Kiosko, new stories and events.
-      </label>
-      <input type="hidden" name="source" value="website-waitlist">
-      <input type="hidden" name="timestamp" id="wlTimestamp" value="">
-      <input type="hidden" name="_subject" value="New SolubFood waitlist signup">
-      <input type="text" name="_honey" class="form-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
-      <button type="submit" class="btn primary lg">Join the waitlist</button>
-      <p class="form-fine">We'll only use this to contact you about SolubFood. Leave any time. <a href="privacy.html">Privacy Policy</a></p>
-      <p class="form-status" aria-live="polite" id="waitlistStatus"></p>
-    </form>
-    <div class="member-qr" id="memberQr" hidden>
-      <p>This is your SolubFood QR — screenshot it. Show it at the door to check in.</p>
-      <div class="member-qr-code" id="memberQrCode"></div>
-    </div>
+    <p class="community-foot">A new word every week on <a href="https://www.instagram.com/solubfood/" target="_blank" rel="noopener noreferrer">Instagram @solubfood</a>. <a href="#waitlist">Join the community, free →</a></p>
   </div>
 </section>
 
@@ -1078,7 +1092,7 @@
     <div class="events-copy">
       <div class="eyebrow">Events</div>
       <h2>Latin nights, now and then.</h2>
-      <p>Every so often we host a night inside a Latin restaurant on the Gold Coast. Members hear first. We only announce a night once it's confirmed in writing.</p>
+      <p>Free Latin tasting nights with home cooks from the Gold Coast's Latin community. Only for waitlist members, and the first 250 Founding Members hear first. We only announce a night once it's confirmed.</p>
     </div>
     <a href="#waitlist" class="btn outline lg">Get event invites</a>
   </div>
@@ -1136,7 +1150,7 @@
     <div class="faq-grid">
       <div class="faq-item"><h3>What is SolubFood?</h3><p>A Latin brand from the Gold Coast. We share the food and culture of Latin America, and we're building El Kiosko, a late-night spot for home-style Latin food.</p></div>
       <div class="faq-item"><h3>What is El Kiosko?</h3><p>A Latin corner shop that stays open late: home-style Latin food from local Latin cooks, plus drinks, snacks and the everyday things you need at night. Order on your delivery app or walk in.</p></div>
-      <div class="faq-item"><h3>When and where will it open?</h3><p>We're planning it now. There's no date or address yet. Members help choose the area and hear first.</p></div>
+      <div class="faq-item"><h3>When and where will it open?</h3><p>We're planning to open in 2027 on the Gold Coast. There's no address yet. Members help choose the area, hear first, and the first 250 taste the food first.</p></div>
       <div class="faq-item"><h3>Who cooks the food?</h3><p>Latin cooks who live on the Gold Coast. Every dish carries the name of the person who made it. Meet them in the <a href="kitchen.html">Kitchen</a>.</p></div>
       <div class="faq-item"><h3>I cook Latin food. Can I join?</h3><p>Yes. Tell us about your food on the <a href="kitchen.html#join">Kitchen page</a>. Every dish has to come from a licensed kitchen and be labelled to Australian food standards.</p></div>
       <div class="faq-item"><h3>How much will it cost?</h3><p>Prices come with the opening. Members see them first.</p></div>
@@ -1268,6 +1282,22 @@
     };
   })();
 
+  // Tag each signup with where it came from (?ref=… from creators, QRs and events; utm_* from ads),
+  // kept for the session so it survives moving around the page.
+  (function captureSignupSource() {
+    var params = new URLSearchParams(window.location.search);
+    var keys = { ref: 'wlRef', utm_source: 'wlUtmSource', utm_medium: 'wlUtmMedium', utm_campaign: 'wlUtmCampaign' };
+    Object.keys(keys).forEach(function (k) {
+      var v = params.get(k);
+      try {
+        if (v) sessionStorage.setItem('solub_' + k, v);
+        else v = sessionStorage.getItem('solub_' + k);
+      } catch (err) {}
+      var input = document.getElementById(keys[k]);
+      if (input && v) input.value = v.slice(0, 80);
+    });
+  })();
+
   (function wireWaitlistForm() {
     var form = document.getElementById('waitlistForm');
     if (!form) return;
@@ -1295,7 +1325,7 @@
         if (!res.ok) throw new Error('bad status');
         form.hidden = true;
         status.className = 'form-status success';
-        status.textContent = "You're in! Welcome to SolubFood.";
+        status.textContent = "You're in! Welcome to SolubFood, Founding Member.";
         if (window.__solubRenderMemberQr) window.__solubRenderMemberQr();
       }).catch(function () {
         btn.disabled = false;

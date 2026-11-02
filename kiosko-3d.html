@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://cdn.jsdelivr.net https://formsubmit.co https://*.workers.dev; form-action 'self' https://formsubmit.co; base-uri 'self'; object-src 'none';">
+<meta name="description" content="A first look at El Kiosko by SolubFood in 3D: a late-night Latin corner shop coming to the Gold Coast in 2027.">
+<meta name="theme-color" content="#0E0C0B">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>El Kiosko in 3D — SolubFood</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;800&family=Sedgwick+Ave+Display&display=swap">
+<style>
+  /* Layout: full-bleed night viewer with a spec sheet beside it (stacks under it on phones). Single dark look on purpose: it's a night store. */
+  :root {
+    --night: #0E0C0B;
+    --panel: #181512;
+    --line: #2E2925;
+    --text: #EDE6DC;
+    --muted: #A99F93;
+    --neon: #F6CC63;
+    --red: #D2392B;
+    --font-ui: 'Archivo', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-tag: 'Sedgwick Ave Display', 'Marker Felt', 'Comic Sans MS', cursive;
+    color-scheme: dark;
+  }
+  html, body { height: 100%; }
+  body {
+    background: var(--night);
+    color: var(--text);
+    font-family: var(--font-ui);
+    font-size: 15px;
+    line-height: 1.5;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    padding-block: 16px;
+    box-sizing: border-box;
+  }
+  .page { max-width: 1400px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+  header.top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 20px; }
+  h1 { margin: 0; font-weight: 800; font-size: clamp(22px, 3vw, 30px); letter-spacing: -0.02em; text-wrap: balance; }
+  h1 .tag { font-family: var(--font-tag); font-weight: 400; color: var(--neon); letter-spacing: 0.01em; }
+  .sub { margin: 0; color: var(--muted); font-size: 14px; }
+  .layout { display: grid; grid-template-columns: minmax(0, 1fr) 330px; gap: 14px; align-items: start; }
+  @media (max-width: 900px) { .layout { grid-template-columns: minmax(0, 1fr); } }
+
+  .viewer {
+    position: relative;
+    min-width: 0;
+    height: min(74vh, 760px);
+    min-height: 420px;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: radial-gradient(ellipse at 50% 30%, #1B1714, var(--night) 70%);
+  }
+  .viewer canvas { display: block; touch-action: none; }
+  #labels { position: absolute; inset: 0; pointer-events: none; }
+  .lbl {
+    font-family: var(--font-ui);
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--text);
+    background: rgba(14, 12, 11, 0.78);
+    border: 1px solid var(--line);
+    padding: 3px 7px;
+    border-radius: 6px;
+    white-space: nowrap;
+  }
+  .lbl.dim { color: var(--neon); border-color: rgba(246, 204, 99, 0.45); font-variant-numeric: tabular-nums; }
+  .viewer.no-labels #labels { display: none; }
+
+  .controls {
+    position: absolute;
+    left: 10px; right: 10px; bottom: 10px;
+    display: flex; flex-wrap: wrap; gap: 6px;
+    pointer-events: none;
+  }
+  .controls button {
+    pointer-events: auto;
+    min-height: 38px;
+    padding: 0 14px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: rgba(24, 21, 18, 0.9);
+    color: var(--text);
+    font: 600 13px var(--font-ui);
+    cursor: pointer;
+  }
+  .controls button:hover { border-color: var(--muted); }
+  .controls button[aria-pressed="true"] { background: var(--neon); color: var(--night); border-color: var(--neon); }
+  .controls button:focus-visible { outline: 2px solid var(--neon); outline-offset: 2px; }
+  .hint { position: absolute; top: 10px; left: 12px; font-size: 12px; color: var(--muted); pointer-events: none; }
+  .fallback[hidden] { display: none; }
+  .fallback { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 24px; text-align: center; color: var(--muted); }
+
+  aside.spec { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 18px; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+  .spec h2 { margin: 0; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  .big { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .big strong { font-size: 34px; font-weight: 800; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+  .big span { color: var(--muted); }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  td { padding: 7px 0; border-top: 1px solid var(--line); vertical-align: top; }
+  td { line-height: 1.4; }
+  .sw { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 7px; vertical-align: 1px; }
+  .note { font-size: 12.5px; color: var(--muted); margin: 0; }
+  .back { display: inline-block; margin-bottom: 6px; color: var(--muted); text-decoration: none; font-size: 14px; }
+  .back:hover, .back:focus-visible { color: var(--neon); }
+  .join {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-height: 44px; padding: 0 20px; border-radius: 999px;
+    background: var(--red); color: #FFFFFF; font-weight: 600; font-size: 15px; text-decoration: none;
+  }
+  .join:hover, .join:focus-visible { background: #B42318; }
+  .join.wide { width: 100%; box-sizing: border-box; }
+  .join.ghost { background: none; border: 1.5px solid var(--neon); color: var(--neon); }
+  .join.ghost:hover, .join.ghost:focus-visible { background: var(--neon); color: var(--night); }
+  .spec-actions { display: flex; flex-direction: column; gap: 10px; }
+  .controls button.draw { background: var(--red); border-color: var(--red); color: #FFFFFF; }
+
+  /* Community wall drawing pad */
+  dialog.mark {
+    width: min(420px, calc(100vw - 32px));
+    max-height: calc(100vh - 32px);
+    overflow: auto;
+    box-sizing: border-box;
+    padding: 20px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: var(--panel);
+    color: var(--text);
+  }
+  dialog.mark::backdrop { background: rgba(0, 0, 0, 0.6); }
+  .mark h2 { margin: 0 0 4px; font-size: 22px; font-weight: 800; letter-spacing: -0.01em; }
+  .mark p { margin: 0 0 12px; color: var(--muted); font-size: 14px; }
+  .pad-wrap { position: relative; width: 100%; aspect-ratio: 1 / 1; border-radius: 10px; overflow: hidden; border: 1px dashed var(--neon); }
+  #markPad { width: 100%; height: 100%; display: block; touch-action: none; cursor: crosshair; background: #1B2229; }
+  .tools { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 12px 0; }
+  .swatch { width: 30px; height: 30px; border-radius: 999px; border: 2px solid transparent; cursor: pointer; padding: 0; }
+  .swatch[aria-pressed="true"] { border-color: #FFFFFF; box-shadow: 0 0 0 2px var(--night); }
+  .tool-btn { min-height: 32px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--line); background: none; color: var(--text); font: 600 13px var(--font-ui); cursor: pointer; }
+  .tool-btn[aria-pressed="true"] { background: var(--text); color: var(--night); }
+  .mark label { display: block; font-size: 13px; font-weight: 600; margin: 8px 0 4px; }
+  .mark input[type="text"], .mark input[type="email"] {
+    width: 100%; box-sizing: border-box; min-height: 42px; padding: 0 12px;
+    border-radius: 10px; border: 1px solid var(--line); background: var(--night); color: var(--text); font: 15px var(--font-ui);
+  }
+  .mark-actions { display: flex; gap: 8px; margin-top: 14px; }
+  .mark-actions .join { flex: 1; border: 0; cursor: pointer; font-family: var(--font-ui); }
+  .mark-status { min-height: 1.4em; margin: 10px 0 0; font-size: 14px; color: var(--neon); }
+  .mark-fine { font-size: 12px; color: var(--muted); margin: 8px 0 0; }
+</style>
+</head>
+<body>
+
+
+<div class="page">
+  <header class="top">
+    <div>
+      <a class="back" href="index.html">← SolubFood</a>
+      <h1><span class="tag">El Kiosko</span> · a first look in 3D</h1>
+      <p class="sub">Concept sketch · Gold Coast · opening planned for 2027 · sizes are approximate</p>
+    </div>
+    <a class="join" href="index.html#waitlist">Join the waitlist (free)</a>
+  </header>
+
+  <div class="layout">
+    <div class="viewer" id="viewer">
+      <div id="labels"></div>
+      <p class="hint" id="hint">Drag to turn · pinch or scroll to zoom</p>
+      <div class="controls" role="group" aria-label="Views">
+        <button type="button" id="v-overview" data-view="overview" aria-pressed="true">Overview</button>
+        <button type="button" id="v-street" data-view="street" aria-pressed="false">From the street</button>
+        <button type="button" id="v-inside" data-view="inside" aria-pressed="false">Walk in</button>
+        <button type="button" id="v-wall" data-view="wall" aria-pressed="false">Community wall</button>
+        <button type="button" id="v-plan" data-view="plan" aria-pressed="false">Floor plan</button>
+        <button type="button" id="t-labels" aria-pressed="true">Labels</button>
+        <button type="button" id="t-draw" class="draw">Leave your mark</button>
+      </div>
+      <dialog class="mark" id="markDialog" aria-labelledby="markTitle">
+        <form method="dialog" id="markForm" novalidate>
+          <h2 id="markTitle">Leave your mark</h2>
+          <p>Draw or sign inside your brick. It goes on El Kiosko's community wall, and it stays there forever.</p>
+          <div class="pad-wrap"><canvas id="markPad" width="480" height="480" aria-label="Drawing pad"></canvas></div>
+          <div class="tools" role="group" aria-label="Colours and brush">
+            <button type="button" class="swatch" data-color="#F6CC63" style="background:#F6CC63" aria-label="Yellow" aria-pressed="true"></button>
+            <button type="button" class="swatch" data-color="#D2392B" style="background:#D2392B" aria-label="Red" aria-pressed="false"></button>
+            <button type="button" class="swatch" data-color="#2DB8C5" style="background:#2DB8C5" aria-label="Turquoise" aria-pressed="false"></button>
+            <button type="button" class="swatch" data-color="#7BC96F" style="background:#7BC96F" aria-label="Green" aria-pressed="false"></button>
+            <button type="button" class="swatch" data-color="#D94E9A" style="background:#D94E9A" aria-label="Pink" aria-pressed="false"></button>
+            <button type="button" class="swatch" data-color="#FFFFFF" style="background:#FFFFFF" aria-label="White" aria-pressed="false"></button>
+            <button type="button" class="tool-btn" data-size="6" aria-pressed="true">Thin</button>
+            <button type="button" class="tool-btn" data-size="16" aria-pressed="false">Thick</button>
+            <button type="button" class="tool-btn" id="markClear">Clear</button>
+          </div>
+          <label for="markName">First name or initials (optional)</label>
+          <input type="text" id="markName" maxlength="24" autocomplete="given-name">
+          <label for="markEmail">Email (optional): join the waitlist and we'll tell you when your mark is up</label>
+          <input type="email" id="markEmail" autocomplete="email" placeholder="you@email.com">
+          <div class="mark-actions">
+            <button type="button" class="join ghost" id="markCancel">Close</button>
+            <button type="submit" class="join" id="markSave">Put it on the wall</button>
+          </div>
+          <p class="mark-status" id="markStatus" aria-live="polite"></p>
+          <p class="mark-fine">One mark per person per day. We check every mark before it shows for everyone, and remove anything offensive. <a href="privacy.html">Privacy Policy</a></p>
+        </form>
+      </dialog>
+      <div class="fallback" id="fallback" hidden>Your browser couldn't show the 3D view. Everything inside El Kiosko is listed alongside.</div>
+    </div>
+
+    <aside class="spec">
+      <div>
+        <h2>What's inside</h2>
+        <div class="big"><strong>~22 m²</strong><span>open late, no queues</span></div>
+      </div>
+      <table>
+        <tbody>
+          <tr><td><span class="sw" style="background:#F08A24"></span>54 hot-food lockers: pick up your Uber Eats or DoorDash order with a code</td></tr>
+          <tr><td><span class="sw" style="background:#2DB8C5"></span>Cold drinks</td></tr>
+          <tr><td><span class="sw" style="background:#E0A42A"></span>Snacks</td></tr>
+          <tr><td><span class="sw" style="background:#D2392B"></span>Home-style Latin food from local Latin cooks</td></tr>
+          <tr><td><span class="sw" style="background:#D94E9A"></span>Ice cream</td></tr>
+          <tr><td>Standing bar with wireless phone chargers</td></tr>
+          <tr><td>The flags of 20 Latin American countries</td></tr>
+          <tr><td>"Latin America fed the world": where your potato, corn and chocolate come from</td></tr>
+          <tr><td>The community wall: leave your drawing, it stays forever</td></tr>
+          <tr><td>Latin music, late at night</td></tr>
+        </tbody>
+      </table>
+      <div class="spec-actions">
+        <button type="button" class="join wide ghost" id="t-draw-aside">Leave your mark on the community wall</button>
+        <a class="join wide" href="index.html#waitlist">Become a Founding Member</a>
+      </div>
+      <p class="note">An early sketch, not the final design. The mural, the sign and the equipment will change once we choose the real artist, machines and location.</p>
+    </aside>
+  </div>
+</div>
+
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
+
+const viewer = document.getElementById('viewer');
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// Store coordinates in metres: x = width (0 left wall .. W right wall),
+// z = depth (0 street front .. D back wall), y = up. Sized to generic equipment:
+// vending machine 1.06 W × 0.83 D × 1.83 H; heated food locker module 1.265 × 0.40 × 1.902
+// with 18 compartments (3 modules = 54); charging tower 0.80 × 0.36 × 1.62.
+// Width = the 3 locker modules across the back wall (3.8) + margins;
+// depth = 4 machines in a row (4.39) + a clear band in front of the lockers + the lockers.
+const W = 3.9, D = 5.6, H = 3;
+const MW = 1.06, MD = 0.83, MH = 1.83;
+const LW = 1.265, LH = 1.902, LD = 0.40, LMODS = 3;
+
+let renderer;
+try {
+  renderer = new THREE.WebGLRenderer({ antialias: true });
+} catch (err) {
+  document.getElementById('fallback').hidden = false;
+  throw err;
+}
+renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+viewer.prepend(renderer.domElement);
+
+const labelRenderer = new CSS2DRenderer({ element: document.getElementById('labels') });
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color('#0E0C0B');
+scene.fog = new THREE.Fog('#0E0C0B', 22, 45);
+
+const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 200);
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = !reduceMotion;
+controls.maxPolarAngle = Math.PI * 0.495;
+controls.minDistance = 1.5;
+controls.maxDistance = 30;
+
+const store = new THREE.Group();
+store.position.set(-W / 2, 0, -D / 2);
+scene.add(store);
+
+// ---------- helpers ----------
+function canvasTex(w, h, draw) {
+  const c = document.createElement('canvas');
+  c.width = w; c.height = h;
+  draw(c.getContext('2d'), w, h);
+  const t = new THREE.CanvasTexture(c);
+  t.colorSpace = THREE.SRGBColorSpace;
+  t.anisotropy = 4;
+  return t;
+}
+function box(w, h, d, mat, x, y, z) {
+  const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat);
+  m.position.set(x, y, z);
+  store.add(m);
+  return m;
+}
+function label(text, x, y, z, cls) {
+  const el = document.createElement('div');
+  el.className = 'lbl' + (cls ? ' ' + cls : '');
+  el.textContent = text;
+  const o = new CSS2DObject(el);
+  o.position.set(x, y, z);
+  store.add(o);
+  return o;
+}
+const std = (color, extra) => new THREE.MeshStandardMaterial(Object.assign({ color, roughness: 0.8, metalness: 0.05 }, extra || {}));
+
+// ---------- lights ----------
+scene.add(new THREE.HemisphereLight('#6E6A80', '#1A1410', 0.55));
+const keyLight = new THREE.DirectionalLight('#FFE7C4', 0.6);
+keyLight.position.set(6, 12, -4);
+scene.add(keyLight);
+function lamp(x, z, color, intensity) {
+  const p = new THREE.PointLight(color, intensity, 7, 1.6);
+  p.position.set(x, 2.7, z);
+  store.add(p);
+  const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.07, 12, 8), new THREE.MeshBasicMaterial({ color }));
+  bulb.position.set(x, 2.75, z);
+  store.add(bulb);
+}
+lamp(1.45, 1.2, '#F2F0FF', 4);
+lamp(1.45, 3.4, '#F2F0FF', 4);
+lamp(2.9, 1.6, '#FFC98A', 4);
+
+// ---------- floor, street ----------
+const floorTex = canvasTex(W * 100, D * 100, (g, w, h) => {
+  g.fillStyle = '#2B2622'; g.fillRect(0, 0, w, h);
+  g.strokeStyle = 'rgba(255,255,255,0.07)'; g.lineWidth = 2;
+  for (let i = 0; i <= w; i += 100) { g.beginPath(); g.moveTo(i, 0); g.lineTo(i, h); g.stroke(); }
+  for (let j = 0; j <= h; j += 100) { g.beginPath(); g.moveTo(0, j); g.lineTo(w, j); g.stroke(); }
+});
+const floor = new THREE.Mesh(new THREE.PlaneGeometry(W, D), std('#FFFFFF', { map: floorTex, roughness: 0.6 }));
+floor.rotation.x = -Math.PI / 2;
+floor.position.set(W / 2, 0, D / 2);
+store.add(floor);
+
+const footpath = new THREE.Mesh(new THREE.PlaneGeometry(W + 6, 3), std('#4A4642', { roughness: 0.95 }));
+footpath.rotation.x = -Math.PI / 2;
+footpath.position.set(W / 2, -0.01, -1.5);
+store.add(footpath);
+const road = new THREE.Mesh(new THREE.PlaneGeometry(W + 30, 8), std('#1B1A1A', { roughness: 1 }));
+road.rotation.x = -Math.PI / 2;
+road.position.set(W / 2, -0.03, -7);
+store.add(road);
+for (let i = -6; i < 7; i++) {
+  const dash = new THREE.Mesh(new THREE.PlaneGeometry(1.2, 0.12), new THREE.MeshBasicMaterial({ color: '#BDB6AD' }));
+  dash.rotation.x = -Math.PI / 2;
+  dash.position.set(W / 2 + i * 2.4, -0.02, -7);
+  store.add(dash);
+}
+
+// ---------- walls ----------
+const wallMat = std('#3A3330');
+const wallT = 0.12;
+box(wallT, H, D, wallMat, -wallT / 2, H / 2, D / 2);            // left
+box(wallT, H, D, wallMat, W + wallT / 2, H / 2, D / 2);         // right
+box(W + 2 * wallT, H, wallT, wallMat, W / 2, H / 2, D + wallT / 2); // back
+
+// front: glass shopfront with a door gap (x 0.95–1.85, in line with the aisle) and a fascia band on top
+const glassMat = new THREE.MeshPhysicalMaterial({ color: '#9FC3D6', transparent: true, opacity: 0.16, roughness: 0.05, metalness: 0, side: THREE.DoubleSide });
+const frameMat = std('#111111', { metalness: 0.4, roughness: 0.4 });
+box(0.95, 2.4, 0.04, glassMat, 0.475, 1.2, 0);
+box(W - 1.85, 2.4, 0.04, glassMat, (1.85 + W) / 2, 1.2, 0);
+[0, 0.95, 1.85, W].forEach((x) => box(0.07, 2.4, 0.08, frameMat, x, 1.2, 0));
+const fascia = box(W + 2 * wallT, 0.6, 0.18, std('#151312'), W / 2, 2.7, -0.02);
+
+// neon sign "EL KIOSKO" facing the street
+function drawSign(g, w, h) {
+  g.clearRect(0, 0, w, h);
+  g.textAlign = 'center'; g.textBaseline = 'middle';
+  g.font = '190px "Sedgwick Ave Display", "Marker Felt", cursive';
+  g.lineJoin = 'round';
+  g.shadowColor = 'rgba(246,204,99,0.9)'; g.shadowBlur = 28;
+  g.lineWidth = 22; g.strokeStyle = '#D2392B'; g.strokeText('EL KIOSKO', w / 2, h / 2 + 8);
+  g.lineWidth = 10; g.strokeStyle = '#111'; g.strokeText('EL KIOSKO', w / 2, h / 2 + 8);
+  g.fillStyle = '#F6CC63'; g.fillText('EL KIOSKO', w / 2, h / 2 + 8);
+}
+const signTex = canvasTex(1400, 260, drawSign);
+const sign = new THREE.Mesh(new THREE.PlaneGeometry(3.1, 0.58), new THREE.MeshBasicMaterial({ map: signTex, transparent: true }));
+sign.rotation.y = Math.PI;
+sign.position.set(W / 2, 2.72, -0.13);
+store.add(sign);
+const signGlow = new THREE.PointLight('#F6CC63', 6, 6, 1.6);
+signGlow.position.set(W / 2, 2.6, -1.2);
+store.add(signGlow);
+
+// ---------- storeroom in the back-right corner, mural on the wall facing the door ----------
+function drawMural(g, w, h) {
+  const grd = g.createLinearGradient(0, 0, 0, h);
+  grd.addColorStop(0, '#1F6F8B'); grd.addColorStop(0.55, '#6A2C70'); grd.addColorStop(1, '#B83B5E');
+  g.fillStyle = grd; g.fillRect(0, 0, w, h);
+  const cols = ['#F6CC63', '#D2392B', '#2DB8C5', '#7BC96F', '#D94E9A', '#F08A24'];
+  for (let i = 0; i < 8; i++) {                                   // papel picado
+    g.fillStyle = cols[i % cols.length];
+    g.beginPath(); g.moveTo(i * w / 8, 0); g.lineTo((i + 1) * w / 8, 0); g.lineTo((i + 0.5) * w / 8, h * 0.06); g.fill();
+  }
+  g.fillStyle = '#F6CC63';                                         // sun
+  g.beginPath(); g.arc(w / 2, h * 0.3, w * 0.2, 0, Math.PI * 2); g.fill();
+  for (let i = 0; i < 20; i++) {
+    const a = (i / 20) * Math.PI * 2;
+    g.strokeStyle = cols[i % cols.length]; g.lineWidth = w * 0.025;
+    g.beginPath(); g.moveTo(w / 2 + Math.cos(a) * w * 0.24, h * 0.3 + Math.sin(a) * w * 0.24);
+    g.lineTo(w / 2 + Math.cos(a) * w * 0.33, h * 0.3 + Math.sin(a) * w * 0.33); g.stroke();
+  }
+  g.fillStyle = '#2E4A6B';                                         // Patagonia peaks
+  g.beginPath(); g.moveTo(0, h * 0.82); g.lineTo(w * 0.3, h * 0.55); g.lineTo(w * 0.5, h * 0.7); g.lineTo(w * 0.75, h * 0.5); g.lineTo(w, h * 0.78); g.lineTo(w, h); g.lineTo(0, h); g.fill();
+  g.fillStyle = '#F08A24';                                         // Atacama dunes
+  g.beginPath(); g.moveTo(0, h); g.quadraticCurveTo(w * 0.35, h * 0.78, w * 0.8, h); g.fill();
+  g.textAlign = 'center';
+  g.font = (w * 0.13) + 'px "Sedgwick Ave Display", "Marker Felt", cursive';
+  g.lineWidth = w * 0.02; g.strokeStyle = '#111'; g.lineJoin = 'round';
+  [['bajón', 0.5, 0.56], ['chévere', 0.5, 0.66], ['che', 0.28, 0.13], ['previa', 0.7, 0.12]].forEach(([t, x, y], i) => {
+    g.strokeText(t, w * x, h * y); g.fillStyle = cols[(i + 2) % cols.length]; g.fillText(t, w * x, h * y);
+  });
+}
+// The artist paints the whole right wall (the "mix" option): night sky, papel picado, Atacama dunes,
+// the Andes and a big sun. Flags, plaques and the digital wall are mounted on top of it.
+function drawWall(g, w, h) {
+  const sky = g.createLinearGradient(0, 0, 0, h);
+  sky.addColorStop(0, '#1F3B5C'); sky.addColorStop(0.5, '#5B2C6F'); sky.addColorStop(1, '#A8325E');
+  g.fillStyle = sky; g.fillRect(0, 0, w, h);
+  const cols = ['#F6CC63', '#D2392B', '#2DB8C5', '#7BC96F', '#D94E9A', '#F08A24'];
+  for (let i = 0; i < 28; i++) {                                  // papel picado along the top
+    g.fillStyle = cols[i % cols.length];
+    g.beginPath(); g.moveTo(i * w / 28, 0); g.lineTo((i + 1) * w / 28, 0); g.lineTo((i + 0.5) * w / 28, h * 0.07); g.fill();
+  }
+  g.fillStyle = '#F6CC63';                                        // sun, behind the flags
+  g.beginPath(); g.arc(w * 0.3, h * 0.42, h * 0.2, 0, Math.PI * 2); g.fill();
+  for (let i = 0; i < 24; i++) {
+    const a = (i / 24) * Math.PI * 2;
+    g.strokeStyle = cols[i % cols.length]; g.lineWidth = h * 0.014;
+    g.beginPath(); g.moveTo(w * 0.3 + Math.cos(a) * h * 0.24, h * 0.42 + Math.sin(a) * h * 0.24);
+    g.lineTo(w * 0.3 + Math.cos(a) * h * 0.31, h * 0.42 + Math.sin(a) * h * 0.31); g.stroke();
+  }
+  g.fillStyle = '#2E4A6B';                                        // the Andes
+  g.beginPath(); g.moveTo(0, h * 0.8);
+  [[0.1, 0.55], [0.18, 0.68], [0.3, 0.5], [0.42, 0.66], [0.55, 0.45], [0.66, 0.62], [0.78, 0.5], [0.9, 0.64], [1, 0.56]].forEach(([x, y]) => g.lineTo(w * x, h * y));
+  g.lineTo(w, h); g.lineTo(0, h); g.fill();
+  g.fillStyle = '#EDE6DC';
+  [[0.3, 0.5], [0.55, 0.45], [0.78, 0.5]].forEach(([x, y]) => { g.beginPath(); g.moveTo(w * x - w * 0.02, h * y + h * 0.05); g.lineTo(w * x, h * y); g.lineTo(w * x + w * 0.02, h * y + h * 0.05); g.fill(); });
+  g.fillStyle = '#F08A24';                                        // Atacama dunes
+  g.beginPath(); g.moveTo(0, h); g.quadraticCurveTo(w * 0.25, h * 0.72, w * 0.6, h); g.fill();
+  g.fillStyle = '#E0A42A';
+  g.beginPath(); g.moveTo(w * 0.35, h); g.quadraticCurveTo(w * 0.7, h * 0.78, w, h); g.fill();
+}
+const muralTex = canvasTex(1700, 1000, drawWall);
+const wallArt = new THREE.Mesh(new THREE.PlaneGeometry(5.1, 3.0), std('#FFFFFF', { map: muralTex, roughness: 0.9 }));
+wallArt.rotation.y = -Math.PI / 2;
+wallArt.position.set(W - 0.01, H / 2, 2.6);                        // the whole right wall, from the shopfront to the lockers
+store.add(wallArt);
+
+// ---------- machines along the left wall ----------
+function machineTex(title, color, rows, cols, glyph) {
+  return canvasTex(512, 940, (g, w, h) => {
+    g.fillStyle = '#121212'; g.fillRect(0, 0, w, h);
+    g.fillStyle = color; g.fillRect(0, 0, w, 120);
+    g.fillStyle = '#111'; g.font = '800 54px Archivo, sans-serif'; g.textAlign = 'center';
+    g.fillText(title, w * 0.42, 82);
+    // glass area with shelves
+    const gx = 26, gy = 150, gw = 330, gh = 650;
+    g.fillStyle = '#1D2A30'; g.fillRect(gx, gy, gw, gh);
+    const cw = gw / cols, ch = gh / rows;
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const x = gx + c * cw, y = gy + r * ch;
+        g.fillStyle = color; g.globalAlpha = 0.55 + ((r + c) % 3) * 0.15;
+        if (glyph === 'round') { g.beginPath(); g.arc(x + cw / 2, y + ch * 0.45, Math.min(cw, ch) * 0.28, 0, Math.PI * 2); g.fill(); }
+        else g.fillRect(x + cw * 0.18, y + ch * 0.18, cw * 0.64, ch * 0.5);
+        g.globalAlpha = 1;
+        g.fillStyle = '#EDE6DC'; g.font = '600 20px Archivo, sans-serif';
+        g.fillText(String.fromCharCode(65 + r) + (c + 1), x + cw / 2, y + ch * 0.9);
+      }
+      g.fillStyle = '#5B5B5B'; g.fillRect(gx, gy + (r + 1) * ch - 4, gw, 4);
+    }
+    // keypad + card reader
+    g.fillStyle = '#222'; g.fillRect(372, 190, 120, 330);
+    g.fillStyle = '#7CF0B0'; g.fillRect(384, 205, 96, 40);
+    for (let i = 0; i < 12; i++) {
+      g.fillStyle = '#DDD';
+      g.fillRect(386 + (i % 3) * 32, 262 + Math.floor(i / 3) * 44, 24, 30);
+    }
+    g.fillStyle = '#333'; g.fillRect(380, 560, 104, 120);
+    g.fillStyle = color; g.font = '600 18px Archivo, sans-serif'; g.fillText('TAP', 432, 628);
+    g.fillStyle = '#000'; g.fillRect(26, 830, 330, 80);
+    g.fillStyle = '#444'; g.font = '600 22px Archivo, sans-serif'; g.fillText('PUSH', 191, 880);
+  });
+}
+const machineBody = std('#1A1A1A', { metalness: 0.3, roughness: 0.5 });
+function machine(z0, width, title, color, rows, cols, glyph, h, depth, onRightWall) {
+  depth = depth || MD;
+  const tex = machineTex(title, color, rows, cols, glyph);
+  const front = new THREE.MeshStandardMaterial({ map: tex, emissive: '#FFFFFF', emissiveMap: tex, emissiveIntensity: 0.55, roughness: 0.4 });
+  const faces = [machineBody, machineBody, machineBody, machineBody, machineBody, machineBody];
+  faces[onRightWall ? 1 : 0] = front;
+  const m = new THREE.Mesh(new THREE.BoxGeometry(depth, h, width), faces);
+  m.position.set(onRightWall ? W - depth / 2 : depth / 2, h / 2, z0 + width / 2);
+  store.add(m);
+  const glow = new THREE.PointLight(color, 2.2, 2.6, 1.8);
+  glow.position.set(onRightWall ? W - depth - 0.4 : depth + 0.4, 1.2, z0 + width / 2);
+  store.add(glow);
+  return m;
+}
+// heated food pickup lockers across the whole back wall, facing the door: the first thing you see when you walk in.
+// 3 modules × 18 compartments (3 columns × 6 rows) = 54 lockers.
+function lockerModuleTex(index) {
+  return canvasTex(640, 960, (g, w, h) => {
+    g.fillStyle = '#1B1B1E'; g.fillRect(0, 0, w, h);
+    g.fillStyle = '#F08A24'; g.fillRect(0, 0, w, 96);
+    g.fillStyle = '#111'; g.textAlign = 'center';
+    g.font = '800 46px Archivo, sans-serif';
+    g.fillText(index === 1 ? 'PICK-UP' : 'EL KIOSKO', w / 2, 64);
+    const cw = (w - 24) / 3, ch = (h - 96 - 60) / 6;
+    for (let r = 0; r < 6; r++) for (let c = 0; c < 3; c++) {
+      const x = 12 + c * cw, y = 106 + r * ch;
+      g.fillStyle = '#2B2B30'; g.fillRect(x + 4, y + 4, cw - 8, ch - 8);
+      g.fillStyle = 'rgba(240,138,36,0.4)'; g.fillRect(x + 12, y + 12, cw - 24, ch - 40);
+      g.fillStyle = '#7CF0B0'; g.font = '600 20px Archivo, sans-serif';
+      g.fillText(String(index * 18 + r * 3 + c + 1).padStart(2, '0'), x + cw / 2, y + ch - 10);
+    }
+    g.fillStyle = '#F6CC63'; g.font = '800 28px Archivo, sans-serif';
+    g.fillText(index === 1 ? 'Uber Eats · DoorDash · Scan your code' : 'Hot or cold food', w / 2, h - 18);
+  });
+}
+const lockerX0 = (W - LW * LMODS) / 2;
+for (let i = 0; i < LMODS; i++) {
+  const tex = lockerModuleTex(i);
+  const front = new THREE.MeshStandardMaterial({ map: tex, emissive: '#FFFFFF', emissiveMap: tex, emissiveIntensity: 0.5 });
+  const mod = new THREE.Mesh(new THREE.BoxGeometry(LW - 0.01, LH, LD), [machineBody, machineBody, machineBody, machineBody, machineBody, front]);
+  // module 0 sits at the left as seen from the door (high x, since the viewer faces +z)
+  mod.position.set(W - lockerX0 - LW * (i + 0.5), LH / 2, D - LD / 2);
+  store.add(mod);
+  const glow = new THREE.PointLight('#F08A24', 3, 3.2, 1.6);
+  glow.position.set(W - lockerX0 - LW * (i + 0.5), 1.6, D - 1.2);
+  store.add(glow);
+}
+
+machine(0.15, MW, 'BEBIDAS', '#2DB8C5', 6, 5, 'round', MH);
+machine(0.15 + 1.11, MW, 'SNACKS', '#E0A42A', 6, 5, 'square', MH);
+machine(0.15 + 2.22, MW, 'COMIDA', '#D2392B', 5, 4, 'square', MH);
+machine(0.15 + 3.33, MW, 'HELADOS', '#D94E9A', 5, 4, 'round', MH);
+
+// flags of the 20 Latin American countries on the right wall, above the charging tower
+function drawFlags(g, w, h) {
+  g.clearRect(0, 0, w, h);
+  const FLAGS = [
+    ['Argentina', (f) => { f.h(['#74ACDF', '#FFFFFF', '#74ACDF']); f.dot(0.5, 0.5, 0.11, '#F6B40E'); }],
+    ['Bolivia', (f) => f.h(['#D52B1E', '#F9E300', '#007934'])],
+    ['Brasil', (f) => { f.fill('#009C3B'); f.diamond('#FFDF00'); f.dot(0.5, 0.5, 0.22, '#002776'); }],
+    ['Chile', (f) => { f.h(['#FFFFFF', '#D52B1E']); f.rect(0, 0, 0.33, 0.5, '#0039A6'); f.star(0.165, 0.25, 0.12, '#FFFFFF'); }],
+    ['Colombia', (f) => f.h(['#FCD116', '#003893', '#CE1126'], [2, 1, 1])],
+    ['Costa Rica', (f) => f.h(['#002B7F', '#FFFFFF', '#CE1126', '#FFFFFF', '#002B7F'], [1, 1, 2, 1, 1])],
+    ['Cuba', (f) => { f.h(['#002A8F', '#FFFFFF', '#002A8F', '#FFFFFF', '#002A8F']); f.tri('#CF142B', 0.43); f.star(0.15, 0.5, 0.11, '#FFFFFF'); }],
+    ['Ecuador', (f) => { f.h(['#FFDD00', '#034EA2', '#ED1C24'], [2, 1, 1]); f.dot(0.5, 0.45, 0.1, '#7A5A2E'); }],
+    ['El Salvador', (f) => { f.h(['#0F47AF', '#FFFFFF', '#0F47AF']); f.dot(0.5, 0.5, 0.08, '#C9A227'); }],
+    ['Guatemala', (f) => { f.v(['#4997D0', '#FFFFFF', '#4997D0']); f.dot(0.5, 0.5, 0.09, '#3F8F3F'); }],
+    ['Haití', (f) => { f.h(['#00209F', '#D21034']); f.rect(0.38, 0.32, 0.24, 0.36, '#FFFFFF'); f.dot(0.5, 0.5, 0.07, '#3F8F3F'); }],
+    ['Honduras', (f) => { f.h(['#00BCE4', '#FFFFFF', '#00BCE4']); [[0.42, 0.42], [0.58, 0.42], [0.5, 0.5], [0.42, 0.58], [0.58, 0.58]].forEach(([x, y]) => f.star(x, y, 0.04, '#00BCE4')); }],
+    ['México', (f) => { f.v(['#006847', '#FFFFFF', '#CE1126']); f.dot(0.5, 0.5, 0.1, '#8B5A2B'); }],
+    ['Nicaragua', (f) => { f.h(['#0067C6', '#FFFFFF', '#0067C6']); f.dot(0.5, 0.5, 0.08, '#4A9A3F'); }],
+    ['Panamá', (f) => { f.fill('#FFFFFF'); f.rect(0.5, 0, 0.5, 0.5, '#DA121A'); f.rect(0, 0.5, 0.5, 0.5, '#072357'); f.star(0.25, 0.25, 0.1, '#072357'); f.star(0.75, 0.75, 0.1, '#DA121A'); }],
+    ['Paraguay', (f) => { f.h(['#D52B1E', '#FFFFFF', '#0038A8']); f.dot(0.5, 0.5, 0.08, '#F6CC63'); }],
+    ['Perú', (f) => f.v(['#D91023', '#FFFFFF', '#D91023'])],
+    ['Rep. Dominicana', (f) => { f.fill('#FFFFFF'); f.rect(0, 0, 0.43, 0.42, '#002D62'); f.rect(0.57, 0, 0.43, 0.42, '#CE1126'); f.rect(0, 0.58, 0.43, 0.42, '#CE1126'); f.rect(0.57, 0.58, 0.43, 0.42, '#002D62'); }],
+    ['Uruguay', (f) => { f.h(['#FFFFFF', '#0038A8', '#FFFFFF', '#0038A8', '#FFFFFF', '#0038A8', '#FFFFFF', '#0038A8', '#FFFFFF']); f.rect(0, 0, 0.36, 5 / 9, '#FFFFFF'); f.dot(0.18, 0.28, 0.11, '#FCD116'); }],
+    ['Venezuela', (f) => { f.h(['#FFCC00', '#00247D', '#CF142B']); for (let i = 0; i < 8; i++) { const a = Math.PI * (0.15 + 0.7 * i / 7); f.star(0.5 - Math.cos(a) * 0.17, 0.62 - Math.sin(a) * 0.27, 0.025, '#FFFFFF'); } }]
+  ];
+  const colsN = 5, rowsN = 4, cw = w / colsN, ch = h / rowsN;
+  const fw = cw * 0.78, fh = fw * 0.6;
+  FLAGS.forEach(([name, paint], i) => {
+    const x0 = (i % colsN) * cw + (cw - fw) / 2, y0 = Math.floor(i / colsN) * ch + ch * 0.06;
+    const f = {
+      fill: (c) => { g.fillStyle = c; g.fillRect(x0, y0, fw, fh); },
+      rect: (x, y, rw, rh, c) => { g.fillStyle = c; g.fillRect(x0 + x * fw, y0 + y * fh, rw * fw, rh * fh); },
+      h: (cs, ws) => { ws = ws || cs.map(() => 1); const t = ws.reduce((a, b) => a + b, 0); let y = 0; cs.forEach((c, k) => { g.fillStyle = c; g.fillRect(x0, y0 + y / t * fh, fw, ws[k] / t * fh + 1); y += ws[k]; }); },
+      v: (cs) => cs.forEach((c, k) => { g.fillStyle = c; g.fillRect(x0 + k * fw / cs.length, y0, fw / cs.length + 1, fh); }),
+      dot: (x, y, r, c) => { g.fillStyle = c; g.beginPath(); g.arc(x0 + x * fw, y0 + y * fh, r * fh, 0, Math.PI * 2); g.fill(); },
+      diamond: (c) => { g.fillStyle = c; g.beginPath(); g.moveTo(x0 + fw * 0.08, y0 + fh / 2); g.lineTo(x0 + fw / 2, y0 + fh * 0.1); g.lineTo(x0 + fw * 0.92, y0 + fh / 2); g.lineTo(x0 + fw / 2, y0 + fh * 0.9); g.fill(); },
+      tri: (c, len) => { g.fillStyle = c; g.beginPath(); g.moveTo(x0, y0); g.lineTo(x0 + fw * len, y0 + fh / 2); g.lineTo(x0, y0 + fh); g.fill(); },
+      star: (x, y, r, c) => {
+        g.fillStyle = c; g.beginPath();
+        for (let k = 0; k < 10; k++) {
+          const rr = (k % 2 ? 0.42 : 1) * r * fh, a = -Math.PI / 2 + k * Math.PI / 5;
+          g.lineTo(x0 + x * fw + Math.cos(a) * rr, y0 + y * fh + Math.sin(a) * rr);
+        }
+        g.fill();
+      }
+    };
+    paint(f);
+    g.strokeStyle = 'rgba(0,0,0,0.35)'; g.lineWidth = 2; g.strokeRect(x0, y0, fw, fh);
+    g.fillStyle = 'rgba(14,12,11,0.75)'; g.fillRect(x0, y0 + fh + ch * 0.03, fw, ch * 0.17);
+    g.fillStyle = '#EDE6DC'; g.font = '600 ' + Math.round(ch * 0.12) + 'px Archivo, sans-serif'; g.textAlign = 'center';
+    g.fillText(name, x0 + fw / 2, y0 + fh + ch * 0.16);
+  });
+}
+const flagsTex = canvasTex(2000, 920, drawFlags);
+const flags = new THREE.Mesh(new THREE.PlaneGeometry(2.3, 1.06), new THREE.MeshStandardMaterial({ map: flagsTex, transparent: true, emissive: '#FFFFFF', emissiveMap: flagsTex, emissiveIntensity: 0.25, roughness: 0.8 }));
+flags.rotation.y = -Math.PI / 2;
+flags.position.set(W - 0.03, 2.36, 1.7);
+store.add(flags);
+
+// "Latin America fed the world": a header plaque + 6 food plaques at eye level, between the counter and the flags
+const FOODS = [
+  ['POTATO', 'The Andes', 'Peru & Bolivia', '#B8875A'],
+  ['CORN', 'Mexico', 'Balsas valley', '#F2C230'],
+  ['TOMATO', 'Mesoamerica', 'Mexico', '#D2392B'],
+  ['AVOCADO', 'Mexico', 'Mesoamerica', '#5E8C31'],
+  ['CHOCOLATE', 'Cacao', 'Amazon & Mesoamerica', '#6B3E26'],
+  ['CHILLI', 'Mexico', '& the Americas', '#E2462B']
+];
+function plaqueTex(draw, w, h) { return canvasTex(w, h, draw); }
+const brass = '#C9A227';
+const plaqueEdge = std(brass, { metalness: 0.6, roughness: 0.35 });
+const headerTex = plaqueTex((g, w, h) => {
+  g.fillStyle = '#16120F'; g.fillRect(0, 0, w, h);
+  g.strokeStyle = brass; g.lineWidth = 6; g.strokeRect(3, 3, w - 6, h - 6);
+  g.fillStyle = '#F6CC63'; g.font = '800 52px Archivo, sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle';
+  g.fillText('LATIN AMERICA FED THE WORLD', w / 2, h / 2 + 2);
+}, 1400, 90);
+const header = new THREE.Mesh(new THREE.PlaneGeometry(2.3, 0.15), new THREE.MeshStandardMaterial({ map: headerTex, emissive: '#FFFFFF', emissiveMap: headerTex, emissiveIntensity: 0.2 }));
+header.rotation.y = -Math.PI / 2;
+header.position.set(W - 0.03, 1.72, 1.7);
+store.add(header);
+FOODS.forEach(([name, place, detail, color], i) => {
+  const tex = plaqueTex((g, w, h) => {
+    g.fillStyle = '#EDE6DC'; g.fillRect(0, 0, w, h);
+    g.strokeStyle = brass; g.lineWidth = 10; g.strokeRect(5, 5, w - 10, h - 10);
+    g.fillStyle = color; g.beginPath(); g.arc(w / 2, h * 0.3, h * 0.15, 0, Math.PI * 2); g.fill();
+    g.fillStyle = '#16120F'; g.textAlign = 'center';
+    g.font = '800 40px Archivo, sans-serif'; g.fillText(name, w / 2, h * 0.62);
+    g.font = '600 28px Archivo, sans-serif'; g.fillText(place, w / 2, h * 0.76);
+    g.fillStyle = '#5C5650'; g.font = '500 22px Archivo, sans-serif'; g.fillText(detail, w / 2, h * 0.88);
+  }, 330, 380);
+  // the plaque's readable face points into the room (-x): box face index 1
+  const face = new THREE.MeshStandardMaterial({ map: tex, emissive: '#FFFFFF', emissiveMap: tex, emissiveIntensity: 0.15 });
+  const pl = new THREE.Mesh(new THREE.BoxGeometry(0.02, 0.38, 0.33), [plaqueEdge, face, plaqueEdge, plaqueEdge, plaqueEdge, plaqueEdge]);
+  pl.position.set(W - 0.03, 1.38, 0.73 + i * 0.38);
+  store.add(pl);
+});
+
+// Digital community wall: a 65-inch touch screen where anyone can leave a drawing that is never erased.
+// Each mark fills the next free brick; when a wall fills up, the next one starts (Wall #2, #3…).
+const WALL_COLS = 17, WALL_ROWS = 8, WALL_PER_PAGE = WALL_COLS * WALL_ROWS;
+let wallMarks = [];
+function drawCommunityWall(g, w, h) {
+  g.fillStyle = '#101418'; g.fillRect(0, 0, w, h);
+  g.fillStyle = '#F6CC63'; g.font = '800 46px Archivo, sans-serif'; g.textAlign = 'left';
+  g.fillText('COMMUNITY WALL', 40, 66);
+  g.fillStyle = '#BDB6AD'; g.font = '500 26px Archivo, sans-serif';
+  g.fillText('Leave your mark · it stays forever', 40, 104);
+  const total = wallMarks.length;
+  const page = total === 0 ? 0 : Math.floor((total - 1) / WALL_PER_PAGE);
+  const start = page * WALL_PER_PAGE;
+  g.textAlign = 'right';
+  g.fillText(total === 0 ? 'Tap to be the first' : 'Wall #' + (page + 1) + ' · ' + total + (total === 1 ? ' mark' : ' marks'), w - 40, 66);
+  const cs = 70, x0 = 40, y0 = 130;
+  for (let r = 0; r < WALL_ROWS; r++) for (let c = 0; c < WALL_COLS; c++) {
+    const idx = start + r * WALL_COLS + c;
+    const x = x0 + c * cs, y = y0 + r * cs;
+    g.fillStyle = '#1B2229'; g.fillRect(x + 2, y + 2, cs - 4, cs - 4);
+    const mark = wallMarks[idx];
+    if (mark && mark._img && mark._img.complete && mark._img.naturalWidth) {
+      g.drawImage(mark._img, x + 3, y + 3, cs - 6, cs - 6);
+    } else if (idx === total) {                                     // the next free brick
+      g.strokeStyle = '#F6CC63'; g.setLineDash([6, 6]); g.lineWidth = 2; g.strokeRect(x + 6, y + 6, cs - 12, cs - 12); g.setLineDash([]);
+    }
+  }
+}
+const cwTex = canvasTex(1300, 740, drawCommunityWall);
+box(0.06, 0.86, 1.49, std('#0B0B0B', { metalness: 0.3 }), W - 0.04, 1.45, 4.3);       // bezel
+const cwScreen = new THREE.Mesh(new THREE.PlaneGeometry(1.43, 0.8), new THREE.MeshBasicMaterial({ map: cwTex }));
+cwScreen.rotation.y = -Math.PI / 2;
+cwScreen.position.set(W - 0.075, 1.45, 4.3);
+store.add(cwScreen);
+const cwGlow = new THREE.PointLight('#9CC2F5', 2.5, 2.5, 1.6);
+cwGlow.position.set(W - 0.9, 1.5, 4.3);
+store.add(cwGlow);
+
+// ---------- seating ----------
+const wood = std('#8B5A3C', { roughness: 0.7 });
+const metal = std('#2A2A2A', { metalness: 0.5, roughness: 0.4 });
+// standing counter along the shopfront, right of the door
+box(1.75, 0.05, 0.4, wood, 2.9, 1.05, 0.3);
+box(0.06, 1.05, 0.06, metal, 2.1, 0.52, 0.3);
+box(0.06, 1.05, 0.06, metal, 3.7, 0.52, 0.3);
+
+// second standing counter, same wood, along the right wall under the flags, with wireless chargers
+box(0.4, 0.05, 2.3, wood, W - 0.2, 1.05, 1.7);
+[0.65, 1.7, 2.75].forEach((z) => box(0.06, 1.05, 0.06, metal, W - 0.32, 0.52, z));
+const padMat = new THREE.MeshStandardMaterial({ color: '#151515', emissive: '#7BC96F', emissiveIntensity: 0.35, roughness: 0.4 });
+[0.95, 1.5, 2.05, 2.6].forEach((z) => {
+  const pad = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.07, 0.012, 28), padMat);
+  pad.position.set(W - 0.22, 1.08, z);
+  store.add(pad);
+});
+
+// two ceiling speakers for the scheduled Latin music
+[[1.45, 1.6], [1.95, 4.2]].forEach(([x, z]) => {
+  const spk = new THREE.Mesh(new THREE.CylinderGeometry(0.13, 0.13, 0.06, 24), std('#EDE6DC'));
+  spk.position.set(x, H - 0.03, z);
+  store.add(spk);
+});
+
+// ---------- labels ----------
+label('Drinks', 1.0, 2.05, 0.68);
+label('Snacks', 1.0, 2.05, 1.79);
+label('Latin food', 1.0, 2.05, 2.9);
+label('Ice cream', 1.0, 2.05, 4.0);
+label('54 hot-food lockers', W / 2, 2.15, D - 0.5);
+label('Bar + wireless charging', W - 0.3, 0.85, 1.5);
+label('20 flags', W - 0.2, 3.05, 2.55);
+label('Community wall', W - 0.2, 2.1, 4.3);
+label('Speakers', 1.7, 2.85, 2.9);
+label('Window bar', 2.9, 1.35, 0.5);
+label('Entrance', 1.4, 0.35, -0.6);
+label('Aisle', 1.45, 0.12, 2.3);
+label('Street', W / 2, 0.05, -7.6, 'dim');
+
+// dimension lines
+const dimMat = new THREE.LineBasicMaterial({ color: '#F6CC63' });
+function dimLine(a, b) {
+  const geo = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(...a), new THREE.Vector3(...b)]);
+  store.add(new THREE.Line(geo, dimMat));
+}
+dimLine([0, 0.03, -2.3], [W, 0.03, -2.3]);
+dimLine([0, 0.03, -2.45], [0, 0.03, -2.15]);
+dimLine([W, 0.03, -2.45], [W, 0.03, -2.15]);
+dimLine([W + 0.6, 0.03, 0], [W + 0.6, 0.03, D]);
+dimLine([W + 0.45, 0.03, 0], [W + 0.75, 0.03, 0]);
+dimLine([W + 0.45, 0.03, D], [W + 0.75, 0.03, D]);
+
+// ---------- community wall: storage ----------
+// WALL_API = the Cloudflare Worker in worker/ once it's deployed (see worker/README.md).
+// Until then, marks are kept in this visitor's browser only.
+const WALL_API = '';
+const LOCAL_KEY = 'solub_wall_marks', LAST_KEY = 'solub_wall_last';
+function readLocal() {
+  try { return JSON.parse(localStorage.getItem(LOCAL_KEY) || '[]'); } catch (err) { return []; }
+}
+function writeLocal(list) {
+  try { localStorage.setItem(LOCAL_KEY, JSON.stringify(list.slice(-50))); } catch (err) {}
+}
+function setMarks(list) {
+  wallMarks = list.map((m) => {
+    const im = new Image();
+    im.onload = () => redraw(cwTex, drawCommunityWall);
+    im.src = m.img;
+    return Object.assign({}, m, { _img: im });
+  });
+  redraw(cwTex, drawCommunityWall);
+}
+async function loadMarks() {
+  let shared = [];
+  if (WALL_API) {
+    try {
+      const res = await fetch(WALL_API + '/marks');
+      if (res.ok) shared = await res.json();
+    } catch (err) {}
+  }
+  const mine = readLocal().filter((m) => !shared.some((x) => x.id === m.id));
+  setMarks(shared.concat(mine).sort((a, b) => a.createdAt - b.createdAt));
+}
+async function saveMark(mark) {
+  writeLocal(readLocal().concat([mark]));
+  if (!WALL_API) return 'local';
+  try {
+    const res = await fetch(WALL_API + '/marks', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: mark.id, name: mark.name, img: mark.img })
+    });
+    return res.ok ? 'pending' : 'error';
+  } catch (err) { return 'error'; }
+}
+
+// ---------- community wall: drawing pad ----------
+const markDialog = document.getElementById('markDialog');
+const pad = document.getElementById('markPad');
+const padCtx = pad.getContext('2d');
+const markStatus = document.getElementById('markStatus');
+let brushColor = '#F6CC63', brushSize = 6, drawing = false, hasInk = false;
+function clearPad() {
+  padCtx.fillStyle = '#1B2229'; padCtx.fillRect(0, 0, pad.width, pad.height);
+  hasInk = false;
+}
+function padPoint(e) {
+  const r = pad.getBoundingClientRect();
+  return [(e.clientX - r.left) * pad.width / r.width, (e.clientY - r.top) * pad.height / r.height];
+}
+pad.addEventListener('pointerdown', (e) => {
+  drawing = true; hasInk = true;
+  pad.setPointerCapture(e.pointerId);
+  const [x, y] = padPoint(e);
+  padCtx.strokeStyle = brushColor; padCtx.fillStyle = brushColor;
+  padCtx.lineWidth = brushSize; padCtx.lineCap = 'round'; padCtx.lineJoin = 'round';
+  padCtx.beginPath(); padCtx.arc(x, y, brushSize / 2, 0, Math.PI * 2); padCtx.fill();
+  padCtx.beginPath(); padCtx.moveTo(x, y);
+});
+pad.addEventListener('pointermove', (e) => {
+  if (!drawing) return;
+  const [x, y] = padPoint(e);
+  padCtx.lineTo(x, y); padCtx.stroke();
+});
+['pointerup', 'pointercancel'].forEach((t) => pad.addEventListener(t, () => { drawing = false; }));
+document.querySelectorAll('.swatch').forEach((b) => b.addEventListener('click', () => {
+  brushColor = b.dataset.color;
+  document.querySelectorAll('.swatch').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+}));
+document.querySelectorAll('[data-size]').forEach((b) => b.addEventListener('click', () => {
+  brushSize = Number(b.dataset.size);
+  document.querySelectorAll('[data-size]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+}));
+document.getElementById('markClear').addEventListener('click', clearPad);
+document.getElementById('markCancel').addEventListener('click', () => markDialog.close());
+
+function todayKey() { return new Date().toISOString().slice(0, 10); }
+function openMarkDialog() {
+  setView('screen');
+  clearPad();
+  markStatus.textContent = '';
+  document.getElementById('markSave').disabled = false;
+  let last = null;
+  try { last = localStorage.getItem(LAST_KEY); } catch (err) {}
+  if (last === todayKey()) markStatus.textContent = "You've already left a mark today. Come back tomorrow for another one!";
+  if (typeof markDialog.showModal === 'function') markDialog.showModal(); else markDialog.setAttribute('open', '');
+}
+document.getElementById('t-draw').addEventListener('click', openMarkDialog);
+document.getElementById('t-draw-aside').addEventListener('click', openMarkDialog);
+
+document.getElementById('markForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  let last = null;
+  try { last = localStorage.getItem(LAST_KEY); } catch (err) {}
+  if (last === todayKey()) { markStatus.textContent = "You've already left a mark today. Come back tomorrow!"; return; }
+  if (!hasInk) { markStatus.textContent = 'Draw or sign something first.'; return; }
+  const small = document.createElement('canvas');
+  small.width = 160; small.height = 160;
+  small.getContext('2d').drawImage(pad, 0, 0, 160, 160);
+  const name = document.getElementById('markName').value.trim().slice(0, 24);
+  const email = document.getElementById('markEmail').value.trim();
+  const mark = {
+    id: (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(16).slice(2),
+    name: name, img: small.toDataURL('image/png'), createdAt: Date.now()
+  };
+  document.getElementById('markSave').disabled = true;
+  markStatus.textContent = 'Saving…';
+  const result = await saveMark(mark);
+  try { localStorage.setItem(LAST_KEY, todayKey()); } catch (err) {}
+  if (email && /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+    const fd = new FormData();
+    fd.append('name', name || 'Community wall');
+    fd.append('email', email);
+    fd.append('source', 'kiosko-3d-community-wall');
+    fd.append('timestamp', new Date().toISOString());
+    fd.append('_subject', 'New SolubFood waitlist signup (3D community wall)');
+    fetch('https://formsubmit.co/ajax/hello@teamsolub.com', { method: 'POST', headers: { Accept: 'application/json' }, body: fd }).catch(() => {});
+  }
+  await loadMarks();
+  markStatus.textContent = result === 'pending'
+    ? "Thanks! Your mark is on your screen now, and it goes up for everyone once we've checked it."
+    : result === 'error'
+      ? "Your mark is saved on this device, but we couldn't send it. Please try again later."
+      : 'Your mark is on the wall!' + (email ? " You're on the waitlist too." : '');
+});
+
+// tap the screen in 3D to draw (a drag that turns the camera doesn't count)
+const raycaster = new THREE.Raycaster();
+const ndc = new THREE.Vector2();
+let downAt = null;
+renderer.domElement.addEventListener('pointerdown', (e) => { downAt = [e.clientX, e.clientY]; });
+renderer.domElement.addEventListener('pointerup', (e) => {
+  if (!downAt) return;
+  const moved = Math.hypot(e.clientX - downAt[0], e.clientY - downAt[1]);
+  downAt = null;
+  if (moved > 6) return;
+  const r = renderer.domElement.getBoundingClientRect();
+  ndc.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
+  raycaster.setFromCamera(ndc, camera);
+  if (raycaster.intersectObject(cwScreen).length) openMarkDialog();
+});
+loadMarks();
+
+// ---------- views ----------
+const VIEWS = {
+  overview: { pos: [6.2, 7.0, -6.2], target: [0, 0.6, 0.2], zoomOutOnPhone: true },
+  street:   { pos: [0.1, 1.7, -7.4], target: [0, 1.3, 0.5] },
+  inside:   { pos: [-0.45, 1.6, -2.45], target: [0, 1.1, 2.8] },
+  wall:     { pos: [-1.45, 1.6, -0.2], target: [1.95, 1.5, -0.1] },
+  screen:   { pos: [-0.45, 1.5, 1.5], target: [1.95, 1.45, 1.5] },
+  plan:     { pos: [0, 10.5, 0.01], target: [0, 0, 0], zoomOutOnPhone: true }
+};
+let tween = null;
+function setView(name) {
+  const v = VIEWS[name];
+  const toPos = new THREE.Vector3(...v.pos), toTarget = new THREE.Vector3(...v.target);
+  if (v.zoomOutOnPhone && viewer.clientWidth < 560) toPos.multiplyScalar(1.45);
+  document.querySelectorAll('[data-view]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.view === name)));
+  if (reduceMotion) { camera.position.copy(toPos); controls.target.copy(toTarget); controls.update(); return; }
+  tween = { fromPos: camera.position.clone(), fromTarget: controls.target.clone(), toPos, toTarget, start: performance.now() };
+}
+document.querySelectorAll('[data-view]').forEach((b) => b.addEventListener('click', () => setView(b.dataset.view)));
+document.getElementById('t-labels').addEventListener('click', (e) => {
+  const on = e.currentTarget.getAttribute('aria-pressed') !== 'true';
+  e.currentTarget.setAttribute('aria-pressed', String(on));
+  viewer.classList.toggle('no-labels', !on);
+});
+controls.addEventListener('start', () => { tween = null; });
+
+camera.position.set(...VIEWS.overview.pos);
+if (viewer.clientWidth < 560) camera.position.multiplyScalar(1.45);
+controls.target.set(...VIEWS.overview.target);
+controls.update();
+
+function resize() {
+  const w = viewer.clientWidth, h = viewer.clientHeight;
+  renderer.setSize(w, h);
+  labelRenderer.setSize(w, h);
+  camera.aspect = w / h;
+  camera.fov = w < 560 ? 60 : 45;
+  camera.updateProjectionMatrix();
+}
+new ResizeObserver(resize).observe(viewer);
+resize();
+
+let visible = true;
+new IntersectionObserver((entries) => { visible = entries[0].isIntersecting; }).observe(viewer);
+
+function frame() {
+  requestAnimationFrame(frame);
+  if (!visible) return;
+  if (tween) {
+    const t = Math.min(1, (performance.now() - tween.start) / 900);
+    const k = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+    camera.position.lerpVectors(tween.fromPos, tween.toPos, k);
+    controls.target.lerpVectors(tween.fromTarget, tween.toTarget, k);
+    if (t >= 1) tween = null;
+  }
+  controls.update();
+  renderer.render(scene, camera);
+  labelRenderer.render(scene, camera);
+}
+
+// Canvas textures need the graffiti face loaded before they're drawn.
+const fontReady = document.fonts && document.fonts.load
+  ? Promise.race([document.fonts.load('80px "Sedgwick Ave Display"'), new Promise((r) => setTimeout(r, 2500))])
+  : Promise.resolve();
+function redraw(tex, draw) {
+  const c = tex.image;
+  draw(c.getContext('2d'), c.width, c.height);
+  tex.needsUpdate = true;
+}
+fontReady.then(() => {
+  redraw(signTex, drawSign);
+  redraw(muralTex, drawWall);
+});
+frame();
+</script>
+
+</body>
+</html>
