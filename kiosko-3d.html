@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://cdn.jsdelivr.net; base-uri 'self'; object-src 'none';">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://cdn.jsdelivr.net https://formsubmit.co https://*.workers.dev; form-action 'self' https://formsubmit.co; base-uri 'self'; object-src 'none';">
 <meta name="description" content="A first look at El Kiosko by SolubFood in 3D: a late-night Latin corner shop coming to the Gold Coast in 2027.">
 <meta name="theme-color" content="#0E0C0B">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -115,6 +115,42 @@
   }
   .join:hover, .join:focus-visible { background: #B42318; }
   .join.wide { width: 100%; box-sizing: border-box; }
+  .join.ghost { background: none; border: 1.5px solid var(--neon); color: var(--neon); }
+  .join.ghost:hover, .join.ghost:focus-visible { background: var(--neon); color: var(--night); }
+  .spec-actions { display: flex; flex-direction: column; gap: 10px; }
+  .controls button.draw { background: var(--red); border-color: var(--red); color: #FFFFFF; }
+
+  /* Community wall drawing pad */
+  dialog.mark {
+    width: min(420px, calc(100vw - 32px));
+    max-height: calc(100vh - 32px);
+    overflow: auto;
+    box-sizing: border-box;
+    padding: 20px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: var(--panel);
+    color: var(--text);
+  }
+  dialog.mark::backdrop { background: rgba(0, 0, 0, 0.6); }
+  .mark h2 { margin: 0 0 4px; font-size: 22px; font-weight: 800; letter-spacing: -0.01em; }
+  .mark p { margin: 0 0 12px; color: var(--muted); font-size: 14px; }
+  .pad-wrap { position: relative; width: 100%; aspect-ratio: 1 / 1; border-radius: 10px; overflow: hidden; border: 1px dashed var(--neon); }
+  #markPad { width: 100%; height: 100%; display: block; touch-action: none; cursor: crosshair; background: #1B2229; }
+  .tools { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 12px 0; }
+  .swatch { width: 30px; height: 30px; border-radius: 999px; border: 2px solid transparent; cursor: pointer; padding: 0; }
+  .swatch[aria-pressed="true"] { border-color: #FFFFFF; box-shadow: 0 0 0 2px var(--night); }
+  .tool-btn { min-height: 32px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--line); background: none; color: var(--text); font: 600 13px var(--font-ui); cursor: pointer; }
+  .tool-btn[aria-pressed="true"] { background: var(--text); color: var(--night); }
+  .mark label { display: block; font-size: 13px; font-weight: 600; margin: 8px 0 4px; }
+  .mark input[type="text"], .mark input[type="email"] {
+    width: 100%; box-sizing: border-box; min-height: 42px; padding: 0 12px;
+    border-radius: 10px; border: 1px solid var(--line); background: var(--night); color: var(--text); font: 15px var(--font-ui);
+  }
+  .mark-actions { display: flex; gap: 8px; margin-top: 14px; }
+  .mark-actions .join { flex: 1; border: 0; cursor: pointer; font-family: var(--font-ui); }
+  .mark-status { min-height: 1.4em; margin: 10px 0 0; font-size: 14px; color: var(--neon); }
+  .mark-fine { font-size: 12px; color: var(--muted); margin: 8px 0 0; }
 </style>
 </head>
 <body>
@@ -141,7 +177,36 @@
         <button type="button" id="v-wall" data-view="wall" aria-pressed="false">Community wall</button>
         <button type="button" id="v-plan" data-view="plan" aria-pressed="false">Floor plan</button>
         <button type="button" id="t-labels" aria-pressed="true">Labels</button>
+        <button type="button" id="t-draw" class="draw">Leave your mark</button>
       </div>
+      <dialog class="mark" id="markDialog" aria-labelledby="markTitle">
+        <form method="dialog" id="markForm" novalidate>
+          <h2 id="markTitle">Leave your mark</h2>
+          <p>Draw or sign inside your brick. It goes on El Kiosko's community wall, and it stays there forever.</p>
+          <div class="pad-wrap"><canvas id="markPad" width="480" height="480" aria-label="Drawing pad"></canvas></div>
+          <div class="tools" role="group" aria-label="Colours and brush">
+            <button type="button" class="swatch" data-color="#F6CC63" style="background:#F6CC63" aria-label="Yellow" aria-pressed="true"></button>
+            <button type="button" class="swatch" data-color="#D2392B" style="background:#D2392B" aria-label="Red" aria-pressed="false"></button>
+            <button type="button" class="swatch" data-color="#2DB8C5" style="background:#2DB8C5" aria-label="Turquoise" aria-pressed="false"></button>
+            <button type="button" class="swatch" data-color="#7BC96F" style="background:#7BC96F" aria-label="Green" aria-pressed="false"></button>
+            <button type="button" class="swatch" data-color="#D94E9A" style="background:#D94E9A" aria-label="Pink" aria-pressed="false"></button>
+            <button type="button" class="swatch" data-color="#FFFFFF" style="background:#FFFFFF" aria-label="White" aria-pressed="false"></button>
+            <button type="button" class="tool-btn" data-size="6" aria-pressed="true">Thin</button>
+            <button type="button" class="tool-btn" data-size="16" aria-pressed="false">Thick</button>
+            <button type="button" class="tool-btn" id="markClear">Clear</button>
+          </div>
+          <label for="markName">First name or initials (optional)</label>
+          <input type="text" id="markName" maxlength="24" autocomplete="given-name">
+          <label for="markEmail">Email (optional): join the waitlist and we'll tell you when your mark is up</label>
+          <input type="email" id="markEmail" autocomplete="email" placeholder="you@email.com">
+          <div class="mark-actions">
+            <button type="button" class="join ghost" id="markCancel">Close</button>
+            <button type="submit" class="join" id="markSave">Put it on the wall</button>
+          </div>
+          <p class="mark-status" id="markStatus" aria-live="polite"></p>
+          <p class="mark-fine">One mark per person per day. We check every mark before it shows for everyone, and remove anything offensive. <a href="privacy.html">Privacy Policy</a></p>
+        </form>
+      </dialog>
       <div class="fallback" id="fallback" hidden>Your browser couldn't show the 3D view. Everything inside El Kiosko is listed alongside.</div>
     </div>
 
@@ -164,7 +229,10 @@
           <tr><td>Latin music, late at night</td></tr>
         </tbody>
       </table>
-      <a class="join wide" href="index.html#waitlist">Become a Founding Member</a>
+      <div class="spec-actions">
+        <button type="button" class="join wide ghost" id="t-draw-aside">Leave your mark on the community wall</button>
+        <a class="join wide" href="index.html#waitlist">Become a Founding Member</a>
+      </div>
       <p class="note">An early sketch, not the final design. The mural, the sign and the equipment will change once we choose the real artist, machines and location.</p>
     </aside>
   </div>
@@ -581,29 +649,32 @@ FOODS.forEach(([name, place, detail, color], i) => {
   store.add(pl);
 });
 
-// Digital community wall: a 65-inch touch screen where anyone can leave a drawing that is never erased
+// Digital community wall: a 65-inch touch screen where anyone can leave a drawing that is never erased.
+// Each mark fills the next free brick; when a wall fills up, the next one starts (Wall #2, #3…).
+const WALL_COLS = 17, WALL_ROWS = 8, WALL_PER_PAGE = WALL_COLS * WALL_ROWS;
+let wallMarks = [];
 function drawCommunityWall(g, w, h) {
   g.fillStyle = '#101418'; g.fillRect(0, 0, w, h);
   g.fillStyle = '#F6CC63'; g.font = '800 46px Archivo, sans-serif'; g.textAlign = 'left';
   g.fillText('COMMUNITY WALL', 40, 66);
   g.fillStyle = '#BDB6AD'; g.font = '500 26px Archivo, sans-serif';
   g.fillText('Leave your mark · it stays forever', 40, 104);
-  g.textAlign = 'right'; g.fillText('Wall #1 · 1,248 marks', w - 40, 66);
-  const cols = ['#F6CC63', '#D2392B', '#2DB8C5', '#7BC96F', '#D94E9A', '#F08A24', '#FFFFFF'];
-  const cs = 70, x0 = 40, y0 = 130, nx = Math.floor((w - 80) / cs), ny = Math.floor((h - 160) / cs);
-  let seed = 7;
-  const rnd = () => { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; };
-  for (let r = 0; r < ny; r++) for (let c = 0; c < nx; c++) {
+  const total = wallMarks.length;
+  const page = total === 0 ? 0 : Math.floor((total - 1) / WALL_PER_PAGE);
+  const start = page * WALL_PER_PAGE;
+  g.textAlign = 'right';
+  g.fillText(total === 0 ? 'Tap to be the first' : 'Wall #' + (page + 1) + ' · ' + total + (total === 1 ? ' mark' : ' marks'), w - 40, 66);
+  const cs = 70, x0 = 40, y0 = 130;
+  for (let r = 0; r < WALL_ROWS; r++) for (let c = 0; c < WALL_COLS; c++) {
+    const idx = start + r * WALL_COLS + c;
     const x = x0 + c * cs, y = y0 + r * cs;
     g.fillStyle = '#1B2229'; g.fillRect(x + 2, y + 2, cs - 4, cs - 4);
-    if (r === ny - 1 && c > nx - 4) {                              // the free bricks waiting for the next drawing
+    const mark = wallMarks[idx];
+    if (mark && mark._img && mark._img.complete && mark._img.naturalWidth) {
+      g.drawImage(mark._img, x + 3, y + 3, cs - 6, cs - 6);
+    } else if (idx === total) {                                     // the next free brick
       g.strokeStyle = '#F6CC63'; g.setLineDash([6, 6]); g.lineWidth = 2; g.strokeRect(x + 6, y + 6, cs - 12, cs - 12); g.setLineDash([]);
-      continue;
     }
-    g.strokeStyle = cols[Math.floor(rnd() * cols.length)]; g.lineWidth = 4; g.lineCap = 'round';
-    g.beginPath(); g.moveTo(x + 12 + rnd() * 20, y + 12 + rnd() * 40);
-    for (let k = 0; k < 4; k++) g.lineTo(x + 10 + rnd() * (cs - 20), y + 10 + rnd() * (cs - 20));
-    g.stroke();
   }
 }
 const cwTex = canvasTex(1300, 740, drawCommunityWall);
@@ -669,12 +740,164 @@ dimLine([W + 0.6, 0.03, 0], [W + 0.6, 0.03, D]);
 dimLine([W + 0.45, 0.03, 0], [W + 0.75, 0.03, 0]);
 dimLine([W + 0.45, 0.03, D], [W + 0.75, 0.03, D]);
 
+// ---------- community wall: storage ----------
+// WALL_API = the Cloudflare Worker in worker/ once it's deployed (see worker/README.md).
+// Until then, marks are kept in this visitor's browser only.
+const WALL_API = '';
+const LOCAL_KEY = 'solub_wall_marks', LAST_KEY = 'solub_wall_last';
+function readLocal() {
+  try { return JSON.parse(localStorage.getItem(LOCAL_KEY) || '[]'); } catch (err) { return []; }
+}
+function writeLocal(list) {
+  try { localStorage.setItem(LOCAL_KEY, JSON.stringify(list.slice(-50))); } catch (err) {}
+}
+function setMarks(list) {
+  wallMarks = list.map((m) => {
+    const im = new Image();
+    im.onload = () => redraw(cwTex, drawCommunityWall);
+    im.src = m.img;
+    return Object.assign({}, m, { _img: im });
+  });
+  redraw(cwTex, drawCommunityWall);
+}
+async function loadMarks() {
+  let shared = [];
+  if (WALL_API) {
+    try {
+      const res = await fetch(WALL_API + '/marks');
+      if (res.ok) shared = await res.json();
+    } catch (err) {}
+  }
+  const mine = readLocal().filter((m) => !shared.some((x) => x.id === m.id));
+  setMarks(shared.concat(mine).sort((a, b) => a.createdAt - b.createdAt));
+}
+async function saveMark(mark) {
+  writeLocal(readLocal().concat([mark]));
+  if (!WALL_API) return 'local';
+  try {
+    const res = await fetch(WALL_API + '/marks', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: mark.id, name: mark.name, img: mark.img })
+    });
+    return res.ok ? 'pending' : 'error';
+  } catch (err) { return 'error'; }
+}
+
+// ---------- community wall: drawing pad ----------
+const markDialog = document.getElementById('markDialog');
+const pad = document.getElementById('markPad');
+const padCtx = pad.getContext('2d');
+const markStatus = document.getElementById('markStatus');
+let brushColor = '#F6CC63', brushSize = 6, drawing = false, hasInk = false;
+function clearPad() {
+  padCtx.fillStyle = '#1B2229'; padCtx.fillRect(0, 0, pad.width, pad.height);
+  hasInk = false;
+}
+function padPoint(e) {
+  const r = pad.getBoundingClientRect();
+  return [(e.clientX - r.left) * pad.width / r.width, (e.clientY - r.top) * pad.height / r.height];
+}
+pad.addEventListener('pointerdown', (e) => {
+  drawing = true; hasInk = true;
+  pad.setPointerCapture(e.pointerId);
+  const [x, y] = padPoint(e);
+  padCtx.strokeStyle = brushColor; padCtx.fillStyle = brushColor;
+  padCtx.lineWidth = brushSize; padCtx.lineCap = 'round'; padCtx.lineJoin = 'round';
+  padCtx.beginPath(); padCtx.arc(x, y, brushSize / 2, 0, Math.PI * 2); padCtx.fill();
+  padCtx.beginPath(); padCtx.moveTo(x, y);
+});
+pad.addEventListener('pointermove', (e) => {
+  if (!drawing) return;
+  const [x, y] = padPoint(e);
+  padCtx.lineTo(x, y); padCtx.stroke();
+});
+['pointerup', 'pointercancel'].forEach((t) => pad.addEventListener(t, () => { drawing = false; }));
+document.querySelectorAll('.swatch').forEach((b) => b.addEventListener('click', () => {
+  brushColor = b.dataset.color;
+  document.querySelectorAll('.swatch').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+}));
+document.querySelectorAll('[data-size]').forEach((b) => b.addEventListener('click', () => {
+  brushSize = Number(b.dataset.size);
+  document.querySelectorAll('[data-size]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+}));
+document.getElementById('markClear').addEventListener('click', clearPad);
+document.getElementById('markCancel').addEventListener('click', () => markDialog.close());
+
+function todayKey() { return new Date().toISOString().slice(0, 10); }
+function openMarkDialog() {
+  setView('screen');
+  clearPad();
+  markStatus.textContent = '';
+  document.getElementById('markSave').disabled = false;
+  let last = null;
+  try { last = localStorage.getItem(LAST_KEY); } catch (err) {}
+  if (last === todayKey()) markStatus.textContent = "You've already left a mark today. Come back tomorrow for another one!";
+  if (typeof markDialog.showModal === 'function') markDialog.showModal(); else markDialog.setAttribute('open', '');
+}
+document.getElementById('t-draw').addEventListener('click', openMarkDialog);
+document.getElementById('t-draw-aside').addEventListener('click', openMarkDialog);
+
+document.getElementById('markForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  let last = null;
+  try { last = localStorage.getItem(LAST_KEY); } catch (err) {}
+  if (last === todayKey()) { markStatus.textContent = "You've already left a mark today. Come back tomorrow!"; return; }
+  if (!hasInk) { markStatus.textContent = 'Draw or sign something first.'; return; }
+  const small = document.createElement('canvas');
+  small.width = 160; small.height = 160;
+  small.getContext('2d').drawImage(pad, 0, 0, 160, 160);
+  const name = document.getElementById('markName').value.trim().slice(0, 24);
+  const email = document.getElementById('markEmail').value.trim();
+  const mark = {
+    id: (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(16).slice(2),
+    name: name, img: small.toDataURL('image/png'), createdAt: Date.now()
+  };
+  document.getElementById('markSave').disabled = true;
+  markStatus.textContent = 'Saving…';
+  const result = await saveMark(mark);
+  try { localStorage.setItem(LAST_KEY, todayKey()); } catch (err) {}
+  if (email && /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+    const fd = new FormData();
+    fd.append('name', name || 'Community wall');
+    fd.append('email', email);
+    fd.append('source', 'kiosko-3d-community-wall');
+    fd.append('timestamp', new Date().toISOString());
+    fd.append('_subject', 'New SolubFood waitlist signup (3D community wall)');
+    fetch('https://formsubmit.co/ajax/hello@teamsolub.com', { method: 'POST', headers: { Accept: 'application/json' }, body: fd }).catch(() => {});
+  }
+  await loadMarks();
+  markStatus.textContent = result === 'pending'
+    ? "Thanks! Your mark is on your screen now, and it goes up for everyone once we've checked it."
+    : result === 'error'
+      ? "Your mark is saved on this device, but we couldn't send it. Please try again later."
+      : 'Your mark is on the wall!' + (email ? " You're on the waitlist too." : '');
+});
+
+// tap the screen in 3D to draw (a drag that turns the camera doesn't count)
+const raycaster = new THREE.Raycaster();
+const ndc = new THREE.Vector2();
+let downAt = null;
+renderer.domElement.addEventListener('pointerdown', (e) => { downAt = [e.clientX, e.clientY]; });
+renderer.domElement.addEventListener('pointerup', (e) => {
+  if (!downAt) return;
+  const moved = Math.hypot(e.clientX - downAt[0], e.clientY - downAt[1]);
+  downAt = null;
+  if (moved > 6) return;
+  const r = renderer.domElement.getBoundingClientRect();
+  ndc.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
+  raycaster.setFromCamera(ndc, camera);
+  if (raycaster.intersectObject(cwScreen).length) openMarkDialog();
+});
+loadMarks();
+
 // ---------- views ----------
 const VIEWS = {
   overview: { pos: [6.2, 7.0, -6.2], target: [0, 0.6, 0.2], zoomOutOnPhone: true },
   street:   { pos: [0.1, 1.7, -7.4], target: [0, 1.3, 0.5] },
   inside:   { pos: [-0.45, 1.6, -2.45], target: [0, 1.1, 2.8] },
   wall:     { pos: [-1.45, 1.6, -0.2], target: [1.95, 1.5, -0.1] },
+  screen:   { pos: [-0.45, 1.5, 1.5], target: [1.95, 1.45, 1.5] },
   plan:     { pos: [0, 10.5, 0.01], target: [0, 0, 0], zoomOutOnPhone: true }
 };
 let tween = null;

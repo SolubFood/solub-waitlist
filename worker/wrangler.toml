@@ -1,0 +1,9 @@
+name = "solub-wall"
+main = "wall-worker.js"
+compatibility_date = "2026-10-01"
+
+# Create the store with:  npx wrangler kv namespace create WALL
+# then paste the id it prints here.
+[[kv_namespaces]]
+binding = "WALL"
+id = "PASTE_THE_KV_ID_HERE"
