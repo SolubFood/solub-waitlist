@@ -32,7 +32,7 @@ Please **do not open a public issue**. Email **hello@teamsolub.com** with the su
 - [ ] Confirm repository visibility decision (private + hosting outside GitHub Pages, see below).
 - [ ] Branch protection on `main` (require PR, 1 approval, code-owner review, no force-push).
 - [ ] Secret scanning + push protection + Dependabot alerts enabled.
-- [ ] Replace the plain email in FormSubmit `action` URLs with the FormSubmit random alias.
+- [x] Replace the plain email in FormSubmit `action` URLs with the FormSubmit random alias (done; alias delivers to hello@teamsolub.com).
 - [ ] Add Subresource Integrity to CDN scripts (verify the served files match first):
   - `three@0.160.0/build/three.min.js` → `sha384-qOkzR5Ke/XkQxuGVJ9hpFEpDlcoLtWwVYhnJf06cLIZa2vaIptSqaubivErzmD5O`
   - `globe.gl@2.32.2/dist/globe.gl.min.js` → `sha384-omA7e/C7sSgm+cS3cQxKAjoJBfEm7k16J89V3IGabhNrgGWk0sNJ0seEY+p5JfG5`
