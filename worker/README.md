@@ -28,12 +28,19 @@ Usa **Cloudflare Workers + KV**, que es gratis para este uso.
 
 ## Revisar los dibujos
 
-Abre `https://solub-wall.<tu-cuenta>.workers.dev/admin?key=<tu ADMIN_KEY>`.
+Abre `https://solub-wall.<tu-cuenta>.workers.dev/admin` y escribe tu `ADMIN_KEY` en el campo de contraseña.
 Ahí ves los dibujos nuevos y tocas **Approve** (aparece para todos) o **Reject** (se borra).
-Un dibujo aprobado no se borra nunca.
+Un dibujo aprobado no se borra nunca. Usa **Log out** al terminar.
+
+Seguridad del panel:
+- La contraseña **nunca va en la URL** (las URLs quedan en el historial y en registros).
+- La sesión dura 8 horas, en una cookie `HttpOnly`, `Secure`, `SameSite=Strict`.
+- Máximo 5 intentos de contraseña por hora por IP.
+- Usa una `ADMIN_KEY` larga y aleatoria (por ejemplo, 24+ caracteres de un gestor de contraseñas).
 
 ## Reglas que ya trae
 
 - 1 dibujo por persona al día.
 - Cada dibujo es una imagen pequeña (160 × 160 px).
 - Solo acepta pedidos desde solubfood.com.
+- Solo acepta imágenes PNG válidas (bloquea código escondido en la imagen).
