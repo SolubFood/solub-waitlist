@@ -1,0 +1,11 @@
+// Configuración de Cloudflare Workers para publicar solubfood.com.
+// Publica SOLO la carpeta dist/ (la arma build.sh), no todo el repositorio.
+// En Cloudflare → solub-waitlist → Settings → Build: Build command = bash build.sh
+{
+  "name": "solub-waitlist",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  }
+}

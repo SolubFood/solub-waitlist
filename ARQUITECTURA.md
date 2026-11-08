@@ -11,7 +11,7 @@
 | Qué | Dónde |
 |---|---|
 | Código fuente (la única versión oficial) | GitHub → `SolubFood/solub-waitlist`, rama **`main`** |
-| Web publicada | **solubfood.com**, servida por **Cloudflare Pages** (build: `bash build.sh` → carpeta `dist/`) |
+| Web publicada | **solubfood.com**, servida por **Cloudflare Workers** (proyecto `solub-waitlist`; build: `bash build.sh` → carpeta `dist/`, configurado en `wrangler.jsonc`) |
 | Cambios hechos con Claude Code | Llegan como ramas `claude/...` y se unen a `main` mediante un Pull Request |
 | Copia en el computador de Benjamín | Opcional, con GitHub Desktop (no es la fuente oficial) |
 
@@ -34,8 +34,9 @@ solub-waitlist/
 ├── terms.html            Términos de uso
 ├── robots.txt, sitemap.xml, favicon*, apple-touch-icon.png   SEO e íconos
 ├── CNAME                 Dominio (usado solo por GitHub Pages)
-├── build.sh              Copia solo los archivos públicos a dist/ para Cloudflare Pages
-├── _headers              Cabeceras de seguridad (Cloudflare Pages)
+├── build.sh              Copia solo los archivos públicos a dist/
+├── wrangler.jsonc        Configuración de Cloudflare: publica solo dist/
+├── _headers              Cabeceras de seguridad (Cloudflare)
 ├── assets/
 │   ├── img/              Imágenes, logos, pósters de video
 │   ├── videos/           Videos de la web (.mp4)

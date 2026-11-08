@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# Build para Cloudflare Pages: copia SOLO los archivos públicos de la web a dist/.
+# Build para Cloudflare (Workers): copia SOLO los archivos públicos de la web a dist/.
 # Así no se publican worker/, design-reference/, ARQUITECTURA.md, SECURITY.md, .github/, etc.
-# Cloudflare Pages → Build command: bash build.sh   |   Build output directory: dist
+# Cloudflare → Settings → Build → Build command: bash build.sh   (wrangler.jsonc publica dist/)
 set -euo pipefail
 rm -rf dist
 mkdir -p dist
