@@ -1,0 +1,13 @@
+# Quién debe aprobar cambios antes de que lleguen a `main`.
+# Reemplaza los nombres por los usuarios reales de GitHub (con @) y quita el "#" del inicio.
+# Funciona junto con la regla "Require review from Code Owners" en Settings → Branches.
+
+# Todo el sitio: el responsable de seguridad revisa
+# *                     @usuario-experto-seguridad
+
+# Servidor del muro y formularios: revisión obligatoria de seguridad
+# /worker/              @usuario-experto-seguridad
+# /index.html           @usuario-experto-seguridad
+# /kitchen.html         @usuario-experto-seguridad
+# /checkin.html         @usuario-experto-seguridad
+# /cancel.html          @usuario-experto-seguridad
