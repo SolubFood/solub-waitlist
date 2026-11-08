@@ -864,7 +864,7 @@ document.getElementById('markForm').addEventListener('submit', async (e) => {
     fd.append('source', 'kiosko-3d-community-wall');
     fd.append('timestamp', new Date().toISOString());
     fd.append('_subject', 'New SolubFood waitlist signup (3D community wall)');
-    fetch('https://formsubmit.co/ajax/hello@teamsolub.com', { method: 'POST', headers: { Accept: 'application/json' }, body: fd }).catch(() => {});
+    fetch('https://formsubmit.co/ajax/9db1dd62560dc0a344859f22e210ae98', { method: 'POST', headers: { Accept: 'application/json' }, body: fd }).catch(() => {});
   }
   await loadMarks();
   markStatus.textContent = result === 'pending'
