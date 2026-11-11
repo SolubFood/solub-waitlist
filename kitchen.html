@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://formsubmit.co; form-action 'self' https://formsubmit.co; base-uri 'self'; object-src 'none';">
 <title>SolubFood — Kitchen</title>
 <meta name="description" content="Meet the Latin cooks behind El Kiosko by SolubFood, or join them: cook your home-style Latin food and sell it late into the night on the Gold Coast, as part of the SolubFood kitchen team.">
-<meta name="theme-color" content="#FFFFFF">
+<meta name="theme-color" content="#E74426">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
@@ -15,6 +15,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Inter:wght@400;500;600&display=swap">
 <style>
+  .site-logo { display: inline-flex; align-items: center; line-height: 0; }
+  .site-logo img { width: 52px; height: 52px; display: block; }
+  .footer-brand .wordmark img { width: 72px; height: 72px; display: block; }
+  @media (max-width: 860px) { .site-logo img { width: 44px; height: 44px; } }
   section[id] { scroll-margin-top: 76px; }
   :root {
     --bg: #FFFFFF;
@@ -192,7 +196,7 @@
 
 <header class="site-header">
   <div class="wrap header-row">
-    <a href="index.html" class="site-logo">SolubFood</a>
+    <a href="index.html" class="site-logo" aria-label="SolubFood, home"><img src="assets/img/solubfood-logo.svg" alt="SolubFood" width="52" height="52"></a>
     <nav class="main-nav" id="mainNav" aria-label="Main">
       <a href="index.html#kiosko">El Kiosko</a>
       <a href="#top" aria-current="page">Kitchen</a>
@@ -366,7 +370,7 @@
 <footer class="site-footer">
   <div class="wrap footer-row">
     <div>
-      <div class="wordmark">SolubFood</div>
+      <div class="wordmark"><img src="assets/img/solubfood-logo.svg" alt="SolubFood" width="72" height="72"></div>
       <p>Real over perfect.</p>
     </div>
     <div class="footer-links">
