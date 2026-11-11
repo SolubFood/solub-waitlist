@@ -21,20 +21,21 @@
   @media (max-width: 860px) { .site-logo img { width: 44px; height: 44px; } }
   section[id] { scroll-margin-top: 76px; }
   :root {
-    --bg: #FFFFFF;
-    --cream: #F4F1EC;
+    --bg: #F6E9D7;
+    --cream: #FFFFFF;
     --ink: #1A1714;
     --ink-soft: #3D3833;
     --ink-muted: #5C5650;
-    --accent: #B42318;
-    --accent-dark: #8F1D13;
-    --line: #E6E1DA;
-    --line-strong: #DCD5CC;
-    --input-border: #BDB5AA;
-    --dark-bg: #1A1714;
-    --dark-border: #3A342E;
-    --dark-muted: #BDB6AD;
-    --dark-text: #D9D3CB;
+    --accent: #E74426;
+    --accent-dark: #C93A1F;
+    --line: #E8D7BF;
+    --line-strong: #DCC6A8;
+    --input-border: #C2A988;
+    --dark-bg: #E74426;
+    --dark-card: rgba(0,0,0,0.12);
+    --dark-border: rgba(246,233,215,0.38);
+    --dark-muted: #F6E9D7;
+    --dark-text: #F6E9D7;
   }
   * { box-sizing: border-box; }
   body {
@@ -188,8 +189,18 @@
   .footer-row p { font-size: 15px; color: var(--dark-text); margin: 6px 0 0; }
   .footer-links { display: flex; flex-wrap: wrap; gap: 24px; align-items: center; }
   .footer-links a { color: #FFFFFF; text-decoration: none; font-size: 15px; }
-  .footer-links a:hover, .footer-links a:focus-visible { color: #F6CC63; }
+  .footer-links a:hover, .footer-links a:focus-visible { color: #F6E9D7; }
   .footer-links span { font-size: 13px; color: var(--dark-muted); }
+
+  /* ---------- brand palette: rojo ají #E74426 · masa #F6E9D7 · rosa #E688B7 ---------- */
+  .origins .btn.primary, .kiosko .btn.primary, .site-footer .btn.primary { background: #F6E9D7; color: #E74426; }
+  .origins .btn.primary:hover, .kiosko .btn.primary:hover { background: #FFFFFF; color: #C93A1F; }
+  .kiosko .btn.outline-dark:hover, .origins .btn.outline-dark:hover { color: #E74426; }
+  .waitlist { background: #E688B7 !important; }
+  .waitlist .waitlist-perks svg path, .waitlist .waitlist-perks svg polyline { stroke: #1A1714; }
+  .country-chip[aria-pressed="true"] { background: #E688B7 !important; border-color: #E688B7 !important; color: #1A1714 !important; }
+  .cook-avatar { background: #E688B7 !important; color: #1A1714 !important; }
+  .episode-still.ep1, .episode-still.ep2, .episode-still.ep3 { background: rgba(0,0,0,0.14); color: #F6E9D7; }
 </style>
 </head>
 <body>

@@ -28,21 +28,22 @@
   @media (max-width: 860px) { .site-logo img { width: 44px; height: 44px; } }
   section[id] { scroll-margin-top: 76px; }
   :root {
-    --bg: #FFFFFF;
-    --cream: #F4F1EC;
+    --bg: #F6E9D7;
+    --cream: #FFFFFF;
     --ink: #1A1714;
     --ink-soft: #3D3833;
     --ink-muted: #5C5650;
-    --accent: #B42318;
-    --accent-dark: #8F1D13;
-    --line: #E6E1DA;
-    --line-strong: #DCD5CC;
-    --input-border: #BDB5AA;
-    --dark-bg: #1A1714;
-    --dark-card: #24201C;
-    --dark-border: #3A342E;
-    --dark-muted: #BDB6AD;
-    --dark-text: #D9D3CB;
+    --accent: #E74426;
+    --accent-dark: #C93A1F;
+    --line: #E8D7BF;
+    --line-strong: #DCC6A8;
+    --input-border: #C2A988;
+    --dark-bg: #E74426;
+    --dark-card: rgba(0,0,0,0.12);
+    --dark-card: rgba(0,0,0,0.12);
+    --dark-border: rgba(246,233,215,0.38);
+    --dark-muted: #F6E9D7;
+    --dark-text: #F6E9D7;
   }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -196,7 +197,7 @@
   }
   .cookie-banner[hidden] { display: none; }
   .cookie-banner p { margin: 0; font-size: 14px; line-height: 1.5; color: var(--dark-text); }
-  .cookie-banner p a { color: #F6CC63; }
+  .cookie-banner p a { color: #F6E9D7; }
   .cookie-banner-actions { display: flex; gap: 10px; flex-shrink: 0; }
   .cookie-banner .btn { min-height: 40px; padding: 0 18px; font-size: 14px; }
   .cookie-banner .btn.ghost-light { color: var(--dark-text); border-color: var(--dark-border); }
@@ -335,7 +336,7 @@
   .episode-title { font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 20px; margin: 8px 0 8px; color: #FFFFFF; }
   .episode-status { font-size: 14px; color: var(--dark-text); }
   .origins-follow { display: inline-flex; align-items: center; min-height: 44px; margin-top: 28px; color: #FFFFFF; font-weight: 600; font-size: 16px; text-decoration: none; }
-  .origins-follow:hover, .origins-follow:focus-visible { color: #F6CC63; }
+  .origins-follow:hover, .origins-follow:focus-visible { color: #F6E9D7; }
   .origins-actions { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; margin-top: 28px; }
   .origins-actions .origins-follow { margin-top: 0; }
 
@@ -370,11 +371,11 @@
     transition: opacity 0.35s ease;
   }
   .vision-card::before {
-    background-image: radial-gradient(240px 240px at calc(var(--mx, -9999) * 1px) calc(var(--my, -9999) * 1px), rgba(180,35,24,0.14), transparent 70%);
+    background-image: radial-gradient(240px 240px at calc(var(--mx, -9999) * 1px) calc(var(--my, -9999) * 1px), rgba(231,68,38,0.14), transparent 70%);
   }
   .vision-card::after {
     padding: 2px;
-    background-image: radial-gradient(200px 200px at calc(var(--mx, -9999) * 1px) calc(var(--my, -9999) * 1px), rgba(180,35,24,0.6), transparent 70%);
+    background-image: radial-gradient(200px 200px at calc(var(--mx, -9999) * 1px) calc(var(--my, -9999) * 1px), rgba(231,68,38,0.6), transparent 70%);
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
@@ -466,7 +467,7 @@
   .word-country { font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
   .word-term { font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 36px; letter-spacing: -0.02em; line-height: 1.05; margin: 10px 0 0; }
   .word-hint { margin-top: auto; font-size: 13px; color: var(--ink-muted); }
-  .word-say { font-size: 13px; color: #F6CC63; font-weight: 600; letter-spacing: 0.04em; }
+  .word-say { font-size: 13px; color: #F6E9D7; font-weight: 600; letter-spacing: 0.04em; }
   .word-meaning { font-size: 16px; line-height: 1.45; color: #FFFFFF; margin: 8px 0 0; }
   .word-aussie { margin-top: auto; padding-top: 12px; border-top: 1px solid var(--dark-border); font-size: 14px; color: var(--dark-text); }
   .word-aussie strong { color: #FFFFFF; }
@@ -482,7 +483,7 @@
   }
 
   /* ---------- el kiosko ---------- */
-  .kiosko { padding: 96px 0; background: #0F0D0B; color: #FFFFFF; }
+  .kiosko { padding: 96px 0; background: var(--dark-bg); color: #FFFFFF; }
   .kiosko-head { display: flex; flex-wrap: wrap; align-items: center; gap: 40px; margin-bottom: 44px; }
   .kiosko-copy { flex: 1 1 480px; min-width: 0; }
   .kiosko-copy h2 { font-size: clamp(34px, 4.6vw, 58px); line-height: 1.02; color: #FFFFFF; margin: 14px 0 18px; max-width: 16ch; }
@@ -495,9 +496,9 @@
     max-width: 340px;
     padding: 30px 26px;
     border-radius: 20px;
-    border: 2px solid #F6CC63;
-    background: radial-gradient(circle at 50% 0%, rgba(246,204,99,0.16), transparent 70%), var(--dark-card);
-    box-shadow: 0 0 40px -8px rgba(246,204,99,0.45), inset 0 0 24px -10px rgba(246,204,99,0.5);
+    border: 2px solid #F6E9D7;
+    background: radial-gradient(circle at 50% 0%, rgba(246,233,215,0.16), transparent 70%), var(--dark-card);
+    box-shadow: 0 0 40px -8px rgba(246,233,215,0.45), inset 0 0 24px -10px rgba(246,233,215,0.5);
     text-align: center;
   }
   .kiosko-sign .sign-small { font-size: 12px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dark-muted); }
@@ -507,8 +508,8 @@
     font-size: clamp(40px, 6vw, 56px);
     letter-spacing: -0.02em;
     line-height: 1;
-    color: #F6CC63;
-    text-shadow: 0 0 18px rgba(246,204,99,0.55);
+    color: #F6E9D7;
+    text-shadow: 0 0 18px rgba(246,233,215,0.55);
     margin: 10px 0 14px;
   }
   .kiosko-sign .sign-open {
@@ -531,10 +532,10 @@
   }
   .kiosko-grid { display: flex; flex-wrap: wrap; gap: 18px; margin-bottom: 44px; }
   .kiosko-card { flex: 1 1 230px; min-width: 0; background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: 18px; padding: 24px; }
-  .kiosko-card .kicker { font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 14px; color: #F6CC63; letter-spacing: 0.08em; }
+  .kiosko-card .kicker { font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 14px; color: #F6E9D7; letter-spacing: 0.08em; }
   .kiosko-card h3 { font-size: 21px; color: #FFFFFF; margin: 8px 0 8px; }
   .kiosko-card p { font-size: 15px; line-height: 1.5; color: var(--dark-text); margin: 0; }
-  .kiosko-card a { color: #F6CC63; }
+  .kiosko-card a { color: #F6E9D7; }
   .kiosko-card a:hover, .kiosko-card a:focus-visible { color: #FFFFFF; }
   .kiosko-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 22px; padding-top: 32px; border-top: 1px solid var(--dark-border); }
   .kiosko-foot h3 { font-size: 24px; color: #FFFFFF; margin: 0 0 6px; }
@@ -591,7 +592,7 @@
   .form-fine { font-size: 13px; line-height: 1.5; color: var(--ink-muted); margin: 0; }
   .form-status { margin: 0; font-size: 14px; min-height: 1.2em; }
   .form-status.success { color: var(--accent-dark); }
-  .form-status.error { color: #B42318; }
+  .form-status.error { color: #E74426; }
   .form-honey { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
   .member-qr { display: flex; flex-direction: column; gap: 12px; align-items: center; text-align: center; }
   .member-qr[hidden] { display: none; }
@@ -644,7 +645,7 @@
   .footer-col { flex: 1 1 150px; min-width: 0; display: flex; flex-direction: column; gap: 9px; }
   .footer-col .title { font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dark-muted); margin-bottom: 4px; }
   .footer-col a { color: #FFFFFF; text-decoration: none; font-size: 15px; }
-  .footer-col a:hover, .footer-col a:focus-visible { color: #F6CC63; }
+  .footer-col a:hover, .footer-col a:focus-visible { color: #F6E9D7; }
   .footer-bottom { font-size: 13px; color: var(--dark-muted); margin: 22px 0 0; }
 
   @media (max-width: 680px) {
@@ -669,6 +670,16 @@
     .kiosko-actions .btn, .kitchen-actions .btn { flex: 1 1 100%; }
     .footer-grid { gap: 28px; }
   }
+
+  /* ---------- brand palette: rojo ají #E74426 · masa #F6E9D7 · rosa #E688B7 ---------- */
+  .origins .btn.primary, .kiosko .btn.primary, .site-footer .btn.primary { background: #F6E9D7; color: #E74426; }
+  .origins .btn.primary:hover, .kiosko .btn.primary:hover { background: #FFFFFF; color: #C93A1F; }
+  .kiosko .btn.outline-dark:hover, .origins .btn.outline-dark:hover { color: #E74426; }
+  .waitlist { background: #E688B7 !important; }
+  .country-chip[aria-pressed="true"] { background: #E688B7 !important; border-color: #E688B7 !important; color: #1A1714 !important; }
+  .kiosko-sign .sign-open::before { background: #E688B7; box-shadow: 0 0 10px #E688B7; }
+  .cook-avatar { background: #E688B7 !important; color: #1A1714 !important; }
+  .episode-still.ep1, .episode-still.ep2, .episode-still.ep3 { background: rgba(0,0,0,0.14); color: #F6E9D7; }
 </style>
 </head>
 <body>
@@ -758,9 +769,9 @@
       <h2>Be the first to taste Latin America on the Gold Coast.</h2>
       <p>Join free in 30 seconds. The first 250 members become Founding Members of SolubFood and El Kiosko.</p>
       <div class="waitlist-perks">
-        <div><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B42318" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>First taste of El Kiosko's home-style Latin food</div>
-        <div><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B42318" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>Free invites to Latin tasting nights</div>
-        <div><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B42318" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>Your Founding Member QR, and a vote on where El Kiosko opens</div>
+        <div><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A1714" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>First taste of El Kiosko's home-style Latin food</div>
+        <div><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A1714" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>Free invites to Latin tasting nights</div>
+        <div><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A1714" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>Your Founding Member QR, and a vote on where El Kiosko opens</div>
       </div>
     </div>
 
@@ -1472,7 +1483,7 @@
     ];
     var LATAM = ['MEX', 'GTM', 'HND', 'SLV', 'NIC', 'CRI', 'PAN', 'CUB', 'DOM', 'HTI',
                  'COL', 'VEN', 'ECU', 'PER', 'BOL', 'BRA', 'PRY', 'URY', 'ARG', 'CHL'];
-    var HIGHLIGHT = { AUS: '#B42318' };
+    var HIGHLIGHT = { AUS: '#E74426' };
     LATAM.forEach(function (iso) { HIGHLIGHT[iso] = '#E0A42A'; });
 
     var ARCS = ROUTES.map(function (r) {
@@ -1488,7 +1499,7 @@
     var g = Globe()(el)
       .backgroundColor('rgba(0,0,0,0)')
       .showAtmosphere(true)
-      .atmosphereColor('#B42318')
+      .atmosphereColor('#E74426')
       .atmosphereAltitude(0.22)
       .polygonsData([])
       .polygonCapColor(function (feat) { return HIGHLIGHT[isoOf(feat)] || 'rgba(255,255,255,0.05)'; })
