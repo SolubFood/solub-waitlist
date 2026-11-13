@@ -78,13 +78,18 @@
   .buy[aria-disabled="true"] { background: #8A7E76; cursor: default; }
   .pack .note { font-family: 'Space Mono', monospace; font-size: 12px; color: var(--ink-muted); margin: 8px 0 0; text-align: center; }
 
-  /* how it works */
-  .steps { display: grid; grid-template-columns: 1fr; gap: 12px; counter-reset: s; }
-  @media (min-width: 760px) { .steps { grid-template-columns: repeat(4, 1fr); } }
-  .step { border: 1px solid var(--line); border-radius: 18px; padding: 16px; }
-  .step b { display: block; font-family: 'Bricolage Grotesque', sans-serif; font-size: 19px; margin-bottom: 4px; }
-  .step b::before { counter-increment: s; content: counter(s) " · "; color: var(--red-dk); }
-  .step p { margin: 0; color: var(--ink-muted); font-size: 16px; }
+  /* trust */
+  .trust { display: grid; grid-template-columns: 1fr; gap: 12px; }
+  @media (min-width: 760px) { .trust { grid-template-columns: repeat(3, 1fr); } .trust .people { grid-row: span 2; } }
+  .trust-card { border: 1px solid var(--line); border-radius: 18px; padding: 16px; }
+  .trust-card.people { background: var(--cream); border-color: transparent; }
+  .trust-card b { display: block; font-family: 'Bricolage Grotesque', sans-serif; font-size: 19px; margin: 6px 0 4px; }
+  .trust-card p { margin: 0; color: var(--ink-muted); font-size: 16px; }
+  .trust-card .icon { font-size: 24px; }
+  .faces { display: flex; }
+  .faces img, .face-g { width: 56px; height: 56px; border-radius: 999px; border: 3px solid var(--cream); object-fit: cover; object-position: 50% 42%; }
+  .face-g { margin-left: -12px; background: var(--pink); color: #FFF; display: flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 22px; }
+  .launch-line { font-family: 'Space Mono', monospace; font-size: 12.5px; color: var(--red-dk); margin: -6px 0 12px; }
 
   /* notify */
   .notify { background: var(--cream); border-radius: 22px; padding: 22px 20px; margin-top: 40px; }
@@ -136,12 +141,37 @@
   <p class="sub">Three recipes, three packs. Every pack is free delivery in our Gold Coast zone.</p>
   <div class="packs" id="packList"><!-- filled from DROP_CONFIG below --></div>
 
-  <h2>How it works</h2>
-  <div class="steps">
-    <div class="step"><b>Order</b><p>Pick a pack and pay securely by card, Apple Pay or Google Pay (via Stripe).</p></div>
-    <div class="step"><b>We cook</b><p>Tuesday, in a licensed commercial kitchen in Gold Coast. Every batch is temperature-checked.</p></div>
-    <div class="step"><b>We freeze</b><p>Frozen the same day at −18 °C, labelled with the date it was made.</p></div>
-    <div class="step"><b>Thursday</b><p>Delivered to your door between 5 and 8 pm. Heat and eat whenever you like.</p></div>
+  <h2>Real people. A real kitchen.</h2>
+  <p class="sub">You're buying food from people you can see, cooked where it should be.</p>
+  <div class="trust">
+    <div class="trust-card people">
+      <div class="faces">
+        <img src="assets/img/benjamin.jpg" alt="Benjamin Arevalo" width="56" height="56">
+        <span class="face-g" aria-hidden="true">G</span>
+      </div>
+      <b>Benjamin &amp; Gibril</b>
+      <p>The founders. We pack every order and answer every message ourselves — <a href="https://www.instagram.com/solubfood/" target="_blank" rel="noopener noreferrer">@solubfood</a>.</p>
+    </div>
+    <div class="trust-card">
+      <span class="icon" aria-hidden="true">🏠</span>
+      <b>Licensed commercial kitchen</b>
+      <p>We cook in a council-licensed commercial kitchen in Gold Coast — never a home kitchen.</p>
+    </div>
+    <div class="trust-card">
+      <span class="icon" aria-hidden="true">🌡️</span>
+      <b>Every batch logged</b>
+      <p>Cooked to 75 °C in the centre, cooled by food-safety rules and frozen at −18 °C. Each label carries its batch code and the date it was made.</p>
+    </div>
+    <div class="trust-card">
+      <span class="icon" aria-hidden="true">📲</span>
+      <b>Watch us cook</b>
+      <p>Cooking day goes live on our <a href="https://www.instagram.com/solubfood/" target="_blank" rel="noopener noreferrer">Instagram stories</a> — the kitchen, the food, the people.</p>
+    </div>
+    <div class="trust-card">
+      <span class="icon" aria-hidden="true">🔒</span>
+      <b>Secure checkout</b>
+      <p>Payment by Stripe. SolubFood never sees your card. Registered Australian business — ABN 71 700 489 661.</p>
+    </div>
   </div>
 
   <section class="notify" id="notify" aria-labelledby="notifyTitle">
@@ -183,7 +213,10 @@
        In Stripe, set "Limit the number of payments" on each link: that is the
        REAL cap. Stripe closes the link by itself when it is reached.
      - soldOut: set to true when Stripe closes a link (or to close a pack early).
-     - Prices are PLACEHOLDERS (AU$26 per serve × serves). Confirm with the
+     - launchOffer: while active, ONLY the Trial Pack is on sale, at a near-cost
+       launch price, capped at 30 packs (set the same limit on its Stripe link).
+       Turn active to false after the 30 are sold: the 3 packs open at regular prices.
+     - Prices: reasonable-market proposal (A$16–18 per serve). Confirm with the
        investor spreadsheet before launch.
      - Allergens: VERIFY WITH THE REAL RECIPE CARDS before launch.
      Never show a "packs left" number that is not true (Australian Consumer Law).
@@ -192,6 +225,10 @@
     firstCutoff: '2027-02-07',        // Sunday of the first drop (YYYY-MM-DD, Brisbane time)
     cutoffHour: 20,                   // Sunday 8 pm Brisbane
     packsPerDrop: 40,                 // real total cap across all packs (shown to customers)
+    launchOffer: {                    // first 30 Trial Packs at near-cost price
+      active: true, packId: 'trial', priceAud: 45, cap: 30,
+      stripeLink: ''                  // separate Stripe link: price A$45, "limit payments" = 30
+    },
     whatsapp: '',                     // e.g. '61400000000' — leave empty to hide
     suburbs: ['Southport', 'Surfers Paradise', 'Bundall', 'Broadbeach', 'Main Beach', 'Benowa', 'Ashmore', 'Labrador', 'Mermaid Beach', 'Nerang', 'Robina'],
     packs: [
@@ -199,21 +236,21 @@
         id: 'trial', featured: true, tag: 'Start here',
         name: 'Trial Pack', forWho: 'Never tried us? One of each — find your favourite.',
         items: [['Empanadas de pino (3)', '1 serve'], ['Pastel de choclo', '1 serve'], ['Asado mixto', '1 serve']],
-        serves: 3, priceAud: 78, allergens: 'TBC',
+        serves: 3, priceAud: 54, allergens: 'TBC',
         stripeLink: '', soldOut: false
       },
       {
         id: 'empanadas', tag: 'Most shared',
         name: 'Empanada Pack', forWho: 'Our baked beef empanadas. Made for sharing.',
         items: [['Empanadas de pino', '12 empanadas'], ['Serves', '4']],
-        serves: 4, priceAud: 104, allergens: 'TBC',
+        serves: 4, priceAud: 64, allergens: 'TBC',
         stripeLink: '', soldOut: false
       },
       {
         id: 'week', tag: 'Best for the week',
         name: 'Week Pack', forWho: 'Six protein-packed dinners sorted.',
         items: [['Empanadas de pino (3)', '2 serves'], ['Pastel de choclo', '2 serves'], ['Asado mixto', '2 serves']],
-        serves: 6, priceAud: 156, allergens: 'TBC',
+        serves: 6, priceAud: 102, allergens: 'TBC',
         stripeLink: '', soldOut: false
       }
     ]
@@ -245,7 +282,14 @@
     document.getElementById('dropNumber').textContent = launched ? 'Drop #' + dropNo : 'First drop · opens soon';
     document.getElementById('cutoffChip').textContent = 'Order by Sun ' + fmt(cutoffBne) + ', 8 pm';
     document.getElementById('deliveryChip').textContent = 'Delivered Thu ' + fmt(delivery) + ', 5–8 pm';
-    document.getElementById('capChip').textContent = 'Only ' + cfg.packsPerDrop + ' packs this drop';
+    var launch = cfg.launchOffer && cfg.launchOffer.active ? cfg.launchOffer : null;
+    document.getElementById('capChip').textContent = launch
+      ? 'Launch: first ' + launch.cap + ' Trial Packs at A$' + launch.priceAud
+      : 'Only ' + cfg.packsPerDrop + ' packs this drop';
+    if (launch) {
+      document.getElementById('dropTitle').textContent = 'Our first ' + launch.cap + ' packs, at launch price.';
+      document.getElementById('dropIntro').textContent = 'Homemade Latin American meals, frozen the day they\'re cooked. To meet you, our first ' + launch.cap + ' Trial Packs are almost at cost — then we go back to small weekly drops.';
+    }
     document.getElementById('suburbList').textContent = 'Free delivery to: ' + cfg.suburbs.join(', ') + '. Outside these suburbs? Leave your email below and tell us where you are.';
 
     // Before launch the countdown runs to the opening of the first drop; after, to the cut-off.
@@ -281,16 +325,23 @@
       p.items.forEach(function (it) { var li = el('li'); li.appendChild(el('span', null, it[0])); li.appendChild(el('span', null, it[1])); ul.appendChild(li); });
       var al = el('li'); al.appendChild(el('span', null, 'Allergens')); al.appendChild(el('span', null, p.allergens === 'TBC' ? 'listed before launch' : p.allergens)); ul.appendChild(al);
       card.appendChild(ul);
+      // During the launch offer only the Trial Pack sells, at the launch price and on its own Stripe link.
+      var isLaunchPack = launch && launch.packId === p.id;
+      var locked = launch && !isLaunchPack;
+      var price = isLaunchPack ? launch.priceAud : p.priceAud;
+      var link = isLaunchPack ? launch.stripeLink : p.stripeLink;
       var pr = el('div', 'price-row');
-      pr.appendChild(el('span', 'price', 'A$' + p.priceAud));
-      pr.appendChild(el('span', 'per', 'A$' + (p.priceAud / p.serves).toFixed(2) + ' / serve · free delivery'));
+      pr.appendChild(el('span', 'price', 'A$' + price));
+      pr.appendChild(el('span', 'per', 'A$' + (price / p.serves).toFixed(2) + ' / serve · free delivery'));
       card.appendChild(pr);
+      if (isLaunchPack) card.appendChild(el('p', 'launch-line', 'Launch price · first ' + launch.cap + ' packs only · then A$' + p.priceAud));
+      if (locked) card.appendChild(el('p', 'launch-line', 'Opens after our first ' + launch.cap + ' Trial Packs'));
 
-      var open = launched && p.stripeLink && /^https:\/\/buy\.stripe\.com\//.test(p.stripeLink) && !p.soldOut;
+      var open = !locked && launched && link && /^https:\/\/buy\.stripe\.com\//.test(link) && !p.soldOut;
       if (open) allSold = false;
-      var btn = el('a', 'buy', open ? 'Get the ' + p.name : (p.soldOut ? 'Sold out — notify me' : 'Opens soon — notify me'));
+      var btn = el('a', 'buy', open ? 'Get the ' + p.name : (p.soldOut ? 'Sold out — notify me' : (locked ? 'Coming soon — notify me' : 'Opens soon — notify me')));
       if (open) {
-        btn.href = p.stripeLink + (p.stripeLink.indexOf('?') < 0 ? '?' : '&') + 'client_reference_id=drop' + dropNo + '-' + p.id;
+        btn.href = link + (link.indexOf('?') < 0 ? '?' : '&') + 'client_reference_id=drop' + dropNo + '-' + p.id + (isLaunchPack ? '-launch' : '');
         btn.rel = 'noopener';
       } else {
         btn.href = '#notify';
