@@ -28,6 +28,7 @@ solub-waitlist/
 ├── tickets.html          Términos de entradas a eventos
 ├── checkin.html          Check-in en eventos (formulario)
 ├── cancel.html           Cancelar membresía (formulario)
+├── drop.html             Venta semanal de packs ("Drop"): botones a Stripe Payment Links + formulario "avísame"
 ├── kiosko-3d.html        Kiosko 3D + muro de dibujos de la comunidad
 ├── map-globe.html        Globo 3D interactivo
 ├── privacy.html          Política de privacidad
@@ -54,10 +55,11 @@ solub-waitlist/
 |---|---|---|---|
 | **FormSubmit** (formsubmit.co) | Recibir los formularios y enviarlos por email a `hello@teamsolub.com` (vía código alias, el email no aparece en el formulario) | `index.html`, `kitchen.html`, `checkin.html`, `cancel.html` (atributo `action` del `<form>`) | Nombre, email y datos que la persona escribe (datos personales) |
 | **jsDelivr** (cdn.jsdelivr.net) | Librerías 3D: `three@0.160.0`, `globe.gl@2.32.2` y mapa de países | `index.html`, `map-globe.html` | Ninguno (solo descarga) |
+| **Stripe** (buy.stripe.com) | Pago de los packs del Drop (página de pago alojada por Stripe) | `drop.html` → `DROP_CONFIG.packs[].stripeLink` | Datos de pago: van directo a Stripe, **nunca** pasan por la web |
 | **Google Fonts** | Tipografías | Varias páginas | Ninguno (IP del visitante) |
 | **Cloudflare Workers + KV** | Guardar dibujos del muro | `worker/` y `const WALL_API` en `kiosko-3d.html` | Dibujo (PNG 160×160) y nombre opcional. **Aún no publicado** (`WALL_API` vacío) |
 
-No hay base de datos propia, login de usuarios ni pagos en esta web.
+No hay base de datos propia ni login en esta web. Los pagos del Drop se hacen **en Stripe** (la web solo enlaza); la tarjeta nunca toca solubfood.com.
 
 ## 4. Claves y secretos
 

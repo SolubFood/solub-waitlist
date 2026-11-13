@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://formsubmit.co; form-action 'self' https://formsubmit.co; base-uri 'self'; object-src 'none';">
+<title>The Weekly Drop — SolubFood</title>
+<meta name="description" content="Homemade Latin American frozen meals, cooked once a week in Gold Coast. Limited packs every drop — order by Sunday 8 pm, delivered Thursday.">
+<meta name="theme-color" content="#E74426">
+<!-- noindex until the first drop is live; remove this line at launch and add drop.html to sitemap.xml -->
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&family=Newsreader:ital,wght@0,400;0,500;0,600&family=Space+Mono:wght@400;700&display=swap">
+<style>
+  :root {
+    --red: #E74426; --red-dk: #C93A1F; --cream: #F6E9D7; --pink: #E688B7;
+    --bg: #FFFFFF; --ink: #1A1A1A; --ink-muted: #5C5C5C; --line: rgba(0,0,0,0.12);
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: 'Newsreader', Georgia, serif; font-size: 17px; line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 16px; }
+  .mono { font-family: 'Space Mono', monospace; }
+  a { color: var(--red-dk); }
+
+  /* header */
+  .top { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; }
+  .top a.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); }
+  .top img { width: 40px; height: 40px; }
+  .top .brand span { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 18px; }
+  .top .help { font-family: 'Space Mono', monospace; font-size: 13px; text-decoration: none; color: var(--ink-muted); }
+
+  /* hero */
+  .hero { background: var(--red); color: #FFFFFF; border-radius: 24px; padding: 28px 22px 26px; margin-top: 4px; }
+  .eyebrow { font-family: 'Space Mono', monospace; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .hero .eyebrow { color: var(--cream); }
+  .hero h1 { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(34px, 7vw, 56px); line-height: 1.02; margin: 8px 0 12px; }
+  .hero p { margin: 0; font-size: 18px; max-width: 46ch; color: #FFF6EE; }
+  .countdown { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+  .count-box { background: rgba(0,0,0,0.16); border-radius: 14px; padding: 10px 14px; min-width: 74px; text-align: center; }
+  .count-box b { display: block; font-family: 'Bricolage Grotesque', sans-serif; font-size: 28px; font-variant-numeric: tabular-nums; line-height: 1.1; }
+  .count-box small { font-family: 'Space Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; }
+  .facts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+  .chip { background: var(--cream); color: var(--ink); border-radius: 999px; padding: 6px 12px; font-family: 'Space Mono', monospace; font-size: 12.5px; }
+
+  /* packs */
+  h2 { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(26px, 5vw, 36px); line-height: 1.1; margin: 40px 0 6px; }
+  .sub { color: var(--ink-muted); margin: 0 0 18px; }
+  .packs { display: grid; grid-template-columns: 1fr; gap: 16px; }
+  @media (min-width: 760px) { .packs { grid-template-columns: 1.15fr 1fr 1fr; align-items: stretch; } }
+  .pack { background: var(--cream); border-radius: 22px; padding: 22px 20px; display: flex; flex-direction: column; border: 3px solid transparent; scroll-margin-top: 16px; }
+  .pack.featured { border-color: var(--red); background: #FFF; box-shadow: 0 0 0 6px var(--cream) inset; }
+  .pack.highlight { border-color: var(--pink); }
+  .tag { align-self: flex-start; background: var(--red-dk); color: #FFF; border-radius: 999px; padding: 4px 10px; font-family: 'Space Mono', monospace; font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px; }
+  .pack h3 { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 26px; margin: 0 0 4px; }
+  .pack .for { color: var(--ink-muted); margin: 0 0 14px; font-size: 16px; }
+  .pack ul { list-style: none; padding: 0; margin: 0 0 16px; }
+  .pack li { padding: 7px 0; border-top: 1px solid var(--line); display: flex; justify-content: space-between; gap: 10px; }
+  .pack li span:last-child { font-family: 'Space Mono', monospace; font-size: 14px; white-space: nowrap; }
+  .price-row { margin-top: auto; display: flex; align-items: baseline; gap: 10px; margin-bottom: 12px; }
+  .price { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 34px; font-variant-numeric: tabular-nums; }
+  .per { font-family: 'Space Mono', monospace; font-size: 12.5px; color: var(--ink-muted); }
+  .buy {
+    display: block; width: 100%; min-height: 54px; border: none; border-radius: 999px; background: var(--red-dk); color: #FFF;
+    font-family: 'Space Mono', monospace; font-weight: 700; font-size: 16px; text-align: center; text-decoration: none;
+    padding: 16px; cursor: pointer;
+  }
+  .buy:hover, .buy:focus-visible { background: #A92F18; }
+  .buy:focus-visible { outline: 3px solid var(--pink); outline-offset: 2px; }
+  .buy[aria-disabled="true"] { background: #8A7E76; cursor: default; }
+  .pack .note { font-family: 'Space Mono', monospace; font-size: 12px; color: var(--ink-muted); margin: 8px 0 0; text-align: center; }
+
+  /* how it works */
+  .steps { display: grid; grid-template-columns: 1fr; gap: 12px; counter-reset: s; }
+  @media (min-width: 760px) { .steps { grid-template-columns: repeat(4, 1fr); } }
+  .step { border: 1px solid var(--line); border-radius: 18px; padding: 16px; }
+  .step b { display: block; font-family: 'Bricolage Grotesque', sans-serif; font-size: 19px; margin-bottom: 4px; }
+  .step b::before { counter-increment: s; content: counter(s) " · "; color: var(--red-dk); }
+  .step p { margin: 0; color: var(--ink-muted); font-size: 16px; }
+
+  /* notify */
+  .notify { background: var(--cream); border-radius: 22px; padding: 22px 20px; margin-top: 40px; }
+  .notify h2 { margin-top: 0; }
+  .notify form { display: flex; flex-wrap: wrap; gap: 10px; }
+  .notify input[type=email], .notify input[type=text] {
+    flex: 1 1 220px; min-height: 50px; font: inherit; border: 1px solid rgba(0,0,0,0.2); border-radius: 12px; padding: 10px 14px; background: #FFF;
+  }
+  .notify input:focus-visible { outline: 2px solid var(--red); outline-offset: 1px; }
+  .notify button { flex: 0 0 auto; width: auto; padding: 0 22px; }
+  .honey { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+  .status { font-family: 'Space Mono', monospace; font-size: 13px; min-height: 1.2em; margin: 10px 0 0; }
+  .privacy-note { font-size: 14px; color: var(--ink-muted); margin: 10px 0 0; }
+
+  /* faq + footer */
+  details { border-top: 1px solid var(--line); padding: 14px 0; }
+  details:last-of-type { border-bottom: 1px solid var(--line); }
+  summary { cursor: pointer; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 18px; min-height: 28px; }
+  details p { margin: 8px 0 0; color: var(--ink-muted); }
+  footer { margin: 48px 0 32px; font-family: 'Space Mono', monospace; font-size: 12.5px; color: var(--ink-muted); display: flex; flex-wrap: wrap; gap: 14px; }
+  footer a { color: var(--ink-muted); }
+  @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="index.html"><img src="assets/img/logo-mark.svg" alt="" width="40" height="40"><span>SolubFood</span></a>
+    <a class="help" id="helpLink" href="#faq">Questions?</a>
+  </header>
+
+  <section class="hero" aria-labelledby="dropTitle">
+    <span class="eyebrow" id="dropNumber">The weekly drop</span>
+    <h1 id="dropTitle">Cooked once a week.<br>Gone when it's gone.</h1>
+    <p id="dropIntro">Homemade Latin American meals, frozen the day they're cooked. We only make what's ordered — so every drop has a limited number of packs.</p>
+    <div class="countdown" id="countdown" aria-live="off">
+      <div class="count-box"><b id="cdD">–</b><small>days</small></div>
+      <div class="count-box"><b id="cdH">–</b><small>hours</small></div>
+      <div class="count-box"><b id="cdM">–</b><small>min</small></div>
+    </div>
+    <div class="facts">
+      <span class="chip" id="cutoffChip">Order by Sunday 8 pm</span>
+      <span class="chip" id="deliveryChip">Delivered Thursday</span>
+      <span class="chip" id="capChip">Limited packs</span>
+    </div>
+  </section>
+
+  <h2 id="packs">Pick your pack</h2>
+  <p class="sub">Three recipes, three packs. Every pack is free delivery in our Gold Coast zone.</p>
+  <div class="packs" id="packList"><!-- filled from DROP_CONFIG below --></div>
+
+  <h2>How it works</h2>
+  <div class="steps">
+    <div class="step"><b>Order</b><p>Pick a pack and pay securely by card, Apple Pay or Google Pay (via Stripe).</p></div>
+    <div class="step"><b>We cook</b><p>Tuesday, in a licensed commercial kitchen in Gold Coast. Every batch is temperature-checked.</p></div>
+    <div class="step"><b>We freeze</b><p>Frozen the same day at −18 °C, labelled with the date it was made.</p></div>
+    <div class="step"><b>Thursday</b><p>Delivered to your door between 5 and 8 pm. Heat and eat whenever you like.</p></div>
+  </div>
+
+  <section class="notify" id="notify" aria-labelledby="notifyTitle">
+    <h2 id="notifyTitle">Missed this drop?</h2>
+    <p class="sub" id="notifySub">Leave your email and we'll tell you the moment the next one opens.</p>
+    <form id="notifyForm" action="https://formsubmit.co/ajax/9db1dd62560dc0a344859f22e210ae98" method="POST" novalidate>
+      <input type="hidden" name="_subject" value="Drop — notify me">
+      <input type="hidden" name="form" value="drop-notify">
+      <input type="hidden" name="pack" id="notifyPack" value="">
+      <input type="text" name="_honey" class="honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <label class="honey" for="notifyEmail">Email</label>
+      <input type="email" id="notifyEmail" name="email" required autocomplete="email" placeholder="you@email.com" aria-label="Your email">
+      <button class="buy" type="submit">Notify me</button>
+    </form>
+    <p class="status" id="notifyStatus" role="status"></p>
+    <p class="privacy-note">We only use your email to tell you about SolubFood drops. Unsubscribe any time. See our <a href="privacy.html">Privacy Policy</a>.</p>
+  </section>
+
+  <h2 id="faq">Questions</h2>
+  <details><summary>Where do you deliver?</summary><p id="suburbList">Gold Coast.</p></details>
+  <details><summary>What if I'm not home?</summary><p>Tell us when you check out and we'll leave it in an insulated bag, or message us on WhatsApp to arrange pick-up.</p></details>
+  <details><summary>How do I heat it?</summary><p>Instructions are on every label. Keep frozen at −18 °C; once thawed, eat within 1–2 days.</p></details>
+  <details><summary>Allergens?</summary><p id="allergenText">Each pack lists its allergens above and on the label.</p></details>
+  <details><summary>Can I cancel or get a refund?</summary><p id="refundText">You can cancel for a full refund until the order cut-off (Sunday 8 pm). After that we've already bought the ingredients for you — but if anything is wrong with your order, we'll make it right.</p></details>
+  <details><summary>Is the payment secure?</summary><p>Yes. Payment happens on Stripe's secure checkout page. SolubFood never sees or stores your card details.</p></details>
+
+  <footer>
+    <span>© SolubFood · Gold Coast, Australia</span>
+    <a href="privacy.html">Privacy</a>
+    <a href="terms.html">Terms</a>
+    <a href="index.html">Home</a>
+  </footer>
+</div>
+
+<script>
+  /* =====================================================================
+     DROP_CONFIG — the only part you need to edit each week.
+     - stripeLink: paste each pack's Stripe Payment Link (https://buy.stripe.com/...).
+       In Stripe, set "Limit the number of payments" on each link: that is the
+       REAL cap. Stripe closes the link by itself when it is reached.
+     - soldOut: set to true when Stripe closes a link (or to close a pack early).
+     - Prices are PLACEHOLDERS (AU$26 per serve × serves). Confirm with the
+       investor spreadsheet before launch.
+     - Allergens: VERIFY WITH THE REAL RECIPE CARDS before launch.
+     Never show a "packs left" number that is not true (Australian Consumer Law).
+     ===================================================================== */
+  var DROP_CONFIG = {
+    firstCutoff: '2027-02-07',        // Sunday of the first drop (YYYY-MM-DD, Brisbane time)
+    cutoffHour: 20,                   // Sunday 8 pm Brisbane
+    packsPerDrop: 40,                 // real total cap across all packs (shown to customers)
+    whatsapp: '',                     // e.g. '61400000000' — leave empty to hide
+    suburbs: ['Southport', 'Surfers Paradise', 'Bundall', 'Broadbeach', 'Main Beach', 'Benowa', 'Ashmore', 'Labrador', 'Mermaid Beach', 'Nerang', 'Robina'],
+    packs: [
+      {
+        id: 'trial', featured: true, tag: 'Start here',
+        name: 'Trial Pack', forWho: 'Never tried us? One of each — find your favourite.',
+        items: [['Empanadas de pino (3)', '1 serve'], ['Pastel de choclo', '1 serve'], ['Asado mixto', '1 serve']],
+        serves: 3, priceAud: 78, allergens: 'TBC',
+        stripeLink: '', soldOut: false
+      },
+      {
+        id: 'empanadas', tag: 'Most shared',
+        name: 'Empanada Pack', forWho: 'Our baked beef empanadas. Made for sharing.',
+        items: [['Empanadas de pino', '12 empanadas'], ['Serves', '4']],
+        serves: 4, priceAud: 104, allergens: 'TBC',
+        stripeLink: '', soldOut: false
+      },
+      {
+        id: 'week', tag: 'Best for the week',
+        name: 'Week Pack', forWho: 'Six protein-packed dinners sorted.',
+        items: [['Empanadas de pino (3)', '2 serves'], ['Pastel de choclo', '2 serves'], ['Asado mixto', '2 serves']],
+        serves: 6, priceAud: 156, allergens: 'TBC',
+        stripeLink: '', soldOut: false
+      }
+    ]
+  };
+
+  (function () {
+    var cfg = DROP_CONFIG;
+    var BNE_OFFSET_MS = 10 * 3600 * 1000;   // Queensland: UTC+10, no daylight saving
+    var DAY = 86400000;
+
+    function bneNow() { return new Date(Date.now() + BNE_OFFSET_MS); }   // read with getUTC*
+    function cutoffUtcMs(ymd) {
+      var p = ymd.split('-').map(Number);
+      return Date.UTC(p[0], p[1] - 1, p[2], cfg.cutoffHour) - BNE_OFFSET_MS;
+    }
+    var first = cutoffUtcMs(cfg.firstCutoff);
+    var now = Date.now();
+    var weeks = Math.max(0, Math.ceil((now - first) / (7 * DAY)));
+    var cutoff = first + weeks * 7 * DAY;           // next Sunday-8pm cut-off at or after now
+    if (cutoff <= now) cutoff += 7 * DAY;
+    var dropNo = Math.round((cutoff - first) / (7 * DAY)) + 1;
+    var delivery = new Date(cutoff + BNE_OFFSET_MS + 4 * DAY);  // Thursday after cut-off
+    var launched = now >= first - 7 * DAY;          // the first drop opens one week before its cut-off
+
+    var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    var cutoffBne = new Date(cutoff + BNE_OFFSET_MS);
+    var fmt = function (d) { return d.getUTCDate() + ' ' + months[d.getUTCMonth()]; };
+
+    document.getElementById('dropNumber').textContent = launched ? 'Drop #' + dropNo : 'First drop · opens soon';
+    document.getElementById('cutoffChip').textContent = 'Order by Sun ' + fmt(cutoffBne) + ', 8 pm';
+    document.getElementById('deliveryChip').textContent = 'Delivered Thu ' + fmt(delivery) + ', 5–8 pm';
+    document.getElementById('capChip').textContent = 'Only ' + cfg.packsPerDrop + ' packs this drop';
+    document.getElementById('suburbList').textContent = 'Free delivery to: ' + cfg.suburbs.join(', ') + '. Outside these suburbs? Leave your email below and tell us where you are.';
+
+    // Before launch the countdown runs to the opening of the first drop; after, to the cut-off.
+    var countTo = launched ? cutoff : first - 7 * DAY;
+    function tick() {
+      var ms = Math.max(0, countTo - Date.now());
+      document.getElementById('cdD').textContent = Math.floor(ms / DAY);
+      document.getElementById('cdH').textContent = Math.floor(ms / 3600000) % 24;
+      document.getElementById('cdM').textContent = Math.floor(ms / 60000) % 60;
+    }
+    tick(); setInterval(tick, 30000);
+
+    if (cfg.whatsapp) {
+      var h = document.getElementById('helpLink');
+      h.href = 'https://wa.me/' + encodeURIComponent(cfg.whatsapp);
+      h.textContent = 'WhatsApp us';
+      h.rel = 'noopener';
+    }
+
+    // Build pack cards (textContent only — no HTML injection)
+    var list = document.getElementById('packList');
+    var preselect = (new URLSearchParams(location.search).get('pack') || '').toLowerCase();
+    var allSold = true;
+    cfg.packs.forEach(function (p) {
+      var card = document.createElement('article');
+      card.className = 'pack' + (p.featured ? ' featured' : '') + (preselect === p.id ? ' highlight' : '');
+      card.id = 'pack-' + p.id;
+      var el = function (tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+      if (p.tag) card.appendChild(el('span', 'tag', p.tag));
+      card.appendChild(el('h3', null, p.name));
+      card.appendChild(el('p', 'for', p.forWho));
+      var ul = el('ul');
+      p.items.forEach(function (it) { var li = el('li'); li.appendChild(el('span', null, it[0])); li.appendChild(el('span', null, it[1])); ul.appendChild(li); });
+      var al = el('li'); al.appendChild(el('span', null, 'Allergens')); al.appendChild(el('span', null, p.allergens === 'TBC' ? 'listed before launch' : p.allergens)); ul.appendChild(al);
+      card.appendChild(ul);
+      var pr = el('div', 'price-row');
+      pr.appendChild(el('span', 'price', 'A$' + p.priceAud));
+      pr.appendChild(el('span', 'per', 'A$' + (p.priceAud / p.serves).toFixed(2) + ' / serve · free delivery'));
+      card.appendChild(pr);
+
+      var open = launched && p.stripeLink && /^https:\/\/buy\.stripe\.com\//.test(p.stripeLink) && !p.soldOut;
+      if (open) allSold = false;
+      var btn = el('a', 'buy', open ? 'Get the ' + p.name : (p.soldOut ? 'Sold out — notify me' : 'Opens soon — notify me'));
+      if (open) {
+        btn.href = p.stripeLink + (p.stripeLink.indexOf('?') < 0 ? '?' : '&') + 'client_reference_id=drop' + dropNo + '-' + p.id;
+        btn.rel = 'noopener';
+      } else {
+        btn.href = '#notify';
+        btn.addEventListener('click', function () { document.getElementById('notifyPack').value = p.id; });
+      }
+      card.appendChild(btn);
+      card.appendChild(el('p', 'note', open ? 'Secure checkout by Stripe · Apple Pay · Google Pay' : 'We cook once a week, in small batches.'));
+      list.appendChild(card);
+    });
+
+    if (allSold) {
+      document.getElementById('notifyTitle').textContent = launched ? 'This drop is closed' : 'Be first in line';
+      document.getElementById('notifySub').textContent = launched
+        ? 'Leave your email and we\'ll tell you the moment the next drop opens.'
+        : 'Our first drop opens soon. Leave your email and we\'ll tell you the moment it does.';
+    }
+    if (preselect) {
+      var target = document.getElementById('pack-' + preselect);
+      if (target) setTimeout(function () { target.scrollIntoView({ block: 'start' }); }, 50);
+    }
+
+    // Notify-me form (FormSubmit alias, same as the rest of the site)
+    var form = document.getElementById('notifyForm');
+    var status = document.getElementById('notifyStatus');
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (!form.checkValidity()) { form.reportValidity(); return; }
+      if (form.querySelector('.honey[name=_honey]').value) return;
+      var b = form.querySelector('button'); b.disabled = true;
+      status.textContent = 'Saving…';
+      fetch(form.action, { method: 'POST', headers: { Accept: 'application/json' }, body: new FormData(form) })
+        .then(function (r) { if (!r.ok) throw new Error(); form.hidden = true; status.textContent = "You're on the list. We'll email you when the next drop opens."; })
+        .catch(function () { b.disabled = false; status.textContent = 'Something went wrong — please try again.'; });
+    });
+  })();
+</script>
+</body>
+</html>
