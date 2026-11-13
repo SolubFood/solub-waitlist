@@ -17,8 +17,9 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&family=Newsreader:ital,wght@0,400;0,500;0,600&family=Space+Mono:wght@400;700&display=swap">
 <style>
   :root {
+    /* SolubFood brand: only the logo's three colours (same tokens as index.html) */
     --red: #E74426; --red-dk: #C93A1F; --cream: #F6E9D7; --pink: #E688B7;
-    --bg: #FFFFFF; --ink: #1A1A1A; --ink-muted: #5C5C5C; --line: rgba(0,0,0,0.12);
+    --bg: #F6E9D7; --card: #FFFFFF; --ink: #1A1714; --ink-muted: #5C5650; --line: #E8D7BF;
   }
   * { box-sizing: border-box; }
   html { -webkit-text-size-adjust: 100%; }
@@ -39,13 +40,13 @@
   .top .help { font-family: 'Space Mono', monospace; font-size: 13px; text-decoration: none; color: var(--ink-muted); }
 
   /* hero */
-  .hero { background: var(--red); color: #FFFFFF; border-radius: 24px; padding: 28px 22px 26px; margin-top: 4px; }
+  .hero { background: var(--red); color: var(--cream); border-radius: 24px; padding: 28px 22px 26px; margin-top: 4px; }
   .eyebrow { font-family: 'Space Mono', monospace; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; }
   .hero .eyebrow { color: var(--cream); }
   .hero h1 { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(34px, 7vw, 56px); line-height: 1.02; margin: 8px 0 12px; }
-  .hero p { margin: 0; font-size: 18px; max-width: 46ch; color: #FFF6EE; }
+  .hero p { margin: 0; font-size: 19px; font-weight: 600; max-width: 46ch; color: var(--cream); }
   .countdown { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
-  .count-box { background: rgba(0,0,0,0.16); border-radius: 14px; padding: 10px 14px; min-width: 74px; text-align: center; }
+  .count-box { background: rgba(0,0,0,0.12); border-radius: 14px; padding: 10px 14px; min-width: 74px; text-align: center; }
   .count-box b { display: block; font-family: 'Bricolage Grotesque', sans-serif; font-size: 28px; font-variant-numeric: tabular-nums; line-height: 1.1; }
   .count-box small { font-family: 'Space Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; }
   .facts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
@@ -56,10 +57,10 @@
   .sub { color: var(--ink-muted); margin: 0 0 18px; }
   .packs { display: grid; grid-template-columns: 1fr; gap: 16px; }
   @media (min-width: 760px) { .packs { grid-template-columns: 1.15fr 1fr 1fr; align-items: stretch; } }
-  .pack { background: var(--cream); border-radius: 22px; padding: 22px 20px; display: flex; flex-direction: column; border: 3px solid transparent; scroll-margin-top: 16px; }
-  .pack.featured { border-color: var(--red); background: #FFF; box-shadow: 0 0 0 6px var(--cream) inset; }
+  .pack { background: var(--card); border-radius: 22px; padding: 22px 20px; display: flex; flex-direction: column; border: 3px solid transparent; scroll-margin-top: 16px; }
+  .pack.featured { border-color: var(--red); }
   .pack.highlight { border-color: var(--pink); }
-  .tag { align-self: flex-start; background: var(--red-dk); color: #FFF; border-radius: 999px; padding: 4px 10px; font-family: 'Space Mono', monospace; font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px; }
+  .tag { align-self: flex-start; background: var(--pink); color: var(--ink); border-radius: 999px; padding: 4px 10px; font-family: 'Space Mono', monospace; font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px; }
   .pack h3 { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 26px; margin: 0 0 4px; }
   .pack .for { color: var(--ink-muted); margin: 0 0 14px; font-size: 16px; }
   .pack ul { list-style: none; padding: 0; margin: 0 0 16px; }
@@ -69,34 +70,35 @@
   .price { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 34px; font-variant-numeric: tabular-nums; }
   .per { font-family: 'Space Mono', monospace; font-size: 12.5px; color: var(--ink-muted); }
   .buy {
-    display: block; width: 100%; min-height: 54px; border: none; border-radius: 999px; background: var(--red-dk); color: #FFF;
-    font-family: 'Space Mono', monospace; font-weight: 700; font-size: 16px; text-align: center; text-decoration: none;
+    display: block; width: 100%; min-height: 54px; border: none; border-radius: 999px; background: var(--red); color: var(--cream);
+    font-family: 'Space Mono', monospace; font-weight: 700; font-size: 19px; text-align: center; text-decoration: none;
     padding: 16px; cursor: pointer;
   }
-  .buy:hover, .buy:focus-visible { background: #A92F18; }
-  .buy:focus-visible { outline: 3px solid var(--pink); outline-offset: 2px; }
-  .buy[aria-disabled="true"] { background: #8A7E76; cursor: default; }
+  .buy:hover, .buy:focus-visible { background: var(--red-dk); }
+  .buy:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+  .buy.wait { background: var(--pink); color: var(--ink); }
+  .buy.wait:hover, .buy.wait:focus-visible { background: var(--cream); box-shadow: inset 0 0 0 2px var(--pink); }
   .pack .note { font-family: 'Space Mono', monospace; font-size: 12px; color: var(--ink-muted); margin: 8px 0 0; text-align: center; }
 
   /* problem / menu */
   .why { display: grid; grid-template-columns: 1fr; gap: 12px; }
   @media (min-width: 760px) { .why { grid-template-columns: repeat(2, 1fr); } }
-  .why-card { background: var(--cream); border-radius: 18px; padding: 16px; }
+  .why-card { background: var(--card); border-radius: 18px; padding: 16px; }
   .why-card b { display: block; font-family: 'Bricolage Grotesque', sans-serif; font-size: 19px; margin: 6px 0 4px; }
   .why-card p { margin: 0; color: var(--ink-muted); font-size: 16px; }
   .why-card .icon { font-size: 24px; }
   .menu { display: grid; grid-template-columns: 1fr; gap: 12px; }
   @media (min-width: 760px) { .menu { grid-template-columns: repeat(3, 1fr); } }
   .dish { border-radius: 22px; padding: 20px; }
-  .d-pino { background: var(--cream); color: var(--ink); }
-  .d-pastel { background: var(--red-dk); color: #FFF; }
-  .d-asado { background: #3B2218; color: #FFF; }
+  .d-pino { background: var(--card); color: var(--ink); }
+  .d-pastel { background: var(--red); color: var(--cream); font-weight: 600; font-size: 19px; }
+  .d-asado { background: var(--pink); color: var(--ink); }
   .dish .origin { font-family: 'Space Mono', monospace; font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.85; }
   .dish h3 { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 26px; margin: 4px 0 2px; }
   .dish-sub { margin: 0 0 10px; opacity: 0.85; }
   .protein { margin: 0 0 10px; font-family: 'Space Mono', monospace; font-size: 14px; text-transform: uppercase; letter-spacing: 0.06em; }
   .protein b { font-family: 'Bricolage Grotesque', sans-serif; font-size: 48px; letter-spacing: 0; line-height: 1; margin-right: 6px; }
-  .d-pino .protein b { color: var(--red-dk); }
+  .d-pino .protein b { color: var(--red); }
   .dish ul { margin: 0; padding-left: 18px; }
   .dish li { margin: 3px 0; }
   .fine { font-size: 13px; color: var(--ink-muted); margin: 10px 0 0; }
@@ -105,9 +107,9 @@
   /* trust */
   .trust { display: grid; grid-template-columns: 1fr; gap: 12px; }
   @media (min-width: 760px) { .trust { grid-template-columns: repeat(2, 1fr); } .trust .lead { grid-column: 1 / -1; } }
-  .trust-card { border: 1px solid var(--line); border-radius: 18px; padding: 16px; }
-  .trust-card.lead { background: var(--cream); border-color: transparent; }
-  .trust-card.lead p { color: var(--ink); font-size: 18px; }
+  .trust-card { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 16px; }
+  .trust-card.lead { background: var(--red); border-color: transparent; }
+  .trust-card.lead p { color: var(--cream); font-size: 19px; font-weight: 600; }
   .trust-card b { display: block; font-family: 'Bricolage Grotesque', sans-serif; font-size: 19px; margin: 6px 0 4px; }
   .trust-card p { margin: 0; color: var(--ink-muted); font-size: 16px; }
   .trust-card .icon { font-size: 24px; }
@@ -115,17 +117,17 @@
   .launch-line { font-family: 'Space Mono', monospace; font-size: 12.5px; color: var(--red-dk); margin: -6px 0 12px; }
 
   /* notify */
-  .notify { background: var(--cream); border-radius: 22px; padding: 22px 20px; margin-top: 40px; }
+  .notify { background: var(--pink); border-radius: 22px; padding: 22px 20px; margin-top: 40px; }
   .notify h2 { margin-top: 0; }
   .notify form { display: flex; flex-wrap: wrap; gap: 10px; }
   .notify input[type=email], .notify input[type=text] {
-    flex: 1 1 220px; min-height: 50px; font: inherit; border: 1px solid rgba(0,0,0,0.2); border-radius: 12px; padding: 10px 14px; background: #FFF;
+    flex: 1 1 220px; min-height: 50px; font: inherit; border: 1px solid rgba(0,0,0,0.2); border-radius: 12px; padding: 10px 14px; background: var(--card);
   }
   .notify input:focus-visible { outline: 2px solid var(--red); outline-offset: 1px; }
   .notify button { flex: 0 0 auto; width: auto; padding: 0 22px; }
   .honey { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
   .status { font-family: 'Space Mono', monospace; font-size: 13px; min-height: 1.2em; margin: 10px 0 0; }
-  .privacy-note { font-size: 14px; color: var(--ink-muted); margin: 10px 0 0; }
+  .privacy-note { font-size: 14px; color: var(--ink); margin: 10px 0 0; }
 
   /* faq + footer */
   details { border-top: 1px solid var(--line); padding: 14px 0; }
@@ -394,7 +396,7 @@
 
       var open = !locked && launched && link && /^https:\/\/buy\.stripe\.com\//.test(link) && !p.soldOut;
       if (open) allSold = false;
-      var btn = el('a', 'buy', open ? 'Get the ' + p.name : (p.soldOut ? 'Sold out — notify me' : (locked ? 'Coming soon — notify me' : 'Opens soon — notify me')));
+      var btn = el('a', open ? 'buy' : 'buy wait', open ? 'Get the ' + p.name : (p.soldOut ? 'Sold out — notify me' : (locked ? 'Coming soon — notify me' : 'Opens soon — notify me')));
       if (open) {
         btn.href = link + (link.indexOf('?') < 0 ? '?' : '&') + 'client_reference_id=drop' + dropNo + '-' + p.id + (isLaunchPack ? '-launch' : '');
         btn.rel = 'noopener';
