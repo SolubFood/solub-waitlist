@@ -80,15 +80,14 @@
 
   /* trust */
   .trust { display: grid; grid-template-columns: 1fr; gap: 12px; }
-  @media (min-width: 760px) { .trust { grid-template-columns: repeat(3, 1fr); } .trust .people { grid-row: span 2; } }
+  @media (min-width: 760px) { .trust { grid-template-columns: repeat(2, 1fr); } .trust .lead { grid-column: 1 / -1; } }
   .trust-card { border: 1px solid var(--line); border-radius: 18px; padding: 16px; }
-  .trust-card.people { background: var(--cream); border-color: transparent; }
+  .trust-card.lead { background: var(--cream); border-color: transparent; }
+  .trust-card.lead p { color: var(--ink); font-size: 18px; }
   .trust-card b { display: block; font-family: 'Bricolage Grotesque', sans-serif; font-size: 19px; margin: 6px 0 4px; }
   .trust-card p { margin: 0; color: var(--ink-muted); font-size: 16px; }
   .trust-card .icon { font-size: 24px; }
-  .faces { display: flex; }
-  .faces img, .face-g { width: 56px; height: 56px; border-radius: 999px; border: 3px solid var(--cream); object-fit: cover; object-position: 50% 42%; }
-  .face-g { margin-left: -12px; background: var(--pink); color: #FFF; display: flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 22px; }
+  .ig-line { margin-top: 14px; }
   .launch-line { font-family: 'Space Mono', monospace; font-size: 12.5px; color: var(--red-dk); margin: -6px 0 12px; }
 
   /* notify */
@@ -141,38 +140,33 @@
   <p class="sub">Three recipes, three packs. Every pack is free delivery in our Gold Coast zone.</p>
   <div class="packs" id="packList"><!-- filled from DROP_CONFIG below --></div>
 
-  <h2>Real people. A real kitchen.</h2>
-  <p class="sub">You're buying food from people you can see, cooked where it should be.</p>
+  <h2>Who cooks your food</h2>
   <div class="trust">
-    <div class="trust-card people">
-      <div class="faces">
-        <img src="assets/img/benjamin.jpg" alt="Benjamin Arevalo" width="56" height="56">
-        <span class="face-g" aria-hidden="true">G</span>
-      </div>
-      <b>Benjamin &amp; Gibril</b>
-      <p>The founders. We pack every order and answer every message ourselves — <a href="https://www.instagram.com/solubfood/" target="_blank" rel="noopener noreferrer">@solubfood</a>.</p>
+    <div class="trust-card lead">
+      <p>Every SolubFood meal is cooked by <strong>our own cooks — the same people, every week</strong> — in a licensed commercial kitchen in Gold Coast. They work inside a process we designed from scratch, so that every plate comes out professional, and exactly the same, every time.</p>
     </div>
     <div class="trust-card">
-      <span class="icon" aria-hidden="true">🏠</span>
-      <b>Licensed commercial kitchen</b>
-      <p>We cook in a council-licensed commercial kitchen in Gold Coast — never a home kitchen.</p>
+      <span class="icon" aria-hidden="true">👩‍🍳</span>
+      <b>The same cooks, every week</b>
+      <p>Not a rotating line. Our cooks know each recipe by heart — that's what keeps the taste consistent.</p>
+    </div>
+    <div class="trust-card">
+      <span class="icon" aria-hidden="true">⚖️</span>
+      <b>Recipes to the gram</b>
+      <p>Every recipe is weighed, timed and written step by step. The hundredth empanada tastes like the first.</p>
     </div>
     <div class="trust-card">
       <span class="icon" aria-hidden="true">🌡️</span>
-      <b>Every batch logged</b>
-      <p>Cooked to 75 °C in the centre, cooled by food-safety rules and frozen at −18 °C. Each label carries its batch code and the date it was made.</p>
+      <b>Every batch checked</b>
+      <p>Cooked to 75 °C in the centre, cooled within food-safety times and frozen at −18 °C — logged batch by batch. Each label carries its batch code and the date it was made.</p>
     </div>
     <div class="trust-card">
-      <span class="icon" aria-hidden="true">📲</span>
-      <b>Watch us cook</b>
-      <p>Cooking day goes live on our <a href="https://www.instagram.com/solubfood/" target="_blank" rel="noopener noreferrer">Instagram stories</a> — the kitchen, the food, the people.</p>
-    </div>
-    <div class="trust-card">
-      <span class="icon" aria-hidden="true">🔒</span>
-      <b>Secure checkout</b>
-      <p>Payment by Stripe. SolubFood never sees your card. Registered Australian business — ABN 71 700 489 661.</p>
+      <span class="icon" aria-hidden="true">❄️</span>
+      <b>Cooked to order, frozen the same day</b>
+      <p>We only cook what's been ordered, and freeze it the day it's made. Nothing sits on a shelf waiting.</p>
     </div>
   </div>
+  <p class="sub ig-line">See cooking day on Instagram — <a href="https://www.instagram.com/solubfood/" target="_blank" rel="noopener noreferrer">@solubfood</a></p>
 
   <section class="notify" id="notify" aria-labelledby="notifyTitle">
     <h2 id="notifyTitle">Missed this drop?</h2>
@@ -196,10 +190,9 @@
   <details><summary>How do I heat it?</summary><p>Instructions are on every label. Keep frozen at −18 °C; once thawed, eat within 1–2 days.</p></details>
   <details><summary>Allergens?</summary><p id="allergenText">Each pack lists its allergens above and on the label.</p></details>
   <details><summary>Can I cancel or get a refund?</summary><p id="refundText">You can cancel for a full refund until the order cut-off (Sunday 8 pm). After that we've already bought the ingredients for you — but if anything is wrong with your order, we'll make it right.</p></details>
-  <details><summary>Is the payment secure?</summary><p>Yes. Payment happens on Stripe's secure checkout page. SolubFood never sees or stores your card details.</p></details>
 
   <footer>
-    <span>© SolubFood · Gold Coast, Australia</span>
+    <span>© SolubFood · Gold Coast, Australia · ABN 71 700 489 661</span>
     <a href="privacy.html">Privacy</a>
     <a href="terms.html">Terms</a>
     <a href="index.html">Home</a>
@@ -348,7 +341,7 @@
         btn.addEventListener('click', function () { document.getElementById('notifyPack').value = p.id; });
       }
       card.appendChild(btn);
-      card.appendChild(el('p', 'note', open ? 'Secure checkout by Stripe · Apple Pay · Google Pay' : 'We cook once a week, in small batches.'));
+      card.appendChild(el('p', 'note', open ? 'Card · Apple Pay · Google Pay' : 'We cook once a week, in small batches.'));
       list.appendChild(card);
     });
 
