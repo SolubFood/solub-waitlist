@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://formsubmit.co; form-action 'self' https://formsubmit.co; base-uri 'self'; object-src 'none';">
 <title>The Weekly Drop — SolubFood</title>
-<meta name="description" content="Homemade Latin American frozen meals, cooked once a week in Gold Coast. Limited packs every drop — order by Sunday 8 pm, delivered Thursday.">
+<meta name="description" content="No time to cook? High-protein Latin American meals, cooked by our own cooks in Gold Coast and frozen the day they're made. Heat and eat. Limited packs every week.">
 <meta name="theme-color" content="#E74426">
 <!-- noindex until the first drop is live; remove this line at launch and add drop.html to sitemap.xml -->
 <meta name="robots" content="noindex">
@@ -78,6 +78,30 @@
   .buy[aria-disabled="true"] { background: #8A7E76; cursor: default; }
   .pack .note { font-family: 'Space Mono', monospace; font-size: 12px; color: var(--ink-muted); margin: 8px 0 0; text-align: center; }
 
+  /* problem / menu */
+  .why { display: grid; grid-template-columns: 1fr; gap: 12px; }
+  @media (min-width: 760px) { .why { grid-template-columns: repeat(2, 1fr); } }
+  .why-card { background: var(--cream); border-radius: 18px; padding: 16px; }
+  .why-card b { display: block; font-family: 'Bricolage Grotesque', sans-serif; font-size: 19px; margin: 6px 0 4px; }
+  .why-card p { margin: 0; color: var(--ink-muted); font-size: 16px; }
+  .why-card .icon { font-size: 24px; }
+  .menu { display: grid; grid-template-columns: 1fr; gap: 12px; }
+  @media (min-width: 760px) { .menu { grid-template-columns: repeat(3, 1fr); } }
+  .dish { border-radius: 22px; padding: 20px; }
+  .d-pino { background: var(--cream); color: var(--ink); }
+  .d-pastel { background: var(--red-dk); color: #FFF; }
+  .d-asado { background: #3B2218; color: #FFF; }
+  .dish .origin { font-family: 'Space Mono', monospace; font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.85; }
+  .dish h3 { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 26px; margin: 4px 0 2px; }
+  .dish-sub { margin: 0 0 10px; opacity: 0.85; }
+  .protein { margin: 0 0 10px; font-family: 'Space Mono', monospace; font-size: 14px; text-transform: uppercase; letter-spacing: 0.06em; }
+  .protein b { font-family: 'Bricolage Grotesque', sans-serif; font-size: 48px; letter-spacing: 0; line-height: 1; margin-right: 6px; }
+  .d-pino .protein b { color: var(--red-dk); }
+  .dish ul { margin: 0; padding-left: 18px; }
+  .dish li { margin: 3px 0; }
+  .fine { font-size: 13px; color: var(--ink-muted); margin: 10px 0 0; }
+  .pack .protein-total { font-family: 'Space Mono', monospace; font-size: 13px; color: var(--red-dk); margin: -8px 0 12px; }
+
   /* trust */
   .trust { display: grid; grid-template-columns: 1fr; gap: 12px; }
   @media (min-width: 760px) { .trust { grid-template-columns: repeat(2, 1fr); } .trust .lead { grid-column: 1 / -1; } }
@@ -122,8 +146,8 @@
 
   <section class="hero" aria-labelledby="dropTitle">
     <span class="eyebrow" id="dropNumber">The weekly drop</span>
-    <h1 id="dropTitle">Cooked once a week.<br>Gone when it's gone.</h1>
-    <p id="dropIntro">Homemade Latin American meals, frozen the day they're cooked. We only make what's ordered — so every drop has a limited number of packs.</p>
+    <h1 id="dropTitle">No time to cook?<br>Dinner's already made.</h1>
+    <p id="dropIntro">Real Latin American home cooking with 38–65 g of protein per meal. Frozen the day it's made — you just heat it. For people who work, study, and still want to eat properly.</p>
     <div class="countdown" id="countdown" aria-live="off">
       <div class="count-box"><b id="cdD">–</b><small>days</small></div>
       <div class="count-box"><b id="cdH">–</b><small>hours</small></div>
@@ -136,8 +160,44 @@
     </div>
   </section>
 
+  <h2>Made for busy weeks</h2>
+  <p class="sub">Long shifts, classes, assignments — and at 9 pm the choice is cooking from zero or ordering fast food again. There's a third option.</p>
+  <div class="why">
+    <div class="why-card"><span class="icon" aria-hidden="true">⏱️</span><b>Zero cooking</b><p>No shopping, no chopping, no washing up. From freezer to plate in minutes.</p></div>
+    <div class="why-card"><span class="icon" aria-hidden="true">💪</span><b>Protein that keeps you going</b><p>38 to 65 g of protein per meal, from real meat — enough to get through a long day.</p></div>
+    <div class="why-card"><span class="icon" aria-hidden="true">🥟</span><b>Real food, not fast food</b><p>Homemade recipes from Chile and Argentina. Baked, not fried. Nothing ultra-processed.</p></div>
+    <div class="why-card"><span class="icon" aria-hidden="true">🗓️</span><b>Your week, sorted</b><p>Order once, get it Thursday, keep it in the freezer. Dinner is there whenever you get home.</p></div>
+  </div>
+
+  <h2>The menu</h2>
+  <p class="sub">Three dishes. Each one a full meal.</p>
+  <div class="menu">
+    <article class="dish d-pino">
+      <span class="origin">Chile</span>
+      <h3>Empanadas de Pino</h3>
+      <p class="dish-sub">2 baked beef empanadas</p>
+      <p class="protein"><b>38 g</b> protein</p>
+      <ul><li>Hand-chopped beef</li><li>Baked, not fried</li><li>Eat with your hands, anywhere</li></ul>
+    </article>
+    <article class="dish d-pastel">
+      <span class="origin">Chile</span>
+      <h3>Pastel de Choclo</h3>
+      <p class="dish-sub">Sweet corn &amp; beef bake</p>
+      <p class="protein"><b>40 g</b> protein</p>
+      <ul><li>Two meats: beef &amp; chicken</li><li>Golden sweet-corn crust</li><li>Comfort food in one bowl</li></ul>
+    </article>
+    <article class="dish d-asado">
+      <span class="origin">Argentina</span>
+      <h3>Asado Mixto</h3>
+      <p class="dish-sub">Mixed grill, rice &amp; salsa criolla</p>
+      <p class="protein"><b>65 g</b> protein</p>
+      <ul><li>Three meats: beef, chorizo &amp; chicken</li><li>The highest protein on the menu</li><li>House chimichurri on the side</li></ul>
+    </article>
+  </div>
+  <p class="fine">Protein is estimated per serve; final figures come from each dish's nutrition panel.</p>
+
   <h2 id="packs">Pick your pack</h2>
-  <p class="sub">Three recipes, three packs. Every pack is free delivery in our Gold Coast zone.</p>
+  <p class="sub">Every pack is free delivery in our Gold Coast zone.</p>
   <div class="packs" id="packList"><!-- filled from DROP_CONFIG below --></div>
 
   <h2>Who cooks your food</h2>
@@ -187,8 +247,8 @@
   <h2 id="faq">Questions</h2>
   <details><summary>Where do you deliver?</summary><p id="suburbList">Gold Coast.</p></details>
   <details><summary>What if I'm not home?</summary><p>Tell us when you check out and we'll leave it in an insulated bag, or message us on WhatsApp to arrange pick-up.</p></details>
-  <details><summary>How do I heat it?</summary><p>Instructions are on every label. Keep frozen at −18 °C; once thawed, eat within 1–2 days.</p></details>
-  <details><summary>Allergens?</summary><p id="allergenText">Each pack lists its allergens above and on the label.</p></details>
+  <details><summary>How do I heat it?</summary><p>Microwave, straight in its tray — the exact time is on every label. Keep frozen at −18 °C; once thawed, eat within 1–2 days.</p></details>
+  <details><summary>Allergens?</summary><p id="allergenText">Empanadas de pino: wheat, gluten, egg, milk. Pastel de choclo: milk, egg, wheat, gluten. Asado mixto: milk. Full ingredients are on every label.</p></details>
   <details><summary>Can I cancel or get a refund?</summary><p id="refundText">You can cancel for a full refund until the order cut-off (Sunday 8 pm). After that we've already bought the ingredients for you — but if anything is wrong with your order, we'll make it right.</p></details>
 
   <footer>
@@ -211,7 +271,8 @@
        Turn active to false after the 30 are sold: the 3 packs open at regular prices.
      - Prices: reasonable-market proposal (A$16–18 per serve). Confirm with the
        investor spreadsheet before launch.
-     - Allergens: VERIFY WITH THE REAL RECIPE CARDS before launch.
+     - Allergens + proteinG: taken from the packaging file (estimates). VERIFY with the
+       nutritionist's panel before launch. 1 pino serve = 2 empanadas.
      Never show a "packs left" number that is not true (Australian Consumer Law).
      ===================================================================== */
   var DROP_CONFIG = {
@@ -227,23 +288,23 @@
     packs: [
       {
         id: 'trial', featured: true, tag: 'Start here',
-        name: 'Trial Pack', forWho: 'Never tried us? One of each — find your favourite.',
-        items: [['Empanadas de pino (3)', '1 serve'], ['Pastel de choclo', '1 serve'], ['Asado mixto', '1 serve']],
-        serves: 3, priceAud: 54, allergens: 'TBC',
+        name: 'Trial Pack', forWho: 'Never tried us? One of each — three dinners, find your favourite.',
+        items: [['Empanadas de pino (2)', '1 serve'], ['Pastel de choclo', '1 serve'], ['Asado mixto', '1 serve']],
+        serves: 3, proteinG: 143, priceAud: 54, allergens: 'Wheat, gluten, egg, milk',
         stripeLink: '', soldOut: false
       },
       {
         id: 'empanadas', tag: 'Most shared',
-        name: 'Empanada Pack', forWho: 'Our baked beef empanadas. Made for sharing.',
-        items: [['Empanadas de pino', '12 empanadas'], ['Serves', '4']],
-        serves: 4, priceAud: 64, allergens: 'TBC',
+        name: 'Empanada Pack', forWho: 'Grab-and-go lunches for the busiest days.',
+        items: [['Empanadas de pino', '8 empanadas'], ['Meals', '4']],
+        serves: 4, proteinG: 152, priceAud: 64, allergens: 'Wheat, gluten, egg, milk',
         stripeLink: '', soldOut: false
       },
       {
         id: 'week', tag: 'Best for the week',
-        name: 'Week Pack', forWho: 'Six protein-packed dinners sorted.',
-        items: [['Empanadas de pino (3)', '2 serves'], ['Pastel de choclo', '2 serves'], ['Asado mixto', '2 serves']],
-        serves: 6, priceAud: 102, allergens: 'TBC',
+        name: 'Week Pack', forWho: 'Six dinners sorted — for the weeks with no time at all.',
+        items: [['Empanadas de pino (2)', '2 serves'], ['Pastel de choclo', '2 serves'], ['Asado mixto', '2 serves']],
+        serves: 6, proteinG: 286, priceAud: 102, allergens: 'Wheat, gluten, egg, milk',
         stripeLink: '', soldOut: false
       }
     ]
@@ -280,8 +341,8 @@
       ? 'Launch: first ' + launch.cap + ' Trial Packs at A$' + launch.priceAud
       : 'Only ' + cfg.packsPerDrop + ' packs this drop';
     if (launch) {
-      document.getElementById('dropTitle').textContent = 'Our first ' + launch.cap + ' packs, at launch price.';
-      document.getElementById('dropIntro').textContent = 'Homemade Latin American meals, frozen the day they\'re cooked. To meet you, our first ' + launch.cap + ' Trial Packs are almost at cost — then we go back to small weekly drops.';
+      document.getElementById('dropTitle').textContent = 'No time to cook? Dinner\'s already made.';
+      document.getElementById('dropIntro').textContent = 'Real Latin American home cooking with 38–65 g of protein per meal, frozen the day it\'s made — you just heat it. To meet you, our first ' + launch.cap + ' Trial Packs are almost at cost.';
     }
     document.getElementById('suburbList').textContent = 'Free delivery to: ' + cfg.suburbs.join(', ') + '. Outside these suburbs? Leave your email below and tell us where you are.';
 
@@ -314,9 +375,10 @@
       if (p.tag) card.appendChild(el('span', 'tag', p.tag));
       card.appendChild(el('h3', null, p.name));
       card.appendChild(el('p', 'for', p.forWho));
+      if (p.proteinG) card.appendChild(el('p', 'protein-total', p.proteinG + ' g protein in the pack'));
       var ul = el('ul');
       p.items.forEach(function (it) { var li = el('li'); li.appendChild(el('span', null, it[0])); li.appendChild(el('span', null, it[1])); ul.appendChild(li); });
-      var al = el('li'); al.appendChild(el('span', null, 'Allergens')); al.appendChild(el('span', null, p.allergens === 'TBC' ? 'listed before launch' : p.allergens)); ul.appendChild(al);
+      var al = el('li'); al.appendChild(el('span', null, 'Allergens')); al.appendChild(el('span', null, p.allergens === 'TBC' ? 'listed before launch' : p.allergens)); al.lastChild.style.whiteSpace = 'normal'; al.lastChild.style.textAlign = 'right'; ul.appendChild(al);
       card.appendChild(ul);
       // During the launch offer only the Trial Pack sells, at the launch price and on its own Stripe link.
       var isLaunchPack = launch && launch.packId === p.id;
