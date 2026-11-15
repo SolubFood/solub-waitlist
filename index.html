@@ -3,160 +3,267 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://plausible.io https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://formsubmit.co https://plausible.io https://cdn.jsdelivr.net; worker-src 'self' blob:; form-action 'self' https://formsubmit.co; base-uri 'self'; object-src 'none';">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://plausible.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://formsubmit.co https://plausible.io; form-action 'self' https://formsubmit.co; base-uri 'self'; object-src 'none';">
 <title>SolubFood — Latin America: more than people.</title>
-<meta name="description" content="SolubFood brings Latin American food and culture to the Gold Coast. Coming soon: El Kiosko, a late-night Latin corner shop with home-style food from local Latin cooks. Join free.">
+<meta name="description" content="SolubFood brings Latin American food and culture to the Gold Coast: home-style food from local Latin cooks, stories filmed where they're lived, and Latin nights. Join the waitlist free.">
 <meta property="og:title" content="SolubFood — Latin America: more than people.">
-<meta property="og:description" content="Latin American food and culture on the Gold Coast, told by the people who live it. Coming soon: El Kiosko.">
+<meta property="og:description" content="Latin American food and culture on the Gold Coast, told by the people who live it.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://solubfood.com/">
 <meta name="google-site-verification" content="ZIfBgz4Ohe4am5wnDQGKJKTBfGDkd8l4YmU6oRO9zCY" />
-<meta name="theme-color" content="#E74426">
+<meta name="theme-color" content="#F6E9D7">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Inter:wght@400;500;600&display=swap">
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js" integrity="sha384-qOkzR5Ke/XkQxuGVJ9hpFEpDlcoLtWwVYhnJf06cLIZa2vaIptSqaubivErzmD5O" crossorigin="anonymous" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/globe.gl@2.32.2/dist/globe.gl.min.js" integrity="sha384-omA7e/C7sSgm+cS3cQxKAjoJBfEm7k16J89V3IGabhNrgGWk0sNJ0seEY+p5JfG5" crossorigin="anonymous" defer></script>
+<!-- One type family for the whole site: Archivo (variable width + weight). Variety comes from width, weight, colour and paper, never from a second font. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap">
 <style>
-  .site-logo { display: inline-flex; align-items: center; line-height: 0; }
-  .site-logo img { width: 52px; height: 52px; display: block; }
-  .footer-brand .wordmark img { width: 72px; height: 72px; display: block; }
-  @media (max-width: 860px) { .site-logo img { width: 44px; height: 44px; } }
-  section[id] { scroll-margin-top: 76px; }
+  /* =================================================================
+     SolubFood — paper-collage design system
+     Palette: pink, orange and beige at different intensities, plus matte
+     black paper with beige letters.
+     ================================================================= */
   :root {
-    --bg: #F6E9D7;
-    --cream: #FFFFFF;
-    --ink: #1A1714;
+    --beige: #F6E9D7;
+    --sand: #EFDDC2;
+    --kraft: #E3C9A2;
+    --cream: #FBF5EC;
+    --pink: #E688B7;
+    --pink-soft: #F6CFE0;
+    --pink-deep: #A63D72;
+    --orange: #E74426;
+    --orange-soft: #F59A6A;
+    --peach: #F9CBA7;
+    --orange-deep: #B5321A;
+    --ink: #1C1916;
     --ink-soft: #3D3833;
-    --ink-muted: #5C5650;
-    --accent: #E74426;
-    --accent-dark: #C93A1F;
-    --line: #E8D7BF;
-    --line-strong: #DCC6A8;
-    --input-border: #C2A988;
-    --dark-bg: #E74426;
-    --dark-card: rgba(0,0,0,0.12);
-    --dark-card: rgba(0,0,0,0.12);
-    --dark-border: rgba(246,233,215,0.38);
-    --dark-muted: #F6E9D7;
-    --dark-text: #F6E9D7;
+    --ink-muted: #5A534C;
+    --input-border: #8A7A68;
+
+    --font: 'Archivo', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+    /* Fine paper fibre, drawn once as a tiny tiled SVG (no image request). */
+    --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .2 0 0 0 0 .1 0 0 0 0 .05 0 0 0 .11 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    /* A soft, slightly crumpled light falloff across each sheet. */
+    --crumple: linear-gradient(158deg, rgba(255,255,255,.24), rgba(255,255,255,0) 36%, rgba(0,0,0,.03) 62%, rgba(255,255,255,.06) 74%, rgba(0,0,0,.07));
+
+    /* Scissor-cut outlines: straight-ish edges that change angle, never perfect rectangles. */
+    --cut-1: polygon(0.6% 2.4%, 18% 0.4%, 41% 1.8%, 63% 0%, 86% 1.4%, 99.4% 0.2%, 100% 34%, 98.8% 61%, 99.8% 97.6%, 77% 99.2%, 52% 98%, 27% 100%, 1.2% 98.6%, 0% 66%, 1% 31%);
+    --cut-2: polygon(1.8% 0.8%, 31% 2%, 58% 0.2%, 98.6% 1.6%, 99.6% 28%, 98.4% 72%, 100% 99%, 66% 98.2%, 35% 99.8%, 0.4% 98.8%, 1.4% 52%, 0% 18%);
+    --cut-3: polygon(0% 3%, 46% 0%, 100% 2.5%, 98.6% 49%, 100% 97%, 54% 100%, 1.6% 97.4%, 0.8% 46%);
+    --cut-4: polygon(2% 0%, 100% 4%, 97% 52%, 99% 100%, 0% 96%, 2.5% 48%);
+
+    --shadow: drop-shadow(0 1px 1px rgba(60,30,15,.22)) drop-shadow(0 7px 10px rgba(60,30,15,.16));
+    --shadow-up: drop-shadow(0 2px 2px rgba(60,30,15,.2)) drop-shadow(0 18px 22px rgba(60,30,15,.22));
   }
+
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
-  @media (prefers-reduced-motion: reduce) {
-    html { scroll-behavior: auto; }
-    *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
-  }
   body {
     margin: 0;
     overflow-x: hidden;
-    background: var(--bg);
+    background: var(--grain), var(--beige);
     color: var(--ink);
-    font-family: 'Inter', system-ui, sans-serif;
-    font-size: 16px;
-    line-height: 1.5;
+    font-family: var(--font);
+    font-size: 17px;
+    line-height: 1.55;
     -webkit-font-smoothing: antialiased;
   }
-  a { color: var(--accent); }
-  a:hover, a:focus-visible { color: var(--accent-dark); }
   img { max-width: 100%; display: block; }
+  a { color: var(--orange-deep); text-underline-offset: 3px; }
+  a:hover { color: var(--ink); }
+  :focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; border-radius: 2px; }
+  .on-dark :focus-visible, .site-footer :focus-visible { outline-color: var(--beige); }
+  h1, h2, h3 { font-family: var(--font); margin: 0; letter-spacing: -0.01em; }
+  p { margin: 0; }
   .wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
-  h1, h2, h3 {
-    font-family: 'Archivo', sans-serif;
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    margin: 0;
-  }
-  .eyebrow {
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--ink-muted);
-  }
-  .eyebrow.on-dark { color: var(--dark-muted); }
-  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  main { overflow-x: clip; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+  .skip-link { position: absolute; left: 12px; top: -60px; z-index: 3000; background: var(--ink); color: var(--beige); padding: 10px 16px; font-weight: 700; }
+  .skip-link:focus { top: 12px; color: var(--beige); }
+  section[id] { scroll-margin-top: 84px; }
 
-  /* ---------- buttons ---------- */
+  .eyebrow {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--pink-deep);
+    margin-bottom: 14px;
+  }
+  .on-dark .eyebrow { color: var(--beige); }
+
+  /* ---------- paper sheet ----------
+     The sheet itself is drawn by ::before (clipped to a scissor-cut shape);
+     the shadow is a drop-shadow on the element, so it follows the cut edge.
+     Text sits on top and is never clipped or distorted. */
+  .paper { position: relative; isolation: isolate; filter: var(--shadow); color: var(--paper-ink, var(--ink)); }
+  .paper::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--grain), var(--crumple), var(--paper, var(--cream));
+    clip-path: var(--cut, var(--cut-1));
+    box-shadow: inset 0 0 22px rgba(90,45,20,.15);
+  }
+  .p-cream { --paper: var(--cream); }
+  .p-beige { --paper: var(--beige); }
+  .p-sand { --paper: var(--sand); }
+  .p-kraft { --paper: var(--kraft); }
+  .p-pink { --paper: var(--pink); }
+  .p-pinksoft { --paper: var(--pink-soft); }
+  .p-peach { --paper: var(--peach); }
+  .p-orangesoft { --paper: var(--orange-soft); }
+  .p-orange { --paper: var(--orange); --paper-ink: var(--ink); }
+  .p-ink { --paper: var(--ink); --paper-ink: var(--beige); }
+  .p-ink::before { box-shadow: inset 0 0 26px rgba(0,0,0,.6); }
+  .cut-2 { --cut: var(--cut-2); }
+  .cut-3 { --cut: var(--cut-3); }
+  .cut-4 { --cut: var(--cut-4); }
+
+  /* ---------- clear sticky tape ---------- */
+  .tape::after, .tape-l::after, .tape-r::after {
+    content: "";
+    position: absolute;
+    z-index: 3;
+    top: -13px;
+    left: calc(50% - 46px);
+    width: 92px;
+    height: 28px;
+    background: linear-gradient(180deg, rgba(255,255,255,.66), rgba(244,238,224,.46));
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.35);
+    transform: rotate(var(--tape-r, -3deg));
+    clip-path: polygon(3% 0, 97% 0, 100% 15%, 96% 30%, 100% 50%, 97% 70%, 100% 88%, 97% 100%, 3% 100%, 0 85%, 4% 66%, 0 48%, 3% 30%, 0 12%);
+    pointer-events: none;
+  }
+  .tape-l::after { left: -20px; top: 4px; width: 78px; --tape-r: -38deg; }
+  .tape-r::after { left: auto; right: -20px; top: 4px; width: 78px; --tape-r: 36deg; }
+  .strip.tape-l::after, .hero-kicker.tape-l::after { left: -16px; top: -10px; width: 54px; height: 22px; }
+
+  /* ---------- lift on hover (desktop only, never needed to use the site) ---------- */
+  .lift { transform: rotate(var(--rot, 0deg)); }
+  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    .lift { transition: transform .28s cubic-bezier(.2,.8,.2,1), filter .28s ease; }
+    .lift:hover { transform: translateY(-6px) scale(1.025) rotate(var(--rot, 0deg)); filter: var(--shadow-up); }
+  }
+
+  /* ---------- headings made of cut strips ---------- */
+  .sec-title {
+    font-weight: 900;
+    font-variation-settings: 'wdth' 92;
+    font-size: clamp(34px, 5.2vw, 64px);
+    line-height: 1.12;
+    margin: 0 0 22px;
+  }
+  .strip { display: inline-block; padding: .06em .26em .1em; margin: .04em .02em; transform: rotate(var(--rot, 0deg)); }
+  .strip.wide { font-variation-settings: 'wdth' 118; }
+  .strip.narrow { font-variation-settings: 'wdth' 72; }
+
+  /* ---------- buttons (paper too) ---------- */
   .btn {
+    position: relative;
+    isolation: isolate;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-height: 48px;
+    gap: 8px;
+    min-height: 50px;
     padding: 0 26px;
-    border-radius: 999px;
-    font-family: 'Inter', sans-serif;
-    font-weight: 600;
-    font-size: 15px;
+    border: 0;
+    background: none;
+    font-family: var(--font);
+    font-size: 16px;
+    font-weight: 800;
+    font-variation-settings: 'wdth' 105;
     text-decoration: none;
     cursor: pointer;
-    border: 0;
-    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    color: var(--paper-ink, var(--ink));
+    filter: var(--shadow);
+    --cut: var(--cut-3);
   }
-  .btn.primary { background: var(--accent); color: #FFFFFF; }
-  .btn.primary:hover, .btn.primary:focus-visible { background: var(--accent-dark); color: #FFFFFF; }
-  .btn.outline { background: none; border: 1.5px solid var(--ink); color: var(--ink); }
-  .btn.outline:hover, .btn.outline:focus-visible { background: var(--ink); color: #FFFFFF; }
-  .btn.outline-dark { background: none; border: 1.5px solid #FFFFFF; color: #FFFFFF; }
-  .btn.outline-dark:hover, .btn.outline-dark:focus-visible { background: #FFFFFF; color: var(--ink); }
-  .btn.ghost-light { background: none; border: 1px solid var(--line); color: var(--ink-muted); }
-  .btn.ghost-light:hover { color: var(--ink); border-color: var(--ink-muted); }
-  .btn:disabled { opacity: 0.6; cursor: default; }
-  .btn.lg { min-height: 52px; padding: 0 28px; font-size: 16px; }
+  .btn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--grain), var(--crumple), var(--paper, var(--pink));
+    clip-path: var(--cut);
+  }
+  .btn:hover { color: var(--paper-ink, var(--ink)); }
+  .btn-ink { --paper: var(--ink); --paper-ink: var(--beige); }
+  .btn-pink { --paper: var(--pink); }
+  .btn-cream { --paper: var(--cream); }
+  .btn-peach { --paper: var(--peach); }
+  .btn:disabled { opacity: .6; cursor: default; }
+  .btn-sm { min-height: 44px; padding: 0 18px; font-size: 15px; }
+  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    .btn { transition: transform .22s cubic-bezier(.2,.8,.2,1), filter .22s ease; }
+    .btn:hover:not(:disabled) { transform: translateY(-3px) scale(1.03) rotate(-1deg); filter: var(--shadow-up); }
+  }
+  .text-link { font-weight: 800; color: inherit; text-decoration: underline; text-decoration-thickness: 2px; display: inline-flex; align-items: center; min-height: 44px; }
+  .on-dark .text-link:hover { color: var(--beige); }
+
+  /* ---------- torn-paper transitions between sections ---------- */
+  .edge { display: block; position: relative; z-index: 2; height: 70px; margin-top: -1px; background: var(--grain), var(--from); line-height: 0; }
+  .edge svg { display: block; width: 100%; height: 100%; }
+  .edge .e-mid { fill: var(--mid); }
+  .edge .e-to { fill: var(--to); }
+  .edge.flip svg { transform: scaleX(-1); }
+  @media (max-width: 680px) { .edge { height: 44px; } }
+
+  /* ---------- cookie banner ---------- */
+  .cookie-banner {
+    position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 2000;
+    max-width: 760px; margin: 0 auto;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px;
+    padding: 18px 22px;
+    --cut: var(--cut-2);
+  }
+  .cookie-banner[hidden] { display: none; }
+  .cookie-banner p { font-size: 15px; line-height: 1.5; color: var(--beige); }
+  .cookie-banner p a { color: var(--pink-soft); }
+  .cookie-banner-actions { display: flex; gap: 10px; flex-shrink: 0; }
 
   /* ---------- header ---------- */
   header.site-header {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: var(--bg);
-    border-bottom: 1px solid var(--line);
+    position: sticky; top: 0; z-index: 100;
+    background: var(--grain), var(--beige);
+    box-shadow: 0 1px 0 rgba(28,25,22,.12), 0 8px 18px -14px rgba(60,30,15,.4);
   }
-  .header-row {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    padding-top: 16px;
-    padding-bottom: 16px;
-  }
-  .site-logo {
-    font-family: 'Archivo', sans-serif;
-    font-weight: 800;
-    font-size: 24px;
-    letter-spacing: -0.02em;
-    color: var(--ink);
-    text-decoration: none;
-  }
-  .site-logo:hover, .site-logo:focus-visible { color: var(--ink); }
-  .main-nav {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 26px;
-  }
+  .header-row { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding-top: 12px; padding-bottom: 12px; }
+  .site-logo { display: inline-flex; align-items: center; line-height: 0; margin-right: auto; }
+  .site-logo img { width: 52px; height: 52px; }
+  .main-nav { display: flex; align-items: center; gap: 6px; }
   .main-nav a {
+    position: relative;
+    display: inline-flex; align-items: center; min-height: 44px;
+    padding: 0 12px;
     color: var(--ink);
     text-decoration: none;
-    font-weight: 500;
-    font-size: 15px;
+    font-weight: 700;
+    font-size: 16px;
   }
-  .main-nav a:hover, .main-nav a:focus-visible { color: var(--accent); }
+  .main-nav a::after {
+    content: ""; position: absolute; left: 10px; right: 10px; bottom: 8px; height: 6px;
+    background: var(--pink); clip-path: var(--cut-4); z-index: -1;
+    transform: scaleX(0); transform-origin: left; transition: transform .2s ease;
+  }
+  .main-nav a:hover::after, .main-nav a:focus-visible::after { transform: scaleX(1); }
   .nav-toggle { display: none; }
-  @media (max-width: 860px) {
-    .header-row { flex-wrap: nowrap; gap: 10px; padding-top: 12px; padding-bottom: 12px; }
-    .site-logo { font-size: 22px; margin-right: auto; }
-    .header-row > .btn.primary { min-height: 40px; padding: 0 16px; font-size: 14px; }
+  @media (max-width: 920px) {
+    .header-row { gap: 10px; }
+    .site-logo img { width: 44px; height: 44px; }
+    .header-cta { min-height: 44px; padding: 0 14px; font-size: 14px; }
     .nav-toggle {
       display: inline-flex; align-items: center; justify-content: center;
-      width: 44px; height: 44px; flex-shrink: 0;
-      border: 1px solid var(--line-strong); border-radius: 12px;
-      background: var(--bg); color: var(--ink); cursor: pointer;
+      width: 46px; height: 46px; flex-shrink: 0;
+      border: 2px solid var(--ink); border-radius: 6px;
+      background: var(--cream); color: var(--ink); cursor: pointer;
     }
     .nav-toggle svg { width: 22px; height: 22px; }
     .nav-toggle .i-close { display: none; }
@@ -166,529 +273,395 @@
       display: none;
       position: absolute; left: 0; right: 0; top: 100%;
       flex-direction: column; align-items: stretch; gap: 0;
-      background: var(--bg); border-bottom: 1px solid var(--line);
-      box-shadow: 0 18px 30px -20px rgba(26,23,20,0.35);
-      padding: 6px 24px 14px;
+      background: var(--grain), var(--beige);
+      box-shadow: 0 18px 30px -20px rgba(26,23,20,0.45);
+      padding: 6px 24px 16px;
     }
     .site-header.nav-open .main-nav { display: flex; }
-    .main-nav a { padding: 14px 0; font-size: 17px; border-bottom: 1px solid var(--line); }
+    .main-nav a { padding: 14px 4px; font-size: 19px; border-bottom: 1px solid rgba(28,25,22,.12); }
     .main-nav a:last-child { border-bottom: 0; }
+    .main-nav a::after { display: none; }
   }
-
-  /* ---------- cookie banner ---------- */
-  .cookie-banner {
-    position: fixed;
-    left: 16px;
-    right: 16px;
-    bottom: 16px;
-    z-index: 2000;
-    max-width: 760px;
-    margin: 0 auto;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 14px;
-    padding: 16px 20px;
-    border-radius: 14px;
-    background: var(--ink);
-    color: #FFFFFF;
-    box-shadow: 0 20px 44px -18px rgba(0,0,0,0.45);
-  }
-  .cookie-banner[hidden] { display: none; }
-  .cookie-banner p { margin: 0; font-size: 14px; line-height: 1.5; color: var(--dark-text); }
-  .cookie-banner p a { color: #F6E9D7; }
-  .cookie-banner-actions { display: flex; gap: 10px; flex-shrink: 0; }
-  .cookie-banner .btn { min-height: 40px; padding: 0 18px; font-size: 14px; }
-  .cookie-banner .btn.ghost-light { color: var(--dark-text); border-color: var(--dark-border); }
-  .cookie-banner .btn.ghost-light:hover { color: #FFFFFF; border-color: var(--dark-muted); }
-  @media (max-width: 600px) {
-    .cookie-banner { flex-direction: column; align-items: flex-start; }
-    .cookie-banner-actions { width: 100%; justify-content: flex-end; }
-  }
+  @media (max-width: 380px) { .header-cta { padding: 0 10px; font-size: 13px; } }
 
   /* ---------- hero ---------- */
-  .hero { padding: 56px 0 72px; }
-  .hero-row {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 40px;
-  }
-  .hero-copy { flex: 1 1 420px; min-width: 0; }
-  .hero h1 {
-    font-size: clamp(40px, 6vw, 80px);
-    line-height: 0.98;
-    margin: 18px 0 22px;
-  }
-  .hero-sub {
-    font-size: 19px;
-    line-height: 1.55;
-    color: var(--ink-soft);
-    margin: 0 0 30px;
-    max-width: 36ch;
-  }
-  .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
-  .hero-fine { font-size: 14px; line-height: 1.5; color: var(--ink-muted); margin: 22px 0 0; max-width: 46ch; }
+  .hero { position: relative; padding: 48px 0 40px; }
+  .hero-row { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 40px; align-items: center; }
+  .hero-kicker { --rot: -2deg; font-size: clamp(18px, 2.2vw, 26px); font-weight: 800; font-variation-settings: 'wdth' 120; letter-spacing: .02em; text-transform: uppercase; padding: .3em .7em .34em; display: inline-block; transform: rotate(var(--rot)); margin: 0 0 14px 6px; }
 
-  .hero-visual { flex: 1 1 480px; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 12px; }
-  .hero-video-frame { position: relative; width: 100%; max-width: 460px; padding-top: 28px; padding-right: 20px; }
-  .hero-video {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 3 / 4;
-    border-radius: 22px;
-    overflow: hidden;
-    background: #0E1420;
+  .cut-title { display: flex; flex-wrap: wrap; gap: .04em .2em; margin: 0 0 26px; font-size: clamp(50px, 7.2vw, 104px); font-weight: 900; line-height: 1; text-transform: uppercase; }
+  .cut-title .w { display: inline-flex; filter: var(--shadow); }
+  .cut-title .l {
+    display: inline-block;
+    padding: .07em .07em .03em;
+    margin-right: -.02em;
+    background: var(--grain), var(--crumple), var(--bg-l);
+    color: var(--fg-l);
+    clip-path: var(--cut-l, var(--cut-3));
+    transform: rotate(var(--r, 0deg)) translateY(var(--y, 0));
+    font-variation-settings: 'wdth' var(--wd, 100);
   }
-  .hero-video img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; }
-  .hero-play {
-    position: absolute;
-    top: 46%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 80px;
-    height: 80px;
-    border-radius: 999px;
-    border: 0;
-    background: #FFFFFF;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    .cut-title .l { transition: transform .25s cubic-bezier(.2,.8,.2,1); }
+    .cut-title .l:hover { transform: rotate(var(--r, 0deg)) translateY(-.08em) scale(1.08); }
   }
-  .hero-play:hover { background: #F4F1EC; }
-  .hero-video-caption {
-    position: absolute;
-    left: 0; right: 0; bottom: 0;
-    padding: 64px 26px 24px;
-    background: linear-gradient(to top, rgba(8,10,14,0.92), rgba(8,10,14,0));
-  }
-  .hero-video-caption .watch-label { font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dark-text); }
-  .hero-video-caption .title { font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 25px; letter-spacing: -0.02em; color: #FFFFFF; margin: 6px 0 4px; }
-  .hero-video-caption .byline { font-size: 14px; color: var(--dark-text); }
-  .hero-video-note { font-size: 13px; color: var(--ink-muted); text-align: center; min-height: 1.3em; }
+  .k1 { --bg-l: var(--pink); --fg-l: var(--ink); }
+  .k2 { --bg-l: var(--orange); --fg-l: var(--beige); }
+  .k3 { --bg-l: var(--beige); --fg-l: var(--orange-deep); }
+  .k4 { --bg-l: var(--ink); --fg-l: var(--pink); }
+  .k5 { --bg-l: var(--peach); --fg-l: var(--ink); }
+  .k6 { --bg-l: var(--pink-soft); --fg-l: var(--orange-deep); }
+  .k7 { --bg-l: var(--orange-soft); --fg-l: var(--ink); }
+  .cut-title .l:nth-child(3n+1) { --r: -4deg; --wd: 112; --cut-l: var(--cut-1); }
+  .cut-title .l:nth-child(3n+2) { --r: 3deg; --wd: 84; --y: .04em; --cut-l: var(--cut-4); }
+  .cut-title .l:nth-child(3n) { --r: -1.5deg; --wd: 100; --y: -.03em; --cut-l: var(--cut-2); }
+  .cut-title .l:nth-child(5) { --r: 5deg; --wd: 122; }
 
-  .hero-globe-wrap { position: absolute; top: 0; right: 0; width: 34%; max-width: 150px; }
-  .hero-globe-badge {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    border-radius: 50%;
-    overflow: hidden;
-    background: var(--cream);
-    box-shadow: 0 10px 28px -10px rgba(0,0,0,0.4), 0 0 0 4px #FFFFFF;
-  }
-  #heroGlobe { width: 100%; height: 100%; }
+  .hero-desc { --rot: .5deg; max-width: 34ch; padding: 22px 26px 24px; margin: 0 0 28px; font-size: 19px; line-height: 1.5; font-weight: 500; transform: rotate(var(--rot)); }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 14px 16px; align-items: center; }
+  .hero-fine { font-size: 15px; line-height: 1.5; color: var(--ink-soft); margin: 22px 0 0; max-width: 46ch; }
 
-  /* ---------- origins ---------- */
-  .origins { background: var(--dark-bg); color: #FFFFFF; padding: 88px 0; }
-  .origins h2 { font-size: clamp(32px, 4vw, 50px); line-height: 1.05; color: #FFFFFF; margin: 14px 0 14px; }
-  .origins-sub { font-size: 18px; line-height: 1.55; color: var(--dark-text); margin: 0 0 44px; max-width: 54ch; }
-  .origins-top { display: flex; flex-wrap: wrap; gap: 32px; align-items: center; margin-bottom: 44px; }
-  .manifesto-video {
-    flex: 1 1 540px;
-    min-width: 0;
-    aspect-ratio: 16 / 9;
-    border-radius: 18px;
-    background: var(--dark-card);
-    border: 1px solid var(--dark-border);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 14px;
-    cursor: pointer;
+  /* ---------- loop animation: everything comes home ---------- */
+  .loop { --rot: 2deg; margin: 0; padding: 18px 18px 16px; transform: rotate(var(--rot)); }
+  .loop-svg { display: block; width: 100%; height: auto; max-width: 460px; margin: 0 auto; }
+  .loop figcaption { text-align: center; font-weight: 800; font-size: 18px; margin-top: 8px; font-variation-settings: 'wdth' 108; }
+  .loop figcaption small { display: block; font-weight: 500; font-size: 13px; color: var(--ink-muted); font-variation-settings: 'wdth' 100; }
+  .loop .belt { fill: var(--ink); }
+  .loop .flow { fill: none; stroke: var(--beige); stroke-width: 4; stroke-linecap: round; stroke-dasharray: 4 14; animation: belt-flow .75s linear infinite; }
+  .loop .chev { fill: none; stroke: var(--pink); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+  .loop .it { transform-box: fill-box; transform-origin: center; animation: ride 3s cubic-bezier(.5,0,.3,1) infinite; }
+  .loop .home { transform-box: fill-box; transform-origin: 50% 80%; animation: home-pop 3s ease-out infinite; }
+  .loop .burst { opacity: 0; animation: burst 3s ease-out infinite; }
+  .loop .burst line { stroke: var(--orange-deep); stroke-width: 5; stroke-linecap: round; }
+  @keyframes belt-flow { to { stroke-dashoffset: -18; } }
+  @keyframes ride {
+    0% { transform: translate(calc(var(--dx) * -84px), calc(var(--dy) * -84px)) scale(.9); opacity: 0; }
+    12% { opacity: 1; }
+    62% { transform: translate(0, 0) scale(1); opacity: 1; }
+    80%, 100% { transform: translate(calc(var(--dx) * 48px), calc(var(--dy) * 48px)) scale(.3); opacity: 0; }
   }
-  .manifesto-video-play {
-    width: 68px; height: 68px;
-    border-radius: 999px;
-    background: #FFFFFF;
-    display: flex; align-items: center; justify-content: center;
+  @keyframes home-pop {
+    0%, 72% { transform: scale(1) rotate(0); }
+    82% { transform: scale(1.1) rotate(-2deg); }
+    91% { transform: scale(.98) rotate(1deg); }
+    100% { transform: scale(1) rotate(0); }
   }
-  .manifesto-video-label { font-size: 15px; color: var(--dark-text); }
-  blockquote.manifesto-quote { flex: 1 1 320px; min-width: 0; margin: 0; }
-  blockquote.manifesto-quote p {
-    font-family: 'Archivo', sans-serif;
-    font-weight: 600;
-    font-size: 25px;
-    line-height: 1.3;
-    letter-spacing: -0.01em;
-    color: #FFFFFF;
-    margin: 0 0 14px;
-  }
-  blockquote.manifesto-quote cite { font-size: 15px; color: var(--dark-muted); font-style: normal; }
-  .episode-grid { display: flex; flex-wrap: wrap; gap: 22px; }
-  .episode-card { flex: 1 1 280px; min-width: 0; background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: 18px; overflow: hidden; }
-  .episode-still {
-    aspect-ratio: 16 / 10;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 13px;
-  }
-  .episode-still.ep1 { background: #5A2A20; color: #F1E9E4; }
-  .episode-still.ep2 { background: #3B4526; color: #EEF0E6; }
-  .episode-still.ep3 { background: #6B5418; color: #F7EFD9; }
-  .episode-body { padding: 20px; }
-  .episode-tag { font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dark-muted); }
-  .episode-title { font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 20px; margin: 8px 0 8px; color: #FFFFFF; }
-  .episode-status { font-size: 14px; color: var(--dark-text); }
-  .origins-follow { display: inline-flex; align-items: center; min-height: 44px; margin-top: 28px; color: #FFFFFF; font-weight: 600; font-size: 16px; text-decoration: none; }
-  .origins-follow:hover, .origins-follow:focus-visible { color: #F6E9D7; }
-  .origins-actions { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; margin-top: 28px; }
-  .origins-actions .origins-follow { margin-top: 0; }
-
-  /* ---------- vision ---------- */
-  .vision { background: var(--cream); padding: 96px 0; }
-  .vision h2 { font-size: clamp(36px, 5vw, 64px); line-height: 1.0; margin: 14px 0 22px; max-width: 18ch; }
-  .vision-sub { font-size: 19px; line-height: 1.55; color: var(--ink-soft); margin: 0 0 48px; max-width: 58ch; }
-  .vision-grid { display: flex; flex-wrap: wrap; gap: 18px; margin-bottom: 48px; }
-  .vision-card {
-    position: relative;
-    isolation: isolate;
-    overflow: hidden;
-    flex: 1 1 230px; min-width: 0;
-    background: #FFFFFF; border: 1px solid var(--line); border-radius: 18px; padding: 26px;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-  }
-  .vision-card:hover, .vision-card:focus-within { transform: translateY(-3px); box-shadow: 0 16px 30px -18px rgba(26,23,20,0.35); }
-  /* Cursor-reactive spotlight glow, vanilla CSS/JS take on a pasted
-     React "GlowCard" spec — each card tracks the pointer relative to its
-     own box (--mx/--my, see visionCardGlow() below) instead of the
-     reference's viewport-fixed coordinates + background-attachment:
-     fixed, since that combo breaks the moment the card itself gets a
-     hover transform (the fixed background loses its frame of reference). */
-  .vision-card::before,
-  .vision-card::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.35s ease;
-  }
-  .vision-card::before {
-    background-image: radial-gradient(240px 240px at calc(var(--mx, -9999) * 1px) calc(var(--my, -9999) * 1px), rgba(231,68,38,0.14), transparent 70%);
-  }
-  .vision-card::after {
-    padding: 2px;
-    background-image: radial-gradient(200px 200px at calc(var(--mx, -9999) * 1px) calc(var(--my, -9999) * 1px), rgba(231,68,38,0.6), transparent 70%);
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-  }
-  .vision-card:hover::before,
-  .vision-card:hover::after,
-  .vision-card:focus-within::before,
-  .vision-card:focus-within::after {
-    opacity: 1;
-  }
+  @keyframes burst { 0%, 74% { opacity: 0; } 82% { opacity: 1; } 96%, 100% { opacity: 0; } }
+  .loop.is-paused * { animation-play-state: paused !important; }
   @media (prefers-reduced-motion: reduce) {
-    .vision-card { transition: none; }
-    .vision-card::before, .vision-card::after { display: none; }
+    .loop .flow, .loop .it, .loop .home, .loop .burst { animation: none !important; }
+    .loop .it { opacity: 1; transform: none; }
   }
-  .vision-card .kicker { font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 14px; color: var(--accent); letter-spacing: 0.08em; }
-  .vision-card h3 { font-size: 22px; margin: 8px 0 10px; }
-  .vision-card p { font-size: 15px; line-height: 1.5; color: var(--ink-soft); margin: 0; }
-  .vision-foot { display: flex; flex-wrap: wrap; gap: 36px; align-items: center; padding-top: 36px; border-top: 1px solid var(--line-strong); }
-  .vision-quote { flex: 2 1 460px; min-width: 0; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 24px; line-height: 1.3; letter-spacing: -0.01em; margin: 0; }
-  .founders { flex: 1 1 260px; min-width: 0; display: flex; align-items: center; gap: 14px; }
-  .founder-photos { display: flex; }
-  .founder-photo { width: 52px; height: 52px; border-radius: 999px; object-fit: cover; object-position: 50% 42%; border: 3px solid var(--cream); display: block; }
-  .founder-avatar {
-    width: 52px; height: 52px; border-radius: 999px;
-    background: #FFFFFF; color: var(--ink-muted);
-    display: flex; align-items: center; justify-content: center;
-    border: 1.5px dashed var(--input-border);
-    margin-left: -14px;
-  }
-  .founder-note { font-size: 12px; color: var(--ink-muted); margin: 4px 0 0; }
-  .founder-names { font-weight: 600; font-size: 15px; }
-  .founder-role { font-size: 13px; color: var(--ink-muted); }
 
-  /* ---------- community: say it like a local ---------- */
-  .community { padding: 96px 0; background: var(--bg); }
-  .community h2 { font-size: clamp(32px, 4vw, 50px); line-height: 1.05; margin: 12px 0 14px; }
-  .community-sub { font-size: 18px; line-height: 1.55; color: var(--ink-soft); margin: 0 0 28px; max-width: 56ch; }
-  .country-filter { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
-  .country-chip {
-    min-height: 40px;
-    padding: 0 16px;
-    border-radius: 999px;
-    border: 1px solid var(--line-strong);
+  @media (max-width: 900px) {
+    .hero-row { grid-template-columns: minmax(0, 1fr); gap: 36px; }
+    .cut-title { font-size: clamp(46px, 13.5vw, 110px); }
+    .loop { max-width: 440px; margin: 0 auto; width: 100%; }
+  }
+  @media (max-width: 680px) {
+    .hero { padding-top: 28px; }
+    .hero-desc { font-size: 17px; padding: 18px 20px 20px; }
+    .hero-actions .btn { flex: 1 1 100%; }
+  }
+
+  /* ---------- waitlist ---------- */
+  .waitlist { background: var(--grain), var(--pink); padding: 40px 0 96px; }
+  .waitlist-row { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 56px; align-items: center; }
+  .waitlist .eyebrow { color: var(--ink); }
+  .wl-title { font-size: clamp(34px, 4.6vw, 58px); font-weight: 900; line-height: 1.14; margin: 0 0 22px; }
+  .wl-title .strip { padding: .04em .22em .08em; }
+  .wl-lead { font-size: 18px; line-height: 1.55; margin: 0 0 18px; max-width: 46ch; font-weight: 500; }
+  .wl-perks { list-style: none; padding: 0; margin: 0 0 26px; display: grid; gap: 8px; }
+  .wl-perks li { display: flex; gap: 10px; align-items: center; font-weight: 600; }
+  .wl-perks svg { flex-shrink: 0; }
+
+  .wl-form { padding: 28px 26px 22px; --cut: var(--cut-2); }
+  .wl-form[hidden] { display: none; }
+  .wl-fields { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr) auto; gap: 12px; align-items: end; }
+  .wl-fields .btn { min-height: 50px; white-space: nowrap; }
+  .field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+  .field label, fieldset legend { font-size: 15px; font-weight: 700; }
+  .field input, .field select, .field textarea {
+    min-height: 50px;
+    padding: 0 14px;
+    border: 2px solid var(--input-border);
+    border-radius: 4px;
+    font-size: 16px;
+    font-family: var(--font);
+    width: 100%;
     background: #FFFFFF;
     color: var(--ink);
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
   }
-  .country-chip:hover { border-color: var(--ink-muted); }
-  .country-chip[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: #FFFFFF; }
-  .word-grid { display: flex; flex-wrap: wrap; gap: 18px; }
-  .word-card {
-    flex: 1 1 250px;
-    min-width: 0;
-    height: 230px;
-    padding: 0;
-    border: 0;
-    background: none;
-    font: inherit;
-    color: inherit;
-    text-align: left;
-    cursor: pointer;
-    perspective: 1000px;
+  .field textarea { padding: 12px 14px; resize: vertical; }
+  .field input:focus-visible, .field select:focus-visible, .field textarea:focus-visible { outline: 3px solid var(--ink); outline-offset: 1px; border-color: var(--ink); }
+  .field input[aria-invalid="true"], .field textarea[aria-invalid="true"] { border-color: var(--orange-deep); }
+  .consent-row { display: flex; align-items: flex-start; gap: 10px; font-size: 15px; line-height: 1.45; color: var(--ink-soft); margin-top: 14px; cursor: pointer; }
+  .consent-row input { width: 20px; height: 20px; margin-top: 1px; accent-color: var(--orange-deep); flex-shrink: 0; }
+  .form-fine { font-size: 14px; line-height: 1.5; color: var(--ink-muted); margin-top: 10px; }
+  .form-status { margin: 10px 0 0; font-size: 15px; font-weight: 700; min-height: 1.2em; }
+  .form-status:empty { margin: 0; min-height: 0; }
+  .form-status.success { color: var(--ink); }
+  .form-status.error { color: var(--orange-deep); }
+  .form-status.done { padding: 22px 24px; font-size: 18px; }
+  .form-honey { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+
+  /* collage of countries */
+  .collage { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 18px 22px; padding: 22px 6px 6px; }
+  .polaroid { margin: 0; padding: 10px 10px 8px; transform: rotate(var(--rot, 0deg)); }
+  .polaroid img { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; }
+  .polaroid figcaption { font-weight: 900; font-variation-settings: 'wdth' 115; text-transform: uppercase; font-size: 15px; letter-spacing: .06em; padding-top: 8px; text-align: center; }
+  .collage .polaroid:nth-child(1) { --rot: -5deg; }
+  .collage .polaroid:nth-child(2) { --rot: 4deg; margin-top: 34px; }
+  .collage .polaroid:nth-child(3) { --rot: 3deg; margin-top: -22px; }
+  .collage .polaroid:nth-child(4) { --rot: -3.5deg; margin-top: 10px; }
+  .collage-badge {
+    position: absolute; left: 50%; top: 50%; z-index: 5;
+    width: max-content; max-width: 70%;
+    padding: 12px 18px 14px;
+    font-weight: 900; font-variation-settings: 'wdth' 82; font-size: clamp(18px, 2.2vw, 26px); line-height: 1.1; text-align: center; text-transform: uppercase;
+    transform: translate(-50%, -50%) rotate(-4deg);
   }
+  @media (max-width: 900px) {
+    .waitlist-row { grid-template-columns: minmax(0, 1fr); gap: 40px; }
+    .collage { max-width: 520px; margin: 0 auto; width: 100%; }
+  }
+  @media (max-width: 680px) {
+    .waitlist { padding-bottom: 72px; }
+    .wl-fields { grid-template-columns: minmax(0, 1fr); }
+    .wl-fields .btn { width: 100%; }
+    .wl-form { padding: 24px 18px 18px; }
+    .collage { gap: 14px; }
+  }
+
+  /* ---------- generic section spacing ---------- */
+  .band { padding: 88px 0; position: relative; }
+  .band-lead { font-size: 19px; line-height: 1.55; max-width: 56ch; margin: 0 0 40px; color: var(--ink-soft); font-weight: 500; }
+  .on-dark .band-lead { color: var(--beige); }
+  @media (max-width: 680px) { .band { padding: 64px 0; } .band-lead { font-size: 17px; } }
+
+  /* ---------- Kitchen ---------- */
+  .kitchen { background: var(--grain), var(--sand); }
+  .cook-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 30px; margin-bottom: 30px; }
+  .cook-card { padding: 16px 16px 22px; }
+  .cook-card:nth-child(1) { --rot: -1.6deg; }
+  .cook-card:nth-child(2) { --rot: 1.2deg; --cut: var(--cut-2); }
+  .cook-card:nth-child(3) { --rot: -.6deg; --cut: var(--cut-3); }
+  .ph-photo {
+    aspect-ratio: 4 / 3;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+    border: 2px dashed rgba(28,25,22,.4);
+    background: repeating-linear-gradient(135deg, rgba(28,25,22,.04) 0 10px, transparent 10px 20px);
+    color: var(--ink-muted); font-size: 14px; font-weight: 600; text-align: center; padding: 10px;
+  }
+  .cook-card .t { font-size: 22px; font-weight: 900; margin: 14px 0 2px; }
+  .cook-card .m { font-size: 14px; color: var(--ink-muted); font-weight: 600; margin-bottom: 8px; }
+  .cook-card p { font-size: 15px; color: var(--ink-soft); }
+  .chip { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; padding: 4px 10px; font-size: 13px; font-weight: 700; border: 1.5px dashed var(--ink-muted); color: var(--ink-muted); }
+  .kitchen-foot { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 32px; align-items: center; }
+  .menu-note { padding: 24px 26px; --rot: -1deg; transform: rotate(var(--rot)); }
+  .menu-note h3 { font-size: 22px; font-weight: 900; margin-bottom: 8px; color: var(--pink); }
+  .menu-note p { font-size: 16px; color: var(--beige); }
+  .kitchen-cta p { font-size: 16px; color: var(--ink-soft); margin-bottom: 14px; }
+  @media (max-width: 900px) {
+    .cook-grid { grid-template-columns: minmax(0, 1fr); gap: 26px; max-width: 460px; }
+    .kitchen-foot { grid-template-columns: minmax(0, 1fr); }
+  }
+
+  /* ---------- Origins ---------- */
+  .origins-film { background: var(--grain), var(--orange-deep); color: #FFFFFF; }
+  .origins-top { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 36px; align-items: center; margin-bottom: 48px; }
+  .manifesto-video { aspect-ratio: 16 / 9; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; --rot: -1deg; transform: rotate(var(--rot)); text-align: center; padding: 16px; }
+  .play-dot { width: 68px; height: 68px; border-radius: 999px; background: var(--beige); display: flex; align-items: center; justify-content: center; }
+  .manifesto-video .lbl { font-size: 16px; font-weight: 700; }
+  .manifesto-video .ph { font-size: 13px; opacity: .8; }
+  blockquote.manifesto-quote { margin: 0; padding: 26px 26px 24px; --rot: 1.5deg; transform: rotate(var(--rot)); }
+  blockquote.manifesto-quote p { font-weight: 800; font-variation-settings: 'wdth' 92; font-size: 25px; line-height: 1.28; margin-bottom: 12px; }
+  blockquote.manifesto-quote cite { font-size: 15px; font-style: normal; font-weight: 600; color: var(--ink-soft); }
+  .episode-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 30px; }
+  .episode-card { padding: 12px 12px 18px; }
+  .episode-card:nth-child(1) { --rot: 1.5deg; }
+  .episode-card:nth-child(2) { --rot: -1.2deg; --cut: var(--cut-2); }
+  .episode-card:nth-child(3) { --rot: .8deg; --cut: var(--cut-3); }
+  .episode-still { aspect-ratio: 16 / 10; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600; background: var(--ink); color: var(--beige); }
+  .episode-tag { font-size: 13px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--pink-deep); margin-top: 14px; }
+  .episode-title { font-size: 20px; font-weight: 900; margin: 6px 0 4px; line-height: 1.2; }
+  .episode-status { font-size: 14px; color: var(--ink-muted); font-weight: 600; }
+  .origins-actions { display: flex; flex-wrap: wrap; gap: 14px 28px; align-items: center; margin-top: 44px; }
+  @media (max-width: 900px) {
+    .origins-top { grid-template-columns: minmax(0, 1fr); }
+    .episode-grid { grid-template-columns: minmax(0, 1fr); max-width: 460px; gap: 26px; }
+  }
+
+  /* Origins › Community: say it like a local */
+  .origins-words { background: var(--grain), var(--beige); padding-top: 72px; }
+  .words-head h3 { font-size: clamp(30px, 4vw, 48px); font-weight: 900; line-height: 1.12; margin-bottom: 14px; }
+  .country-filter { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 30px; }
+  .country-chip {
+    min-height: 44px; padding: 0 16px;
+    border: 2px solid var(--ink); border-radius: 3px;
+    background: var(--cream); color: var(--ink);
+    font-family: var(--font); font-size: 15px; font-weight: 700; cursor: pointer;
+  }
+  .country-chip:nth-child(odd) { transform: rotate(-1.5deg); }
+  .country-chip:nth-child(even) { transform: rotate(1.2deg); }
+  .country-chip[aria-pressed="true"] { background: var(--ink); color: var(--beige); }
+  .word-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 22px; }
+  .word-card { height: 230px; padding: 0; border: 0; background: none; font: inherit; color: inherit; text-align: left; cursor: pointer; perspective: 1000px; filter: var(--shadow); }
   .word-card[hidden] { display: none; }
-  .word-inner {
-    display: block;
-    position: relative;
-    width: 100%;
-    height: 100%;
-    transform-style: preserve-3d;
-    transition: transform 0.5s ease;
-  }
+  .word-card:nth-child(4n+1) { transform: rotate(-1.2deg); }
+  .word-card:nth-child(4n+3) { transform: rotate(1deg); }
+  .word-inner { display: block; position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform .5s ease; }
   .word-card[aria-pressed="true"] .word-inner { transform: rotateY(180deg); }
-  .word-face {
-    position: absolute;
-    inset: 0;
-    border-radius: 18px;
-    padding: 22px;
-    display: flex;
-    flex-direction: column;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-  }
-  .word-front { background: var(--cream); border: 1px solid var(--line); }
-  .word-back { background: var(--ink); color: #FFFFFF; transform: rotateY(180deg); }
-  .word-country { font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
-  .word-term { font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 36px; letter-spacing: -0.02em; line-height: 1.05; margin: 10px 0 0; }
-  .word-hint { margin-top: auto; font-size: 13px; color: var(--ink-muted); }
-  .word-say { font-size: 13px; color: #F6E9D7; font-weight: 600; letter-spacing: 0.04em; }
-  .word-meaning { font-size: 16px; line-height: 1.45; color: #FFFFFF; margin: 8px 0 0; }
-  .word-aussie { margin-top: auto; padding-top: 12px; border-top: 1px solid var(--dark-border); font-size: 14px; color: var(--dark-text); }
-  .word-aussie strong { color: #FFFFFF; }
-  .community-foot { font-size: 15px; color: var(--ink-muted); margin: 26px 0 0; }
+  .word-face { position: absolute; inset: 0; padding: 22px; display: flex; flex-direction: column; -webkit-backface-visibility: hidden; backface-visibility: hidden; clip-path: var(--cut-2); }
+  .word-front { background: var(--grain), var(--crumple), var(--cream); }
+  .word-card:nth-child(3n+2) .word-front { background: var(--grain), var(--crumple), var(--pink-soft); }
+  .word-card:nth-child(3n) .word-front { background: var(--grain), var(--crumple), var(--peach); }
+  .word-back { background: var(--grain), var(--ink); color: var(--beige); transform: rotateY(180deg); }
+  .word-country { font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--orange-deep); }
+  .word-term { font-weight: 900; font-variation-settings: 'wdth' 96; font-size: clamp(28px, 2.6vw, 36px); line-height: 1.05; margin-top: 10px; }
+  .word-hint { margin-top: auto; font-size: 13px; font-weight: 600; color: var(--ink-muted); }
+  .word-say { font-size: 13px; color: var(--pink); font-weight: 700; letter-spacing: .04em; }
+  .word-meaning { font-size: 16px; line-height: 1.45; margin-top: 8px; }
+  .word-aussie { margin-top: auto; padding-top: 12px; border-top: 1px solid rgba(246,233,215,.35); font-size: 14px; }
+  .word-aussie strong { color: var(--pink-soft); }
+  .words-foot { font-size: 16px; color: var(--ink-soft); margin-top: 30px; }
   @media (max-width: 600px) {
-    .word-grid { gap: 12px; }
-    .word-card { flex-basis: 140px; height: 210px; }
-    .word-face { padding: 16px; }
-    .word-term { font-size: 26px; }
-    .word-say { font-size: 12px; }
+    .word-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    .word-card { height: 214px; }
+    .word-face { padding: 14px; }
+    .word-term { font-size: 23px; font-variation-settings: 'wdth' 78; }
     .word-meaning { font-size: 14px; }
     .word-aussie { font-size: 13px; }
   }
 
-  /* ---------- el kiosko ---------- */
-  .kiosko { padding: 96px 0; background: var(--dark-bg); color: #FFFFFF; }
-  .kiosko-head { display: flex; flex-wrap: wrap; align-items: center; gap: 40px; margin-bottom: 44px; }
-  .kiosko-copy { flex: 1 1 480px; min-width: 0; }
-  .kiosko-copy h2 { font-size: clamp(34px, 4.6vw, 58px); line-height: 1.02; color: #FFFFFF; margin: 14px 0 18px; max-width: 16ch; }
-  .kiosko-copy p { font-size: 18px; line-height: 1.55; color: var(--dark-text); margin: 0; max-width: 52ch; }
-  .kiosko-sign-wrap { flex: 1 1 300px; min-width: 0; display: flex; justify-content: center; }
-  /* CSS-only shopfront sign — stands in for the real store photo/render
-     until El Kiosko has an address. */
-  .kiosko-sign {
-    width: 100%;
-    max-width: 340px;
-    padding: 30px 26px;
-    border-radius: 20px;
-    border: 2px solid #F6E9D7;
-    background: radial-gradient(circle at 50% 0%, rgba(246,233,215,0.16), transparent 70%), var(--dark-card);
-    box-shadow: 0 0 40px -8px rgba(246,233,215,0.45), inset 0 0 24px -10px rgba(246,233,215,0.5);
-    text-align: center;
-  }
-  .kiosko-sign .sign-small { font-size: 12px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dark-muted); }
-  .kiosko-sign .sign-name {
-    font-family: 'Archivo', sans-serif;
-    font-weight: 800;
-    font-size: clamp(40px, 6vw, 56px);
-    letter-spacing: -0.02em;
-    line-height: 1;
-    color: #F6E9D7;
-    text-shadow: 0 0 18px rgba(246,233,215,0.55);
-    margin: 10px 0 14px;
-  }
-  .kiosko-sign .sign-open {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 14px;
-    border-radius: 999px;
-    border: 1px solid var(--dark-border);
-    font-size: 13px;
-    font-weight: 600;
-    color: #FFFFFF;
-  }
-  .kiosko-sign .sign-open::before {
-    content: "";
-    width: 8px; height: 8px;
-    border-radius: 999px;
-    background: var(--accent);
-    box-shadow: 0 0 10px var(--accent);
-  }
-  .kiosko-grid { display: flex; flex-wrap: wrap; gap: 18px; margin-bottom: 44px; }
-  .kiosko-card { flex: 1 1 230px; min-width: 0; background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: 18px; padding: 24px; }
-  .kiosko-card .kicker { font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 14px; color: #F6E9D7; letter-spacing: 0.08em; }
-  .kiosko-card h3 { font-size: 21px; color: #FFFFFF; margin: 8px 0 8px; }
-  .kiosko-card p { font-size: 15px; line-height: 1.5; color: var(--dark-text); margin: 0; }
-  .kiosko-card a { color: #F6E9D7; }
-  .kiosko-card a:hover, .kiosko-card a:focus-visible { color: #FFFFFF; }
-  .kiosko-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 22px; padding-top: 32px; border-top: 1px solid var(--dark-border); }
-  .kiosko-foot h3 { font-size: 24px; color: #FFFFFF; margin: 0 0 6px; }
-  .kiosko-foot p { font-size: 14px; line-height: 1.5; color: var(--dark-muted); margin: 0; max-width: 52ch; }
-  .kiosko-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+  /* ---------- Events ---------- */
+  .events { background: var(--grain), var(--pink-soft); }
+  .events-card { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 28px; align-items: center; padding: 36px 38px; --rot: -.3deg; transform: rotate(var(--rot)); --cut: var(--cut-2); }
+  .events-card .sec-title { margin-bottom: 14px; }
+  .events-card p { font-size: 17px; color: var(--ink-soft); max-width: 58ch; }
+  @media (max-width: 760px) { .events-card { grid-template-columns: minmax(0, 1fr); padding: 30px 22px; } }
 
-  /* ---------- waitlist ---------- */
-  .waitlist { padding: 96px 0; background: var(--cream); }
-  .waitlist-row { display: flex; flex-wrap: wrap; gap: 48px; align-items: flex-start; }
-  .waitlist-copy { flex: 1 1 380px; min-width: 0; }
-  .waitlist-copy h2 { font-size: clamp(32px, 4vw, 50px); line-height: 1.05; margin: 12px 0 16px; }
-  .waitlist-copy > p { font-size: 18px; line-height: 1.55; color: var(--ink-soft); margin: 0 0 26px; max-width: 44ch; }
-  .waitlist-perks { display: flex; flex-direction: column; gap: 13px; }
-  .waitlist-perks div { display: flex; gap: 11px; align-items: center; font-size: 16px; }
-  .waitlist-perks svg { flex-shrink: 0; }
-
-  .waitlist-form {
-    flex: 1 1 440px;
-    min-width: 0;
-    background: #FFFFFF;
-    border: 1px solid var(--line-strong);
-    border-radius: 20px;
-    padding: 30px;
-    display: flex;
-    flex-direction: column;
-    gap: 17px;
+  /* ---------- Join Us ---------- */
+  .join { background: var(--grain), var(--beige); }
+  .steps-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px; margin-bottom: 48px; }
+  .step { padding: 22px 20px 24px; }
+  .step:nth-child(1) { --rot: -1.5deg; }
+  .step:nth-child(2) { --rot: 1deg; --cut: var(--cut-2); }
+  .step:nth-child(3) { --rot: -.6deg; --cut: var(--cut-3); }
+  .step:nth-child(4) { --rot: 1.6deg; }
+  .step .n { font-weight: 900; font-variation-settings: 'wdth' 120; font-size: 34px; line-height: 1; color: var(--orange-deep); }
+  .step .t { font-weight: 900; font-size: 19px; margin: 10px 0 6px; }
+  .step p { font-size: 15px; color: var(--ink-soft); }
+  .join-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 44px; align-items: start; }
+  .rights { padding: 30px 28px; --rot: -.4deg; transform: rotate(var(--rot)); --cut: var(--cut-2); }
+  .rights h3 { font-size: 30px; font-weight: 900; color: var(--pink); margin-bottom: 16px; }
+  .rights ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 11px; }
+  .rights li { display: flex; gap: 10px; align-items: flex-start; font-size: 15.5px; line-height: 1.45; }
+  .rights li svg { flex-shrink: 0; margin-top: 1px; }
+  .cook-form { padding: 30px 28px 24px; display: flex; flex-direction: column; gap: 16px; --cut: var(--cut-3); }
+  .cook-form[hidden] { display: none; }
+  .cook-form h3 { font-size: 24px; font-weight: 900; }
+  .field-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+  fieldset.radio-group { border: 0; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 4px 22px; }
+  fieldset.radio-group legend { width: 100%; padding: 0; margin-bottom: 6px; }
+  .radio-row { display: flex; align-items: center; gap: 8px; min-height: 36px; font-size: 16px; cursor: pointer; }
+  .radio-row input { width: 20px; height: 20px; accent-color: var(--orange-deep); }
+  .cook-form .btn { align-self: flex-start; }
+  @media (max-width: 960px) {
+    .steps-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .join-row { grid-template-columns: minmax(0, 1fr); }
   }
-  .waitlist-form[hidden] { display: none; }
-  .field-row { display: flex; flex-wrap: wrap; gap: 15px; }
-  .field { flex: 1 1 190px; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
-  .waitlist-form > .field { flex: 0 0 auto; }
-  .field label { font-size: 14px; font-weight: 600; }
-  .field input, .field select, .field textarea {
-    min-height: 48px;
-    padding: 0 14px;
-    border: 1px solid var(--input-border);
-    border-radius: 10px;
-    font-size: 16px;
-    font-family: inherit;
-    width: 100%;
-    background: #FFFFFF;
-    color: var(--ink);
+  @media (max-width: 560px) {
+    .steps-grid { grid-template-columns: minmax(0, 1fr); }
+    .field-row { grid-template-columns: minmax(0, 1fr); }
+    .cook-form { padding: 24px 18px 20px; }
+    .cook-form .btn { align-self: stretch; }
+    .rights { padding: 26px 20px; }
   }
-  .field textarea { padding: 12px 14px; min-height: unset; resize: vertical; }
-  .field input:focus-visible, .field select:focus-visible, .field textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
-  fieldset.check-group { border: 0; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 9px; }
-  fieldset.check-group legend { font-size: 14px; font-weight: 600; padding: 0; margin-bottom: 9px; }
-  .check-row { display: flex; align-items: center; gap: 10px; font-size: 16px; min-height: 30px; }
-  .check-row input { width: 19px; height: 19px; accent-color: var(--accent); flex-shrink: 0; }
-  fieldset.check-group.inline { flex-direction: row; flex-wrap: wrap; column-gap: 20px; row-gap: 4px; }
-  fieldset.check-group.inline legend { width: 100%; }
-  .consent-row { display: flex; align-items: flex-start; gap: 10px; font-size: 14.5px; line-height: 1.45; color: var(--ink-soft); }
-  .consent-row input { width: 19px; height: 19px; margin-top: 1px; accent-color: var(--accent); flex-shrink: 0; }
-  .form-fine { font-size: 13px; line-height: 1.5; color: var(--ink-muted); margin: 0; }
-  .form-status { margin: 0; font-size: 14px; min-height: 1.2em; }
-  .form-status.success { color: var(--accent-dark); }
-  .form-status.error { color: #E74426; }
-  .form-honey { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
-  .member-qr { display: flex; flex-direction: column; gap: 12px; align-items: center; text-align: center; }
-  .member-qr[hidden] { display: none; }
-  .member-qr p { font-size: 14px; color: var(--ink-soft); margin: 0; max-width: 32ch; }
-  .member-qr-code { width: 170px; height: 170px; }
-  .member-qr-code svg { width: 100%; height: 100%; }
 
-  /* ---------- kitchen teaser ---------- */
-  .kitchen-teaser { padding: 96px 0; background: var(--bg); }
-  .kitchen-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 22px; margin-bottom: 36px; }
-  .kitchen-head h2 { font-size: clamp(32px, 4vw, 50px); line-height: 1.05; margin: 12px 0 14px; }
-  .kitchen-head p { font-size: 18px; line-height: 1.55; color: var(--ink-soft); margin: 0; max-width: 52ch; }
-  .cook-grid { display: flex; flex-wrap: wrap; gap: 22px; margin-bottom: 36px; }
-  .cook-card { flex: 1 1 280px; min-width: 0; border: 1.5px dashed var(--input-border); border-radius: 20px; padding: 24px; display: flex; gap: 16px; align-items: flex-start; }
-  .cook-avatar {
-    width: 64px; height: 64px; flex-shrink: 0;
-    border-radius: 999px;
-    background: var(--cream);
-    color: var(--ink-muted);
-    display: flex; align-items: center; justify-content: center;
+  /* ---------- Our Vision ---------- */
+  .vision { background: var(--grain), var(--cream); }
+  .vision-row { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 48px; align-items: start; margin-bottom: 56px; }
+  .founder-card { margin: 0; padding: 12px 12px 16px; --rot: -2.5deg; }
+  .founder-media { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: var(--ink); }
+  .founder-media img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 38%; }
+  .founder-play {
+    position: absolute; left: 50%; top: 46%; transform: translate(-50%, -50%);
+    width: 76px; height: 76px; border-radius: 999px; border: 0; cursor: pointer;
+    background: var(--beige); display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 10px 26px -10px rgba(0,0,0,.6);
   }
-  .cook-card .t { font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 19px; margin-bottom: 4px; }
-  .cook-card .m { font-size: 14px; color: var(--ink-muted); margin-bottom: 8px; }
-  .cook-card p { font-size: 14px; line-height: 1.5; color: var(--ink-soft); margin: 0; }
-  .kitchen-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+  .founder-cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 60px 20px 18px; background: linear-gradient(to top, rgba(15,12,10,.92), rgba(15,12,10,0)); color: var(--beige); }
+  .founder-cap .w { font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+  .founder-cap .t { font-size: 24px; font-weight: 900; color: #FFFFFF; margin: 4px 0 2px; }
+  .founder-cap .b { font-size: 14px; }
+  .founder-card figcaption { font-size: 13px; color: var(--ink-muted); text-align: center; padding-top: 10px; min-height: 1.4em; }
+  .vision-text { display: grid; gap: 30px; }
+  .draft-note { padding: 28px 26px 24px; --rot: .4deg; transform: rotate(var(--rot)); }
+  .draft-badge { display: inline-block; font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; padding: 4px 10px; border: 2px dashed var(--ink); margin-bottom: 12px; }
+  .draft-note p { font-size: 17px; line-height: 1.6; }
+  .draft-note p + p { margin-top: 12px; }
+  .vision-quote { padding: 26px 26px 24px; --rot: -1deg; transform: rotate(var(--rot)); --cut: var(--cut-2); }
+  .vision-quote p { font-weight: 800; font-variation-settings: 'wdth' 92; font-size: 24px; line-height: 1.3; }
+  .founders { display: flex; align-items: center; gap: 14px; margin-top: 16px; padding-top: 14px; border-top: 1px solid rgba(246,233,215,.3); }
+  .founder-avatar { width: 46px; height: 46px; border-radius: 999px; border: 2px dashed var(--beige); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .founder-names { font-weight: 800; font-size: 16px; }
+  .founder-role { font-size: 14px; color: var(--sand); }
+  .values-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px; }
+  .value { padding: 24px 22px 26px; }
+  .value:nth-child(1) { --rot: 1.2deg; }
+  .value:nth-child(2) { --rot: -1.4deg; --cut: var(--cut-2); }
+  .value:nth-child(3) { --rot: .6deg; --cut: var(--cut-3); }
+  .value:nth-child(4) { --rot: -1deg; }
+  .value .kicker { font-weight: 900; font-variation-settings: 'wdth' 120; font-size: 13px; letter-spacing: .1em; }
+  .value h3 { font-size: 23px; font-weight: 900; margin: 6px 0 8px; }
+  .value p { font-size: 15px; }
+  @media (max-width: 960px) {
+    .vision-row { grid-template-columns: minmax(0, 1fr); }
+    .founder-card { max-width: 400px; }
+    .values-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 520px) { .values-grid { grid-template-columns: minmax(0, 1fr); } .vision-quote p { font-size: 21px; } }
 
-  /* ---------- events ---------- */
-  .events { padding: 68px 0; background: var(--bg); border-top: 1px solid var(--line); }
-  .events-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 26px; }
-  .events-copy { flex: 1 1 500px; min-width: 0; }
-  .events-copy h2 { font-size: 34px; line-height: 1.1; margin: 10px 0 10px; }
-  .events-copy p { font-size: 16px; line-height: 1.55; color: var(--ink-soft); margin: 0; max-width: 54ch; }
-
-  /* ---------- faq ---------- */
-  .faq { padding: 96px 0; background: var(--bg); border-top: 1px solid var(--line); }
-  .faq h2 { font-size: clamp(32px, 4vw, 50px); line-height: 1.05; margin: 0 0 36px; }
-  .faq-grid { display: flex; flex-wrap: wrap; column-gap: 44px; row-gap: 0; }
-  .faq-item { flex: 1 1 460px; min-width: 0; padding: 20px 0; border-top: 1px solid var(--line); }
-  .faq-item h3 { font-size: 17px; font-weight: 600; margin: 0 0 7px; font-family: 'Inter', sans-serif; letter-spacing: 0; }
-  .faq-item p { font-size: 15px; line-height: 1.55; color: var(--ink-soft); margin: 0; }
+  /* ---------- FAQ ---------- */
+  .faq { background: var(--grain), var(--sand); }
+  .faq-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 44px; }
+  .faq-item { padding: 20px 0; border-top: 2px solid rgba(28,25,22,.14); }
+  .faq-item h3 { font-size: 18px; font-weight: 800; margin-bottom: 6px; }
+  .faq-item p { font-size: 16px; color: var(--ink-soft); }
+  @media (max-width: 760px) { .faq-grid { grid-template-columns: minmax(0, 1fr); } }
 
   /* ---------- footer ---------- */
-  footer.site-footer { background: var(--dark-bg); color: #FFFFFF; padding: 56px 0 28px; }
-  .footer-grid { display: flex; flex-wrap: wrap; gap: 36px; padding-bottom: 36px; border-bottom: 1px solid var(--dark-border); }
+  footer.site-footer { background: var(--grain), var(--ink); color: var(--beige); padding: 56px 0 28px; }
+  .footer-grid { display: flex; flex-wrap: wrap; gap: 36px; padding-bottom: 32px; border-bottom: 1px solid rgba(246,233,215,.25); }
   .footer-brand { flex: 2 1 260px; min-width: 0; }
-  .footer-brand .wordmark { font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 24px; letter-spacing: -0.02em; }
-  .footer-brand p { font-size: 15px; margin: 8px 0 2px; }
-  .footer-brand p.tag { color: var(--dark-text); }
-  .footer-brand p.sub { color: var(--dark-muted); font-size: 14px; }
-  .footer-col { flex: 1 1 150px; min-width: 0; display: flex; flex-direction: column; gap: 9px; }
-  .footer-col .title { font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dark-muted); margin-bottom: 4px; }
-  .footer-col a { color: #FFFFFF; text-decoration: none; font-size: 15px; }
-  .footer-col a:hover, .footer-col a:focus-visible { color: #F6E9D7; }
-  .footer-bottom { font-size: 13px; color: var(--dark-muted); margin: 22px 0 0; }
+  .footer-brand img { width: 72px; height: 72px; }
+  .footer-brand p { font-size: 15px; margin-top: 10px; }
+  .footer-brand p.tag { font-weight: 800; font-size: 18px; color: var(--pink); }
+  .footer-col { flex: 1 1 150px; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+  .footer-col .title { font-size: 13px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--sand); margin-bottom: 4px; }
+  .footer-col a { color: var(--beige); text-decoration: none; font-size: 15px; min-height: 30px; display: inline-flex; align-items: center; }
+  .footer-col a:hover { color: var(--pink); text-decoration: underline; }
+  .footer-bottom { font-size: 13px; color: var(--sand); margin-top: 22px; }
 
-  @media (max-width: 680px) {
-    .wrap { padding: 0 20px; }
-    .hero { padding: 32px 0 56px; }
-    .hero h1 { font-size: 40px; }
-    .hero-sub { font-size: 17px; margin-bottom: 24px; }
-    .hero-actions .btn { flex: 1 1 100%; }
-    .hero-video-frame { padding-top: 20px; padding-right: 14px; }
-    .hero-globe-wrap { width: 26%; }
-    .origins, .vision, .community, .kiosko, .waitlist, .kitchen-teaser, .faq { padding: 64px 0; }
-    .events { padding: 52px 0; }
-    .origins-sub, .community-sub, .kitchen-head p, .waitlist-copy > p, .kiosko-copy p { font-size: 16px; }
-    .vision-sub { font-size: 17px; margin-bottom: 32px; }
-    .origins-top, .kiosko-head { margin-bottom: 32px; gap: 24px; }
-    .manifesto-video, .episode-card, .kiosko-card, .vision-card, .cook-card, .faq-item { flex-basis: 100%; }
-    .vision-foot { flex-direction: column; align-items: flex-start; gap: 22px; }
-    .vision-quote, .founders { flex: 0 0 auto; width: 100%; }
-    .vision-quote { font-size: 21px; }
-    blockquote.manifesto-quote p { font-size: 21px; }
-    .waitlist-form { padding: 22px 18px; }
-    .kiosko-actions .btn, .kitchen-actions .btn { flex: 1 1 100%; }
-    .footer-grid { gap: 28px; }
+  @media (max-width: 680px) { .wrap { padding: 0 16px; } }
+
+  /* Motion: everything decorative stops for people who ask for less movement. */
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { transition-duration: 0.01ms !important; }
+    .word-inner { transition: none; }
   }
-
-  /* ---------- brand palette: rojo ají #E74426 · masa #F6E9D7 · rosa #E688B7 ---------- */
-  .origins .btn.primary, .kiosko .btn.primary, .site-footer .btn.primary { background: #F6E9D7; color: #E74426; }
-  .origins .btn.primary:hover, .kiosko .btn.primary:hover { background: #FFFFFF; color: #C93A1F; }
-  .kiosko .btn.outline-dark:hover, .origins .btn.outline-dark:hover { color: #E74426; }
-  .waitlist { background: #E688B7 !important; }
-  .country-chip[aria-pressed="true"] { background: #E688B7 !important; border-color: #E688B7 !important; color: #1A1714 !important; }
-  .kiosko-sign .sign-open::before { background: #E688B7; box-shadow: 0 0 10px #E688B7; }
-  .cook-avatar { background: #E688B7 !important; color: #1A1714 !important; }
-  .episode-still.ep1, .episode-still.ep2, .episode-still.ep3 { background: rgba(0,0,0,0.14); color: #F6E9D7; }
 </style>
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
 
-<div class="cookie-banner" id="cookieBanner" role="dialog" aria-label="Cookie notice" hidden>
+<div class="cookie-banner paper p-ink" id="cookieBanner" role="dialog" aria-label="Cookie notice" hidden>
   <p>We use analytics to see where visitors come from. <a href="privacy.html">Privacy Policy</a></p>
   <div class="cookie-banner-actions">
-    <button type="button" class="btn ghost-light" id="cookieDecline">Decline</button>
-    <button type="button" class="btn primary" id="cookieAccept">Accept</button>
+    <button type="button" class="btn btn-cream btn-sm" id="cookieDecline">Decline</button>
+    <button type="button" class="btn btn-pink btn-sm" id="cookieAccept">Accept</button>
   </div>
 </div>
 
@@ -696,17 +669,16 @@
   <div class="wrap header-row">
     <a href="#top" class="site-logo" aria-label="SolubFood, home"><img src="assets/img/solubfood-logo.svg" alt="SolubFood" width="52" height="52"></a>
     <nav class="main-nav" id="mainNav" aria-label="Main">
-      <a href="#kiosko">El Kiosko</a>
-      <a href="kitchen.html">Kitchen</a>
+      <a href="#kitchen">Kitchen</a>
       <a href="#origins">Origins</a>
-      <a href="#community">Community</a>
       <a href="#events">Events</a>
-      <a href="#vision">Our vision</a>
+      <a href="#join">Join Us</a>
+      <a href="#vision">Our Vision</a>
     </nav>
-    <a href="#waitlist" class="btn primary">Join the waitlist</a>
+    <a href="#waitlist" class="btn btn-pink header-cta tape">Join the Waitlist</a>
     <button type="button" class="nav-toggle" aria-controls="mainNav" aria-expanded="false" aria-label="Open menu">
-      <svg class="i-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-      <svg class="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      <svg class="i-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <svg class="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
     </button>
   </div>
 </header>
@@ -722,539 +694,628 @@
   }
   btn.addEventListener('click', function () { setOpen(!header.classList.contains('nav-open')); });
   header.querySelectorAll('.main-nav a').forEach(function (a) { a.addEventListener('click', function () { setOpen(false); }); });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setOpen(false); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && header.classList.contains('nav-open')) { setOpen(false); btn.focus(); } });
 })();
 </script>
 
+<main id="main">
+
+<!-- ============================ HERO ============================ -->
 <section id="top" class="hero">
   <div class="wrap hero-row">
     <div class="hero-copy">
-      <div class="eyebrow">Latin America · Gold Coast</div>
-      <h1>Latin America: more than people.</h1>
-      <p class="hero-sub">One ocean between us. Latin American food and culture, brought to the Gold Coast by the people who live it.</p>
+      <h1>
+        <span class="sr-only">Latin America: more than people.</span>
+        <span class="hero-kicker paper p-ink tape-l" aria-hidden="true">Latin America:</span>
+        <span class="cut-title" aria-hidden="true">
+          <span class="w"><span class="l k1">M</span><span class="l k2">o</span><span class="l k3">r</span><span class="l k4">e</span></span>
+          <span class="w"><span class="l k5">t</span><span class="l k4">h</span><span class="l k6">a</span><span class="l k2">n</span></span>
+          <span class="w"><span class="l k3">p</span><span class="l k1">e</span><span class="l k7">o</span><span class="l k4">p</span><span class="l k6">l</span><span class="l k2">e</span><span class="l k5">.</span></span>
+        </span>
+      </h1>
+      <p class="hero-desc paper p-ink cut-2">One ocean between us. Latin American food and culture, brought to the Gold Coast by the people who live it.</p>
       <div class="hero-actions">
-        <a href="#waitlist" class="btn primary lg">Join the waitlist (free)</a>
-        <a href="#kiosko" class="btn outline lg">Discover El Kiosko</a>
+        <a href="#waitlist" class="btn btn-pink">Join the waitlist (free)</a>
+        <a href="#kitchen" class="btn btn-cream">Meet the Kitchen</a>
       </div>
-      <p class="hero-fine"><strong>Founding Members:</strong> the first 250 people to join taste El Kiosko's food first and get free invites to our Latin tasting nights.</p>
+      <p class="hero-fine"><strong>Founding Members:</strong> the first 250 people to join taste our food first and get free invites to our Latin tasting nights.</p>
     </div>
-    <div class="hero-visual">
-      <div class="hero-video-frame">
-        <div class="hero-video">
-          <img src="assets/img/benjamin.jpg" alt="Benjamin Arevalo, founder of SolubFood">
-          <button type="button" class="hero-play" id="heroPlayBtn" aria-label="Play the SolubFood introduction video">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="#1A1714" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg>
-          </button>
-          <div class="hero-video-caption">
-            <div class="watch-label">Watch · 1 min</div>
-            <div class="title">Meet SolubFood</div>
-            <div class="byline">With Benjamin &amp; Gibril · Chile, Argentina &amp; the Gold Coast</div>
-          </div>
-        </div>
-        <div class="hero-globe-wrap">
-          <div class="hero-globe-badge">
-            <div id="heroGlobe" role="img" aria-label="Globe with routes from across Latin America to the Gold Coast, Australia"></div>
-          </div>
-        </div>
-      </div>
-      <p class="hero-video-note" id="heroVideoNote">[Sketch] Intro video lands January 2027 · filmed in Antofagasta, Punta Arenas, Argentina &amp; the Gold Coast</p>
-    </div>
+
+    <!-- 3-second loop: a chef's hat, a truck, a plate and the mascot ride four belts into a home.
+         Icons are first sketches; the mascot is a placeholder until the real character exists. -->
+    <figure class="loop paper p-pinksoft tape" id="homeLoop">
+      <svg class="loop-svg" viewBox="0 0 400 400" role="img" aria-labelledby="loopTitle">
+        <title id="loopTitle">A chef's hat, a delivery truck, a plate of food and our mascot ride conveyor belts from four directions into a home in the centre.</title>
+        <defs>
+          <filter id="ps" x="-25%" y="-25%" width="150%" height="150%"><feDropShadow dx="0" dy="3" stdDeviation="2.4" flood-color="#3c1e0f" flood-opacity=".3"/></filter>
+        </defs>
+        <g filter="url(#ps)">
+          <rect class="belt" x="174" y="8" width="52" height="150" rx="9"/>
+          <rect class="belt" x="174" y="242" width="52" height="150" rx="9"/>
+          <rect class="belt" x="8" y="174" width="150" height="52" rx="9"/>
+          <rect class="belt" x="242" y="174" width="150" height="52" rx="9"/>
+        </g>
+        <path class="flow" d="M200 14 V150"/>
+        <path class="flow" d="M200 386 V250"/>
+        <path class="flow" d="M14 200 H150"/>
+        <path class="flow" d="M386 200 H250"/>
+        <path class="chev" d="M190 34 l10 10 l10 -10"/>
+        <path class="chev" d="M190 366 l10 -10 l10 10"/>
+        <path class="chev" d="M34 190 l10 10 l-10 10"/>
+        <path class="chev" d="M366 190 l-10 10 l10 10"/>
+
+        <g class="burst" aria-hidden="true">
+          <line x1="138" y1="138" x2="126" y2="126"/><line x1="262" y1="138" x2="274" y2="126"/>
+          <line x1="138" y1="268" x2="126" y2="280"/><line x1="262" y1="268" x2="274" y2="280"/>
+        </g>
+
+        <!-- home -->
+        <g class="home" filter="url(#ps)">
+          <rect x="226" y="146" width="14" height="30" fill="#1C1916"/>
+          <path d="M140 200 L200 142 L260 200 Z" fill="#A63D72" stroke="#1C1916" stroke-width="3" stroke-linejoin="round"/>
+          <path d="M154 196 L246 194 L248 262 L152 264 Z" fill="#E74426" stroke="#1C1916" stroke-width="3" stroke-linejoin="round"/>
+          <rect x="188" y="222" width="26" height="41" fill="#F6E9D7" stroke="#1C1916" stroke-width="3"/>
+          <circle cx="208" cy="243" r="2.4" fill="#1C1916"/>
+          <rect x="164" y="208" width="18" height="18" fill="#F6CFE0" stroke="#1C1916" stroke-width="3"/>
+          <rect x="220" y="208" width="18" height="18" fill="#F6CFE0" stroke="#1C1916" stroke-width="3"/>
+        </g>
+
+        <!-- top: chef's hat -->
+        <g class="it" style="--dx:0; --dy:1">
+          <g filter="url(#ps)">
+            <circle cx="186" cy="94" r="14" fill="#FBF5EC" stroke="#1C1916" stroke-width="3"/>
+            <circle cx="214" cy="94" r="14" fill="#FBF5EC" stroke="#1C1916" stroke-width="3"/>
+            <circle cx="200" cy="84" r="17" fill="#FBF5EC" stroke="#1C1916" stroke-width="3"/>
+            <rect x="184" y="98" width="32" height="20" rx="3" fill="#FBF5EC" stroke="#1C1916" stroke-width="3"/>
+            <path d="M192 104 v8 M200 104 v8 M208 104 v8" stroke="#E3C9A2" stroke-width="2.5" stroke-linecap="round"/>
+          </g>
+        </g>
+
+        <!-- left: delivery truck -->
+        <g class="it" style="--dx:1; --dy:0">
+          <g filter="url(#ps)">
+            <rect x="70" y="182" width="38" height="28" rx="3" fill="#E688B7" stroke="#1C1916" stroke-width="3"/>
+            <path d="M108 190 h12 l8 9 v11 h-20 Z" fill="#F59A6A" stroke="#1C1916" stroke-width="3" stroke-linejoin="round"/>
+            <rect x="111" y="193" width="8" height="7" fill="#FBF5EC"/>
+            <circle cx="82" cy="212" r="6.5" fill="#1C1916"/><circle cx="82" cy="212" r="2.4" fill="#F6E9D7"/>
+            <circle cx="118" cy="212" r="6.5" fill="#1C1916"/><circle cx="118" cy="212" r="2.4" fill="#F6E9D7"/>
+          </g>
+        </g>
+
+        <!-- right: plate with an empanada -->
+        <g class="it" style="--dx:-1; --dy:0">
+          <g filter="url(#ps)">
+            <ellipse cx="300" cy="204" rx="30" ry="22" fill="#FBF5EC" stroke="#1C1916" stroke-width="3"/>
+            <ellipse cx="300" cy="204" rx="20" ry="14" fill="none" stroke="#E3C9A2" stroke-width="2.5"/>
+            <path d="M283 207 Q300 182 317 207 Z" fill="#F59A6A" stroke="#1C1916" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M287 205 l3 -3 M293 199 l3 -3 M302 196 l3 2 M309 200 l3 3" stroke="#B5321A" stroke-width="2" stroke-linecap="round"/>
+          </g>
+        </g>
+
+        <!-- bottom: placeholder mascot with glasses -->
+        <g class="it" style="--dx:0; --dy:-1">
+          <g filter="url(#ps)">
+            <path d="M176 318 Q172 280 200 276 Q228 280 224 318 Q200 326 176 318 Z" fill="#E688B7" stroke="#1C1916" stroke-width="3" stroke-linejoin="round"/>
+            <circle cx="191" cy="296" r="8" fill="#FBF5EC" stroke="#1C1916" stroke-width="3"/>
+            <circle cx="209" cy="296" r="8" fill="#FBF5EC" stroke="#1C1916" stroke-width="3"/>
+            <path d="M199 296 h2" stroke="#1C1916" stroke-width="3"/>
+            <circle cx="192" cy="297" r="2.6" fill="#1C1916"/><circle cx="210" cy="297" r="2.6" fill="#1C1916"/>
+            <path d="M193 309 Q200 314 207 309" fill="none" stroke="#1C1916" stroke-width="2.6" stroke-linecap="round"/>
+          </g>
+        </g>
+      </svg>
+      <figcaption>From our Latin cooks to your home.<small>[Sketch: icons and mascot are placeholders]</small></figcaption>
+    </figure>
   </div>
 </section>
 
+<!-- torn paper: hero (beige) → orange strip → waitlist (pink) -->
+<div class="edge" style="--from: var(--beige); --mid: var(--orange); --to: var(--pink);" aria-hidden="true">
+  <svg viewBox="0 0 1200 100" preserveAspectRatio="none">
+    <path class="e-mid" d="M0 30 L60 36 L130 22 L210 38 L290 25 L380 40 L450 24 L540 35 L620 20 L700 37 L790 26 L860 39 L950 22 L1030 35 L1110 24 L1200 32 V100 H0 Z"/>
+    <path class="e-to" d="M0 58 L80 50 L150 63 L240 51 L320 66 L400 53 L490 62 L570 49 L660 64 L740 52 L830 61 L910 48 L1000 63 L1080 51 L1150 60 L1200 53 V100 H0 Z"/>
+  </svg>
+</div>
+
+<!-- ============================ WAITLIST ============================ -->
 <section id="waitlist" class="waitlist">
   <div class="wrap waitlist-row">
     <div class="waitlist-copy">
       <div class="eyebrow">Founding Members · first 250 only</div>
-      <h2>Be the first to taste Latin America on the Gold Coast.</h2>
-      <p>Join free in 30 seconds. The first 250 members become Founding Members of SolubFood and El Kiosko.</p>
-      <div class="waitlist-perks">
-        <div><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A1714" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>First taste of El Kiosko's home-style Latin food</div>
-        <div><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A1714" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>Free invites to Latin tasting nights</div>
-        <div><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A1714" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>Your Founding Member QR, and a vote on where El Kiosko opens</div>
-      </div>
+      <h2 class="wl-title">
+        <span class="strip paper p-ink tape-l" style="--rot:-2deg">Be the first</span>
+        <span class="strip paper p-cream cut-2" style="--rot:1.5deg">to taste</span>
+        <span class="strip paper p-orange wide cut-3" style="--rot:-1deg">Latin America</span>
+        <span class="strip paper p-peach narrow" style="--rot:2deg">on the Gold Coast.</span>
+      </h2>
+      <p class="wl-lead">Join free in 30 seconds. The first 250 members become Founding Members of SolubFood.</p>
+      <ul class="wl-perks">
+        <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1C1916" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>A first taste of our home-style Latin food</li>
+        <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1C1916" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>Free invites to Latin tasting nights</li>
+      </ul>
+
+      <form class="wl-form paper p-cream tape" id="waitlistForm" action="https://formsubmit.co/ajax/9db1dd62560dc0a344859f22e210ae98" method="POST" novalidate aria-describedby="wlFine">
+        <div class="wl-fields">
+          <div class="field"><label for="wl-name">Name</label><input id="wl-name" name="name" type="text" placeholder="Your first name" required autocomplete="given-name"></div>
+          <div class="field"><label for="wl-email">Email</label><input id="wl-email" name="email" type="email" placeholder="you@email.com" required autocomplete="email" inputmode="email"></div>
+          <button type="submit" class="btn btn-ink">Join free</button>
+        </div>
+        <label class="consent-row">
+          <input type="checkbox" name="marketingConsent" value="yes">
+          <span>Yes, email me about new stories and events.</span>
+        </label>
+        <input type="hidden" name="source" value="website-waitlist">
+        <input type="hidden" name="ref" value="">
+        <input type="hidden" name="utm_source" value="">
+        <input type="hidden" name="utm_medium" value="">
+        <input type="hidden" name="utm_campaign" value="">
+        <input type="hidden" name="timestamp" value="">
+        <input type="hidden" name="_subject" value="New SolubFood waitlist signup">
+        <input type="text" name="_honey" class="form-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <p class="form-fine" id="wlFine">We'll only use this to contact you about SolubFood. Leave any time. <a href="privacy.html">Privacy Policy</a></p>
+        <p class="form-status" role="status" aria-live="polite" data-status></p>
+      </form>
+      <p class="form-status done paper p-cream" role="status" aria-live="polite" id="waitlistDone" hidden></p>
     </div>
 
-    <form class="waitlist-form" id="waitlistForm" action="https://formsubmit.co/ajax/9db1dd62560dc0a344859f22e210ae98" method="POST" novalidate>
-      <div class="field-row">
-        <div class="field"><label for="wl-name">Name</label><input id="wl-name" name="name" type="text" placeholder="Your first name" required autocomplete="name"></div>
-        <div class="field"><label for="wl-email">Email</label><input id="wl-email" name="email" type="email" placeholder="you@email.com" required autocomplete="email"></div>
-      </div>
-      <div class="field-row">
-        <div class="field"><label for="wl-suburb">Suburb</label><input id="wl-suburb" name="suburb" type="text" placeholder="e.g. Burleigh Heads" required autocomplete="address-level2"></div>
-        <div class="field">
-          <label for="wl-type">I am…</label>
-          <select id="wl-type" name="iAm">
-            <option>Curious about Latin food</option>
-            <option>Latin American, living here</option>
-            <option>A cook who'd like to join the Kitchen</option>
-            <option>A business that wants to partner</option>
-          </select>
-        </div>
-      </div>
-      <div class="field"><label for="wl-food">What Latin food would you love to try? (optional)</label><input id="wl-food" name="wantToTry" type="text" placeholder="e.g. empanadas, arepas, tacos"></div>
-      <fieldset class="check-group">
-        <legend>Where should El Kiosko open first? (optional)</legend>
-        <label class="check-row"><input type="radio" name="kioskoArea" value="Southport (hospital &amp; Griffith)">Southport (hospital &amp; Griffith)</label>
-        <label class="check-row"><input type="radio" name="kioskoArea" value="Surfers Paradise">Surfers Paradise</label>
-        <label class="check-row"><input type="radio" name="kioskoArea" value="Broadbeach">Broadbeach</label>
-        <label class="check-row"><input type="radio" name="kioskoArea" value="Robina">Robina</label>
-        <label class="check-row"><input type="radio" name="kioskoArea" value="Burleigh Heads">Burleigh Heads</label>
-        <label class="check-row"><input type="radio" name="kioskoArea" value="Somewhere else">Somewhere else</label>
-      </fieldset>
-      <fieldset class="check-group inline">
-        <legend>Would you order Latin food late at night? (optional)</legend>
-        <label class="check-row"><input type="radio" name="lateNight" value="Often">Often</label>
-        <label class="check-row"><input type="radio" name="lateNight" value="Sometimes">Sometimes</label>
-        <label class="check-row"><input type="radio" name="lateNight" value="Rarely">Rarely</label>
-      </fieldset>
-      <fieldset class="check-group inline">
-        <legend>Which delivery apps do you use? (optional)</legend>
-        <label class="check-row"><input type="checkbox" name="app_ubereats" value="Uber Eats">Uber Eats</label>
-        <label class="check-row"><input type="checkbox" name="app_doordash" value="DoorDash">DoorDash</label>
-        <label class="check-row"><input type="checkbox" name="app_none" value="Neither">Neither</label>
-      </fieldset>
-      <label class="consent-row">
-        <input type="checkbox" name="marketingConsent" value="yes">
-        Yes, email me about El Kiosko, new stories and events.
-      </label>
-      <input type="hidden" name="source" value="website-waitlist">
-      <input type="hidden" name="ref" id="wlRef" value="">
-      <input type="hidden" name="utm_source" id="wlUtmSource" value="">
-      <input type="hidden" name="utm_medium" id="wlUtmMedium" value="">
-      <input type="hidden" name="utm_campaign" id="wlUtmCampaign" value="">
-      <input type="hidden" name="timestamp" id="wlTimestamp" value="">
-      <input type="hidden" name="_subject" value="New SolubFood waitlist signup">
-      <input type="text" name="_honey" class="form-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
-      <button type="submit" class="btn primary lg">Join free as a Founding Member</button>
-      <p class="form-fine">We'll only use this to contact you about SolubFood. Leave any time. <a href="privacy.html">Privacy Policy</a></p>
-      <p class="form-status" aria-live="polite" id="waitlistStatus"></p>
-    </form>
-    <div class="member-qr" id="memberQr" hidden>
-      <p>This is your SolubFood QR — screenshot it. Show it at the door to check in.</p>
-      <div class="member-qr-code" id="memberQrCode"></div>
+    <div class="collage" aria-label="Places across Latin America">
+      <figure class="polaroid paper p-cream tape lift">
+        <img src="assets/img/paths-cl.jpg" alt="A snow-capped volcano at the end of a tree-lined road in southern Chile" width="320" height="420" loading="lazy">
+        <figcaption>Chile</figcaption>
+      </figure>
+      <figure class="polaroid paper p-cream tape-r lift cut-2">
+        <img src="assets/img/paths-co.jpg" alt="A jeep with a Colombian flag in a green valley of wax palms, Colombia" width="320" height="420" loading="lazy">
+        <figcaption>Colombia</figcaption>
+      </figure>
+      <figure class="polaroid paper p-cream tape-l lift cut-3">
+        <img src="assets/img/country-pe.jpg" alt="The ruins of Machu Picchu among green mountains, Peru" width="160" height="160" loading="lazy">
+        <figcaption>Perú</figcaption>
+      </figure>
+      <figure class="polaroid paper p-cream tape lift">
+        <img src="assets/img/country-ar.jpg" alt="Jagged Patagonian peaks at dusk, Argentina" width="160" height="160" loading="lazy">
+        <figcaption>Argentina</figcaption>
+      </figure>
+      <p class="collage-badge paper p-ink cut-4">Twenty countries.<br>The same table.</p>
     </div>
   </div>
 </section>
 
-<section id="kiosko" class="kiosko">
-  <div class="wrap">
-    <div class="kiosko-head">
-      <div class="kiosko-copy">
-        <div class="eyebrow on-dark">El Kiosko by SolubFood · Coming to the Gold Coast</div>
-        <h2>When Gold Coast closes, Latin America opens.</h2>
-        <p>In Argentina, the kiosko is the corner shop that never seems to close: a snack, a cold drink, a phone charger, whatever the night needs. We're bringing it to the Gold Coast, with home-style Latin food cooked by Latin cooks who live here.</p>
-      </div>
-      <div class="kiosko-sign-wrap" aria-hidden="true">
-        <div class="kiosko-sign">
-          <div class="sign-small">SolubFood presents</div>
-          <div class="sign-name">El Kiosko</div>
-          <div class="sign-open">Open late. Really late.</div>
-        </div>
-      </div>
-    </div>
-    <div class="kiosko-grid">
-      <div class="kiosko-card">
-        <div class="kicker">COMIDA CASERA</div>
-        <h3>Home-style Latin food</h3>
-        <p>Made by Latin home cooks from the Gold Coast, each with a name and a story. <a href="kitchen.html">Meet the Kitchen</a>.</p>
-      </div>
-      <div class="kiosko-card">
-        <div class="kicker">DE TODO</div>
-        <h3>Everything else, too</h3>
-        <p>Cold drinks, snacks, ice cream and the everyday things you suddenly need at midnight.</p>
-      </div>
-      <div class="kiosko-card">
-        <div class="kicker">DE NOCHE</div>
-        <h3>Open when others aren't</h3>
-        <p>Late nights, early shifts, and everything in between.</p>
-      </div>
-      <div class="kiosko-card">
-        <div class="kicker">COMO QUIERAS</div>
-        <h3>On your app or at the door</h3>
-        <p>Order on Uber Eats or DoorDash, or walk in and grab it yourself.</p>
-      </div>
-    </div>
-    <div class="kiosko-foot">
-      <div>
-        <h3>Take a look inside, in 3D.</h3>
-        <p>A first sketch of El Kiosko: the machines, the wall of 54 hot-food lockers, the community wall. We're planning to open in 2027. No address yet, and we'll only announce one once it's signed.</p>
-      </div>
-      <div class="kiosko-actions">
-        <a href="kiosko-3d.html" class="btn outline-dark lg">See El Kiosko in 3D</a>
-        <a href="#waitlist" class="btn primary lg">Join &amp; vote for your area</a>
-      </div>
-    </div>
-  </div>
-</section>
+<div class="edge flip" style="--from: var(--pink); --mid: var(--peach); --to: var(--sand);" aria-hidden="true">
+  <svg viewBox="0 0 1200 100" preserveAspectRatio="none">
+    <path class="e-mid" d="M0 30 L60 36 L130 22 L210 38 L290 25 L380 40 L450 24 L540 35 L620 20 L700 37 L790 26 L860 39 L950 22 L1030 35 L1110 24 L1200 32 V100 H0 Z"/>
+    <path class="e-to" d="M0 58 L80 50 L150 63 L240 51 L320 66 L400 53 L490 62 L570 49 L660 64 L740 52 L830 61 L910 48 L1000 63 L1080 51 L1150 60 L1200 53 V100 H0 Z"/>
+  </svg>
+</div>
 
-<section id="kitchen" class="kitchen-teaser">
+<!-- ============================ KITCHEN ============================ -->
+<section id="kitchen" class="kitchen band">
   <div class="wrap">
-    <div class="kitchen-head">
-      <div>
-        <div class="eyebrow">Kitchen</div>
-        <h2>The hands behind your food.</h2>
-        <p>Every dish at El Kiosko is made by one of our Latin home cooks here on the Gold Coast. Get to know them: their names, where they're from and why they cook.</p>
-      </div>
-    </div>
+    <div class="eyebrow">Kitchen</div>
+    <h2 class="sec-title">
+      <span class="strip paper p-ink tape-l" style="--rot:-1.5deg">The hands</span>
+      <span class="strip paper p-pink cut-2" style="--rot:1deg">behind your food.</span>
+    </h2>
+    <p class="band-lead">Every dish is made by one of our Latin home cooks here on the Gold Coast. Get to know them: their names, where they're from and why they cook.</p>
+
+    <!-- Placeholder profiles: replace with real cooks (photo, name, country, suburb, story, video) once they've signed consent. -->
     <div class="cook-grid">
-      <div class="cook-card">
-        <div class="cook-avatar" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7"></path></svg></div>
-        <div>
-          <div class="t">[Cook's name]</div>
-          <div class="m">[Country] · [Gold Coast suburb]</div>
-          <p>[Signature dish and the story behind it.] Coming soon.</p>
-        </div>
-      </div>
-      <div class="cook-card">
-        <div class="cook-avatar" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7"></path></svg></div>
-        <div>
-          <div class="t">[Cook's name]</div>
-          <div class="m">[Country] · [Gold Coast suburb]</div>
-          <p>[Signature dish and the story behind it.] Coming soon.</p>
-        </div>
-      </div>
-      <div class="cook-card">
-        <div class="cook-avatar" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7"></path></svg></div>
-        <div>
-          <div class="t">[Cook's name]</div>
-          <div class="m">[Country] · [Gold Coast suburb]</div>
-          <p>[Signature dish and the story behind it.] Coming soon.</p>
-        </div>
-      </div>
+      <article class="cook-card paper p-cream tape lift">
+        <div class="ph-photo" aria-hidden="true"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7"></path></svg>[Cook's photo]</div>
+        <h3 class="t">[Cook's name]</h3>
+        <div class="m">[Country] · [Gold Coast suburb]</div>
+        <p>[Signature dish, and the story of who taught them to cook it.]</p>
+        <span class="chip">▶ [Video coming soon]</span>
+      </article>
+      <article class="cook-card paper p-cream tape-r lift">
+        <div class="ph-photo" aria-hidden="true"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7"></path></svg>[Cook's photo]</div>
+        <h3 class="t">[Cook's name]</h3>
+        <div class="m">[Country] · [Gold Coast suburb]</div>
+        <p>[Signature dish, and the story of who taught them to cook it.]</p>
+        <span class="chip">▶ [Video coming soon]</span>
+      </article>
+      <article class="cook-card paper p-cream tape lift">
+        <div class="ph-photo" aria-hidden="true"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7"></path></svg>[Cook's photo]</div>
+        <h3 class="t">[Cook's name]</h3>
+        <div class="m">[Country] · [Gold Coast suburb]</div>
+        <p>[Signature dish, and the story of who taught them to cook it.]</p>
+        <span class="chip">▶ [Video coming soon]</span>
+      </article>
     </div>
-    <div class="kitchen-actions">
-      <a href="kitchen.html" class="btn primary lg" style="background: var(--ink)">Meet the Kitchen →</a>
-      <a href="kitchen.html#join" class="btn outline lg">Do you cook? Join us</a>
+    <p class="band-lead" style="margin-bottom:40px">We're meeting our first cooks now. Their stories, photos and videos land here soon.</p>
+
+    <div class="kitchen-foot">
+      <div class="menu-note paper p-ink cut-2">
+        <h3>What we cook</h3>
+        <p>Home-style Latin food. Every dish carries the name of the person who made it, comes from a licensed kitchen and is labelled to Australian food standards.</p>
+      </div>
+      <div class="kitchen-cta">
+        <p>Do you cook Latin food on the Gold Coast?</p>
+        <a href="#join" class="btn btn-pink">Cook with us →</a>
+      </div>
     </div>
   </div>
 </section>
 
-<section id="origins" class="origins">
-  <div class="wrap">
-    <div class="eyebrow on-dark">Origins</div>
-    <h2>Filmed where it's lived.</h2>
-    <p class="origins-sub">We travel across Latin America to meet the people, the places and the food behind it all, and we film them with their consent. Real over perfect.</p>
-    <div class="origins-top">
-      <div class="manifesto-video" role="button" tabindex="0" aria-label="Play our manifesto trailer">
-        <div class="manifesto-video-play"><svg width="26" height="26" viewBox="0 0 24 24" fill="#1A1714" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg></div>
-        <div class="manifesto-video-label">Our manifesto — trailer</div>
-        <div class="manifesto-video-label" style="opacity: 0.7; font-size: 13px;">[Video goes here]</div>
+<div class="edge" style="--from: var(--sand); --mid: var(--pink); --to: var(--orange-deep);" aria-hidden="true">
+  <svg viewBox="0 0 1200 100" preserveAspectRatio="none">
+    <path class="e-mid" d="M0 30 L60 36 L130 22 L210 38 L290 25 L380 40 L450 24 L540 35 L620 20 L700 37 L790 26 L860 39 L950 22 L1030 35 L1110 24 L1200 32 V100 H0 Z"/>
+    <path class="e-to" d="M0 58 L80 50 L150 63 L240 51 L320 66 L400 53 L490 62 L570 49 L660 64 L740 52 L830 61 L910 48 L1000 63 L1080 51 L1150 60 L1200 53 V100 H0 Z"/>
+  </svg>
+</div>
+
+<!-- ============================ ORIGINS (includes Community) ============================ -->
+<section id="origins" aria-labelledby="originsTitle">
+  <div class="origins-film band on-dark">
+    <div class="wrap">
+      <div class="eyebrow">Origins</div>
+      <h2 class="sec-title" id="originsTitle">
+        <span class="strip paper p-beige tape-l" style="--rot:-1.2deg">Filmed where</span>
+        <span class="strip paper p-ink wide cut-3" style="--rot:1.4deg">it's lived.</span>
+      </h2>
+      <p class="band-lead">We travel across Latin America to meet the people, the places and the food behind it all, and we film them with their consent. Real over perfect.</p>
+      <div class="origins-top">
+        <div class="manifesto-video paper p-ink tape">
+          <div class="play-dot" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="#1C1916"><path d="M8 5v14l11-7z"></path></svg></div>
+          <div class="lbl">Our manifesto — trailer</div>
+          <div class="ph">[Video goes here]</div>
+        </div>
+        <blockquote class="manifesto-quote paper p-pinksoft cut-2 tape-r">
+          <p>&ldquo;Food is just the surface. What it really means is disconnecting, stepping into another reality of comfort. A shared story.&rdquo;</p>
+          <cite>— The SolubFood manifesto</cite>
+        </blockquote>
       </div>
-      <blockquote class="manifesto-quote">
-        <p>&ldquo;Food is just the surface. What it really means is disconnecting, stepping into another reality of comfort. A shared story.&rdquo;</p>
-        <cite>— The SolubFood manifesto</cite>
-      </blockquote>
-    </div>
-    <div class="episode-grid">
-      <article class="episode-card">
-        <div class="episode-still ep1">[Still — Antofagasta]</div>
-        <div class="episode-body">
+      <div class="episode-grid">
+        <article class="episode-card paper p-cream tape lift">
+          <div class="episode-still">[Still — Antofagasta]</div>
           <div class="episode-tag">Episode 01 · Chile</div>
           <h3 class="episode-title">Antofagasta: the desert by the sea</h3>
           <div class="episode-status">Coming soon</div>
-        </div>
-      </article>
-      <article class="episode-card">
-        <div class="episode-still ep2">[Still — Punta Arenas]</div>
-        <div class="episode-body">
+        </article>
+        <article class="episode-card paper p-cream tape-l lift">
+          <div class="episode-still">[Still — Punta Arenas]</div>
           <div class="episode-tag">Episode 02 · Chile</div>
           <h3 class="episode-title">Punta Arenas: the far south</h3>
           <div class="episode-status">Coming soon</div>
-        </div>
-      </article>
-      <article class="episode-card">
-        <div class="episode-still ep3">[Still — Argentina]</div>
-        <div class="episode-body">
+        </article>
+        <article class="episode-card paper p-cream tape lift">
+          <div class="episode-still">[Still — Argentina]</div>
           <div class="episode-tag">Episode 03 · Argentina</div>
           <h3 class="episode-title">Argentina: the kiosko on every corner</h3>
           <div class="episode-status">Coming soon</div>
-        </div>
-      </article>
+        </article>
+      </div>
+      <div class="origins-actions">
+        <a href="#waitlist" class="btn btn-cream">Join the waitlist (free)</a>
+        <a href="https://www.instagram.com/solubfood/" target="_blank" rel="noopener noreferrer" class="text-link">Follow the trip on Instagram →</a>
+      </div>
     </div>
-    <div class="origins-actions">
-      <a href="#waitlist" class="btn primary lg">Join the waitlist (free)</a>
-      <a href="https://www.instagram.com/solubfood/" target="_blank" rel="noopener noreferrer" class="origins-follow">Follow the trip on Instagram →</a>
+  </div>
+
+  <div class="edge flip" style="--from: var(--orange-deep); --mid: var(--peach); --to: var(--beige);" aria-hidden="true">
+    <svg viewBox="0 0 1200 100" preserveAspectRatio="none">
+      <path class="e-mid" d="M0 30 L60 36 L130 22 L210 38 L290 25 L380 40 L450 24 L540 35 L620 20 L700 37 L790 26 L860 39 L950 22 L1030 35 L1110 24 L1200 32 V100 H0 Z"/>
+      <path class="e-to" d="M0 58 L80 50 L150 63 L240 51 L320 66 L400 53 L490 62 L570 49 L660 64 L740 52 L830 61 L910 48 L1000 63 L1080 51 L1150 60 L1200 53 V100 H0 Z"/>
+    </svg>
+  </div>
+
+  <div class="origins-words band">
+    <div class="wrap">
+      <div class="words-head">
+        <div class="eyebrow">Community · Diccionario latino</div>
+        <h3>
+          <span class="strip paper p-orange wide" style="--rot:-1.5deg">Say it</span>
+          <span class="strip paper p-pinksoft cut-2" style="--rot:1deg">like a local.</span>
+        </h3>
+        <p class="band-lead" style="margin-bottom:26px">Latin America is twenty countries, not one. Each has its own words, and most of them have an Aussie twin. Pick a country, tap a word.</p>
+      </div>
+      <div class="country-filter" role="group" aria-label="Filter words by country">
+        <button type="button" class="country-chip" data-country="all" aria-pressed="true">All</button>
+        <button type="button" class="country-chip" data-country="chile" aria-pressed="false">Chile</button>
+        <button type="button" class="country-chip" data-country="argentina" aria-pressed="false">Argentina</button>
+        <button type="button" class="country-chip" data-country="colombia" aria-pressed="false">Colombia</button>
+        <button type="button" class="country-chip" data-country="mexico" aria-pressed="false">México</button>
+        <button type="button" class="country-chip" data-country="peru" aria-pressed="false">Perú</button>
+        <button type="button" class="country-chip" data-country="cuba" aria-pressed="false">Cuba</button>
+        <button type="button" class="country-chip" data-country="venezuela" aria-pressed="false">Venezuela</button>
+      </div>
+      <div class="word-grid">
+        <button type="button" class="word-card" data-countries="chile" aria-pressed="false">
+          <span class="word-inner">
+            <span class="word-face word-front"><span class="word-country">Chile</span><span class="word-term">Once</span><span class="word-hint">Tap to flip</span></span>
+            <span class="word-face word-back"><span class="word-say">Say it: ON-seh</span><span class="word-meaning">Afternoon tea or a light evening meal: bread, avocado, tea.</span><span class="word-aussie">In Australia: <strong>arvo tea</strong></span></span>
+          </span>
+        </button>
+        <button type="button" class="word-card" data-countries="argentina chile" aria-pressed="false">
+          <span class="word-inner">
+            <span class="word-face word-front"><span class="word-country">Argentina · Chile</span><span class="word-term">Previa</span><span class="word-hint">Tap to flip</span></span>
+            <span class="word-face word-back"><span class="word-say">Say it: PREH-vee-ah</span><span class="word-meaning">Drinks with friends at home before heading out.</span><span class="word-aussie">In Australia: <strong>pre-drinks</strong></span></span>
+          </span>
+        </button>
+        <button type="button" class="word-card" data-countries="chile" aria-pressed="false">
+          <span class="word-inner">
+            <span class="word-face word-front"><span class="word-country">Chile</span><span class="word-term">Bajón</span><span class="word-hint">Tap to flip</span></span>
+            <span class="word-face word-back"><span class="word-say">Say it: bah-HON</span><span class="word-meaning">Late-night hunger, usually after a night out. (In Argentina it means a downer.)</span><span class="word-aussie">In Australia: <strong>the munchies</strong></span></span>
+          </span>
+        </button>
+        <button type="button" class="word-card" data-countries="colombia venezuela" aria-pressed="false">
+          <span class="word-inner">
+            <span class="word-face word-front"><span class="word-country">Colombia · Venezuela</span><span class="word-term">Chévere</span><span class="word-hint">Tap to flip</span></span>
+            <span class="word-face word-back"><span class="word-say">Say it: CHEH-veh-reh</span><span class="word-meaning">Great, cool, really good.</span><span class="word-aussie">In Australia: <strong>sweet as</strong></span></span>
+          </span>
+        </button>
+        <button type="button" class="word-card" data-countries="colombia" aria-pressed="false">
+          <span class="word-inner">
+            <span class="word-face word-front"><span class="word-country">Colombia</span><span class="word-term">Parce</span><span class="word-hint">Tap to flip</span></span>
+            <span class="word-face word-back"><span class="word-say">Say it: PAR-seh</span><span class="word-meaning">Friend, buddy. Short for parcero.</span><span class="word-aussie">In Australia: <strong>mate</strong></span></span>
+          </span>
+        </button>
+        <button type="button" class="word-card" data-countries="mexico peru" aria-pressed="false">
+          <span class="word-inner">
+            <span class="word-face word-front"><span class="word-country">México · Perú</span><span class="word-term">Chamba</span><span class="word-hint">Tap to flip</span></span>
+            <span class="word-face word-back"><span class="word-say">Say it: CHAM-bah</span><span class="word-meaning">Work, a job.</span><span class="word-aussie">In Australia: <strong>yakka</strong></span></span>
+          </span>
+        </button>
+        <button type="button" class="word-card" data-countries="chile cuba" aria-pressed="false">
+          <span class="word-inner">
+            <span class="word-face word-front"><span class="word-country">Chile · Cuba</span><span class="word-term">Guagua</span><span class="word-hint">Tap to flip</span></span>
+            <span class="word-face word-back"><span class="word-say">Say it: WAH-wah</span><span class="word-meaning">Same word, different country: a baby in Chile, a bus in Cuba.</span><span class="word-aussie">In Australia: <strong>bub / the bus</strong></span></span>
+          </span>
+        </button>
+        <button type="button" class="word-card" data-countries="chile argentina colombia mexico peru cuba venezuela" aria-pressed="false">
+          <span class="word-inner">
+            <span class="word-face word-front"><span class="word-country">All of Latin America</span><span class="word-term">Sobremesa</span><span class="word-hint">Tap to flip</span></span>
+            <span class="word-face word-back"><span class="word-say">Say it: soh-breh-MEH-sah</span><span class="word-meaning">Staying at the table to talk long after the meal is finished.</span><span class="word-aussie">In Australia: <strong>no word for it.</strong> It's yours now.</span></span>
+          </span>
+        </button>
+        <button type="button" class="word-card" data-countries="chile" aria-pressed="false">
+          <span class="word-inner">
+            <span class="word-face word-front"><span class="word-country">Chile</span><span class="word-term">Pololo</span><span class="word-hint">Tap to flip</span></span>
+            <span class="word-face word-back"><span class="word-say">Say it: poh-LOH-loh</span><span class="word-meaning">Boyfriend. Polola is girlfriend.</span><span class="word-aussie">In Australia: <strong>boyf / girlf</strong></span></span>
+          </span>
+        </button>
+        <button type="button" class="word-card" data-countries="argentina" aria-pressed="false">
+          <span class="word-inner">
+            <span class="word-face word-front"><span class="word-country">Argentina</span><span class="word-term">Che</span><span class="word-hint">Tap to flip</span></span>
+            <span class="word-face word-back"><span class="word-say">Say it: cheh</span><span class="word-meaning">What you say to get a friend's attention.</span><span class="word-aussie">In Australia: <strong>oi, mate</strong></span></span>
+          </span>
+        </button>
+        <button type="button" class="word-card" data-countries="mexico" aria-pressed="false">
+          <span class="word-inner">
+            <span class="word-face word-front"><span class="word-country">México</span><span class="word-term">Ahorita</span><span class="word-hint">Tap to flip</span></span>
+            <span class="word-face word-back"><span class="word-say">Say it: ah-oh-REE-tah</span><span class="word-meaning">"Right now"… which can mean in a minute, later, or never.</span><span class="word-aussie">In Australia: <strong>in a tick</strong></span></span>
+          </span>
+        </button>
+        <button type="button" class="word-card" data-countries="mexico peru" aria-pressed="false">
+          <span class="word-inner">
+            <span class="word-face word-front"><span class="word-country">México · Perú</span><span class="word-term">Chela</span><span class="word-hint">Tap to flip</span></span>
+            <span class="word-face word-back"><span class="word-say">Say it: CHEH-lah</span><span class="word-meaning">A beer.</span><span class="word-aussie">In Australia: <strong>a cold one</strong></span></span>
+          </span>
+        </button>
+      </div>
+      <p class="words-foot">A new word every week on <a href="https://www.instagram.com/solubfood/" target="_blank" rel="noopener noreferrer">Instagram @solubfood</a>. <a href="#waitlist">Join the community, free →</a></p>
     </div>
   </div>
 </section>
 
-<section id="community" class="community">
+<div class="edge" style="--from: var(--beige); --mid: var(--orange-soft); --to: var(--pink-soft);" aria-hidden="true">
+  <svg viewBox="0 0 1200 100" preserveAspectRatio="none">
+    <path class="e-mid" d="M0 30 L60 36 L130 22 L210 38 L290 25 L380 40 L450 24 L540 35 L620 20 L700 37 L790 26 L860 39 L950 22 L1030 35 L1110 24 L1200 32 V100 H0 Z"/>
+    <path class="e-to" d="M0 58 L80 50 L150 63 L240 51 L320 66 L400 53 L490 62 L570 49 L660 64 L740 52 L830 61 L910 48 L1000 63 L1080 51 L1150 60 L1200 53 V100 H0 Z"/>
+  </svg>
+</div>
+
+<!-- ============================ EVENTS ============================ -->
+<section id="events" class="events band">
   <div class="wrap">
-    <div class="eyebrow">Community · Diccionario latino</div>
-    <h2>Say it like a local.</h2>
-    <p class="community-sub">Latin America is twenty countries, not one. Each has its own words, and most of them have an Aussie twin. Pick a country, tap a word.</p>
-    <div class="country-filter" role="group" aria-label="Filter words by country">
-      <button type="button" class="country-chip" data-country="all" aria-pressed="true">All</button>
-      <button type="button" class="country-chip" data-country="chile" aria-pressed="false">Chile</button>
-      <button type="button" class="country-chip" data-country="argentina" aria-pressed="false">Argentina</button>
-      <button type="button" class="country-chip" data-country="colombia" aria-pressed="false">Colombia</button>
-      <button type="button" class="country-chip" data-country="mexico" aria-pressed="false">México</button>
-      <button type="button" class="country-chip" data-country="peru" aria-pressed="false">Perú</button>
-      <button type="button" class="country-chip" data-country="cuba" aria-pressed="false">Cuba</button>
-      <button type="button" class="country-chip" data-country="venezuela" aria-pressed="false">Venezuela</button>
+    <div class="events-card paper p-cream tape">
+      <div>
+        <div class="eyebrow">Events</div>
+        <h2 class="sec-title">
+          <span class="strip paper p-ink" style="--rot:-1deg">Latin nights,</span>
+          <span class="strip paper p-pink cut-2" style="--rot:1.2deg">now and then.</span>
+        </h2>
+        <p>Free Latin tasting nights with home cooks from the Gold Coast's Latin community. Only for waitlist members, and the first 250 Founding Members hear first. We only announce a night once it's confirmed.</p>
+      </div>
+      <a href="#waitlist" class="btn btn-ink">Get event invites</a>
     </div>
-    <div class="word-grid">
-      <button type="button" class="word-card" data-countries="chile" aria-pressed="false">
-        <span class="word-inner">
-          <span class="word-face word-front">
-            <span class="word-country">Chile</span>
-            <span class="word-term">Once</span>
-            <span class="word-hint">Tap to flip</span>
-          </span>
-          <span class="word-face word-back">
-            <span class="word-say">Say it: ON-seh</span>
-            <span class="word-meaning">Afternoon tea or a light evening meal: bread, avocado, tea.</span>
-            <span class="word-aussie">In Australia: <strong>arvo tea</strong></span>
-          </span>
-        </span>
-      </button>
-      <button type="button" class="word-card" data-countries="argentina chile" aria-pressed="false">
-        <span class="word-inner">
-          <span class="word-face word-front">
-            <span class="word-country">Argentina · Chile</span>
-            <span class="word-term">Previa</span>
-            <span class="word-hint">Tap to flip</span>
-          </span>
-          <span class="word-face word-back">
-            <span class="word-say">Say it: PREH-vee-ah</span>
-            <span class="word-meaning">Drinks with friends at home before heading out.</span>
-            <span class="word-aussie">In Australia: <strong>pre-drinks</strong></span>
-          </span>
-        </span>
-      </button>
-      <button type="button" class="word-card" data-countries="chile" aria-pressed="false">
-        <span class="word-inner">
-          <span class="word-face word-front">
-            <span class="word-country">Chile</span>
-            <span class="word-term">Bajón</span>
-            <span class="word-hint">Tap to flip</span>
-          </span>
-          <span class="word-face word-back">
-            <span class="word-say">Say it: bah-HON</span>
-            <span class="word-meaning">Late-night hunger, usually after a night out. (In Argentina it means a downer.)</span>
-            <span class="word-aussie">In Australia: <strong>the munchies</strong></span>
-          </span>
-        </span>
-      </button>
-      <button type="button" class="word-card" data-countries="colombia venezuela" aria-pressed="false">
-        <span class="word-inner">
-          <span class="word-face word-front">
-            <span class="word-country">Colombia · Venezuela</span>
-            <span class="word-term">Chévere</span>
-            <span class="word-hint">Tap to flip</span>
-          </span>
-          <span class="word-face word-back">
-            <span class="word-say">Say it: CHEH-veh-reh</span>
-            <span class="word-meaning">Great, cool, really good.</span>
-            <span class="word-aussie">In Australia: <strong>sweet as</strong></span>
-          </span>
-        </span>
-      </button>
-      <button type="button" class="word-card" data-countries="colombia" aria-pressed="false">
-        <span class="word-inner">
-          <span class="word-face word-front">
-            <span class="word-country">Colombia</span>
-            <span class="word-term">Parce</span>
-            <span class="word-hint">Tap to flip</span>
-          </span>
-          <span class="word-face word-back">
-            <span class="word-say">Say it: PAR-seh</span>
-            <span class="word-meaning">Friend, buddy. Short for parcero.</span>
-            <span class="word-aussie">In Australia: <strong>mate</strong></span>
-          </span>
-        </span>
-      </button>
-      <button type="button" class="word-card" data-countries="mexico peru" aria-pressed="false">
-        <span class="word-inner">
-          <span class="word-face word-front">
-            <span class="word-country">México · Perú</span>
-            <span class="word-term">Chamba</span>
-            <span class="word-hint">Tap to flip</span>
-          </span>
-          <span class="word-face word-back">
-            <span class="word-say">Say it: CHAM-bah</span>
-            <span class="word-meaning">Work, a job.</span>
-            <span class="word-aussie">In Australia: <strong>yakka</strong></span>
-          </span>
-        </span>
-      </button>
-      <button type="button" class="word-card" data-countries="chile cuba" aria-pressed="false">
-        <span class="word-inner">
-          <span class="word-face word-front">
-            <span class="word-country">Chile · Cuba</span>
-            <span class="word-term">Guagua</span>
-            <span class="word-hint">Tap to flip</span>
-          </span>
-          <span class="word-face word-back">
-            <span class="word-say">Say it: WAH-wah</span>
-            <span class="word-meaning">Same word, different country: a baby in Chile, a bus in Cuba.</span>
-            <span class="word-aussie">In Australia: <strong>bub / the bus</strong></span>
-          </span>
-        </span>
-      </button>
-      <button type="button" class="word-card" data-countries="chile argentina colombia mexico peru cuba venezuela" aria-pressed="false">
-        <span class="word-inner">
-          <span class="word-face word-front">
-            <span class="word-country">All of Latin America</span>
-            <span class="word-term">Sobremesa</span>
-            <span class="word-hint">Tap to flip</span>
-          </span>
-          <span class="word-face word-back">
-            <span class="word-say">Say it: soh-breh-MEH-sah</span>
-            <span class="word-meaning">Staying at the table to talk long after the meal is finished.</span>
-            <span class="word-aussie">In Australia: <strong>no word for it.</strong> It's yours now.</span>
-          </span>
-        </span>
-      </button>
-      <button type="button" class="word-card" data-countries="chile" aria-pressed="false">
-        <span class="word-inner">
-          <span class="word-face word-front">
-            <span class="word-country">Chile</span>
-            <span class="word-term">Pololo</span>
-            <span class="word-hint">Tap to flip</span>
-          </span>
-          <span class="word-face word-back">
-            <span class="word-say">Say it: poh-LOH-loh</span>
-            <span class="word-meaning">Boyfriend. Polola is girlfriend.</span>
-            <span class="word-aussie">In Australia: <strong>boyf / girlf</strong></span>
-          </span>
-        </span>
-      </button>
-      <button type="button" class="word-card" data-countries="argentina" aria-pressed="false">
-        <span class="word-inner">
-          <span class="word-face word-front">
-            <span class="word-country">Argentina</span>
-            <span class="word-term">Che</span>
-            <span class="word-hint">Tap to flip</span>
-          </span>
-          <span class="word-face word-back">
-            <span class="word-say">Say it: cheh</span>
-            <span class="word-meaning">What you say to get a friend's attention.</span>
-            <span class="word-aussie">In Australia: <strong>oi, mate</strong></span>
-          </span>
-        </span>
-      </button>
-      <button type="button" class="word-card" data-countries="mexico" aria-pressed="false">
-        <span class="word-inner">
-          <span class="word-face word-front">
-            <span class="word-country">México</span>
-            <span class="word-term">Ahorita</span>
-            <span class="word-hint">Tap to flip</span>
-          </span>
-          <span class="word-face word-back">
-            <span class="word-say">Say it: ah-oh-REE-tah</span>
-            <span class="word-meaning">"Right now"… which can mean in a minute, later, or never.</span>
-            <span class="word-aussie">In Australia: <strong>in a tick</strong></span>
-          </span>
-        </span>
-      </button>
-      <button type="button" class="word-card" data-countries="mexico peru" aria-pressed="false">
-        <span class="word-inner">
-          <span class="word-face word-front">
-            <span class="word-country">México · Perú</span>
-            <span class="word-term">Chela</span>
-            <span class="word-hint">Tap to flip</span>
-          </span>
-          <span class="word-face word-back">
-            <span class="word-say">Say it: CHEH-lah</span>
-            <span class="word-meaning">A beer.</span>
-            <span class="word-aussie">In Australia: <strong>a cold one</strong></span>
-          </span>
-        </span>
-      </button>
-    </div>
-    <p class="community-foot">A new word every week on <a href="https://www.instagram.com/solubfood/" target="_blank" rel="noopener noreferrer">Instagram @solubfood</a>. <a href="#waitlist">Join the community, free →</a></p>
   </div>
 </section>
 
-<section id="events" class="events">
-  <div class="wrap events-row">
-    <div class="events-copy">
-      <div class="eyebrow">Events</div>
-      <h2>Latin nights, now and then.</h2>
-      <p>Free Latin tasting nights with home cooks from the Gold Coast's Latin community. Only for waitlist members, and the first 250 Founding Members hear first. We only announce a night once it's confirmed.</p>
-    </div>
-    <a href="#waitlist" class="btn outline lg">Get event invites</a>
-  </div>
-</section>
+<div class="edge flip" style="--from: var(--pink-soft); --mid: var(--kraft); --to: var(--beige);" aria-hidden="true">
+  <svg viewBox="0 0 1200 100" preserveAspectRatio="none">
+    <path class="e-mid" d="M0 30 L60 36 L130 22 L210 38 L290 25 L380 40 L450 24 L540 35 L620 20 L700 37 L790 26 L860 39 L950 22 L1030 35 L1110 24 L1200 32 V100 H0 Z"/>
+    <path class="e-to" d="M0 58 L80 50 L150 63 L240 51 L320 66 L400 53 L490 62 L570 49 L660 64 L740 52 L830 61 L910 48 L1000 63 L1080 51 L1150 60 L1200 53 V100 H0 Z"/>
+  </svg>
+</div>
 
-<section id="vision" class="vision">
+<!-- ============================ JOIN US ============================ -->
+<section id="join" class="join band">
   <div class="wrap">
-    <div class="eyebrow">Our vision</div>
-    <h2>A home, far from home.</h2>
-    <p class="vision-sub">SolubFood exists so Australians can live Latin culture as it really is (visible, trusted, modern and built by its community, not a stereotype) and so Latin Americans on the Gold Coast feel at home.</p>
-    <div class="vision-grid">
-      <div class="vision-card">
-        <div class="kicker">HOGAR</div>
-        <h3>Home</h3>
-        <p>The flavours and rituals that make you feel you never left.</p>
+    <div class="eyebrow">Join Us · Cook with us</div>
+    <h2 class="sec-title">
+      <span class="strip paper p-orange tape-l" style="--rot:-1.5deg">Already cooking</span>
+      <span class="strip paper p-ink narrow cut-3" style="--rot:1deg">and selling Latin food?</span>
+    </h2>
+    <p class="band-lead">Maybe you sell on Instagram, Facebook or WhatsApp. Tell us about your food and we'll get back to you within a few days.</p>
+
+    <h3 class="sr-only">How it works for cooks</h3>
+    <div class="steps-grid">
+      <div class="step paper p-pinksoft lift"><div class="n">01</div><div class="t">You cook</div><p>Your recipes or ours, in a licensed kitchen, on your own schedule.</p></div>
+      <div class="step paper p-peach lift"><div class="n">02</div><div class="t">We sell</div><p>On Uber Eats and DoorDash, as part of the SolubFood menu.</p></div>
+      <div class="step paper p-cream lift"><div class="n">03</div><div class="t">We tell your story</div><p>Photos and video by our team, for SolubFood and for your own socials.</p></div>
+      <div class="step paper p-sand lift"><div class="n">04</div><div class="t">You get paid weekly</div><p>A share of every dish you cooked that sells, paid every week with a report of what sold.</p></div>
+    </div>
+
+    <div class="join-row">
+      <div class="rights paper p-ink tape">
+        <h3>Cooks Rights</h3>
+        <ul>
+          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E688B7" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>You decide how, where and when you cook and film.</li>
+          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E688B7" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>Your own kitchen, your own tools, your own phone.</li>
+          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E688B7" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>Keep selling on your own socials and to anyone else. We're an extra channel, not a replacement.</li>
+          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E688B7" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>No boss and no fixed hours. Say no to an order, no penalty.</li>
+          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E688B7" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>Paid on time, with a weekly report of what sold.</li>
+          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E688B7" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>Your name, face and story are used only with your signed consent.</li>
+          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E688B7" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>Leave whenever you like, with two weeks' notice.</li>
+          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E688B7" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>We never ask you to work more hours than your visa allows.</li>
+          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E688B7" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>Every dish comes from a licensed kitchen and is labelled to Australian food standards.</li>
+          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E688B7" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>We name the country and the people, never a stereotype.</li>
+        </ul>
       </div>
-      <div class="vision-card">
-        <div class="kicker">INDEPENDENCIA</div>
-        <h3>Independence</h3>
-        <p>Our cooks and partners keep their own name, their own story and their own way of doing things.</p>
-      </div>
-      <div class="vision-card">
-        <div class="kicker">FAMILIARIDAD</div>
-        <h3>Familiarity</h3>
-        <p>Twenty countries, one community. Different accents, the same table.</p>
-      </div>
-      <div class="vision-card">
-        <div class="kicker">SIMPLICIDAD</div>
-        <h3>Simplicity</h3>
-        <p>Easy to find, easy to buy, easy to share. No passport needed.</p>
+
+      <div>
+        <form class="cook-form paper p-cream tape-r" id="kitchenJoinForm" action="https://formsubmit.co/ajax/9db1dd62560dc0a344859f22e210ae98" method="POST" novalidate>
+          <h3>Tell us about your food</h3>
+          <div class="field-row">
+            <div class="field"><label for="k-name">Your name</label><input id="k-name" name="name" type="text" required autocomplete="name"></div>
+            <div class="field"><label for="k-email">Email</label><input id="k-email" name="email" type="email" required autocomplete="email" inputmode="email"></div>
+          </div>
+          <div class="field-row">
+            <div class="field"><label for="k-country">Where are you from?</label><input id="k-country" name="country" type="text" placeholder="e.g. Colombia" required></div>
+            <div class="field"><label for="k-suburb">Suburb</label><input id="k-suburb" name="suburb" type="text" required autocomplete="address-level2"></div>
+          </div>
+          <div class="field"><label for="k-social">Instagram, Facebook or WhatsApp (optional)</label><input id="k-social" name="social" type="text" placeholder="@yourkitchen"></div>
+          <div class="field"><label for="k-dishes">What do you cook?</label><textarea id="k-dishes" name="dishes" rows="3" required placeholder="e.g. empanadas de pino, arepas, tamales…"></textarea></div>
+          <div class="field-row">
+            <div class="field">
+              <label for="k-volume">Portions you could make a week</label>
+              <select id="k-volume" name="portionsPerWeek">
+                <option>Under 20</option>
+                <option>20–50</option>
+                <option>50–100</option>
+                <option>More than 100</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="k-hours">Hours a week you could cook</label>
+              <select id="k-hours" name="hoursPerWeek">
+                <option>Under 5</option>
+                <option>5–10</option>
+                <option>10–20</option>
+                <option>More than 20</option>
+              </select>
+            </div>
+          </div>
+          <fieldset class="radio-group">
+            <legend>Do you have a food licence?</legend>
+            <label class="radio-row"><input type="radio" name="foodLicence" value="Yes" required>Yes</label>
+            <label class="radio-row"><input type="radio" name="foodLicence" value="Working on it">Working on it</label>
+            <label class="radio-row"><input type="radio" name="foodLicence" value="Not yet">Not yet</label>
+          </fieldset>
+          <input type="hidden" name="source" value="website-kitchen-join">
+          <input type="hidden" name="ref" value="">
+          <input type="hidden" name="utm_source" value="">
+          <input type="hidden" name="utm_medium" value="">
+          <input type="hidden" name="utm_campaign" value="">
+          <input type="hidden" name="timestamp" value="">
+          <input type="hidden" name="_subject" value="SolubFood Kitchen — new cook">
+          <input type="text" name="_honey" class="form-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <button type="submit" class="btn btn-ink">Send</button>
+          <p class="form-fine">We'll only use this to talk to you about SolubFood. <a href="privacy.html">Privacy Policy</a></p>
+          <p class="form-status" role="status" aria-live="polite" data-status></p>
+        </form>
+        <p class="form-status done paper p-cream" role="status" aria-live="polite" id="kitchenJoinDone" hidden></p>
       </div>
     </div>
-    <div class="vision-foot">
-      <p class="vision-quote">&ldquo;We don't just sell food. We sell a feeling from the other side of the world.&rdquo;</p>
-      <div class="founders">
-        <div class="founder-photos">
-          <img class="founder-photo" src="assets/img/benjamin.jpg" alt="Benjamin Arevalo">
-          <div class="founder-avatar" title="Gibril's photo goes here" aria-hidden="true">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7"></path></svg>
+  </div>
+</section>
+
+<div class="edge" style="--from: var(--beige); --mid: var(--pink); --to: var(--cream);" aria-hidden="true">
+  <svg viewBox="0 0 1200 100" preserveAspectRatio="none">
+    <path class="e-mid" d="M0 30 L60 36 L130 22 L210 38 L290 25 L380 40 L450 24 L540 35 L620 20 L700 37 L790 26 L860 39 L950 22 L1030 35 L1110 24 L1200 32 V100 H0 Z"/>
+    <path class="e-to" d="M0 58 L80 50 L150 63 L240 51 L320 66 L400 53 L490 62 L570 49 L660 64 L740 52 L830 61 L910 48 L1000 63 L1080 51 L1150 60 L1200 53 V100 H0 Z"/>
+  </svg>
+</div>
+
+<!-- ============================ OUR VISION ============================ -->
+<section id="vision" class="vision band">
+  <div class="wrap">
+    <div class="eyebrow">Our Vision</div>
+    <h2 class="sec-title">
+      <span class="strip paper p-pink tape-l" style="--rot:-1.4deg">A home,</span>
+      <span class="strip paper p-ink wide cut-2" style="--rot:1.2deg">far from home.</span>
+    </h2>
+    <p class="band-lead">SolubFood exists so Australians can live Latin culture as it really is (visible, trusted, modern and built by its community, not a stereotype) and so Latin Americans on the Gold Coast feel at home.</p>
+
+    <div class="vision-row">
+      <figure class="founder-card paper p-cream tape lift">
+        <div class="founder-media">
+          <img src="assets/img/benjamin.jpg" alt="Benjamin Arevalo, founder of SolubFood" width="1728" height="2304" loading="lazy">
+          <button type="button" class="founder-play" id="heroPlayBtn" aria-label="Play the SolubFood introduction video" aria-describedby="heroVideoNote">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="#1C1916" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg>
+          </button>
+          <div class="founder-cap">
+            <div class="w">Watch · 1 min</div>
+            <div class="t">Meet SolubFood</div>
+            <div class="b">With Benjamin &amp; Gibril · Chile, Argentina &amp; the Gold Coast</div>
           </div>
         </div>
-        <div>
-          <div class="founder-names">Benjamin Arevalo &amp; Gibril</div>
-          <div class="founder-role">Founder &amp; co-founder (marketing) · Gold Coast</div>
-          <p class="founder-note">[Gibril's photo goes here]</p>
+        <figcaption id="heroVideoNote" aria-live="polite">[Sketch] Intro video lands January 2027 · filmed in Antofagasta, Punta Arenas, Argentina &amp; the Gold Coast</figcaption>
+      </figure>
+
+      <div class="vision-text">
+        <!-- PROVISIONAL: proposed text for the founders to rewrite in their own words. It only restates what the site already says. -->
+        <div class="draft-note paper p-kraft tape-r">
+          <span class="draft-badge">Draft · provisional text</span>
+          <p>SolubFood started with a simple feeling: that the food and rituals of home can travel. One ocean sits between Latin America and the Gold Coast, and we want to make it feel smaller.</p>
+          <p>We do it with home-style food cooked by people with names and stories, with films made where that culture is lived, and with nights around the same table. Real over perfect.</p>
+        </div>
+        <div class="vision-quote paper p-ink">
+          <p>&ldquo;We don't just sell food. We sell a feeling from the other side of the world.&rdquo;</p>
+          <div class="founders">
+            <div class="founder-avatar" title="Gibril's photo goes here" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7"></path></svg>
+            </div>
+            <div>
+              <div class="founder-names">Benjamin Arevalo &amp; Gibril</div>
+              <div class="founder-role">Founder &amp; co-founder (marketing) · Gold Coast · [Gibril's photo goes here]</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
 
-<section id="faq" class="faq">
-  <div class="wrap">
-    <h2>Questions.</h2>
-    <div class="faq-grid">
-      <div class="faq-item"><h3>What is SolubFood?</h3><p>A Latin brand from the Gold Coast. We share the food and culture of Latin America, and we're building El Kiosko, a late-night spot for home-style Latin food.</p></div>
-      <div class="faq-item"><h3>What is El Kiosko?</h3><p>A Latin corner shop that stays open late: home-style Latin food from local Latin cooks, plus drinks, snacks and the everyday things you need at night. Order on your delivery app or walk in.</p></div>
-      <div class="faq-item"><h3>When and where will it open?</h3><p>We're planning to open in 2027 on the Gold Coast. There's no address yet. Members help choose the area, hear first, and the first 250 taste the food first.</p></div>
-      <div class="faq-item"><h3>Who cooks the food?</h3><p>Latin cooks who live on the Gold Coast. Every dish carries the name of the person who made it. Meet them in the <a href="kitchen.html">Kitchen</a>.</p></div>
-      <div class="faq-item"><h3>I cook Latin food. Can I join?</h3><p>Yes. Tell us about your food on the <a href="kitchen.html#join">Kitchen page</a>. Every dish has to come from a licensed kitchen and be labelled to Australian food standards.</p></div>
-      <div class="faq-item"><h3>How much will it cost?</h3><p>Prices come with the opening. Members see them first.</p></div>
+    <div class="values-grid">
+      <div class="value paper p-pinksoft tape lift"><div class="kicker">HOGAR</div><h3>Home</h3><p>The flavours and rituals that make you feel you never left.</p></div>
+      <div class="value paper p-peach lift"><div class="kicker">INDEPENDENCIA</div><h3>Independence</h3><p>Our cooks and partners keep their own name, their own story and their own way of doing things.</p></div>
+      <div class="value paper p-sand tape-r lift"><div class="kicker">FAMILIARIDAD</div><h3>Familiarity</h3><p>Twenty countries, one community. Different accents, the same table.</p></div>
+      <div class="value paper p-pink lift"><div class="kicker">SIMPLICIDAD</div><h3>Simplicity</h3><p>Easy to find, easy to buy, easy to share. No passport needed.</p></div>
     </div>
   </div>
 </section>
 
-<footer class="site-footer">
+<!-- ============================ FAQ ============================ -->
+<section id="faq" class="faq band">
+  <div class="wrap">
+    <h2 class="sec-title"><span class="strip paper p-ink tape-l" style="--rot:-1deg">Questions.</span></h2>
+    <div class="faq-grid">
+      <div class="faq-item"><h3>What is SolubFood?</h3><p>A Latin brand from the Gold Coast. We share the food and culture of Latin America: home-style food from local Latin cooks, stories filmed where they're lived, and Latin nights.</p></div>
+      <div class="faq-item"><h3>Who cooks the food?</h3><p>Latin cooks who live on the Gold Coast. Every dish carries the name of the person who made it. Meet them in the <a href="#kitchen">Kitchen</a>.</p></div>
+      <div class="faq-item"><h3>When do you start?</h3><p>We're planning to start in 2027 on the Gold Coast. Members hear first, and the first 250 taste the food first.</p></div>
+      <div class="faq-item"><h3>I cook Latin food. Can I join?</h3><p>Yes. Tell us about your food in <a href="#join">Join Us</a>. Every dish has to come from a licensed kitchen and be labelled to Australian food standards.</p></div>
+      <div class="faq-item"><h3>How much will it cost?</h3><p>Prices come with the launch. Members see them first.</p></div>
+      <div class="faq-item"><h3>Is joining the waitlist free?</h3><p>Yes. It's just your name and email, and you can leave any time.</p></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer on-dark">
   <div class="wrap">
     <div class="footer-grid">
       <div class="footer-brand">
-        <div class="wordmark"><img src="assets/img/solubfood-logo.svg" alt="SolubFood" width="72" height="72"></div>
+        <img src="assets/img/solubfood-logo.svg" alt="SolubFood" width="72" height="72">
         <p class="tag">Real over perfect.</p>
-        <p class="sub">Latin America, at home on the Gold Coast.</p>
+        <p>Latin America, at home on the Gold Coast.</p>
       </div>
       <nav class="footer-col" aria-label="Footer">
         <div class="title">Explore</div>
-        <a href="#kiosko">El Kiosko</a>
-        <a href="kitchen.html">Kitchen</a>
+        <a href="#kitchen">Kitchen</a>
         <a href="#origins">Origins</a>
-        <a href="#community">Community</a>
         <a href="#events">Events</a>
-        <a href="#vision">Our vision</a>
+        <a href="#join">Join Us</a>
+        <a href="#vision">Our Vision</a>
         <a href="about.html">About us</a>
       </nav>
       <nav class="footer-col" aria-label="Legal">
@@ -1274,7 +1335,6 @@
   </div>
 </footer>
 
-<script src="assets/js/qrcode.js"></script>
 <script>
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -1319,10 +1379,9 @@
 
   // The intro video is a sketch until January 2027 — this just gives
   // honest feedback instead of a dead button until the real .mp4 lands.
-  // To wire the real video: replace the <img> in .hero-video with a
-  // <video autoplay muted loop playsinline> (or controls) and drop this
-  // handler.
-  (function heroPlayPlaceholder() {
+  // To wire the real video: replace the <img> in .founder-media with a
+  // <video controls playsinline> and drop this handler.
+  (function introVideoPlaceholder() {
     var btn = document.getElementById('heroPlayBtn');
     var note = document.getElementById('heroVideoNote');
     if (!btn || !note) return;
@@ -1333,67 +1392,50 @@
     });
   })();
 
-  // Generates the member's personal SolubFood QR entirely client-side (no
-  // backend) once they join — it encodes a per-browser random member id,
-  // not their email, so the QR image itself never carries personal data.
-  (function memberQr() {
-    function makeMemberId() {
-      var bytes = new Uint8Array(8);
-      (window.crypto || window.msCrypto).getRandomValues(bytes);
-      return Array.prototype.map.call(bytes, function (b) { return b.toString(16).padStart(2, '0'); }).join('').toUpperCase();
-    }
-    function renderQr(container, text) {
-      if (typeof qrcode !== 'function' || !container) return;
-      try {
-        var qr = qrcode(0, 'M');
-        qr.addData(text);
-        qr.make();
-        container.innerHTML = qr.createSvgTag({ scalable: true });
-      } catch (err) {
-        container.textContent = text;
-      }
-    }
-    window.__solubRenderMemberQr = function () {
-      var wrap = document.getElementById('memberQr');
-      var codeEl = document.getElementById('memberQrCode');
-      if (!wrap || !codeEl) return;
-      var memberId = 'SOLUB-' + makeMemberId();
-      renderQr(codeEl, 'https://solubfood.com/checkin.html?m=' + memberId);
-      wrap.hidden = false;
-    };
-  })();
-
   // Tag each signup with where it came from (?ref=… from creators, QRs and events; utm_* from ads),
-  // kept for the session so it survives moving around the page.
+  // kept for the session so it survives moving around the site. Fills both forms.
   (function captureSignupSource() {
     var params = new URLSearchParams(window.location.search);
-    var keys = { ref: 'wlRef', utm_source: 'wlUtmSource', utm_medium: 'wlUtmMedium', utm_campaign: 'wlUtmCampaign' };
-    Object.keys(keys).forEach(function (k) {
+    ['ref', 'utm_source', 'utm_medium', 'utm_campaign'].forEach(function (k) {
       var v = params.get(k);
       try {
         if (v) sessionStorage.setItem('solub_' + k, v);
         else v = sessionStorage.getItem('solub_' + k);
       } catch (err) {}
-      var input = document.getElementById(keys[k]);
-      if (input && v) input.value = v.slice(0, 80);
+      if (!v) return;
+      document.querySelectorAll('form input[type="hidden"][name="' + k + '"]').forEach(function (input) {
+        input.value = v.slice(0, 80);
+      });
     });
   })();
 
-  (function wireWaitlistForm() {
-    var form = document.getElementById('waitlistForm');
+  // Both forms post to FormSubmit (AJAX endpoint), which emails each submission to the team.
+  function wireForm(formId, doneId, successText) {
+    var form = document.getElementById(formId);
     if (!form) return;
-    var status = document.getElementById('waitlistStatus');
+    var status = form.querySelector('[data-status]');
+    var done = document.getElementById(doneId);
     var btn = form.querySelector('button[type="submit"]');
-    var tsInput = document.getElementById('wlTimestamp');
     var mailFallback = 'hello@teamsolub.com';
+
+    function markInvalid() {
+      form.querySelectorAll('input[required], textarea[required]').forEach(function (el) {
+        if (el.type === 'radio') return;
+        el.setAttribute('aria-invalid', el.checkValidity() ? 'false' : 'true');
+      });
+    }
+    form.addEventListener('input', function (e) {
+      if (e.target.getAttribute('aria-invalid') === 'true' && e.target.checkValidity()) e.target.setAttribute('aria-invalid', 'false');
+    });
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      if (!form.checkValidity()) { form.reportValidity(); return; }
+      if (!form.checkValidity()) { markInvalid(); form.reportValidity(); return; }
       var honey = form.querySelector('.form-honey');
       if (honey && honey.value) return;
 
-      if (tsInput) tsInput.value = new Date().toISOString();
+      var ts = form.querySelector('input[name="timestamp"]');
+      if (ts) ts.value = new Date().toISOString();
       btn.disabled = true;
       status.className = 'form-status';
       status.textContent = 'Sending…';
@@ -1405,16 +1447,20 @@
       }).then(function (res) {
         if (!res.ok) throw new Error('bad status');
         form.hidden = true;
-        status.className = 'form-status success';
-        status.textContent = "You're in! Welcome to SolubFood, Founding Member.";
-        if (window.__solubRenderMemberQr) window.__solubRenderMemberQr();
+        if (done) {
+          done.className = 'form-status done success paper p-cream';
+          done.textContent = successText;
+          done.hidden = false;
+        }
       }).catch(function () {
         btn.disabled = false;
         status.className = 'form-status error';
         status.innerHTML = 'Something went wrong — email us directly at <a href="mailto:' + mailFallback + '">' + mailFallback + '</a>';
       });
     });
-  })();
+  }
+  wireForm('waitlistForm', 'waitlistDone', "You're in! Welcome to SolubFood, Founding Member.");
+  wireForm('kitchenJoinForm', 'kitchenJoinDone', "Thanks! We'll be in touch within a few days.");
 
   (function communityWords() {
     var chips = document.querySelectorAll('.country-chip');
@@ -1437,116 +1483,14 @@
     });
   })();
 
-  (function visionCardGlow() {
-    var cards = document.querySelectorAll('.vision-card');
-    if (!cards.length || reduceMotion) return;
-    cards.forEach(function (card) {
-      var ticking = false;
-      var lastX = -9999, lastY = -9999;
-      function apply() {
-        ticking = false;
-        card.style.setProperty('--mx', lastX.toFixed(0));
-        card.style.setProperty('--my', lastY.toFixed(0));
-      }
-      card.addEventListener('pointermove', function (e) {
-        var r = card.getBoundingClientRect();
-        lastX = e.clientX - r.left;
-        lastY = e.clientY - r.top;
-        if (!ticking) {
-          ticking = true;
-          requestAnimationFrame(apply);
-        }
-      }, { passive: true });
-    });
+  // Pause the home loop while it's off screen, so it costs nothing when nobody's looking.
+  (function pauseLoopOffscreen() {
+    var loop = document.getElementById('homeLoop');
+    if (!loop || reduceMotion || !('IntersectionObserver' in window)) return;
+    new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { loop.classList.toggle('is-paused', !en.isIntersecting); });
+    }).observe(loop);
   })();
-
-  // ===========================================================
-  // Small decorative 3D globe (globe.gl / Three.js via CDN) in the hero
-  // video's corner — all of Latin America and Australia, with dashed
-  // routes to the Gold Coast from the places we film plus a few more
-  // across the region. No labels, no click-to-expand: this is the
-  // site's existing globe engine, trimmed down to a quiet corner detail
-  // instead of the earlier full interactive "unlock the map" feature.
-  // ===========================================================
-  document.addEventListener('DOMContentLoaded', function () {
-    var el = document.getElementById('heroGlobe');
-    if (!el || typeof Globe === 'undefined') return;
-
-    var GOLD_COAST = { lat: -28.0167, lng: 153.4000 };
-    var ROUTES = [
-      { lat: -23.6509, lng: -70.3975 },  // Antofagasta
-      { lat: -53.1638, lng: -70.9171 },  // Punta Arenas
-      { lat: -34.6037, lng: -58.3816 },  // Buenos Aires
-      { lat: -12.0464, lng: -77.0428 },  // Lima
-      { lat: 4.7110, lng: -74.0721 },    // Bogotá
-      { lat: 19.4326, lng: -99.1332 }    // Mexico City
-    ];
-    var LATAM = ['MEX', 'GTM', 'HND', 'SLV', 'NIC', 'CRI', 'PAN', 'CUB', 'DOM', 'HTI',
-                 'COL', 'VEN', 'ECU', 'PER', 'BOL', 'BRA', 'PRY', 'URY', 'ARG', 'CHL'];
-    var HIGHLIGHT = { AUS: '#E74426' };
-    LATAM.forEach(function (iso) { HIGHLIGHT[iso] = '#E0A42A'; });
-
-    var ARCS = ROUTES.map(function (r) {
-      return { startLat: r.lat, startLng: r.lng, endLat: GOLD_COAST.lat, endLng: GOLD_COAST.lng };
-    });
-    var POINTS = ROUTES.concat([GOLD_COAST]);
-
-    function isoOf(feat) {
-      var p = feat.properties || {};
-      return p.ISO_A3 || p.ADM0_A3 || p.ADM0_A3_US || null;
-    }
-
-    var g = Globe()(el)
-      .backgroundColor('rgba(0,0,0,0)')
-      .showAtmosphere(true)
-      .atmosphereColor('#E74426')
-      .atmosphereAltitude(0.22)
-      .polygonsData([])
-      .polygonCapColor(function (feat) { return HIGHLIGHT[isoOf(feat)] || 'rgba(255,255,255,0.05)'; })
-      .polygonSideColor(function () { return 'rgba(18,16,12,0.3)'; })
-      .polygonStrokeColor(function (feat) { return HIGHLIGHT[isoOf(feat)] ? '#F4F1EC' : 'rgba(244,241,236,0.12)'; })
-      .polygonAltitude(0.01)
-      .arcsData(ARCS)
-      .arcColor(function () { return '#F4F1EC'; })
-      .arcStroke(0.4)
-      .arcDashLength(0.4)
-      .arcDashGap(2)
-      .arcDashAnimateTime(reduceMotion ? 0 : 2400)
-      .arcAltitudeAutoScale(0.26)
-      .pointsData(POINTS)
-      .pointLat('lat').pointLng('lng')
-      .pointColor(function () { return '#FFFFFF'; })
-      .pointRadius(0.35)
-      .pointAltitude(0.012);
-
-    g.globeMaterial().color.set('#121010');
-    g.globeMaterial().shininess = 3;
-
-    var scene = g.scene();
-    scene.add(new THREE.AmbientLight(0xffffff, 0.75));
-    var dirLight = new THREE.DirectionalLight(0xffffff, 0.55);
-    dirLight.position.set(-2, 2, 1);
-    scene.add(dirLight);
-
-    g.controls().enableZoom = false;
-    g.controls().enablePan = false;
-    g.controls().enableRotate = false;
-    g.controls().autoRotate = !reduceMotion;
-    g.controls().autoRotateSpeed = 0.5;
-
-    function size() {
-      var w = el.clientWidth || 120;
-      g.width(w).height(w);
-    }
-    size();
-    window.addEventListener('resize', size);
-    g.pointOfView({ lat: -5, lng: -90, altitude: 2.1 }, 0);
-
-    fetch('https://cdn.jsdelivr.net/gh/vasturiano/globe.gl@v2.32.2/example/datasets/ne_110m_admin_0_countries.geojson')
-      .then(function (res) { return res.json(); })
-      .then(function (geo) { g.polygonsData(geo.features); })
-      .catch(function (err) { console.error('Could not load globe outlines', err); });
-  });
 </script>
 </body>
 </html>
