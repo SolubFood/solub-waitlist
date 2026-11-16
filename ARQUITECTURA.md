@@ -40,10 +40,12 @@ solub-waitlist/
 ├── _headers              Cabeceras de seguridad (Cloudflare)
 ├── assets/
 │   ├── css/site.css      Estilos compartidos por index, kitchen y join
+│   ├── data/solubcard-countries.json  Formas de los 20 países para la SolubCard (generado)
 │   ├── img/              Imágenes, logos, pósters de video
 │   ├── videos/           Videos de la web (.mp4)
 │   ├── js/site.js        Comportamiento compartido (menú, formularios, animaciones)
 │   └── js/qrcode.js      Librería local para generar códigos QR (la home ya no la usa)
+├── tools/build-card-data.js  Genera assets/data/solubcard-countries.json desde Natural Earth (dominio público)
 ├── worker/               Servidor del muro de dibujos (Cloudflare Worker) — ver worker/README.md
 ├── design-reference/     Archivos de diseño de referencia (no se usan en la web)
 ├── ARQUITECTURA.md       Este documento
