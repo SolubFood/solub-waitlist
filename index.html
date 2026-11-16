@@ -11,7 +11,7 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://solubfood.com/">
 <meta name="google-site-verification" content="ZIfBgz4Ohe4am5wnDQGKJKTBfGDkd8l4YmU6oRO9zCY" />
-<meta name="theme-color" content="#F6E9D7">
+<meta name="theme-color" content="#E74426">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
@@ -27,21 +27,25 @@
      black paper with beige letters.
      ================================================================= */
   :root {
-    --beige: #F6E9D7;
-    --sand: #EFDDC2;
-    --kraft: #E3C9A2;
-    --cream: #FBF5EC;
-    --pink: #E688B7;
-    --pink-soft: #F6CFE0;
-    --pink-deep: #A63D72;
-    --orange: #E74426;
-    --orange-soft: #F59A6A;
-    --peach: #F9CBA7;
-    --orange-deep: #B5321A;
-    --ink: #1C1916;
-    --ink-soft: #3D3833;
-    --ink-muted: #5A534C;
-    --input-border: #8A7A68;
+    /* Brand palette ONLY: masa, rosa and rojo ají, plus black for letters and black paper.
+       The older token names below are kept as aliases so every rule maps onto these four. */
+    --beige: #F6E9D7;   /* masa */
+    --pink: #E688B7;    /* rosa */
+    --red: #E74426;     /* rojo ají */
+    --ink: #1A1714;     /* negro */
+
+    --sand: var(--beige);
+    --kraft: var(--beige);
+    --cream: var(--beige);
+    --pink-soft: var(--pink);
+    --peach: var(--beige);
+    --orange: var(--red);
+    --orange-soft: var(--pink);
+    --orange-deep: var(--red);
+    --pink-deep: var(--ink);
+    --ink-soft: var(--ink);
+    --ink-muted: var(--ink);
+    --input-border: var(--ink);
 
     --font: 'Archivo', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
@@ -73,8 +77,8 @@
     -webkit-font-smoothing: antialiased;
   }
   img { max-width: 100%; display: block; }
-  a { color: var(--orange-deep); text-underline-offset: 3px; }
-  a:hover { color: var(--ink); }
+  a { color: var(--ink); text-decoration-thickness: 1.5px; text-underline-offset: 3px; }
+  a:hover { text-decoration-thickness: 3px; }
   :focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; border-radius: 2px; }
   .on-dark :focus-visible, .site-footer :focus-visible { outline-color: var(--beige); }
   h1, h2, h3 { font-family: var(--font); margin: 0; letter-spacing: -0.01em; }
@@ -95,7 +99,7 @@
     color: var(--pink-deep);
     margin-bottom: 14px;
   }
-  .on-dark .eyebrow { color: var(--beige); }
+  .on-dark .eyebrow { color: var(--ink); background: var(--beige); padding: 4px 10px 3px; clip-path: var(--cut-4); }
 
   /* ---------- paper sheet ----------
      The sheet itself is drawn by ::before (clipped to a scissor-cut shape);
@@ -111,15 +115,15 @@
     clip-path: var(--cut, var(--cut-1));
     box-shadow: inset 0 0 22px rgba(90,45,20,.15);
   }
-  .p-cream { --paper: var(--cream); }
+  .p-beige { --paper: var(--cream); }
   .p-beige { --paper: var(--beige); }
-  .p-sand { --paper: var(--sand); }
-  .p-kraft { --paper: var(--kraft); }
+  .p-beige { --paper: var(--sand); }
+  .p-beige { --paper: var(--kraft); }
   .p-pink { --paper: var(--pink); }
-  .p-pinksoft { --paper: var(--pink-soft); }
-  .p-peach { --paper: var(--peach); }
-  .p-orangesoft { --paper: var(--orange-soft); }
-  .p-orange { --paper: var(--orange); --paper-ink: var(--ink); }
+  .p-pink { --paper: var(--pink-soft); }
+  .p-beige { --paper: var(--peach); }
+  .p-pink { --paper: var(--orange-soft); }
+  .p-red { --paper: var(--red); --paper-ink: var(--beige); }
   .p-ink { --paper: var(--ink); --paper-ink: var(--beige); }
   .p-ink::before { box-shadow: inset 0 0 26px rgba(0,0,0,.6); }
   .cut-2 { --cut: var(--cut-2); }
@@ -197,8 +201,8 @@
   .btn:hover { color: var(--paper-ink, var(--ink)); }
   .btn-ink { --paper: var(--ink); --paper-ink: var(--beige); }
   .btn-pink { --paper: var(--pink); }
-  .btn-cream { --paper: var(--cream); }
-  .btn-peach { --paper: var(--peach); }
+  .btn-beige { --paper: var(--beige); }
+  .btn-beige { --paper: var(--peach); }
   .btn:disabled { opacity: .6; cursor: default; }
   .btn-sm { min-height: 44px; padding: 0 18px; font-size: 15px; }
   @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
@@ -206,7 +210,8 @@
     .btn:hover:not(:disabled) { transform: translateY(-3px) scale(1.03) rotate(-1deg); filter: var(--shadow-up); }
   }
   .text-link { font-weight: 800; color: inherit; text-decoration: underline; text-decoration-thickness: 2px; display: inline-flex; align-items: center; min-height: 44px; }
-  .on-dark .text-link:hover { color: var(--beige); }
+  .on-dark .text-link { color: var(--beige); font-size: 19px; }
+  .on-dark .text-link:hover { color: var(--beige); text-decoration-thickness: 4px; }
 
   /* ---------- torn-paper transitions between sections ---------- */
   .edge { display: block; position: relative; z-index: 2; height: 70px; margin-top: -1px; background: var(--grain), var(--from); line-height: 0; }
@@ -285,7 +290,7 @@
   @media (max-width: 380px) { .header-cta { padding: 0 10px; font-size: 13px; } }
 
   /* ---------- hero ---------- */
-  .hero { position: relative; padding: 48px 0 40px; }
+  .hero { position: relative; padding: 48px 0 40px; background: var(--grain), var(--red); }
   .hero-row { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 40px; align-items: center; }
   .hero-kicker { --rot: -2deg; font-size: clamp(18px, 2.2vw, 26px); font-weight: 800; font-variation-settings: 'wdth' 120; letter-spacing: .02em; text-transform: uppercase; padding: .3em .7em .34em; display: inline-block; transform: rotate(var(--rot)); margin: 0 0 14px 6px; }
 
@@ -305,13 +310,14 @@
     .cut-title .l { transition: transform .25s cubic-bezier(.2,.8,.2,1); }
     .cut-title .l:hover { transform: rotate(var(--r, 0deg)) translateY(-.08em) scale(1.08); }
   }
+  /* masa y rosa sobre rojo ají: every letter is masa, rosa or black paper */
   .k1 { --bg-l: var(--pink); --fg-l: var(--ink); }
-  .k2 { --bg-l: var(--orange); --fg-l: var(--beige); }
-  .k3 { --bg-l: var(--beige); --fg-l: var(--orange-deep); }
+  .k2 { --bg-l: var(--beige); --fg-l: var(--red); }
+  .k3 { --bg-l: var(--ink); --fg-l: var(--beige); }
   .k4 { --bg-l: var(--ink); --fg-l: var(--pink); }
-  .k5 { --bg-l: var(--peach); --fg-l: var(--ink); }
-  .k6 { --bg-l: var(--pink-soft); --fg-l: var(--orange-deep); }
-  .k7 { --bg-l: var(--orange-soft); --fg-l: var(--ink); }
+  .k5 { --bg-l: var(--beige); --fg-l: var(--ink); }
+  .k6 { --bg-l: var(--pink); --fg-l: var(--beige); -webkit-text-stroke: .025em var(--ink); }
+  .k7 { --bg-l: var(--beige); --fg-l: var(--pink); -webkit-text-stroke: .025em var(--ink); }
   .cut-title .l:nth-child(3n+1) { --r: -4deg; --wd: 112; --cut-l: var(--cut-1); }
   .cut-title .l:nth-child(3n+2) { --r: 3deg; --wd: 84; --y: .04em; --cut-l: var(--cut-4); }
   .cut-title .l:nth-child(3n) { --r: -1.5deg; --wd: 100; --y: -.03em; --cut-l: var(--cut-2); }
@@ -319,7 +325,7 @@
 
   .hero-desc { --rot: .5deg; max-width: 34ch; padding: 22px 26px 24px; margin: 0 0 28px; font-size: 19px; line-height: 1.5; font-weight: 500; transform: rotate(var(--rot)); }
   .hero-actions { display: flex; flex-wrap: wrap; gap: 14px 16px; align-items: center; }
-  .hero-fine { font-size: 15px; line-height: 1.5; color: var(--ink-soft); margin: 22px 0 0; max-width: 46ch; }
+  .hero-fine { display: inline-block; font-size: 15px; line-height: 1.5; margin: 24px 0 0; max-width: 46ch; padding: 12px 16px 13px; --rot: -.5deg; transform: rotate(var(--rot)); }
 
   /* ---------- loop animation: everything comes home ---------- */
   .loop { --rot: 2deg; margin: 0; padding: 18px 18px 16px; transform: rotate(var(--rot)); }
@@ -332,7 +338,7 @@
   .loop .it { transform-box: fill-box; transform-origin: center; animation: ride 3s cubic-bezier(.5,0,.3,1) infinite; }
   .loop .home { transform-box: fill-box; transform-origin: 50% 80%; animation: home-pop 3s ease-out infinite; }
   .loop .burst { opacity: 0; animation: burst 3s ease-out infinite; }
-  .loop .burst line { stroke: var(--orange-deep); stroke-width: 5; stroke-linecap: round; }
+  .loop .burst line { stroke: var(--red); stroke-width: 5; stroke-linecap: round; }
   @keyframes belt-flow { to { stroke-dashoffset: -18; } }
   @keyframes ride {
     0% { transform: translate(calc(var(--dx) * -84px), calc(var(--dy) * -84px)) scale(.9); opacity: 0; }
@@ -389,19 +395,19 @@
     font-size: 16px;
     font-family: var(--font);
     width: 100%;
-    background: #FFFFFF;
+    background: var(--beige);
     color: var(--ink);
   }
   .field textarea { padding: 12px 14px; resize: vertical; }
   .field input:focus-visible, .field select:focus-visible, .field textarea:focus-visible { outline: 3px solid var(--ink); outline-offset: 1px; border-color: var(--ink); }
-  .field input[aria-invalid="true"], .field textarea[aria-invalid="true"] { border-color: var(--orange-deep); }
+  .field input[aria-invalid="true"], .field textarea[aria-invalid="true"] { border-color: var(--red); box-shadow: 0 0 0 2px var(--red); }
   .consent-row { display: flex; align-items: flex-start; gap: 10px; font-size: 15px; line-height: 1.45; color: var(--ink-soft); margin-top: 14px; cursor: pointer; }
-  .consent-row input { width: 20px; height: 20px; margin-top: 1px; accent-color: var(--orange-deep); flex-shrink: 0; }
+  .consent-row input { width: 20px; height: 20px; margin-top: 1px; accent-color: var(--red); flex-shrink: 0; }
   .form-fine { font-size: 14px; line-height: 1.5; color: var(--ink-muted); margin-top: 10px; }
   .form-status { margin: 10px 0 0; font-size: 15px; font-weight: 700; min-height: 1.2em; }
   .form-status:empty { margin: 0; min-height: 0; }
   .form-status.success { color: var(--ink); }
-  .form-status.error { color: var(--orange-deep); }
+  .form-status.error { color: var(--ink); }
   .form-status.done { padding: 22px 24px; font-size: 18px; }
   .form-honey { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
 
@@ -436,7 +442,7 @@
   /* ---------- generic section spacing ---------- */
   .band { padding: 88px 0; position: relative; }
   .band-lead { font-size: 19px; line-height: 1.55; max-width: 56ch; margin: 0 0 40px; color: var(--ink-soft); font-weight: 500; }
-  .on-dark .band-lead { color: var(--beige); }
+  .on-dark .band-lead { color: var(--beige); font-weight: 700; font-size: 20px; }
   @media (max-width: 680px) { .band { padding: 64px 0; } .band-lead { font-size: 17px; } }
 
   /* ---------- Kitchen ---------- */
@@ -449,14 +455,14 @@
   .ph-photo {
     aspect-ratio: 4 / 3;
     display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
-    border: 2px dashed rgba(28,25,22,.4);
-    background: repeating-linear-gradient(135deg, rgba(28,25,22,.04) 0 10px, transparent 10px 20px);
+    border: 2px dashed var(--ink);
+    background: repeating-linear-gradient(135deg, rgba(230,136,183,.22) 0 10px, transparent 10px 20px);
     color: var(--ink-muted); font-size: 14px; font-weight: 600; text-align: center; padding: 10px;
   }
   .cook-card .t { font-size: 22px; font-weight: 900; margin: 14px 0 2px; }
   .cook-card .m { font-size: 14px; color: var(--ink-muted); font-weight: 600; margin-bottom: 8px; }
-  .cook-card p { font-size: 15px; color: var(--ink-soft); }
-  .chip { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; padding: 4px 10px; font-size: 13px; font-weight: 700; border: 1.5px dashed var(--ink-muted); color: var(--ink-muted); }
+  .cook-card p { font-size: 15px; }
+  .chip { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; padding: 4px 10px; font-size: 13px; font-weight: 700; border: 1.5px dashed var(--ink); color: var(--ink); }
   .kitchen-foot { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 32px; align-items: center; }
   .menu-note { padding: 24px 26px; --rot: -1deg; transform: rotate(var(--rot)); }
   .menu-note h3 { font-size: 22px; font-weight: 900; margin-bottom: 8px; color: var(--pink); }
@@ -468,7 +474,7 @@
   }
 
   /* ---------- Origins ---------- */
-  .origins-film { background: var(--grain), var(--orange-deep); color: #FFFFFF; }
+  .origins-film { background: var(--grain), var(--red); color: var(--beige); }
   .origins-top { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 36px; align-items: center; margin-bottom: 48px; }
   .manifesto-video { aspect-ratio: 16 / 9; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; --rot: -1deg; transform: rotate(var(--rot)); text-align: center; padding: 16px; }
   .play-dot { width: 68px; height: 68px; border-radius: 999px; background: var(--beige); display: flex; align-items: center; justify-content: center; }
@@ -517,7 +523,7 @@
   .word-card:nth-child(3n+2) .word-front { background: var(--grain), var(--crumple), var(--pink-soft); }
   .word-card:nth-child(3n) .word-front { background: var(--grain), var(--crumple), var(--peach); }
   .word-back { background: var(--grain), var(--ink); color: var(--beige); transform: rotateY(180deg); }
-  .word-country { font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--orange-deep); }
+  .word-country { font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--ink); }
   .word-term { font-weight: 900; font-variation-settings: 'wdth' 96; font-size: clamp(28px, 2.6vw, 36px); line-height: 1.05; margin-top: 10px; }
   .word-hint { margin-top: auto; font-size: 13px; font-weight: 600; color: var(--ink-muted); }
   .word-say { font-size: 13px; color: var(--pink); font-weight: 700; letter-spacing: .04em; }
@@ -549,7 +555,7 @@
   .step:nth-child(2) { --rot: 1deg; --cut: var(--cut-2); }
   .step:nth-child(3) { --rot: -.6deg; --cut: var(--cut-3); }
   .step:nth-child(4) { --rot: 1.6deg; }
-  .step .n { font-weight: 900; font-variation-settings: 'wdth' 120; font-size: 34px; line-height: 1; color: var(--orange-deep); }
+  .step .n { display: inline-block; padding: .08em .22em .04em; background: var(--red); color: var(--beige); clip-path: var(--cut-3); font-weight: 900; font-variation-settings: 'wdth' 120; font-size: 34px; line-height: 1; }
   .step .t { font-weight: 900; font-size: 19px; margin: 10px 0 6px; }
   .step p { font-size: 15px; color: var(--ink-soft); }
   .join-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 44px; align-items: start; }
@@ -565,7 +571,7 @@
   fieldset.radio-group { border: 0; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 4px 22px; }
   fieldset.radio-group legend { width: 100%; padding: 0; margin-bottom: 6px; }
   .radio-row { display: flex; align-items: center; gap: 8px; min-height: 36px; font-size: 16px; cursor: pointer; }
-  .radio-row input { width: 20px; height: 20px; accent-color: var(--orange-deep); }
+  .radio-row input { width: 20px; height: 20px; accent-color: var(--red); }
   .cook-form .btn { align-self: flex-start; }
   @media (max-width: 960px) {
     .steps-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -591,9 +597,9 @@
     background: var(--beige); display: flex; align-items: center; justify-content: center;
     box-shadow: 0 10px 26px -10px rgba(0,0,0,.6);
   }
-  .founder-cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 60px 20px 18px; background: linear-gradient(to top, rgba(15,12,10,.92), rgba(15,12,10,0)); color: var(--beige); }
+  .founder-cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 60px 20px 18px; background: linear-gradient(to top, rgba(26,23,20,.94), rgba(26,23,20,0)); color: var(--beige); }
   .founder-cap .w { font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
-  .founder-cap .t { font-size: 24px; font-weight: 900; color: #FFFFFF; margin: 4px 0 2px; }
+  .founder-cap .t { font-size: 24px; font-weight: 900; color: var(--beige); margin: 4px 0 2px; }
   .founder-cap .b { font-size: 14px; }
   .founder-card figcaption { font-size: 13px; color: var(--ink-muted); text-align: center; padding-top: 10px; min-height: 1.4em; }
   .vision-text { display: grid; gap: 30px; }
@@ -624,9 +630,9 @@
   @media (max-width: 520px) { .values-grid { grid-template-columns: minmax(0, 1fr); } .vision-quote p { font-size: 21px; } }
 
   /* ---------- FAQ ---------- */
-  .faq { background: var(--grain), var(--sand); }
+  .faq { background: var(--grain), var(--pink); }
   .faq-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 44px; }
-  .faq-item { padding: 20px 0; border-top: 2px solid rgba(28,25,22,.14); }
+  .faq-item { padding: 20px 0; border-top: 2px solid var(--ink); }
   .faq-item h3 { font-size: 18px; font-weight: 800; margin-bottom: 6px; }
   .faq-item p { font-size: 16px; color: var(--ink-soft); }
   @media (max-width: 760px) { .faq-grid { grid-template-columns: minmax(0, 1fr); } }
@@ -660,7 +666,7 @@
 <div class="cookie-banner paper p-ink" id="cookieBanner" role="dialog" aria-label="Cookie notice" hidden>
   <p>We use analytics to see where visitors come from. <a href="privacy.html">Privacy Policy</a></p>
   <div class="cookie-banner-actions">
-    <button type="button" class="btn btn-cream btn-sm" id="cookieDecline">Decline</button>
+    <button type="button" class="btn btn-beige btn-sm" id="cookieDecline">Decline</button>
     <button type="button" class="btn btn-pink btn-sm" id="cookieAccept">Accept</button>
   </div>
 </div>
@@ -716,18 +722,18 @@
       <p class="hero-desc paper p-ink cut-2">One ocean between us. Latin American food and culture, brought to the Gold Coast by the people who live it.</p>
       <div class="hero-actions">
         <a href="#waitlist" class="btn btn-pink">Join the waitlist (free)</a>
-        <a href="#kitchen" class="btn btn-cream">Meet the Kitchen</a>
+        <a href="#kitchen" class="btn btn-beige">Meet the Kitchen</a>
       </div>
-      <p class="hero-fine"><strong>Founding Members:</strong> the first 250 people to join taste our food first and get free invites to our Latin tasting nights.</p>
+      <p class="hero-fine paper p-beige cut-4"><strong>Founding Members:</strong> the first 250 people to join taste our food first and get free invites to our Latin tasting nights.</p>
     </div>
 
     <!-- 3-second loop: a chef's hat, a truck, a plate and the mascot ride four belts into a home.
          Icons are first sketches; the mascot is a placeholder until the real character exists. -->
-    <figure class="loop paper p-pinksoft tape" id="homeLoop">
+    <figure class="loop paper p-beige tape" id="homeLoop">
       <svg class="loop-svg" viewBox="0 0 400 400" role="img" aria-labelledby="loopTitle">
         <title id="loopTitle">A chef's hat, a delivery truck, a plate of food and our mascot ride conveyor belts from four directions into a home in the centre.</title>
         <defs>
-          <filter id="ps" x="-25%" y="-25%" width="150%" height="150%"><feDropShadow dx="0" dy="3" stdDeviation="2.4" flood-color="#3c1e0f" flood-opacity=".3"/></filter>
+          <filter id="ps" x="-25%" y="-25%" width="150%" height="150%"><feDropShadow dx="0" dy="3" stdDeviation="2.4" flood-color="#1A1714" flood-opacity=".3"/></filter>
         </defs>
         <g filter="url(#ps)">
           <rect class="belt" x="174" y="8" width="52" height="150" rx="9"/>
@@ -751,56 +757,56 @@
 
         <!-- home -->
         <g class="home" filter="url(#ps)">
-          <rect x="226" y="146" width="14" height="30" fill="#1C1916"/>
-          <path d="M140 200 L200 142 L260 200 Z" fill="#A63D72" stroke="#1C1916" stroke-width="3" stroke-linejoin="round"/>
-          <path d="M154 196 L246 194 L248 262 L152 264 Z" fill="#E74426" stroke="#1C1916" stroke-width="3" stroke-linejoin="round"/>
-          <rect x="188" y="222" width="26" height="41" fill="#F6E9D7" stroke="#1C1916" stroke-width="3"/>
-          <circle cx="208" cy="243" r="2.4" fill="#1C1916"/>
-          <rect x="164" y="208" width="18" height="18" fill="#F6CFE0" stroke="#1C1916" stroke-width="3"/>
-          <rect x="220" y="208" width="18" height="18" fill="#F6CFE0" stroke="#1C1916" stroke-width="3"/>
+          <rect x="226" y="146" width="14" height="30" fill="#1A1714"/>
+          <path d="M140 200 L200 142 L260 200 Z" fill="#1A1714" stroke="#1A1714" stroke-width="3" stroke-linejoin="round"/>
+          <path d="M154 196 L246 194 L248 262 L152 264 Z" fill="#E74426" stroke="#1A1714" stroke-width="3" stroke-linejoin="round"/>
+          <rect x="188" y="222" width="26" height="41" fill="#F6E9D7" stroke="#1A1714" stroke-width="3"/>
+          <circle cx="208" cy="243" r="2.4" fill="#1A1714"/>
+          <rect x="164" y="208" width="18" height="18" fill="#E688B7" stroke="#1A1714" stroke-width="3"/>
+          <rect x="220" y="208" width="18" height="18" fill="#E688B7" stroke="#1A1714" stroke-width="3"/>
         </g>
 
         <!-- top: chef's hat -->
         <g class="it" style="--dx:0; --dy:1">
           <g filter="url(#ps)">
-            <circle cx="186" cy="94" r="14" fill="#FBF5EC" stroke="#1C1916" stroke-width="3"/>
-            <circle cx="214" cy="94" r="14" fill="#FBF5EC" stroke="#1C1916" stroke-width="3"/>
-            <circle cx="200" cy="84" r="17" fill="#FBF5EC" stroke="#1C1916" stroke-width="3"/>
-            <rect x="184" y="98" width="32" height="20" rx="3" fill="#FBF5EC" stroke="#1C1916" stroke-width="3"/>
-            <path d="M192 104 v8 M200 104 v8 M208 104 v8" stroke="#E3C9A2" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="186" cy="94" r="14" fill="#F6E9D7" stroke="#1A1714" stroke-width="3"/>
+            <circle cx="214" cy="94" r="14" fill="#F6E9D7" stroke="#1A1714" stroke-width="3"/>
+            <circle cx="200" cy="84" r="17" fill="#F6E9D7" stroke="#1A1714" stroke-width="3"/>
+            <rect x="184" y="98" width="32" height="20" rx="3" fill="#F6E9D7" stroke="#1A1714" stroke-width="3"/>
+            <path d="M192 104 v8 M200 104 v8 M208 104 v8" stroke="#E688B7" stroke-width="2.5" stroke-linecap="round"/>
           </g>
         </g>
 
         <!-- left: delivery truck -->
         <g class="it" style="--dx:1; --dy:0">
           <g filter="url(#ps)">
-            <rect x="70" y="182" width="38" height="28" rx="3" fill="#E688B7" stroke="#1C1916" stroke-width="3"/>
-            <path d="M108 190 h12 l8 9 v11 h-20 Z" fill="#F59A6A" stroke="#1C1916" stroke-width="3" stroke-linejoin="round"/>
-            <rect x="111" y="193" width="8" height="7" fill="#FBF5EC"/>
-            <circle cx="82" cy="212" r="6.5" fill="#1C1916"/><circle cx="82" cy="212" r="2.4" fill="#F6E9D7"/>
-            <circle cx="118" cy="212" r="6.5" fill="#1C1916"/><circle cx="118" cy="212" r="2.4" fill="#F6E9D7"/>
+            <rect x="70" y="182" width="38" height="28" rx="3" fill="#E688B7" stroke="#1A1714" stroke-width="3"/>
+            <path d="M108 190 h12 l8 9 v11 h-20 Z" fill="#E74426" stroke="#1A1714" stroke-width="3" stroke-linejoin="round"/>
+            <rect x="111" y="193" width="8" height="7" fill="#F6E9D7"/>
+            <circle cx="82" cy="212" r="6.5" fill="#1A1714"/><circle cx="82" cy="212" r="2.4" fill="#F6E9D7"/>
+            <circle cx="118" cy="212" r="6.5" fill="#1A1714"/><circle cx="118" cy="212" r="2.4" fill="#F6E9D7"/>
           </g>
         </g>
 
         <!-- right: plate with an empanada -->
         <g class="it" style="--dx:-1; --dy:0">
           <g filter="url(#ps)">
-            <ellipse cx="300" cy="204" rx="30" ry="22" fill="#FBF5EC" stroke="#1C1916" stroke-width="3"/>
-            <ellipse cx="300" cy="204" rx="20" ry="14" fill="none" stroke="#E3C9A2" stroke-width="2.5"/>
-            <path d="M283 207 Q300 182 317 207 Z" fill="#F59A6A" stroke="#1C1916" stroke-width="3" stroke-linejoin="round"/>
-            <path d="M287 205 l3 -3 M293 199 l3 -3 M302 196 l3 2 M309 200 l3 3" stroke="#B5321A" stroke-width="2" stroke-linecap="round"/>
+            <ellipse cx="300" cy="204" rx="30" ry="22" fill="#F6E9D7" stroke="#1A1714" stroke-width="3"/>
+            <ellipse cx="300" cy="204" rx="20" ry="14" fill="none" stroke="#E688B7" stroke-width="2.5"/>
+            <path d="M283 207 Q300 182 317 207 Z" fill="#E74426" stroke="#1A1714" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M287 205 l3 -3 M293 199 l3 -3 M302 196 l3 2 M309 200 l3 3" stroke="#F6E9D7" stroke-width="2" stroke-linecap="round"/>
           </g>
         </g>
 
         <!-- bottom: placeholder mascot with glasses -->
         <g class="it" style="--dx:0; --dy:-1">
           <g filter="url(#ps)">
-            <path d="M176 318 Q172 280 200 276 Q228 280 224 318 Q200 326 176 318 Z" fill="#E688B7" stroke="#1C1916" stroke-width="3" stroke-linejoin="round"/>
-            <circle cx="191" cy="296" r="8" fill="#FBF5EC" stroke="#1C1916" stroke-width="3"/>
-            <circle cx="209" cy="296" r="8" fill="#FBF5EC" stroke="#1C1916" stroke-width="3"/>
-            <path d="M199 296 h2" stroke="#1C1916" stroke-width="3"/>
-            <circle cx="192" cy="297" r="2.6" fill="#1C1916"/><circle cx="210" cy="297" r="2.6" fill="#1C1916"/>
-            <path d="M193 309 Q200 314 207 309" fill="none" stroke="#1C1916" stroke-width="2.6" stroke-linecap="round"/>
+            <path d="M176 318 Q172 280 200 276 Q228 280 224 318 Q200 326 176 318 Z" fill="#E688B7" stroke="#1A1714" stroke-width="3" stroke-linejoin="round"/>
+            <circle cx="191" cy="296" r="8" fill="#F6E9D7" stroke="#1A1714" stroke-width="3"/>
+            <circle cx="209" cy="296" r="8" fill="#F6E9D7" stroke="#1A1714" stroke-width="3"/>
+            <path d="M199 296 h2" stroke="#1A1714" stroke-width="3"/>
+            <circle cx="192" cy="297" r="2.6" fill="#1A1714"/><circle cx="210" cy="297" r="2.6" fill="#1A1714"/>
+            <path d="M193 309 Q200 314 207 309" fill="none" stroke="#1A1714" stroke-width="2.6" stroke-linecap="round"/>
           </g>
         </g>
       </svg>
@@ -810,7 +816,7 @@
 </section>
 
 <!-- torn paper: hero (beige) → orange strip → waitlist (pink) -->
-<div class="edge" style="--from: var(--beige); --mid: var(--orange); --to: var(--pink);" aria-hidden="true">
+<div class="edge" style="--from: var(--red); --mid: var(--beige); --to: var(--pink);" aria-hidden="true">
   <svg viewBox="0 0 1200 100" preserveAspectRatio="none">
     <path class="e-mid" d="M0 30 L60 36 L130 22 L210 38 L290 25 L380 40 L450 24 L540 35 L620 20 L700 37 L790 26 L860 39 L950 22 L1030 35 L1110 24 L1200 32 V100 H0 Z"/>
     <path class="e-to" d="M0 58 L80 50 L150 63 L240 51 L320 66 L400 53 L490 62 L570 49 L660 64 L740 52 L830 61 L910 48 L1000 63 L1080 51 L1150 60 L1200 53 V100 H0 Z"/>
@@ -824,17 +830,17 @@
       <div class="eyebrow">Founding Members · first 250 only</div>
       <h2 class="wl-title">
         <span class="strip paper p-ink tape-l" style="--rot:-2deg">Be the first</span>
-        <span class="strip paper p-cream cut-2" style="--rot:1.5deg">to taste</span>
-        <span class="strip paper p-orange wide cut-3" style="--rot:-1deg">Latin America</span>
-        <span class="strip paper p-peach narrow" style="--rot:2deg">on the Gold Coast.</span>
+        <span class="strip paper p-beige cut-2" style="--rot:1.5deg">to taste</span>
+        <span class="strip paper p-red wide cut-3" style="--rot:-1deg">Latin America</span>
+        <span class="strip paper p-beige narrow" style="--rot:2deg">on the Gold Coast.</span>
       </h2>
       <p class="wl-lead">Join free in 30 seconds. The first 250 members become Founding Members of SolubFood.</p>
       <ul class="wl-perks">
-        <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1C1916" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>A first taste of our home-style Latin food</li>
-        <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1C1916" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>Free invites to Latin tasting nights</li>
+        <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A1714" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>A first taste of our home-style Latin food</li>
+        <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A1714" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>Free invites to Latin tasting nights</li>
       </ul>
 
-      <form class="wl-form paper p-cream tape" id="waitlistForm" action="https://formsubmit.co/ajax/9db1dd62560dc0a344859f22e210ae98" method="POST" novalidate aria-describedby="wlFine">
+      <form class="wl-form paper p-beige tape" id="waitlistForm" action="https://formsubmit.co/ajax/9db1dd62560dc0a344859f22e210ae98" method="POST" novalidate aria-describedby="wlFine">
         <div class="wl-fields">
           <div class="field"><label for="wl-name">Name</label><input id="wl-name" name="name" type="text" placeholder="Your first name" required autocomplete="given-name"></div>
           <div class="field"><label for="wl-email">Email</label><input id="wl-email" name="email" type="email" placeholder="you@email.com" required autocomplete="email" inputmode="email"></div>
@@ -855,23 +861,23 @@
         <p class="form-fine" id="wlFine">We'll only use this to contact you about SolubFood. Leave any time. <a href="privacy.html">Privacy Policy</a></p>
         <p class="form-status" role="status" aria-live="polite" data-status></p>
       </form>
-      <p class="form-status done paper p-cream" role="status" aria-live="polite" id="waitlistDone" hidden></p>
+      <p class="form-status done paper p-beige" role="status" aria-live="polite" id="waitlistDone" hidden></p>
     </div>
 
     <div class="collage" aria-label="Places across Latin America">
-      <figure class="polaroid paper p-cream tape lift">
+      <figure class="polaroid paper p-beige tape lift">
         <img src="assets/img/paths-cl.jpg" alt="A snow-capped volcano at the end of a tree-lined road in southern Chile" width="320" height="420" loading="lazy">
         <figcaption>Chile</figcaption>
       </figure>
-      <figure class="polaroid paper p-cream tape-r lift cut-2">
+      <figure class="polaroid paper p-beige tape-r lift cut-2">
         <img src="assets/img/paths-co.jpg" alt="A jeep with a Colombian flag in a green valley of wax palms, Colombia" width="320" height="420" loading="lazy">
         <figcaption>Colombia</figcaption>
       </figure>
-      <figure class="polaroid paper p-cream tape-l lift cut-3">
+      <figure class="polaroid paper p-beige tape-l lift cut-3">
         <img src="assets/img/country-pe.jpg" alt="The ruins of Machu Picchu among green mountains, Peru" width="160" height="160" loading="lazy">
         <figcaption>Perú</figcaption>
       </figure>
-      <figure class="polaroid paper p-cream tape lift">
+      <figure class="polaroid paper p-beige tape lift">
         <img src="assets/img/country-ar.jpg" alt="Jagged Patagonian peaks at dusk, Argentina" width="160" height="160" loading="lazy">
         <figcaption>Argentina</figcaption>
       </figure>
@@ -880,7 +886,7 @@
   </div>
 </section>
 
-<div class="edge flip" style="--from: var(--pink); --mid: var(--peach); --to: var(--sand);" aria-hidden="true">
+<div class="edge flip" style="--from: var(--pink); --mid: var(--red); --to: var(--beige);" aria-hidden="true">
   <svg viewBox="0 0 1200 100" preserveAspectRatio="none">
     <path class="e-mid" d="M0 30 L60 36 L130 22 L210 38 L290 25 L380 40 L450 24 L540 35 L620 20 L700 37 L790 26 L860 39 L950 22 L1030 35 L1110 24 L1200 32 V100 H0 Z"/>
     <path class="e-to" d="M0 58 L80 50 L150 63 L240 51 L320 66 L400 53 L490 62 L570 49 L660 64 L740 52 L830 61 L910 48 L1000 63 L1080 51 L1150 60 L1200 53 V100 H0 Z"/>
@@ -899,21 +905,21 @@
 
     <!-- Placeholder profiles: replace with real cooks (photo, name, country, suburb, story, video) once they've signed consent. -->
     <div class="cook-grid">
-      <article class="cook-card paper p-cream tape lift">
+      <article class="cook-card paper p-beige tape lift">
         <div class="ph-photo" aria-hidden="true"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7"></path></svg>[Cook's photo]</div>
         <h3 class="t">[Cook's name]</h3>
         <div class="m">[Country] · [Gold Coast suburb]</div>
         <p>[Signature dish, and the story of who taught them to cook it.]</p>
         <span class="chip">▶ [Video coming soon]</span>
       </article>
-      <article class="cook-card paper p-cream tape-r lift">
+      <article class="cook-card paper p-beige tape-r lift">
         <div class="ph-photo" aria-hidden="true"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7"></path></svg>[Cook's photo]</div>
         <h3 class="t">[Cook's name]</h3>
         <div class="m">[Country] · [Gold Coast suburb]</div>
         <p>[Signature dish, and the story of who taught them to cook it.]</p>
         <span class="chip">▶ [Video coming soon]</span>
       </article>
-      <article class="cook-card paper p-cream tape lift">
+      <article class="cook-card paper p-beige tape lift">
         <div class="ph-photo" aria-hidden="true"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7"></path></svg>[Cook's photo]</div>
         <h3 class="t">[Cook's name]</h3>
         <div class="m">[Country] · [Gold Coast suburb]</div>
@@ -936,7 +942,7 @@
   </div>
 </section>
 
-<div class="edge" style="--from: var(--sand); --mid: var(--pink); --to: var(--orange-deep);" aria-hidden="true">
+<div class="edge" style="--from: var(--beige); --mid: var(--pink); --to: var(--red);" aria-hidden="true">
   <svg viewBox="0 0 1200 100" preserveAspectRatio="none">
     <path class="e-mid" d="M0 30 L60 36 L130 22 L210 38 L290 25 L380 40 L450 24 L540 35 L620 20 L700 37 L790 26 L860 39 L950 22 L1030 35 L1110 24 L1200 32 V100 H0 Z"/>
     <path class="e-to" d="M0 58 L80 50 L150 63 L240 51 L320 66 L400 53 L490 62 L570 49 L660 64 L740 52 L830 61 L910 48 L1000 63 L1080 51 L1150 60 L1200 53 V100 H0 Z"/>
@@ -955,29 +961,29 @@
       <p class="band-lead">We travel across Latin America to meet the people, the places and the food behind it all, and we film them with their consent. Real over perfect.</p>
       <div class="origins-top">
         <div class="manifesto-video paper p-ink tape">
-          <div class="play-dot" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="#1C1916"><path d="M8 5v14l11-7z"></path></svg></div>
+          <div class="play-dot" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="#1A1714"><path d="M8 5v14l11-7z"></path></svg></div>
           <div class="lbl">Our manifesto — trailer</div>
           <div class="ph">[Video goes here]</div>
         </div>
-        <blockquote class="manifesto-quote paper p-pinksoft cut-2 tape-r">
+        <blockquote class="manifesto-quote paper p-pink cut-2 tape-r">
           <p>&ldquo;Food is just the surface. What it really means is disconnecting, stepping into another reality of comfort. A shared story.&rdquo;</p>
           <cite>— The SolubFood manifesto</cite>
         </blockquote>
       </div>
       <div class="episode-grid">
-        <article class="episode-card paper p-cream tape lift">
+        <article class="episode-card paper p-beige tape lift">
           <div class="episode-still">[Still — Antofagasta]</div>
           <div class="episode-tag">Episode 01 · Chile</div>
           <h3 class="episode-title">Antofagasta: the desert by the sea</h3>
           <div class="episode-status">Coming soon</div>
         </article>
-        <article class="episode-card paper p-cream tape-l lift">
+        <article class="episode-card paper p-beige tape-l lift">
           <div class="episode-still">[Still — Punta Arenas]</div>
           <div class="episode-tag">Episode 02 · Chile</div>
           <h3 class="episode-title">Punta Arenas: the far south</h3>
           <div class="episode-status">Coming soon</div>
         </article>
-        <article class="episode-card paper p-cream tape lift">
+        <article class="episode-card paper p-beige tape lift">
           <div class="episode-still">[Still — Argentina]</div>
           <div class="episode-tag">Episode 03 · Argentina</div>
           <h3 class="episode-title">Argentina: the kiosko on every corner</h3>
@@ -985,13 +991,13 @@
         </article>
       </div>
       <div class="origins-actions">
-        <a href="#waitlist" class="btn btn-cream">Join the waitlist (free)</a>
+        <a href="#waitlist" class="btn btn-beige">Join the waitlist (free)</a>
         <a href="https://www.instagram.com/solubfood/" target="_blank" rel="noopener noreferrer" class="text-link">Follow the trip on Instagram →</a>
       </div>
     </div>
   </div>
 
-  <div class="edge flip" style="--from: var(--orange-deep); --mid: var(--peach); --to: var(--beige);" aria-hidden="true">
+  <div class="edge flip" style="--from: var(--red); --mid: var(--ink); --to: var(--beige);" aria-hidden="true">
     <svg viewBox="0 0 1200 100" preserveAspectRatio="none">
       <path class="e-mid" d="M0 30 L60 36 L130 22 L210 38 L290 25 L380 40 L450 24 L540 35 L620 20 L700 37 L790 26 L860 39 L950 22 L1030 35 L1110 24 L1200 32 V100 H0 Z"/>
       <path class="e-to" d="M0 58 L80 50 L150 63 L240 51 L320 66 L400 53 L490 62 L570 49 L660 64 L740 52 L830 61 L910 48 L1000 63 L1080 51 L1150 60 L1200 53 V100 H0 Z"/>
@@ -1003,8 +1009,8 @@
       <div class="words-head">
         <div class="eyebrow">Community · Diccionario latino</div>
         <h3>
-          <span class="strip paper p-orange wide" style="--rot:-1.5deg">Say it</span>
-          <span class="strip paper p-pinksoft cut-2" style="--rot:1deg">like a local.</span>
+          <span class="strip paper p-red wide" style="--rot:-1.5deg">Say it</span>
+          <span class="strip paper p-pink cut-2" style="--rot:1deg">like a local.</span>
         </h3>
         <p class="band-lead" style="margin-bottom:26px">Latin America is twenty countries, not one. Each has its own words, and most of them have an Aussie twin. Pick a country, tap a word.</p>
       </div>
@@ -1097,7 +1103,7 @@
   </div>
 </section>
 
-<div class="edge" style="--from: var(--beige); --mid: var(--orange-soft); --to: var(--pink-soft);" aria-hidden="true">
+<div class="edge" style="--from: var(--beige); --mid: var(--red); --to: var(--pink);" aria-hidden="true">
   <svg viewBox="0 0 1200 100" preserveAspectRatio="none">
     <path class="e-mid" d="M0 30 L60 36 L130 22 L210 38 L290 25 L380 40 L450 24 L540 35 L620 20 L700 37 L790 26 L860 39 L950 22 L1030 35 L1110 24 L1200 32 V100 H0 Z"/>
     <path class="e-to" d="M0 58 L80 50 L150 63 L240 51 L320 66 L400 53 L490 62 L570 49 L660 64 L740 52 L830 61 L910 48 L1000 63 L1080 51 L1150 60 L1200 53 V100 H0 Z"/>
@@ -1107,7 +1113,7 @@
 <!-- ============================ EVENTS ============================ -->
 <section id="events" class="events band">
   <div class="wrap">
-    <div class="events-card paper p-cream tape">
+    <div class="events-card paper p-beige tape">
       <div>
         <div class="eyebrow">Events</div>
         <h2 class="sec-title">
@@ -1121,7 +1127,7 @@
   </div>
 </section>
 
-<div class="edge flip" style="--from: var(--pink-soft); --mid: var(--kraft); --to: var(--beige);" aria-hidden="true">
+<div class="edge flip" style="--from: var(--pink); --mid: var(--ink); --to: var(--beige);" aria-hidden="true">
   <svg viewBox="0 0 1200 100" preserveAspectRatio="none">
     <path class="e-mid" d="M0 30 L60 36 L130 22 L210 38 L290 25 L380 40 L450 24 L540 35 L620 20 L700 37 L790 26 L860 39 L950 22 L1030 35 L1110 24 L1200 32 V100 H0 Z"/>
     <path class="e-to" d="M0 58 L80 50 L150 63 L240 51 L320 66 L400 53 L490 62 L570 49 L660 64 L740 52 L830 61 L910 48 L1000 63 L1080 51 L1150 60 L1200 53 V100 H0 Z"/>
@@ -1133,17 +1139,17 @@
   <div class="wrap">
     <div class="eyebrow">Join Us · Cook with us</div>
     <h2 class="sec-title">
-      <span class="strip paper p-orange tape-l" style="--rot:-1.5deg">Already cooking</span>
+      <span class="strip paper p-red tape-l" style="--rot:-1.5deg">Already cooking</span>
       <span class="strip paper p-ink narrow cut-3" style="--rot:1deg">and selling Latin food?</span>
     </h2>
     <p class="band-lead">Maybe you sell on Instagram, Facebook or WhatsApp. Tell us about your food and we'll get back to you within a few days.</p>
 
     <h3 class="sr-only">How it works for cooks</h3>
     <div class="steps-grid">
-      <div class="step paper p-pinksoft lift"><div class="n">01</div><div class="t">You cook</div><p>Your recipes or ours, in a licensed kitchen, on your own schedule.</p></div>
-      <div class="step paper p-peach lift"><div class="n">02</div><div class="t">We sell</div><p>On Uber Eats and DoorDash, as part of the SolubFood menu.</p></div>
-      <div class="step paper p-cream lift"><div class="n">03</div><div class="t">We tell your story</div><p>Photos and video by our team, for SolubFood and for your own socials.</p></div>
-      <div class="step paper p-sand lift"><div class="n">04</div><div class="t">You get paid weekly</div><p>A share of every dish you cooked that sells, paid every week with a report of what sold.</p></div>
+      <div class="step paper p-pink lift"><div class="n">01</div><div class="t">You cook</div><p>Your recipes or ours, in a licensed kitchen, on your own schedule.</p></div>
+      <div class="step paper p-beige lift"><div class="n">02</div><div class="t">We sell</div><p>On Uber Eats and DoorDash, as part of the SolubFood menu.</p></div>
+      <div class="step paper p-pink lift"><div class="n">03</div><div class="t">We tell your story</div><p>Photos and video by our team, for SolubFood and for your own socials.</p></div>
+      <div class="step paper p-beige lift"><div class="n">04</div><div class="t">You get paid weekly</div><p>A share of every dish you cooked that sells, paid every week with a report of what sold.</p></div>
     </div>
 
     <div class="join-row">
@@ -1164,7 +1170,7 @@
       </div>
 
       <div>
-        <form class="cook-form paper p-cream tape-r" id="kitchenJoinForm" action="https://formsubmit.co/ajax/9db1dd62560dc0a344859f22e210ae98" method="POST" novalidate>
+        <form class="cook-form paper p-beige tape-r" id="kitchenJoinForm" action="https://formsubmit.co/ajax/9db1dd62560dc0a344859f22e210ae98" method="POST" novalidate>
           <h3>Tell us about your food</h3>
           <div class="field-row">
             <div class="field"><label for="k-name">Your name</label><input id="k-name" name="name" type="text" required autocomplete="name"></div>
@@ -1214,13 +1220,13 @@
           <p class="form-fine">We'll only use this to talk to you about SolubFood. <a href="privacy.html">Privacy Policy</a></p>
           <p class="form-status" role="status" aria-live="polite" data-status></p>
         </form>
-        <p class="form-status done paper p-cream" role="status" aria-live="polite" id="kitchenJoinDone" hidden></p>
+        <p class="form-status done paper p-beige" role="status" aria-live="polite" id="kitchenJoinDone" hidden></p>
       </div>
     </div>
   </div>
 </section>
 
-<div class="edge" style="--from: var(--beige); --mid: var(--pink); --to: var(--cream);" aria-hidden="true">
+<div class="edge" style="--from: var(--beige); --mid: var(--red); --to: var(--beige);" aria-hidden="true">
   <svg viewBox="0 0 1200 100" preserveAspectRatio="none">
     <path class="e-mid" d="M0 30 L60 36 L130 22 L210 38 L290 25 L380 40 L450 24 L540 35 L620 20 L700 37 L790 26 L860 39 L950 22 L1030 35 L1110 24 L1200 32 V100 H0 Z"/>
     <path class="e-to" d="M0 58 L80 50 L150 63 L240 51 L320 66 L400 53 L490 62 L570 49 L660 64 L740 52 L830 61 L910 48 L1000 63 L1080 51 L1150 60 L1200 53 V100 H0 Z"/>
@@ -1238,11 +1244,11 @@
     <p class="band-lead">SolubFood exists so Australians can live Latin culture as it really is (visible, trusted, modern and built by its community, not a stereotype) and so Latin Americans on the Gold Coast feel at home.</p>
 
     <div class="vision-row">
-      <figure class="founder-card paper p-cream tape lift">
+      <figure class="founder-card paper p-beige tape lift">
         <div class="founder-media">
           <img src="assets/img/benjamin.jpg" alt="Benjamin Arevalo, founder of SolubFood" width="1728" height="2304" loading="lazy">
           <button type="button" class="founder-play" id="heroPlayBtn" aria-label="Play the SolubFood introduction video" aria-describedby="heroVideoNote">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="#1C1916" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg>
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="#1A1714" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg>
           </button>
           <div class="founder-cap">
             <div class="w">Watch · 1 min</div>
@@ -1255,7 +1261,7 @@
 
       <div class="vision-text">
         <!-- PROVISIONAL: proposed text for the founders to rewrite in their own words. It only restates what the site already says. -->
-        <div class="draft-note paper p-kraft tape-r">
+        <div class="draft-note paper p-pink tape-r">
           <span class="draft-badge">Draft · provisional text</span>
           <p>SolubFood started with a simple feeling: that the food and rituals of home can travel. One ocean sits between Latin America and the Gold Coast, and we want to make it feel smaller.</p>
           <p>We do it with home-style food cooked by people with names and stories, with films made where that culture is lived, and with nights around the same table. Real over perfect.</p>
@@ -1276,15 +1282,21 @@
     </div>
 
     <div class="values-grid">
-      <div class="value paper p-pinksoft tape lift"><div class="kicker">HOGAR</div><h3>Home</h3><p>The flavours and rituals that make you feel you never left.</p></div>
-      <div class="value paper p-peach lift"><div class="kicker">INDEPENDENCIA</div><h3>Independence</h3><p>Our cooks and partners keep their own name, their own story and their own way of doing things.</p></div>
-      <div class="value paper p-sand tape-r lift"><div class="kicker">FAMILIARIDAD</div><h3>Familiarity</h3><p>Twenty countries, one community. Different accents, the same table.</p></div>
-      <div class="value paper p-pink lift"><div class="kicker">SIMPLICIDAD</div><h3>Simplicity</h3><p>Easy to find, easy to buy, easy to share. No passport needed.</p></div>
+      <div class="value paper p-pink tape lift"><div class="kicker">HOGAR</div><h3>Home</h3><p>The flavours and rituals that make you feel you never left.</p></div>
+      <div class="value paper p-beige lift"><div class="kicker">INDEPENDENCIA</div><h3>Independence</h3><p>Our cooks and partners keep their own name, their own story and their own way of doing things.</p></div>
+      <div class="value paper p-ink tape-r lift"><div class="kicker">FAMILIARIDAD</div><h3>Familiarity</h3><p>Twenty countries, one community. Different accents, the same table.</p></div>
+      <div class="value paper p-beige lift"><div class="kicker">SIMPLICIDAD</div><h3>Simplicity</h3><p>Easy to find, easy to buy, easy to share. No passport needed.</p></div>
     </div>
   </div>
 </section>
 
 <!-- ============================ FAQ ============================ -->
+<div class="edge flip" style="--from: var(--beige); --mid: var(--ink); --to: var(--pink);" aria-hidden="true">
+  <svg viewBox="0 0 1200 100" preserveAspectRatio="none">
+    <path class="e-mid" d="M0 30 L60 36 L130 22 L210 38 L290 25 L380 40 L450 24 L540 35 L620 20 L700 37 L790 26 L860 39 L950 22 L1030 35 L1110 24 L1200 32 V100 H0 Z"/>
+    <path class="e-to" d="M0 58 L80 50 L150 63 L240 51 L320 66 L400 53 L490 62 L570 49 L660 64 L740 52 L830 61 L910 48 L1000 63 L1080 51 L1150 60 L1200 53 V100 H0 Z"/>
+  </svg>
+</div>
 <section id="faq" class="faq band">
   <div class="wrap">
     <h2 class="sec-title"><span class="strip paper p-ink tape-l" style="--rot:-1deg">Questions.</span></h2>
@@ -1448,7 +1460,7 @@
         if (!res.ok) throw new Error('bad status');
         form.hidden = true;
         if (done) {
-          done.className = 'form-status done success paper p-cream';
+          done.className = 'form-status done success paper p-beige';
           done.textContent = successText;
           done.hidden = false;
         }
