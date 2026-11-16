@@ -150,54 +150,6 @@ var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     requestAnimationFrame(function () { requestAnimationFrame(function () { intro.classList.add('is-visible'); }); });
   })();
 
-  // Scroll-driven home loop. Progress uses the same curve as framer-motion's useScroll({ target }):
-  // 0 when the block's top enters the bottom of the screen, 1 when its bottom leaves the top.
-  // The card stands up (rotateX 75°→0°, scale 1.15→1); while it's pinned, the four icons ride in
-  // together and the home pops. One rAF-throttled handler, no library.
-  (function loopScroll() {
-    var box = document.getElementById('loopScroll');
-    var fig = document.getElementById('homeLoop');
-    if (!box || !fig) return;
-    if (reduceMotion) { box.classList.add('is-static'); return; }
-    fig.classList.add('is-scroll');
-    var stage = box.querySelector('.loop-stage');
-    var items = fig.querySelectorAll('.it');
-    var home = fig.querySelector('.home');
-    var burst = fig.querySelector('.burst');
-    var flows = fig.querySelectorAll('.flow');
-    var ticking = false;
-    function clamp(v) { return Math.min(1, Math.max(0, v)); }
-    function map(v, a, b, from, to) { return from + (to - from) * clamp((v - a) / (b - a)); }
-    function ease(t) { return t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; }
-    function update() {
-      ticking = false;
-      var r = box.getBoundingClientRect();
-      var vh = window.innerHeight;
-      if (r.bottom < -50 || r.top > vh + 50) return;
-      var p = clamp((vh - r.top) / (r.height + vh));          // whole journey
-      var q = clamp(-r.top / Math.max(1, r.height - vh));     // while pinned
-      stage.style.setProperty('--rx', map(p, 0, 0.4, 75, 0).toFixed(2));
-      stage.style.setProperty('--sc', map(p, 0.25, 0.45, 1.15, 1).toFixed(3));
-      var ride = ease(clamp((q - 0.12) / 0.5));                // belts → front door
-      var enter = clamp((q - 0.66) / 0.14);                    // through the door
-      items.forEach(function (it) {
-        var dx = parseFloat(it.style.getPropertyValue('--dx')) || 0;
-        var dy = parseFloat(it.style.getPropertyValue('--dy')) || 0;
-        var off = -68 * (1 - ride) + 48 * enter;
-        it.style.transform = 'translate(' + (dx * off).toFixed(1) + 'px,' + (dy * off).toFixed(1) + 'px) scale(' + (1 - 0.7 * enter).toFixed(3) + ')';
-        it.style.opacity = (1 - enter).toFixed(3);
-      });
-      var pop = Math.sin(Math.PI * clamp((q - 0.78) / 0.16));
-      home.style.transform = 'scale(' + (1 + 0.1 * pop).toFixed(3) + ') rotate(' + (-2 * pop).toFixed(2) + 'deg)';
-      burst.style.opacity = pop.toFixed(3);
-      flows.forEach(function (f) { f.style.strokeDashoffset = (-q * 216).toFixed(1); });
-    }
-    function request() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
-    window.addEventListener('scroll', request, { passive: true });
-    window.addEventListener('resize', request);
-    update();
-  })();
-
   // Pause the home loop while it's off screen, so it costs nothing when nobody's looking.
   (function pauseLoopOffscreen() {
     var loop = document.getElementById('homeLoop');
