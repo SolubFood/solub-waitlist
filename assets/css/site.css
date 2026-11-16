@@ -698,33 +698,26 @@
 .solubcard .member-note { font-size: 13px; font-weight: 600; text-align: center; margin: 12px auto 0; max-width: 44ch; }
 @media (max-width: 900px) { .solubcard .lanyard { height: 500px; } }
 
-/* ---------- Shop (sketch): three condiments, no prices or orders yet ---------- */
+/* ---------- Shop (sketch): the five dishes, no prices or orders yet ---------- */
 .shop { background: var(--grain), var(--beige); }
-.shop-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 26px; }
-.product { padding: 14px 14px 18px; display: flex; flex-direction: column; }
-.product-photo {
-  position: relative; aspect-ratio: 4 / 3; margin-bottom: 14px;
-  display: flex; align-items: center; justify-content: center;
-  border: 2px dashed var(--ink);
-  background: repeating-linear-gradient(135deg, rgba(230,136,183,.22) 0 10px, transparent 10px 20px);
-}
-.product-flag { position: absolute; left: 10px; top: 10px; width: 30px; height: auto; box-shadow: 0 0 0 .5px rgba(26,23,20,.45); }
-.product-label { font-weight: 900; font-size: 20px; letter-spacing: .06em; background: var(--ink); color: var(--beige); padding: 6px 12px 5px; transform: rotate(-2deg); }
-.product-ph { position: absolute; right: 10px; bottom: 8px; font-size: 12px; font-weight: 600; }
-.product-country { font-size: 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--red); }
-.product-name { font-size: 20px; font-weight: 900; margin: 4px 0 8px; }
-.product p { font-size: 15px; margin-bottom: 8px; }
-.product-producer { color: var(--ink-soft); font-size: 14px !important; }
-.product-foot { margin-top: auto; padding-top: 10px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-.product-status { font-size: 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; border: 1.5px dashed var(--ink); padding: 4px 8px; }
-@media (max-width: 900px) { .shop-grid { grid-template-columns: minmax(0, 1fr); max-width: 460px; gap: 22px; } }
-@media (max-width: 680px) {
-  .product { display: grid; grid-template-columns: 104px minmax(0, 1fr); column-gap: 14px; padding: 12px; }
-  .product-photo { grid-row: span 6; aspect-ratio: 1; margin: 0; align-self: start; }
-  .product-label { font-size: 11px; padding: 4px 6px 3px; }
-  .product-ph { display: none; }
-  .product-flag { width: 22px; left: 6px; top: 6px; }
-  .product-name { font-size: 17px; margin: 2px 0 4px; }
-  .product p { font-size: 14px; margin-bottom: 4px; }
+.shop-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 20px; }
+.product { padding: 12px 12px 16px; display: flex; flex-direction: column; }
+.product-photo { position: relative; margin-bottom: 12px; background: var(--sand); border-radius: 4px; padding: 10px 8px 8px; }
+.product-tray { display: block; width: 100%; height: auto; filter: drop-shadow(0 4px 5px rgba(26,23,20,.25)); }
+.product-flag { position: absolute; left: 6px; top: 6px; width: 26px; height: auto; box-shadow: 0 0 0 .5px rgba(26,23,20,.45); }
+.product-num { position: absolute; right: 6px; top: 4px; font-weight: 900; font-size: 13px; }
+.product-country { font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--red); }
+.product-name { font-size: 17px; font-weight: 900; line-height: 1.15; margin: 4px 0 4px; }
+.product-sub { font-size: 13.5px; margin-bottom: 8px; }
+.product-ben { list-style: none; margin: 0 0 6px; padding: 0; font-size: 13.5px; font-weight: 700; }
+.product-ben li { padding-left: 14px; position: relative; margin-bottom: 3px; }
+.product-ben li::before { content: ""; position: absolute; left: 0; top: .5em; width: 7px; height: 7px; background: var(--red); clip-path: var(--cut-3); }
+.product-foot { margin-top: auto; padding-top: 10px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
+.product-status { font-size: 10.5px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; border: 1.5px dashed var(--ink); padding: 3px 6px; }
+@media (max-width: 1100px) { .shop-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 760px) {
+  .shop-grid { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .product { display: grid; grid-template-columns: 120px minmax(0, 1fr); column-gap: 14px; padding: 12px; }
+  .product-photo { grid-row: span 5; margin: 0; align-self: start; }
   .product-foot { grid-column: 1 / -1; }
 }
