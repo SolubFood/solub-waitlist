@@ -270,7 +270,7 @@
   @media (max-width: 380px) { .header-cta { padding: 0 10px; font-size: 13px; } }
 
   /* ---------- hero ---------- */
-  .hero { position: relative; padding: 32px 0 0; background: var(--grain), var(--red); }
+  .hero { position: relative; padding: 32px 0 44px; background: var(--grain), var(--red); }
   .hero-intro { position: relative; z-index: 3; display: flex; flex-direction: column; align-items: center; text-align: center; }
   .hero-intro h1 { display: flex; flex-direction: column; align-items: center; }
   .hero-kicker { --rot: -2deg; font-size: clamp(15px, 1.6vw, 19px); font-weight: 800; font-variation-settings: 'wdth' 120; letter-spacing: .02em; text-transform: uppercase; padding: .3em .7em .34em; display: inline-block; transform: rotate(var(--rot)); margin: 0 0 14px; }
@@ -312,29 +312,11 @@
   .js .reveal { opacity: 0; filter: blur(10px); transition: opacity .7s ease, filter .7s ease; transition-delay: calc(var(--i, 0) * .18s); }
   .js .hero-intro.is-visible .reveal { opacity: 1; filter: blur(0); }
 
-  /* ---------- scroll stage for the home loop ----------
-     Same method as the "animated gallery": the card starts tilted back (rotateX 75°) and stands up
-     as you scroll; while it's pinned, the scroll itself moves the four icons along the belts and
-     into the home. Driven by --rx / --sc and per-icon transforms from loopScroll() below. */
-  .loop-scroll { position: relative; height: 200vh; margin-top: -10px; }
-  .loop-sticky {
-    position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden;
-    display: flex; align-items: center; justify-content: center;
-    padding-top: 64px;
-    perspective: 1000px; perspective-origin: 50% 0%;
-  }
-  .loop-stage { transform: rotateX(calc(var(--rx, 0) * 1deg)) scale(var(--sc, 1)); transform-origin: 50% 30%; will-change: transform; }
-  .loop-scroll .loop { --rot: 1.2deg; width: min(88vw, calc(100svh - 230px), 480px); padding: 14px 14px 12px; }
-  .loop-scroll .loop-svg { max-width: none; }
-  .loop-scroll.is-static { height: auto; padding: 32px 0 72px; }
-  .loop-scroll.is-static .loop-sticky { position: static; height: auto; padding-top: 0; overflow: visible; }
-  .loop-scroll.is-static .loop-stage { transform: none; }
-  /* scroll mode: the scroll, not the clock, moves things */
-  .loop.is-scroll .flow, .loop.is-scroll .it, .loop.is-scroll .home, .loop.is-scroll .burst { animation: none; }
-  @media (max-width: 680px) {
-    .loop-scroll { height: 170vh; }
-    .loop-scroll .loop { width: min(90vw, calc(100svh - 200px)); }
-  }
+  /* ---------- home loop band (after the waitlist) ----------
+     The 3-second loop plays on its own; it no longer takes over the scroll. */
+  .loop-band { background: var(--grain), var(--beige); padding: 36px 0 52px; }
+  .loop-band .loop { width: min(88vw, 440px); margin: 0 auto; padding: 14px 14px 12px; }
+  @media (max-width: 680px) { .loop-band { padding: 24px 0 40px; } }
 
   /* ---------- loop animation: everything comes home ---------- */
   .loop { --rot: 2deg; margin: 0; padding: 18px 18px 16px; transform: rotate(var(--rot)); }
