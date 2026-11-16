@@ -725,6 +725,10 @@
   position: fixed; inset: 0; z-index: -1;
   background: url("../img/bg/latam-collage.webp") 50% 50% / cover no-repeat, var(--ink);
 }
+/* phones and other tall screens use the vertical version of the collage */
+@media (max-aspect-ratio: 4/5) {
+  .bg-test .bg-collage { background-image: url("../img/bg/latam-collage-portrait.webp"); }
+}
 /* sections lose their flat colour fills; the collage is the backdrop */
 .bg-test .hero, .bg-test .waitlist, .bg-test .kitchen, .bg-test .culture-film, .bg-test .culture-words,
 .bg-test .events, .bg-test .join, .bg-test .vision, .bg-test .faq, .bg-test .page-cta { background: none; }
