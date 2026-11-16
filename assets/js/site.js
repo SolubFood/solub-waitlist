@@ -243,7 +243,7 @@ var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
       fromEl.textContent = countrySel.value || '[Your country]';
       fitCountry();
       if (spinTarget !== 0) flip(); // show the front, where the country is
-      card.setAttribute('aria-label', 'SolubFood member card' + (countrySel.value ? ' from ' + countrySel.value : '') + '. Drag to swing it, press Enter to flip it over.');
+      card.setAttribute('aria-label', 'SolubCard' + (countrySel.value ? ' from ' + countrySel.value : '') + '. Drag to swing it, press Enter to flip it over.');
     });
   }
 

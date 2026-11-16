@@ -216,24 +216,45 @@
       <p class="form-status done paper p-beige" role="status" aria-live="polite" id="waitlistDone" hidden></p>
     </div>
 
-    <div class="collage" aria-label="Places across Latin America">
-      <figure class="polaroid paper p-beige tape lift">
-        <img src="assets/img/paths-cl.jpg" alt="A snow-capped volcano at the end of a tree-lined road in southern Chile" width="320" height="420" loading="lazy">
-        <figcaption>Chile</figcaption>
-      </figure>
-      <figure class="polaroid paper p-beige tape-r lift cut-2">
-        <img src="assets/img/paths-co.jpg" alt="A jeep with a Colombian flag in a green valley of wax palms, Colombia" width="320" height="420" loading="lazy">
-        <figcaption>Colombia</figcaption>
-      </figure>
-      <figure class="polaroid paper p-beige tape-l lift cut-3">
-        <img src="assets/img/country-pe.jpg" alt="The ruins of Machu Picchu among green mountains, Peru" width="160" height="160" loading="lazy">
-        <figcaption>Perú</figcaption>
-      </figure>
-      <figure class="polaroid paper p-beige tape lift">
-        <img src="assets/img/country-ar.jpg" alt="Jagged Patagonian peaks at dusk, Argentina" width="160" height="160" loading="lazy">
-        <figcaption>Argentina</figcaption>
-      </figure>
-      <p class="collage-badge paper p-ink cut-4">Twenty countries.<br>The same table.</p>
+    <!-- SolubCard: the card every SolubFood account gets. Front = the member's country, back = the same for
+         everyone. Preview only until accounts exist (nothing chosen here is saved). Engine: memberBadge() in site.js. -->
+    <div class="solubcard" aria-label="SolubCard preview">
+      <div class="solubcard-label"><span class="ly-cap">SolubCard</span> · your member card</div>
+    <div class="lanyard" id="memberBadge">
+      <canvas aria-hidden="true"></canvas>
+      <div class="ly-card" role="button" tabindex="0" aria-pressed="false" aria-label="SolubCard. Drag to swing it, press Enter to flip it over.">
+        <div class="ly-clip" aria-hidden="true"></div>
+        <div class="ly-inner">
+          <div class="ly-face ly-front">
+            <div class="ly-from" id="lyFrom">[Your country]</div>
+            <div class="ly-arrow" aria-hidden="true">↓</div>
+            <div class="ly-to">Gold<br>Coast</div>
+            <div class="ly-bottom"><span class="ly-name">[Your Name]</span><span class="ly-cap">SolubFood</span></div>
+          </div>
+          <div class="ly-face ly-back">
+            <div class="ly-story">This is<br>your story</div>
+            <div class="ly-rule" aria-hidden="true"></div>
+            <div class="ly-community">We are all<br>a community.</div>
+            <div class="ly-bottom"><span class="ly-cap">SolubFood</span><span class="ly-cap ly-coords">−28.01° · 153.40°</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+      <div class="solubcard-controls">
+        <div class="field ly-country">
+          <label for="lyCountry">Try it with your country</label>
+          <select id="lyCountry" aria-controls="memberBadge">
+            <option value="">Choose a country</option>
+            <option>Argentina</option><option>Bolivia</option><option>Brasil</option><option>Chile</option>
+            <option>Colombia</option><option>Costa Rica</option><option>Cuba</option><option>Ecuador</option>
+            <option>El Salvador</option><option>Guatemala</option><option>Honduras</option><option>México</option>
+            <option>Nicaragua</option><option>Panamá</option><option>Paraguay</option><option>Perú</option>
+            <option>Puerto Rico</option><option>República Dominicana</option><option>Uruguay</option><option>Venezuela</option>
+          </select>
+        </div>
+        <button type="button" class="btn btn-ink ly-flip" aria-pressed="false" aria-controls="memberBadge">Show back</button>
+      </div>
+      <p class="member-note">[Preview: SolubCards come with SolubFood accounts. Your country and name will come from your account. Nothing you pick here is saved.]</p>
     </div>
   </div>
 </section>
@@ -294,68 +315,10 @@
       </div>
     </div>
   </div>
-
-  <div class="edge flip" style="--from: var(--red); --mid: var(--ink); --to: var(--beige);" aria-hidden="true">
-    <svg viewBox="0 0 1200 100" preserveAspectRatio="none">
-      <path class="e-mid" d="M0 30 L60 36 L130 22 L210 38 L290 25 L380 40 L450 24 L540 35 L620 20 L700 37 L790 26 L860 39 L950 22 L1030 35 L1110 24 L1200 32 V100 H0 Z"/>
-      <path class="e-to" d="M0 58 L80 50 L150 63 L240 51 L320 66 L400 53 L490 62 L570 49 L660 64 L740 52 L830 61 L910 48 L1000 63 L1080 51 L1150 60 L1200 53 V100 H0 Z"/>
-    </svg>
-  </div>
-
-  <div class="culture-words band">
-    <div class="wrap">
-      <!-- Member card (lanyard). Front: the member's nationality → Gold Coast, so every front is different.
-           Back: the same for everyone ("This is your story / We are all a community").
-           Preview only: when accounts exist, the country and name come from the member's account.
-           Physics + strap are drawn by memberBadge() in assets/js/site.js. -->
-      <div class="member-block member-block--solo">
-        <div class="member-copy">
-          <div class="eyebrow">Culture · Member card</div>
-          <h3 class="member-title">
-            <span class="strip paper p-ink tape-l" style="--rot:-1.4deg">Your</span>
-            <span class="strip paper p-pink cut-2" style="--rot:1deg">SolubFood card.</span>
-          </h3>
-          <p>Every card starts with where you come from, so no two fronts are the same. Turn it over and every back says the same thing: this is your story, and we are all a community.</p>
-          <div class="field ly-country">
-            <label for="lyCountry">Try it with your country</label>
-            <select id="lyCountry" aria-controls="memberBadge">
-              <option value="">Choose a country</option>
-              <option>Argentina</option><option>Bolivia</option><option>Brasil</option><option>Chile</option>
-              <option>Colombia</option><option>Costa Rica</option><option>Cuba</option><option>Ecuador</option>
-              <option>El Salvador</option><option>Guatemala</option><option>Honduras</option><option>México</option>
-              <option>Nicaragua</option><option>Panamá</option><option>Paraguay</option><option>Perú</option>
-              <option>Puerto Rico</option><option>República Dominicana</option><option>Uruguay</option><option>Venezuela</option>
-            </select>
-          </div>
-          <p class="member-note">[Preview: member accounts are coming soon. Your country and name will come from your account. Nothing you pick here is saved.]</p>
-          <button type="button" class="btn btn-ink ly-flip" aria-pressed="false" aria-controls="memberBadge">Show back</button>
-        </div>
-        <div class="lanyard" id="memberBadge">
-          <canvas aria-hidden="true"></canvas>
-          <div class="ly-card" role="button" tabindex="0" aria-pressed="false" aria-label="SolubFood member card. Drag to swing it, press Enter to flip it over.">
-            <div class="ly-clip" aria-hidden="true"></div>
-            <div class="ly-inner">
-              <div class="ly-face ly-front">
-                <div class="ly-from" id="lyFrom">[Your country]</div>
-                <div class="ly-arrow" aria-hidden="true">↓</div>
-                <div class="ly-to">Gold<br>Coast</div>
-                <div class="ly-bottom"><span class="ly-name">[Your Name]</span><span class="ly-cap">SolubFood</span></div>
-              </div>
-              <div class="ly-face ly-back">
-                <div class="ly-story">This is<br>your story</div>
-                <div class="ly-rule" aria-hidden="true"></div>
-                <div class="ly-community">We are all<br>a community.</div>
-                <div class="ly-bottom"><span class="ly-cap">SolubFood</span><span class="ly-cap ly-coords">−28.01° · 153.40°</span></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <!-- Culture: the space below the films is intentionally empty for now (next Culture content goes here). -->
 </section>
 
-<div class="edge" style="--from: var(--beige); --mid: var(--red); --to: var(--pink);" aria-hidden="true">
+<div class="edge" style="--from: var(--red); --mid: var(--beige); --to: var(--pink);" aria-hidden="true">
   <svg viewBox="0 0 1200 100" preserveAspectRatio="none">
     <path class="e-mid" d="M0 30 L60 36 L130 22 L210 38 L290 25 L380 40 L450 24 L540 35 L620 20 L700 37 L790 26 L860 39 L950 22 L1030 35 L1110 24 L1200 32 V100 H0 Z"/>
     <path class="e-to" d="M0 58 L80 50 L150 63 L240 51 L320 66 L400 53 L490 62 L570 49 L660 64 L740 52 L830 61 L910 48 L1000 63 L1080 51 L1150 60 L1200 53 V100 H0 Z"/>

@@ -701,3 +701,13 @@
   .lanyard { height: 540px; }
 }
 .member-block--solo { margin-top: 0; }
+
+/* ---------- Waitlist › SolubCard (replaces the photo collage) ---------- */
+.solubcard { position: relative; display: flex; flex-direction: column; align-items: stretch; }
+.solubcard-label { font-size: 13px; font-weight: 600; text-align: center; }
+.solubcard-label .ly-cap { font-size: 13px; font-weight: 900; letter-spacing: .18em; }
+.solubcard .lanyard { height: 540px; }
+.solubcard-controls { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: center; gap: 12px; }
+.solubcard-controls .ly-country { margin: 0; flex: 1 1 200px; max-width: 260px; }
+.solubcard .member-note { font-size: 13px; font-weight: 600; text-align: center; margin: 12px auto 0; max-width: 44ch; }
+@media (max-width: 900px) { .solubcard .lanyard { height: 500px; } }
