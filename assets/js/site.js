@@ -231,41 +231,19 @@ var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
   // ---- SolubCard front ------------------------------------------------------
   // Same for every member (the community): the cream card and its pink hairline drawings.
   // Different for every member: their country's shape as contour lines, its real flag, the country and their name.
-  // Shapes come from assets/data/solubcard-countries.json (built by tools/build-card-data.js from Natural Earth).
+  // Data for every country: assets/data/solubcard/ (built by tools/build-card-data.mjs from Natural Earth) and assets/flags/.
   // Preview: a visitor can try any country; nothing is stored. With accounts, the country and name come from the profile.
   var artEl = document.getElementById('lyArt');
   var flagEl = document.getElementById('lyFlag');
   var fromEl = document.getElementById('lyFrom');
   var countrySel = document.getElementById('lyCountry');
-  var SHAPES = null;
 
-  // Flags in their real colours, simplified to read at badge size (viewBox 30 x 20).
-  function stripesH(cols, w) { var y = 0, t = (w || cols.map(function () { return 1; })).reduce(function (a, b) { return a + b; }, 0); return cols.map(function (c, i) { var h = 20 * (w ? w[i] : 1) / t, r = '<rect y="' + y.toFixed(2) + '" width="30" height="' + (h + .05).toFixed(2) + '" fill="' + c + '"/>'; y += h; return r; }).join(''); }
-  function stripesV(cols) { return cols.map(function (c, i) { return '<rect x="' + (i * 10) + '" width="10.05" height="20" fill="' + c + '"/>'; }).join(''); }
-  function star(cx, cy, r, fill) { var p = []; for (var i = 0; i < 10; i++) { var a = -Math.PI / 2 + i * Math.PI / 5, rr = i % 2 ? r * .4 : r; p.push((cx + Math.cos(a) * rr).toFixed(2) + ' ' + (cy + Math.sin(a) * rr).toFixed(2)); } return '<path d="M' + p.join('L') + 'Z" fill="' + fill + '"/>'; }
-  var FLAG = {
-    ar: stripesH(['#74ACDF', '#FFFFFF', '#74ACDF']) + '<circle cx="15" cy="10" r="2.3" fill="#F6B40E"/>',
-    bo: stripesH(['#D52B1E', '#F9E300', '#007934']),
-    br: '<rect width="30" height="20" fill="#009C3B"/><path d="M15 2.5 L27.5 10 L15 17.5 L2.5 10 Z" fill="#FFDF00"/><circle cx="15" cy="10" r="4.2" fill="#002776"/><path d="M11 9.2 Q15 8.2 19 10.6" stroke="#FFFFFF" stroke-width=".7" fill="none"/>',
-    cl: '<rect width="30" height="10" fill="#FFFFFF"/><rect y="10" width="30" height="10" fill="#D52B1E"/><rect width="10" height="10" fill="#0039A6"/>' + star(5, 5, 2.6, '#FFFFFF'),
-    co: stripesH(['#FCD116', '#003893', '#CE1126'], [2, 1, 1]),
-    cr: stripesH(['#002B7F', '#FFFFFF', '#CE1126', '#FFFFFF', '#002B7F'], [1, 1, 2, 1, 1]),
-    cu: stripesH(['#002A8F', '#FFFFFF', '#002A8F', '#FFFFFF', '#002A8F']) + '<path d="M0 0 L13 10 L0 20 Z" fill="#CB1515"/>' + star(4.4, 10, 2.4, '#FFFFFF'),
-    ec: stripesH(['#FFD100', '#034EA2', '#ED1C24'], [2, 1, 1]) + '<circle cx="15" cy="10" r="2.4" fill="#8B5A2B"/>',
-    sv: stripesH(['#0F47AF', '#FFFFFF', '#0F47AF']) + '<circle cx="15" cy="10" r="1.8" fill="none" stroke="#C9A227" stroke-width=".6"/>',
-    gt: '<rect width="10" height="20" fill="#4997D0"/><rect x="10" width="10" height="20" fill="#FFFFFF"/><rect x="20" width="10" height="20" fill="#4997D0"/><circle cx="15" cy="10" r="2" fill="none" stroke="#3F8F2F" stroke-width=".7"/>',
-    hn: stripesH(['#00BCE4', '#FFFFFF', '#00BCE4']) + star(15, 10, 1, '#00BCE4') + star(11.6, 8.4, .9, '#00BCE4') + star(11.6, 11.6, .9, '#00BCE4') + star(18.4, 8.4, .9, '#00BCE4') + star(18.4, 11.6, .9, '#00BCE4'),
-    mx: stripesV(['#006847', '#FFFFFF', '#CE1126']) + '<circle cx="15" cy="10" r="2.1" fill="#8C5A2B"/>',
-    ni: stripesH(['#0067C6', '#FFFFFF', '#0067C6']) + '<path d="M13.4 11.2 L15 8.4 L16.6 11.2 Z" fill="none" stroke="#0067C6" stroke-width=".5"/>',
-    pa: '<rect width="30" height="20" fill="#FFFFFF"/><rect x="15" width="15" height="10" fill="#D21034"/><rect y="10" width="15" height="10" fill="#005293"/>' + star(7.5, 5, 2.3, '#005293') + star(22.5, 15, 2.3, '#D21034'),
-    py: stripesH(['#D52B1E', '#FFFFFF', '#0038A8']) + '<circle cx="15" cy="10" r="1.8" fill="none" stroke="#3F8F2F" stroke-width=".6"/>',
-    pe: stripesV(['#D91023', '#FFFFFF', '#D91023']),
-    pr: stripesH(['#ED0000', '#FFFFFF', '#ED0000', '#FFFFFF', '#ED0000']) + '<path d="M0 0 L13 10 L0 20 Z" fill="#0050F0"/>' + star(4.4, 10, 2.4, '#FFFFFF'),
-    do: '<rect width="30" height="20" fill="#FFFFFF"/><rect width="13" height="8.5" fill="#002D62"/><rect x="17" width="13" height="8.5" fill="#CE1126"/><rect y="11.5" width="13" height="8.5" fill="#CE1126"/><rect x="17" y="11.5" width="13" height="8.5" fill="#002D62"/><circle cx="15" cy="10" r="1.2" fill="#00843D"/>',
-    uy: stripesH(['#FFFFFF', '#0038A8', '#FFFFFF', '#0038A8', '#FFFFFF', '#0038A8', '#FFFFFF', '#0038A8', '#FFFFFF']) + '<rect width="11" height="11.2" fill="#FFFFFF"/><circle cx="5.5" cy="5.6" r="2.6" fill="#FCD116"/>',
-    ve: stripesH(['#FFCC00', '#00247D', '#CF142B']) + [0, 1, 2, 3, 4, 5, 6, 7].map(function (i) { var a = Math.PI * (1.12 + i * .108); return star(15 + Math.cos(a) * 4.6, 12.4 + Math.sin(a) * 4.6, .6, '#FFFFFF'); }).join('')
-  };
-  function flagSVG(code) { return FLAG[code] ? '<svg viewBox="0 0 30 20" preserveAspectRatio="none">' + FLAG[code] + '</svg>' : ''; }
+  // Official flags in their real colours (assets/flags/<code>.svg, from flag-icons).
+  function setFlag(code) {
+    if (!flagEl) return;
+    flagEl.innerHTML = code ? '<img src="assets/flags/' + code + '.svg" alt="" width="40" height="30">' : '';
+    flagEl.style.display = code ? '' : 'none';
+  }
 
   // The shared hairline drawings (identical on every card).
   var HAIR = '<g fill="none" stroke="#E688B7" stroke-width="1.15" stroke-linecap="round" stroke-linejoin="round">' +
@@ -293,10 +271,11 @@ var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
         '<path d="' + c.d + '" fill="#F6E9D7"/>' +
         '<g clip-path="url(#c)"><g filter="url(#w)" fill="none" stroke-linejoin="round">' + rings + '</g></g>' +
         '<path d="' + c.d + '" fill="none" stroke="#E74426" stroke-width="1.1" stroke-linejoin="round"/>' +
-        (c.cap ? '<circle cx="' + c.cap[0] + '" cy="' + c.cap[1] + '" r="2.8" fill="#1A1714"/>' : '');
+        (c.dot ? '<circle cx="' + c.dot[0] + '" cy="' + c.dot[1] + '" r="2.8" fill="#1A1714"/>' : '');
     }
     return '<svg xmlns="http://www.w3.org/2000/svg" width="480" height="720" viewBox="0 0 240 360"><rect width="240" height="360" fill="#F6E9D7"/>' + HAIR + map + '</svg>';
   }
+  // One line if the name fits at a good size; very long names (República Dominicana) go to two lines.
   // One line if the name fits at a good size; very long names (República Dominicana) go to two lines.
   function fitCountry() {
     if (!fromEl) return;
@@ -307,20 +286,41 @@ var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     fromEl.style.whiteSpace = 'normal'; em = 2.1; fromEl.style.fontSize = em + 'em';
     while (fromEl.scrollWidth > fromEl.clientWidth + 1 && em > 1.1) { em -= 0.05; fromEl.style.fontSize = em.toFixed(2) + 'em'; }
   }
+  var NAMES = {}, shapeCache = {}, current = '';
+  function loadShape(code) {
+    var key = code || 'latam';
+    if (shapeCache[key]) return Promise.resolve(shapeCache[key]);
+    return fetch('assets/data/solubcard/shapes/' + key + '.json').then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) { shapeCache[key] = d; return d; }).catch(function () { return null; });
+  }
   function showCountry(code) {
-    var c = SHAPES && (SHAPES[code] || SHAPES.latam);
-    if (artEl) artEl.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(artSVG(c));
-    if (flagEl) flagEl.innerHTML = flagSVG(code);
-    if (flagEl) flagEl.style.display = FLAG[code] ? '' : 'none';
-    if (fromEl) fromEl.textContent = code && SHAPES && SHAPES[code] ? SHAPES[code].name : 'Your country';
+    current = code;
+    var name = code ? (NAMES[code] || code.toUpperCase()) : 'Your country';
+    if (fromEl) fromEl.textContent = name;
+    setFlag(code);
     fitCountry();
-    card.setAttribute('aria-label', 'SolubCard' + (code && SHAPES && SHAPES[code] ? ' from ' + SHAPES[code].name : '') + '. Drag to swing it, press Enter to flip it over.');
+    card.setAttribute('aria-label', 'SolubCard' + (code ? ' from ' + name : '') + '. Drag to swing it, press Enter to flip it over.');
+    if (artEl && !artEl.getAttribute('src')) artEl.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(artSVG(null));
+    loadShape(code).then(function (shape) {
+      if (current !== code || !artEl) return; // a newer choice won
+      artEl.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(artSVG(shape));
+    });
   }
   showCountry('');
-  fetch('assets/data/solubcard-countries.json').then(function (r) { return r.ok ? r.json() : null; }).then(function (data) {
-    if (!data) return;
-    SHAPES = data;
-    showCountry(countrySel ? countrySel.value : '');
+  // Every country in the world: Latin America first, then everyone else, A–Z.
+  fetch('assets/data/solubcard/countries.json').then(function (r) { return r.ok ? r.json() : null; }).then(function (list) {
+    if (!list) return;
+    var latam = '', world = '';
+    list.forEach(function (c) {
+      NAMES[c[0]] = c[1];
+      var opt = '<option value="' + c[0] + '">' + c[1].replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</option>';
+      if (c[2] === 'latam') latam += opt; else world += opt;
+    });
+    if (countrySel) {
+      var keep = countrySel.value;
+      countrySel.innerHTML = '<option value="">Choose your country</option><optgroup label="Latin America">' + latam + '</optgroup><optgroup label="All countries">' + world + '</optgroup>';
+      countrySel.value = keep;
+    }
   }).catch(function () {});
   if (countrySel) {
     countrySel.addEventListener('change', function () {
