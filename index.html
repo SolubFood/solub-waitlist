@@ -304,99 +304,53 @@
 
   <div class="culture-words band">
     <div class="wrap">
-      <div class="words-head">
-        <div class="eyebrow">Culture · Diccionario latino</div>
-        <h3>
-          <span class="strip paper p-red wide" style="--rot:-1.5deg">Say it</span>
-          <span class="strip paper p-pink cut-2" style="--rot:1deg">like a local.</span>
-        </h3>
-        <p class="band-lead" style="margin-bottom:26px">Latin America is twenty countries, not one. Each has its own words, and most of them have an Aussie twin. Pick a country, tap a word.</p>
+      <!-- Member card (lanyard). Preview only: when SolubFood accounts exist, the back shows the signed-in
+           member's name and details. Physics + strap are drawn by memberBadge() in assets/js/site.js. -->
+      <div class="member-block member-block--solo">
+        <div class="member-copy">
+          <div class="eyebrow">Culture · Member card</div>
+          <h3 class="member-title">
+            <span class="strip paper p-ink tape-l" style="--rot:-1.4deg">Your</span>
+            <span class="strip paper p-pink cut-2" style="--rot:1deg">SolubFood card.</span>
+          </h3>
+          <p>When member accounts open, every member gets a SolubFood card with their name on it. Drag it, give it a spin, or tap it to flip it over.</p>
+          <p class="member-note">[Preview: member accounts and personal details are coming soon.]</p>
+          <button type="button" class="btn btn-ink ly-flip" aria-pressed="false" aria-controls="memberBadge">Show back</button>
+        </div>
+        <div class="lanyard" id="memberBadge">
+          <canvas aria-hidden="true"></canvas>
+          <div class="ly-card" role="button" tabindex="0" aria-pressed="false" aria-label="SolubFood member card. Drag to swing it, press Enter to flip it over.">
+            <div class="ly-clip" aria-hidden="true"></div>
+            <div class="ly-inner">
+              <div class="ly-face ly-front">
+                <span class="ly-sun ly-sun-a" aria-hidden="true"></span>
+                <div class="ly-head">
+                  <img src="assets/img/solubfood-logo.svg" alt="" width="40" height="40">
+                  <div>
+                    <div class="ly-brand">SolubFood</div>
+                    <div class="ly-sub">Latin America · Gold Coast</div>
+                  </div>
+                </div>
+                <div class="ly-band">More than people.</div>
+                <div class="ly-kind">Member<br>card</div>
+              </div>
+              <div class="ly-face ly-back">
+                <span class="ly-sun ly-sun-c" aria-hidden="true"></span>
+                <div class="ly-fields">
+                  <div class="ly-label">Name</div>
+                  <div class="ly-name">[Your name]</div>
+                  <div class="ly-label">Member</div>
+                  <div class="ly-role">Founding Member</div>
+                </div>
+                <div class="ly-foot">
+                  <span class="ly-sun ly-sun-d" aria-hidden="true"></span>
+                  <div class="ly-foot-text">solubfood.com</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="country-filter" role="group" aria-label="Filter words by country">
-        <button type="button" class="country-chip" data-country="all" aria-pressed="true">All</button>
-        <button type="button" class="country-chip" data-country="chile" aria-pressed="false">Chile</button>
-        <button type="button" class="country-chip" data-country="argentina" aria-pressed="false">Argentina</button>
-        <button type="button" class="country-chip" data-country="colombia" aria-pressed="false">Colombia</button>
-        <button type="button" class="country-chip" data-country="mexico" aria-pressed="false">México</button>
-        <button type="button" class="country-chip" data-country="peru" aria-pressed="false">Perú</button>
-        <button type="button" class="country-chip" data-country="cuba" aria-pressed="false">Cuba</button>
-        <button type="button" class="country-chip" data-country="venezuela" aria-pressed="false">Venezuela</button>
-      </div>
-      <div class="word-grid">
-        <button type="button" class="word-card" data-countries="chile" aria-pressed="false">
-          <span class="word-inner">
-            <span class="word-face word-front"><span class="word-country">Chile</span><span class="word-term">Once</span><span class="word-hint">Tap to flip</span></span>
-            <span class="word-face word-back"><span class="word-say">Say it: ON-seh</span><span class="word-meaning">Afternoon tea or a light evening meal: bread, avocado, tea.</span><span class="word-aussie">In Australia: <strong>arvo tea</strong></span></span>
-          </span>
-        </button>
-        <button type="button" class="word-card" data-countries="argentina chile" aria-pressed="false">
-          <span class="word-inner">
-            <span class="word-face word-front"><span class="word-country">Argentina · Chile</span><span class="word-term">Previa</span><span class="word-hint">Tap to flip</span></span>
-            <span class="word-face word-back"><span class="word-say">Say it: PREH-vee-ah</span><span class="word-meaning">Drinks with friends at home before heading out.</span><span class="word-aussie">In Australia: <strong>pre-drinks</strong></span></span>
-          </span>
-        </button>
-        <button type="button" class="word-card" data-countries="chile" aria-pressed="false">
-          <span class="word-inner">
-            <span class="word-face word-front"><span class="word-country">Chile</span><span class="word-term">Bajón</span><span class="word-hint">Tap to flip</span></span>
-            <span class="word-face word-back"><span class="word-say">Say it: bah-HON</span><span class="word-meaning">Late-night hunger, usually after a night out. (In Argentina it means a downer.)</span><span class="word-aussie">In Australia: <strong>the munchies</strong></span></span>
-          </span>
-        </button>
-        <button type="button" class="word-card" data-countries="colombia venezuela" aria-pressed="false">
-          <span class="word-inner">
-            <span class="word-face word-front"><span class="word-country">Colombia · Venezuela</span><span class="word-term">Chévere</span><span class="word-hint">Tap to flip</span></span>
-            <span class="word-face word-back"><span class="word-say">Say it: CHEH-veh-reh</span><span class="word-meaning">Great, cool, really good.</span><span class="word-aussie">In Australia: <strong>sweet as</strong></span></span>
-          </span>
-        </button>
-        <button type="button" class="word-card" data-countries="colombia" aria-pressed="false">
-          <span class="word-inner">
-            <span class="word-face word-front"><span class="word-country">Colombia</span><span class="word-term">Parce</span><span class="word-hint">Tap to flip</span></span>
-            <span class="word-face word-back"><span class="word-say">Say it: PAR-seh</span><span class="word-meaning">Friend, buddy. Short for parcero.</span><span class="word-aussie">In Australia: <strong>mate</strong></span></span>
-          </span>
-        </button>
-        <button type="button" class="word-card" data-countries="mexico peru" aria-pressed="false">
-          <span class="word-inner">
-            <span class="word-face word-front"><span class="word-country">México · Perú</span><span class="word-term">Chamba</span><span class="word-hint">Tap to flip</span></span>
-            <span class="word-face word-back"><span class="word-say">Say it: CHAM-bah</span><span class="word-meaning">Work, a job.</span><span class="word-aussie">In Australia: <strong>yakka</strong></span></span>
-          </span>
-        </button>
-        <button type="button" class="word-card" data-countries="chile cuba" aria-pressed="false">
-          <span class="word-inner">
-            <span class="word-face word-front"><span class="word-country">Chile · Cuba</span><span class="word-term">Guagua</span><span class="word-hint">Tap to flip</span></span>
-            <span class="word-face word-back"><span class="word-say">Say it: WAH-wah</span><span class="word-meaning">Same word, different country: a baby in Chile, a bus in Cuba.</span><span class="word-aussie">In Australia: <strong>bub / the bus</strong></span></span>
-          </span>
-        </button>
-        <button type="button" class="word-card" data-countries="chile argentina colombia mexico peru cuba venezuela" aria-pressed="false">
-          <span class="word-inner">
-            <span class="word-face word-front"><span class="word-country">All of Latin America</span><span class="word-term">Sobremesa</span><span class="word-hint">Tap to flip</span></span>
-            <span class="word-face word-back"><span class="word-say">Say it: soh-breh-MEH-sah</span><span class="word-meaning">Staying at the table to talk long after the meal is finished.</span><span class="word-aussie">In Australia: <strong>no word for it.</strong> It's yours now.</span></span>
-          </span>
-        </button>
-        <button type="button" class="word-card" data-countries="chile" aria-pressed="false">
-          <span class="word-inner">
-            <span class="word-face word-front"><span class="word-country">Chile</span><span class="word-term">Pololo</span><span class="word-hint">Tap to flip</span></span>
-            <span class="word-face word-back"><span class="word-say">Say it: poh-LOH-loh</span><span class="word-meaning">Boyfriend. Polola is girlfriend.</span><span class="word-aussie">In Australia: <strong>boyf / girlf</strong></span></span>
-          </span>
-        </button>
-        <button type="button" class="word-card" data-countries="argentina" aria-pressed="false">
-          <span class="word-inner">
-            <span class="word-face word-front"><span class="word-country">Argentina</span><span class="word-term">Che</span><span class="word-hint">Tap to flip</span></span>
-            <span class="word-face word-back"><span class="word-say">Say it: cheh</span><span class="word-meaning">What you say to get a friend's attention.</span><span class="word-aussie">In Australia: <strong>oi, mate</strong></span></span>
-          </span>
-        </button>
-        <button type="button" class="word-card" data-countries="mexico" aria-pressed="false">
-          <span class="word-inner">
-            <span class="word-face word-front"><span class="word-country">México</span><span class="word-term">Ahorita</span><span class="word-hint">Tap to flip</span></span>
-            <span class="word-face word-back"><span class="word-say">Say it: ah-oh-REE-tah</span><span class="word-meaning">"Right now"… which can mean in a minute, later, or never.</span><span class="word-aussie">In Australia: <strong>in a tick</strong></span></span>
-          </span>
-        </button>
-        <button type="button" class="word-card" data-countries="mexico peru" aria-pressed="false">
-          <span class="word-inner">
-            <span class="word-face word-front"><span class="word-country">México · Perú</span><span class="word-term">Chela</span><span class="word-hint">Tap to flip</span></span>
-            <span class="word-face word-back"><span class="word-say">Say it: CHEH-lah</span><span class="word-meaning">A beer.</span><span class="word-aussie">In Australia: <strong>a cold one</strong></span></span>
-          </span>
-        </button>
-      </div>
-      <p class="words-foot">A new word every week on <a href="https://www.instagram.com/solubfood/" target="_blank" rel="noopener noreferrer">Instagram @solubfood</a>. <a href="#waitlist">Join the community, free →</a></p>
     </div>
   </div>
 </section>

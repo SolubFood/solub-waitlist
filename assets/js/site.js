@@ -142,27 +142,6 @@ var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
   wireForm('waitlistForm', 'waitlistDone', "You're in! Welcome to SolubFood, Founding Member.");
   wireForm('kitchenJoinForm', 'kitchenJoinDone', "Thanks! We'll be in touch within a few days.");
 
-  (function cultureWords() {
-    var chips = document.querySelectorAll('.country-chip');
-    var cards = document.querySelectorAll('.word-card');
-    if (!cards.length) return;
-    cards.forEach(function (card) {
-      card.addEventListener('click', function () {
-        card.setAttribute('aria-pressed', card.getAttribute('aria-pressed') === 'true' ? 'false' : 'true');
-      });
-    });
-    chips.forEach(function (chip) {
-      chip.addEventListener('click', function () {
-        var country = chip.getAttribute('data-country');
-        chips.forEach(function (c) { c.setAttribute('aria-pressed', c === chip ? 'true' : 'false'); });
-        cards.forEach(function (card) {
-          var keys = card.getAttribute('data-countries').split(' ');
-          card.hidden = country !== 'all' && keys.indexOf(country) === -1;
-        });
-      });
-    });
-  })();
-
   // Intro: blur-in, one piece after another.
   (function heroReveal() {
     var intro = document.getElementById('heroIntro');
@@ -227,3 +206,303 @@ var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
       entries.forEach(function (en) { loop.classList.toggle('is-paused', !en.isIntersecting); });
     }).observe(loop);
   })();
+
+// ===========================================================
+// Member card on a lanyard (Culture). Vanilla port of a React "lanyard badge":
+// two strap strands meet at a buckle, a short strap + ring hold the card.
+// The strap is a verlet rope drawn as a printed ribbon on a <canvas>; the card is
+// HTML turned in 3D with CSS. Drag it (the strap pulls taut), flick it to spin,
+// tap / Enter / the button to flip. Brand colours and Archivo only.
+// ===========================================================
+(function memberBadge() {
+  var root = document.getElementById('memberBadge');
+  if (!root) return;
+  var canvas = root.querySelector('canvas');
+  var card = root.querySelector('.ly-card');
+  var inner = root.querySelector('.ly-inner');
+  var btn = document.querySelector('.ly-flip[aria-controls="memberBadge"]');
+  var ctx = canvas && canvas.getContext('2d');
+  if (!card || !inner || !ctx) return;
+
+  var RED = '#E74426', BEIGE = '#F6E9D7', INK = '#1A1714';
+  var FONT = "'Archivo', system-ui, sans-serif";
+  var STRAP = { color: RED, ink: BEIGE, text: 'more than people', label: 'SOLUBFOOD · GOLD COAST' };
+
+  // Latin sun: rings, sixteen alternating straight and wavy rays (SVG for the card faces)
+  function sunSVG() {
+    var rays = '';
+    for (var i = 0; i < 16; i++) {
+      var a = i * 22.5;
+      rays += i % 2
+        ? '<path d="M0 -44 Q-9 -56 0 -66 Q9 -76 0 -88" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" transform="rotate(' + a + ')"/>'
+        : '<path d="M-8 -44 L0 -96 L8 -44 Z" fill="currentColor" transform="rotate(' + a + ')"/>';
+    }
+    return '<svg viewBox="-100 -100 200 200" aria-hidden="true">' + rays +
+      '<circle r="38" fill="none" stroke="currentColor" stroke-width="5"/><circle r="27" fill="currentColor"/>' +
+      '<circle cx="-9" cy="-5" r="3.2" fill="' + BEIGE + '"/><circle cx="9" cy="-5" r="3.2" fill="' + BEIGE + '"/>' +
+      '<path d="M-10 9 Q0 17 10 9" fill="none" stroke="' + BEIGE + '" stroke-width="3.2" stroke-linecap="round"/></svg>';
+  }
+  root.querySelectorAll('.ly-sun').forEach(function (el) { el.innerHTML = sunSVG(); });
+
+  // ---- physics -------------------------------------------------------------
+  function integrate(pts, dt, g, damping) {
+    for (var i = 0; i < pts.length; i++) {
+      var p = pts[i];
+      if (!p.w) continue;
+      var vx = (p.x - p.px) * damping, vy = (p.y - p.py) * damping;
+      p.px = p.x; p.py = p.y;
+      p.x += vx; p.y += vy + g * dt * dt;
+    }
+  }
+  function solve(pts, links, iterations) {
+    for (var k = 0; k < iterations; k++) {
+      for (var n = 0; n < links.length; n++) {
+        var a = pts[links[n][0]], b = pts[links[n][1]], rest = links[n][2];
+        var ws = a.w + b.w;
+        if (!ws) continue;
+        var dx = b.x - a.x, dy = b.y - a.y;
+        var d = Math.hypot(dx, dy) || 1e-6;
+        var f = (d - rest) / (d * ws);
+        a.x += dx * f * a.w; a.y += dy * f * a.w;
+        b.x -= dx * f * b.w; b.y -= dy * f * b.w;
+      }
+    }
+  }
+  function spinStep(s, target, dt, drive) {
+    s.v += (-(s.a - target) * 18 - s.v * 3.2 + drive) * dt;
+    s.a += s.v * dt;
+  }
+
+  // ---- printed strap texture -------------------------------------------------
+  function drawSun(c, cx, cy, r) {
+    c.save(); c.translate(cx, cy);
+    c.lineWidth = Math.max(0.8, r * 0.03);
+    [1, 0.62, 0.4].forEach(function (k) { c.beginPath(); c.arc(0, 0, r * k, 0, Math.PI * 2); c.stroke(); });
+    for (var i = 0; i < 16; i++) {
+      c.save(); c.rotate((i / 16) * Math.PI * 2);
+      c.beginPath(); c.moveTo(-r * 0.05, -r * 0.42); c.lineTo(0, -r * 0.6); c.lineTo(r * 0.05, -r * 0.42); c.fill();
+      c.restore();
+    }
+    c.beginPath(); c.arc(0, 0, r * 0.14, 0, Math.PI * 2); c.fill();
+    c.restore();
+  }
+  function makeStrap(length, width, dpr, o) {
+    var c = document.createElement('canvas');
+    c.width = Math.max(1, Math.round(width * dpr));
+    c.height = Math.max(1, Math.round(length * dpr));
+    var x2 = c.getContext('2d');
+    x2.setTransform(0, dpr, -dpr, 0, c.width, 0); // x runs down the strap, y across it
+    x2.fillStyle = o.color; x2.fillRect(0, 0, length, width);
+    x2.strokeStyle = x2.fillStyle = o.ink;
+    if (!o.plain) {
+      x2.save(); x2.beginPath(); x2.rect(0, 0, length, width); x2.clip();
+      x2.textBaseline = 'middle';
+      var textFont = '800 ' + Math.round(width * 0.46) + 'px ' + FONT;
+      var labelFont = '900 ' + Math.round(width * 0.34) + 'px ' + FONT;
+      x2.font = textFont; var textW = x2.measureText(o.text).width;
+      x2.font = labelFont; var labelW = x2.measureText(o.label).width;
+      var gap = width * 0.6, x = width * 0.4, flip = 1;
+      while (x < length) {
+        x2.globalAlpha = 0.5;
+        drawSun(x2, x + width * 1.3, width * (0.5 + flip * 0.28), width * 1.35);
+        x += width * 2.8;
+        x2.globalAlpha = 0.95;
+        x2.font = textFont; x2.fillText(o.text, x, width * 0.53); x += textW + gap;
+        x2.font = labelFont; x2.fillText('—  ' + o.label + '  —', x, width * 0.54);
+        x += labelW + x2.measureText('—    —').width + gap;
+        flip = -flip;
+      }
+      x2.restore();
+    }
+    x2.globalAlpha = 0.35; x2.lineWidth = 1; x2.beginPath();
+    x2.moveTo(0, 1.5); x2.lineTo(length, 1.5); x2.moveTo(0, width - 1.5); x2.lineTo(length, width - 1.5); x2.stroke();
+    return c;
+  }
+
+  // ---- state -----------------------------------------------------------------
+  var STEP = 1 / 120, GRAVITY = 2400, ITER = 18, N = 14;
+  var cw, ch, ringR, clipH, sw, lowLen, arm;
+  var pts = [], links = [], left = [], right = [], low = [], iB = 0, iT = 0, iC = 0;
+  var strandRest = 1, dpr = 1, W = 1, H = 1, strapTex = null, plainTex = null;
+  var spin = { a: 0, v: 0 }, spinTarget = 0;
+
+  function add(x, y, w) { pts.push({ x: x, y: y, px: x, py: y, w: w }); return pts.length - 1; }
+  function strand(from, to, n, slack) {
+    var a = pts[from], b = pts[to];
+    var rest = (Math.hypot(b.x - a.x, b.y - a.y) * slack) / n;
+    var ids = [from];
+    for (var i = 1; i < n; i++) ids.push(add(a.x + ((b.x - a.x) * i) / n, a.y + ((b.y - a.y) * i) / n, 1));
+    ids.push(to);
+    for (var k = 0; k < n; k++) links.push([ids[k], ids[k + 1], rest]);
+    return { ids: ids, rest: rest };
+  }
+
+  function sizeCard() {
+    cw = root.clientWidth < 420 ? 200 : 236;
+    ch = Math.round(cw * 1.5);
+    ringR = Math.max(7, Math.round(cw * 0.036));
+    clipH = Math.round(cw * 0.1);
+    sw = Math.max(14, Math.round(cw * 0.1));
+    lowLen = sw * 2.2;
+    arm = ringR * 2 + clipH + ch * 0.55;
+    card.style.width = cw + 'px';
+    card.style.height = (ch + ringR + clipH) + 'px';
+    card.style.setProperty('--s', (cw / 240).toFixed(3));
+    inner.style.top = (ringR + clipH * 0.6) + 'px';
+    inner.style.height = ch + 'px';
+  }
+
+  function build() {
+    sizeCard();
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = Math.max(1, root.clientWidth); H = Math.max(1, root.clientHeight);
+    canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
+    pts = []; links = [];
+    var cx = W / 2;
+    var spread = Math.min(W * 0.16, cw * 0.55);
+    var top = -sw * 2;
+    var bY = Math.max(H * 0.16, Math.min(H * 0.42, H - (lowLen + ringR * 2 + clipH + ch) - 28));
+    var aL = add(cx - spread, top, 0);
+    iB = add(cx, bY, 1.4);
+    var l = strand(aL, iB, N, 1.03);
+    var aR = add(cx + spread, top, 0);
+    var r = strand(aR, iB, N, 1.03);
+    iT = add(cx, bY + lowLen, 0.8);
+    var lo = strand(iB, iT, 3, 1);
+    iC = add(cx, bY + lowLen + arm, 0.25);
+    links.push([iT, iC, arm]);
+    left = l.ids; right = r.ids; low = lo.ids; strandRest = l.rest;
+    strapTex = makeStrap(strandRest * N + 4, sw, dpr, STRAP);
+    plainTex = makeStrap(lowLen + 4, sw * 0.8, dpr, { color: STRAP.color, ink: STRAP.ink, plain: true });
+    if (reduceMotion) {
+      for (var i = 0; i < 900; i++) { integrate(pts, STEP, GRAVITY, 0.98); solve(pts, links, ITER); }
+    } else {
+      pts[iC].x += cw * 0.55; pts[iC].px = pts[iC].x - 2; // enter mid-swing
+      spin.v = 5;
+    }
+  }
+
+  // ---- drawing ---------------------------------------------------------------
+  function ribbon(ids, tex, rest, light) {
+    var Wt = tex.width;
+    for (var i = 0; i < ids.length - 1; i++) {
+      var a = pts[ids[i]], b = pts[ids[i + 1]];
+      var dx = (b.x - a.x) * dpr, dy = (b.y - a.y) * dpr;
+      var len = Math.hypot(dx, dy) || 1e-6;
+      var tx = dx / len, ty = dy / len, nx = ty, ny = -tx;
+      var v0 = i * rest * dpr, dv = rest * dpr, k = len / dv;
+      ctx.setTransform(nx, ny, tx * k, ty * k, a.x * dpr - (nx * Wt) / 2 - tx * k * v0, a.y * dpr - (ny * Wt) / 2 - ty * k * v0);
+      var src = Math.min(dv + 1.5, tex.height - v0);
+      if (src > 0) ctx.drawImage(tex, 0, v0, Wt, src, 0, v0, Wt, src);
+      ctx.fillStyle = 'rgba(0,0,0,' + (0.22 * (1 - Math.max(0, nx * light))).toFixed(3) + ')';
+      ctx.fillRect(0, v0, Wt, dv + 1);
+    }
+  }
+  function metal(x0, y0, x1, y1) {
+    var g = ctx.createLinearGradient(x0, y0, x1, y1);
+    g.addColorStop(0, BEIGE); g.addColorStop(0.45, '#8C857C'); g.addColorStop(0.55, '#5E5852'); g.addColorStop(1, BEIGE);
+    return g;
+  }
+  function rrect(x, y, w, h, r) {
+    ctx.beginPath();
+    if (ctx.roundRect) ctx.roundRect(x, y, w, h, r); else ctx.rect(x, y, w, h);
+  }
+  function draw() {
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    if (!strapTex || !plainTex) return;
+    ribbon(left, strapTex, strandRest, -1);
+    ribbon(right, strapTex, strandRest, 1);
+    ribbon(low, plainTex, lowLen / 3, 0);
+    var B = pts[iB], T = pts[iT];
+    var ang = Math.atan2(T.x - B.x, T.y - B.y), u = sw / 20;
+    ctx.setTransform(dpr, 0, 0, dpr, B.x * dpr, B.y * dpr);
+    ctx.rotate(-ang);
+    ctx.shadowColor = 'rgba(0,0,0,0.3)'; ctx.shadowBlur = 6 * dpr; ctx.shadowOffsetY = 2 * dpr;
+    ctx.fillStyle = metal(-16 * u, 0, 16 * u, 0);
+    rrect(-15 * u, -14 * u, 30 * u, 17 * u, 3 * u); ctx.fill();
+    rrect(-11 * u, 1 * u, 22 * u, 15 * u, 3 * u); ctx.fill();
+    ctx.shadowColor = 'transparent';
+    ctx.fillStyle = 'rgba(26,23,20,0.55)';
+    ctx.fillRect(-10 * u, -9 * u, 20 * u, 2.2 * u);
+    ctx.fillRect(-5 * u, 6 * u, 10 * u, 3 * u);
+    ctx.setTransform(dpr, 0, 0, dpr, T.x * dpr, (T.y + ringR * 0.8) * dpr);
+    ctx.lineWidth = Math.max(2.5, ringR * 0.38);
+    ctx.strokeStyle = metal(-ringR, -ringR, ringR, ringR);
+    ctx.beginPath(); ctx.arc(0, 0, ringR, 0, Math.PI * 2); ctx.stroke();
+  }
+  function place() {
+    var T = pts[iT], C = pts[iC];
+    var swing = Math.atan2(C.x - T.x, C.y - T.y);
+    card.style.transform = 'translate3d(' + (T.x - cw / 2).toFixed(2) + 'px,' + (T.y + ringR).toFixed(2) + 'px,0) rotate(' + (-swing).toFixed(4) + 'rad)';
+    inner.style.transform = 'perspective(1100px) rotateY(' + spin.a.toFixed(4) + 'rad)';
+    inner.style.setProperty('--ly-dim', ((1 - Math.abs(Math.cos(spin.a))) * 0.5).toFixed(3));
+    inner.style.setProperty('--ly-shine', (50 + Math.sin(spin.a) * 70 + swing * 90).toFixed(1) + '%');
+  }
+
+  // ---- interaction -----------------------------------------------------------
+  var drag = null;
+  function local(e) { var r = root.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; }
+  function setBack(back) {
+    var v = back ? 'true' : 'false';
+    card.setAttribute('aria-pressed', v);
+    if (btn) { btn.setAttribute('aria-pressed', v); btn.textContent = back ? 'Show front' : 'Show back'; }
+  }
+  function flip() { spinTarget = spinTarget === 0 ? Math.PI : 0; setBack(spinTarget !== 0); wake(); }
+  card.addEventListener('pointerdown', function (e) {
+    if (e.button > 0) return;
+    var p = local(e), T = pts[iT];
+    drag = { id: e.pointerId, ox: T.x - p[0], oy: T.y - p[1], tx: T.x, ty: T.y, sx: p[0], sy: p[1], moved: false };
+    pts[iT].w = 0;
+    card.setPointerCapture(e.pointerId);
+    card.style.cursor = 'grabbing';
+    wake();
+  });
+  card.addEventListener('pointermove', function (e) {
+    if (!drag || e.pointerId !== drag.id) return;
+    var p = local(e);
+    drag.tx = p[0] + drag.ox; drag.ty = p[1] + drag.oy;
+    if (Math.hypot(p[0] - drag.sx, p[1] - drag.sy) > 5) drag.moved = true;
+  });
+  function up(e) {
+    if (!drag || e.pointerId !== drag.id) return;
+    if (!drag.moved) flip();
+    drag = null; pts[iT].w = 0.8; card.style.cursor = 'grab';
+  }
+  card.addEventListener('pointerup', up);
+  card.addEventListener('pointercancel', up);
+  card.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flip(); } });
+  if (btn) btn.addEventListener('click', flip);
+
+  // ---- loop (runs only while the card is on screen) ---------------------------
+  var raf = 0, acc = 0, last = 0, t = 0, visible = true;
+  function tick(now) {
+    acc += Math.min(0.05, (now - last) / 1000); last = now;
+    var steps = 0;
+    while (acc >= STEP && steps < 8) {
+      acc -= STEP; steps++; t += STEP;
+      if (drag) { var T = pts[iT]; T.px = T.x; T.py = T.y; T.x += (drag.tx - T.x) * 0.35; T.y += (drag.ty - T.y) * 0.35; }
+      var C = pts[iC];
+      if (!reduceMotion && !drag) C.x += (22 * Math.sin(t * 0.7) + 12 * Math.sin(t * 1.9)) * STEP * STEP; // a light draught
+      integrate(pts, STEP, GRAVITY, 0.992);
+      solve(pts, links, ITER);
+      spinStep(spin, spinTarget, STEP, (C.x - C.px) / STEP * 0.03 + (reduceMotion ? 0 : 0.6 * Math.sin(t * 0.5)));
+    }
+    draw(); place();
+    raf = visible ? requestAnimationFrame(tick) : 0;
+  }
+  function wake() { if (!raf) { last = performance.now(); raf = requestAnimationFrame(tick); } }
+
+  spinTarget = 0; spin.a = 0;
+  build(); draw(); place(); wake();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { build(); draw(); place(); });
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (en) { visible = en[0].isIntersecting; if (visible) wake(); }).observe(root);
+  }
+  if ('ResizeObserver' in window) {
+    new ResizeObserver(function () {
+      if (Math.abs(root.clientWidth - W) < 1 && Math.abs(root.clientHeight - H) < 1) return;
+      build(); draw(); place();
+    }).observe(root);
+  }
+})();

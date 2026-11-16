@@ -524,47 +524,8 @@
     .episode-grid { grid-template-columns: minmax(0, 1fr); max-width: 460px; gap: 26px; }
   }
 
-  /* Culture › say it like a local */
+  /* Culture › member card band */
   .culture-words { background: var(--grain), var(--beige); padding-top: 48px; }
-  .words-head h3 { font-size: clamp(22px, 2.6vw, 30px); font-weight: 900; line-height: 1.12; margin-bottom: 12px; }
-  .country-filter { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 30px; }
-  .country-chip {
-    min-height: 44px; padding: 0 16px;
-    border: 2px solid var(--ink); border-radius: 3px;
-    background: var(--cream); color: var(--ink);
-    font-family: var(--font); font-size: 15px; font-weight: 700; cursor: pointer;
-  }
-  .country-chip:nth-child(odd) { transform: rotate(-1.5deg); }
-  .country-chip:nth-child(even) { transform: rotate(1.2deg); }
-  .country-chip[aria-pressed="true"] { background: var(--ink); color: var(--beige); }
-  .word-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 18px; }
-  .word-card { height: 180px; padding: 0; border: 0; background: none; font: inherit; color: inherit; text-align: left; cursor: pointer; perspective: 1000px; filter: var(--shadow); }
-  .word-card[hidden] { display: none; }
-  .word-card:nth-child(4n+1) { transform: rotate(-1.2deg); }
-  .word-card:nth-child(4n+3) { transform: rotate(1deg); }
-  .word-inner { display: block; position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform .5s ease; }
-  .word-card[aria-pressed="true"] .word-inner { transform: rotateY(180deg); }
-  .word-face { position: absolute; inset: 0; padding: 18px; display: flex; flex-direction: column; -webkit-backface-visibility: hidden; backface-visibility: hidden; clip-path: var(--cut-2); }
-  .word-front { background: var(--grain), var(--crumple), var(--cream); }
-  .word-card:nth-child(3n+2) .word-front { background: var(--grain), var(--crumple), var(--pink-soft); }
-  .word-card:nth-child(3n) .word-front { background: var(--grain), var(--crumple), var(--peach); }
-  .word-back { background: var(--grain), var(--ink); color: var(--beige); transform: rotateY(180deg); }
-  .word-country { font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--ink); }
-  .word-term { font-weight: 900; font-variation-settings: 'wdth' 96; font-size: clamp(22px, 2vw, 28px); line-height: 1.05; margin-top: 8px; }
-  .word-hint { margin-top: auto; font-size: 13px; font-weight: 600; color: var(--ink-muted); }
-  .word-say { font-size: 13px; color: var(--pink); font-weight: 700; letter-spacing: .04em; }
-  .word-meaning { font-size: 15px; line-height: 1.45; margin-top: 8px; }
-  .word-aussie { margin-top: auto; padding-top: 12px; border-top: 1px solid rgba(246,233,215,.35); font-size: 14px; }
-  .word-aussie strong { color: var(--pink-soft); }
-  .words-foot { font-size: 15px; color: var(--ink-soft); margin-top: 24px; }
-  @media (max-width: 600px) {
-    .word-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
-    .word-card { height: 148px; }
-    .word-face { padding: 14px; }
-    .word-term { font-size: 20px; font-variation-settings: 'wdth' 80; }
-    .word-meaning { font-size: 14px; }
-    .word-aussie { font-size: 13px; }
-  }
 
   /* ---------- Events ---------- */
   .events { background: var(--grain), var(--pink-soft); }
@@ -682,7 +643,6 @@
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     *, *::before, *::after { transition-duration: 0.01ms !important; }
-    .word-inner { transition: none; }
   }
 
 /* ---------- sub-pages (kitchen.html, join.html) ---------- */
@@ -692,3 +652,55 @@
 .page-cta-text { font-size: clamp(19px, 2.2vw, 24px); font-weight: 900; max-width: 32ch; }
 @media (max-width: 680px) { .page-top { padding-top: 32px; } .page-cta .btn { width: 100%; } }
 .main-nav a[aria-current="page"]::after { transform: scaleX(1); }
+
+/* ---------- Culture › member card on a lanyard (preview) ---------- */
+.member-block { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 24px; align-items: center; margin-top: 52px; }
+.member-title { font-size: clamp(22px, 2.6vw, 30px); font-weight: 900; line-height: 1.12; margin-bottom: 12px; }
+.member-copy p { font-size: 16px; max-width: 46ch; color: var(--ink-soft); }
+.member-copy .member-note { font-size: 14px; margin: 10px 0 18px; font-weight: 600; }
+.lanyard { position: relative; height: 600px; overflow: hidden; user-select: none; -webkit-user-select: none; }
+.lanyard canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; pointer-events: none; }
+.ly-card { position: absolute; left: 0; top: 0; transform-origin: 50% 0; cursor: grab; touch-action: none; will-change: transform; --s: 1; }
+.ly-card:focus-visible { outline: 3px solid var(--ink); outline-offset: 6px; border-radius: 6px; }
+.ly-clip {
+  position: absolute; left: 50%; top: 0; z-index: 2;
+  width: calc(var(--s) * 18px); height: calc(var(--s) * 36px); transform: translateX(-50%);
+  border-radius: calc(var(--s) * 5px);
+  background: linear-gradient(90deg, var(--beige), rgba(26,23,20,.55) 50%, var(--beige));
+  box-shadow: 0 1px 3px rgba(0,0,0,.35);
+}
+.ly-inner { position: absolute; left: 0; right: 0; transform-style: preserve-3d; }
+.ly-face {
+  position: absolute; inset: 0; overflow: hidden;
+  border-radius: calc(var(--s) * 12px);
+  backface-visibility: hidden; -webkit-backface-visibility: hidden;
+  box-shadow: 0 18px 40px -12px rgba(0,0,0,.45), 0 2px 6px rgba(0,0,0,.2);
+  font-size: calc(var(--s) * 16px);
+}
+/* punched slot + light sweep / edge dimming driven by --ly-shine / --ly-dim */
+.ly-face::before { content: ""; position: absolute; z-index: 4; top: calc(var(--s) * 12px); left: 50%; width: 20%; height: calc(var(--s) * 8px); transform: translateX(-50%); border-radius: 999px; background: rgba(0,0,0,.28); box-shadow: inset 0 1px 2px rgba(0,0,0,.5); }
+.ly-face::after { content: ""; position: absolute; inset: 0; z-index: 5; pointer-events: none; background: linear-gradient(105deg, transparent 35%, rgba(255,255,255,.28) 50%, transparent 65%) var(--ly-shine, 50%) 0 / 250% 100% no-repeat, rgba(0,0,0,var(--ly-dim, 0)); }
+.ly-front { background: var(--grain), var(--crumple), var(--beige); color: var(--ink); }
+.ly-back { background: var(--grain), var(--crumple), var(--beige); color: var(--ink); transform: rotateY(180deg); }
+.ly-sun { position: absolute; display: block; color: var(--red); }
+.ly-sun svg { width: 100%; height: 100%; display: block; }
+.ly-sun-a { width: 19em; height: 19em; right: -8em; bottom: -6em; opacity: .9; }
+.ly-sun-c { width: 9em; height: 9em; right: -2.4em; top: 1.8em; color: var(--pink); }
+.ly-sun-d { width: 14em; height: 14em; left: -2em; top: -3.5em; color: var(--red); opacity: .9; }
+.ly-head { position: absolute; left: 1.2em; right: 1.2em; top: 2.4em; display: flex; gap: .6em; align-items: center; }
+.ly-head img { width: 2.6em; height: 2.6em; }
+.ly-brand { font-weight: 900; font-size: 1.45em; line-height: 1; }
+.ly-sub { font-size: .52em; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; margin-top: .4em; }
+.ly-band { position: absolute; left: -.4em; right: 2.4em; top: 7.6em; padding: .45em 1.2em .5em 1.6em; background: var(--pink); color: var(--ink); font-weight: 900; font-size: 1.05em; transform: rotate(-3deg); clip-path: var(--cut-3); }
+.ly-kind { position: absolute; left: calc(var(--s) * 20px); bottom: calc(var(--s) * 22px); font-weight: 900; font-size: 2.3em; line-height: .95; text-transform: uppercase; font-variation-settings: 'wdth' 80; }
+.ly-fields { position: absolute; left: 1.4em; right: 1.4em; top: 3.6em; }
+.ly-label { font-size: .55em; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; opacity: .75; }
+.ly-name { font-weight: 900; font-size: 1.3em; line-height: 1.05; margin: .15em 0 .9em; text-transform: uppercase; }
+.ly-role { font-weight: 800; font-size: .95em; margin-top: .15em; }
+.ly-foot { position: absolute; left: 0; right: 0; bottom: 0; height: 42%; background: var(--grain), var(--ink); color: var(--beige); border-top-left-radius: 2.6em; overflow: hidden; }
+.ly-foot-text { position: absolute; right: 1.2em; bottom: 1em; font-weight: 800; font-size: .7em; letter-spacing: .12em; text-transform: uppercase; }
+@media (max-width: 860px) {
+  .member-block { grid-template-columns: minmax(0, 1fr); gap: 4px; margin-top: 40px; }
+  .lanyard { height: 540px; }
+}
+.member-block--solo { margin-top: 0; }
