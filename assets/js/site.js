@@ -228,21 +228,24 @@ var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
   var FONT = "'Archivo', system-ui, sans-serif";
   var STRAP = { color: RED, ink: BEIGE, text: 'more than people', label: 'SOLUBFOOD · GOLD COAST' };
 
-  // Latin sun: rings, sixteen alternating straight and wavy rays (SVG for the card faces)
-  function sunSVG() {
-    var rays = '';
-    for (var i = 0; i < 16; i++) {
-      var a = i * 22.5;
-      rays += i % 2
-        ? '<path d="M0 -44 Q-9 -56 0 -66 Q9 -76 0 -88" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" transform="rotate(' + a + ')"/>'
-        : '<path d="M-8 -44 L0 -96 L8 -44 Z" fill="currentColor" transform="rotate(' + a + ')"/>';
-    }
-    return '<svg viewBox="-100 -100 200 200" aria-hidden="true">' + rays +
-      '<circle r="38" fill="none" stroke="currentColor" stroke-width="5"/><circle r="27" fill="currentColor"/>' +
-      '<circle cx="-9" cy="-5" r="3.2" fill="' + BEIGE + '"/><circle cx="9" cy="-5" r="3.2" fill="' + BEIGE + '"/>' +
-      '<path d="M-10 9 Q0 17 10 9" fill="none" stroke="' + BEIGE + '" stroke-width="3.2" stroke-linecap="round"/></svg>';
+  // Front = the member's country (every card different); back = the same for everyone.
+  // Preview: a visitor can try their own country; nothing is stored. With accounts, this comes from the profile.
+  var fromEl = document.getElementById('lyFrom');
+  var countrySel = document.getElementById('lyCountry');
+  function fitCountry() {
+    if (!fromEl) return;
+    fromEl.style.fontSize = '';
+    var em = 2.65;
+    while (fromEl.scrollWidth > fromEl.clientWidth + 1 && em > 1.1) { em -= 0.05; fromEl.style.fontSize = em.toFixed(2) + 'em'; }
   }
-  root.querySelectorAll('.ly-sun').forEach(function (el) { el.innerHTML = sunSVG(); });
+  if (countrySel && fromEl) {
+    countrySel.addEventListener('change', function () {
+      fromEl.textContent = countrySel.value || '[Your country]';
+      fitCountry();
+      if (spinTarget !== 0) flip(); // show the front, where the country is
+      card.setAttribute('aria-label', 'SolubFood member card' + (countrySel.value ? ' from ' + countrySel.value : '') + '. Drag to swing it, press Enter to flip it over.');
+    });
+  }
 
   // ---- physics -------------------------------------------------------------
   function integrate(pts, dt, g, damping) {
@@ -494,15 +497,15 @@ var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
   function wake() { if (!raf) { last = performance.now(); raf = requestAnimationFrame(tick); } }
 
   spinTarget = 0; spin.a = 0;
-  build(); draw(); place(); wake();
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { build(); draw(); place(); });
+  build(); draw(); place(); wake(); fitCountry();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { build(); draw(); place(); fitCountry(); });
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(function (en) { visible = en[0].isIntersecting; if (visible) wake(); }).observe(root);
   }
   if ('ResizeObserver' in window) {
     new ResizeObserver(function () {
       if (Math.abs(root.clientWidth - W) < 1 && Math.abs(root.clientHeight - H) < 1) return;
-      build(); draw(); place();
+      build(); draw(); place(); fitCountry();
     }).observe(root);
   }
 })();

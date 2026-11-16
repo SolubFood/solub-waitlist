@@ -680,25 +680,22 @@
 /* punched slot + light sweep / edge dimming driven by --ly-shine / --ly-dim */
 .ly-face::before { content: ""; position: absolute; z-index: 4; top: calc(var(--s) * 12px); left: 50%; width: 20%; height: calc(var(--s) * 8px); transform: translateX(-50%); border-radius: 999px; background: rgba(0,0,0,.28); box-shadow: inset 0 1px 2px rgba(0,0,0,.5); }
 .ly-face::after { content: ""; position: absolute; inset: 0; z-index: 5; pointer-events: none; background: linear-gradient(105deg, transparent 35%, rgba(255,255,255,.28) 50%, transparent 65%) var(--ly-shine, 50%) 0 / 250% 100% no-repeat, rgba(0,0,0,var(--ly-dim, 0)); }
-.ly-front { background: var(--grain), var(--crumple), var(--beige); color: var(--ink); }
-.ly-back { background: var(--grain), var(--crumple), var(--beige); color: var(--ink); transform: rotateY(180deg); }
-.ly-sun { position: absolute; display: block; color: var(--red); }
-.ly-sun svg { width: 100%; height: 100%; display: block; }
-.ly-sun-a { width: 19em; height: 19em; right: -8em; bottom: -6em; opacity: .9; }
-.ly-sun-c { width: 9em; height: 9em; right: -2.4em; top: 1.8em; color: var(--pink); }
-.ly-sun-d { width: 14em; height: 14em; left: -2em; top: -3.5em; color: var(--red); opacity: .9; }
-.ly-head { position: absolute; left: 1.2em; right: 1.2em; top: 2.4em; display: flex; gap: .6em; align-items: center; }
-.ly-head img { width: 2.6em; height: 2.6em; }
-.ly-brand { font-weight: 900; font-size: 1.45em; line-height: 1; }
-.ly-sub { font-size: .52em; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; margin-top: .4em; }
-.ly-band { position: absolute; left: -.4em; right: 2.4em; top: 7.6em; padding: .45em 1.2em .5em 1.6em; background: var(--pink); color: var(--ink); font-weight: 900; font-size: 1.05em; transform: rotate(-3deg); clip-path: var(--cut-3); }
-.ly-kind { position: absolute; left: calc(var(--s) * 20px); bottom: calc(var(--s) * 22px); font-weight: 900; font-size: 2.3em; line-height: .95; text-transform: uppercase; font-variation-settings: 'wdth' 80; }
-.ly-fields { position: absolute; left: 1.4em; right: 1.4em; top: 3.6em; }
-.ly-label { font-size: .55em; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; opacity: .75; }
-.ly-name { font-weight: 900; font-size: 1.3em; line-height: 1.05; margin: .15em 0 .9em; text-transform: uppercase; }
-.ly-role { font-weight: 800; font-size: .95em; margin-top: .15em; }
-.ly-foot { position: absolute; left: 0; right: 0; bottom: 0; height: 42%; background: var(--grain), var(--ink); color: var(--beige); border-top-left-radius: 2.6em; overflow: hidden; }
-.ly-foot-text { position: absolute; right: 1.2em; bottom: 1em; font-weight: 800; font-size: .7em; letter-spacing: .12em; text-transform: uppercase; }
+.ly-front { background: var(--pink); color: var(--ink); display: flex; flex-direction: column; padding: 4.6em 1.4em 1.3em; }
+.ly-back { background: var(--grain), var(--ink); color: var(--beige); transform: rotateY(180deg); display: flex; flex-direction: column; padding: 6.6em 1.4em 1.4em; }
+/* front: "[country] ↓ Gold Coast", type only */
+.ly-from { color: var(--red); font-weight: 900; font-size: 2.65em; line-height: .95; letter-spacing: -.01em; overflow: hidden; overflow-wrap: normal; }
+.ly-arrow { font-weight: 300; font-size: 2em; line-height: 1; margin: .35em 0 .3em; }
+.ly-to { font-weight: 900; font-size: 2.65em; line-height: .95; letter-spacing: -.01em; }
+.ly-bottom { margin-top: auto; display: flex; justify-content: space-between; align-items: baseline; gap: .6em; padding-top: .75em; border-top: 1.2px solid currentColor; }
+.ly-back .ly-bottom { position: absolute; left: 1.4em; right: 1.4em; bottom: 1.4em; border-top: 0; }
+.ly-name { font-weight: 800; font-size: .85em; }
+.ly-cap { font-size: .5em; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; }
+/* back: the same for everyone */
+.ly-story { font-weight: 300; font-size: 1.65em; line-height: 1.12; }
+.ly-rule { width: 2em; height: 3px; background: var(--red); margin: 1.1em 0 1em; flex: none; }
+.ly-community { font-weight: 800; font-size: 1.05em; line-height: 1.2; }
+.ly-coords { color: var(--pink); }
+.ly-country { max-width: 300px; margin: 16px 0 4px; }
 @media (max-width: 860px) {
   .member-block { grid-template-columns: minmax(0, 1fr); gap: 4px; margin-top: 40px; }
   .lanyard { height: 540px; }

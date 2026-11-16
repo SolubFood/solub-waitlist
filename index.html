@@ -304,8 +304,10 @@
 
   <div class="culture-words band">
     <div class="wrap">
-      <!-- Member card (lanyard). Preview only: when SolubFood accounts exist, the back shows the signed-in
-           member's name and details. Physics + strap are drawn by memberBadge() in assets/js/site.js. -->
+      <!-- Member card (lanyard). Front: the member's nationality → Gold Coast, so every front is different.
+           Back: the same for everyone ("This is your story / We are all a community").
+           Preview only: when accounts exist, the country and name come from the member's account.
+           Physics + strap are drawn by memberBadge() in assets/js/site.js. -->
       <div class="member-block member-block--solo">
         <div class="member-copy">
           <div class="eyebrow">Culture · Member card</div>
@@ -313,8 +315,19 @@
             <span class="strip paper p-ink tape-l" style="--rot:-1.4deg">Your</span>
             <span class="strip paper p-pink cut-2" style="--rot:1deg">SolubFood card.</span>
           </h3>
-          <p>When member accounts open, every member gets a SolubFood card with their name on it. Drag it, give it a spin, or tap it to flip it over.</p>
-          <p class="member-note">[Preview: member accounts and personal details are coming soon.]</p>
+          <p>Every card starts with where you come from, so no two fronts are the same. Turn it over and every back says the same thing: this is your story, and we are all a community.</p>
+          <div class="field ly-country">
+            <label for="lyCountry">Try it with your country</label>
+            <select id="lyCountry" aria-controls="memberBadge">
+              <option value="">Choose a country</option>
+              <option>Argentina</option><option>Bolivia</option><option>Brasil</option><option>Chile</option>
+              <option>Colombia</option><option>Costa Rica</option><option>Cuba</option><option>Ecuador</option>
+              <option>El Salvador</option><option>Guatemala</option><option>Honduras</option><option>México</option>
+              <option>Nicaragua</option><option>Panamá</option><option>Paraguay</option><option>Perú</option>
+              <option>Puerto Rico</option><option>República Dominicana</option><option>Uruguay</option><option>Venezuela</option>
+            </select>
+          </div>
+          <p class="member-note">[Preview: member accounts are coming soon. Your country and name will come from your account. Nothing you pick here is saved.]</p>
           <button type="button" class="btn btn-ink ly-flip" aria-pressed="false" aria-controls="memberBadge">Show back</button>
         </div>
         <div class="lanyard" id="memberBadge">
@@ -323,29 +336,16 @@
             <div class="ly-clip" aria-hidden="true"></div>
             <div class="ly-inner">
               <div class="ly-face ly-front">
-                <span class="ly-sun ly-sun-a" aria-hidden="true"></span>
-                <div class="ly-head">
-                  <img src="assets/img/solubfood-logo.svg" alt="" width="40" height="40">
-                  <div>
-                    <div class="ly-brand">SolubFood</div>
-                    <div class="ly-sub">Latin America · Gold Coast</div>
-                  </div>
-                </div>
-                <div class="ly-band">More than people.</div>
-                <div class="ly-kind">Member<br>card</div>
+                <div class="ly-from" id="lyFrom">[Your country]</div>
+                <div class="ly-arrow" aria-hidden="true">↓</div>
+                <div class="ly-to">Gold<br>Coast</div>
+                <div class="ly-bottom"><span class="ly-name">[Your Name]</span><span class="ly-cap">SolubFood</span></div>
               </div>
               <div class="ly-face ly-back">
-                <span class="ly-sun ly-sun-c" aria-hidden="true"></span>
-                <div class="ly-fields">
-                  <div class="ly-label">Name</div>
-                  <div class="ly-name">[Your name]</div>
-                  <div class="ly-label">Member</div>
-                  <div class="ly-role">Founding Member</div>
-                </div>
-                <div class="ly-foot">
-                  <span class="ly-sun ly-sun-d" aria-hidden="true"></span>
-                  <div class="ly-foot-text">solubfood.com</div>
-                </div>
+                <div class="ly-story">This is<br>your story</div>
+                <div class="ly-rule" aria-hidden="true"></div>
+                <div class="ly-community">We are all<br>a community.</div>
+                <div class="ly-bottom"><span class="ly-cap">SolubFood</span><span class="ly-cap ly-coords">−28.01° · 153.40°</span></div>
               </div>
             </div>
           </div>
