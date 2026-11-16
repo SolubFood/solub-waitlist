@@ -307,18 +307,20 @@ var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     });
   }
   showCountry('');
-  // Every country in the world: Latin America first, then everyone else, A–Z.
+  // Every country in the world, one A–Z list grouped by first letter (no country is set apart).
   fetch('assets/data/solubcard/countries.json').then(function (r) { return r.ok ? r.json() : null; }).then(function (list) {
     if (!list) return;
-    var latam = '', world = '';
+    var groups = {}, order = [];
     list.forEach(function (c) {
       NAMES[c[0]] = c[1];
-      var opt = '<option value="' + c[0] + '">' + c[1].replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</option>';
-      if (c[2] === 'latam') latam += opt; else world += opt;
+      var letter = c[1].normalize('NFD').charAt(0).toUpperCase();
+      if (!groups[letter]) { groups[letter] = ''; order.push(letter); }
+      groups[letter] += '<option value="' + c[0] + '">' + c[1].replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</option>';
     });
     if (countrySel) {
       var keep = countrySel.value;
-      countrySel.innerHTML = '<option value="">Choose your country</option><optgroup label="Latin America">' + latam + '</optgroup><optgroup label="All countries">' + world + '</optgroup>';
+      countrySel.innerHTML = '<option value="">Choose your country</option>' +
+        order.map(function (l) { return '<optgroup label="' + l + '">' + groups[l] + '</optgroup>'; }).join('');
       countrySel.value = keep;
     }
   }).catch(function () {});
