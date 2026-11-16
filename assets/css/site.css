@@ -713,11 +713,11 @@
 @media (max-width: 900px) { .solubcard .lanyard { height: 500px; } }
 
 /* =================================================================
-   TEST — the site sits ON a Latin-culture collage.
+   Site background — the site sits ON a Latin-culture collage (assets/img/bg/latam-collage.webp).
    The collage is shown at full strength (no veil). Each section becomes a
    torn paper sheet taped onto it, with gaps so the collage shows around
    every sheet — the same cut-paper language as the rest of the site.
-   Only active with <body class="bg-test">; remove the class to go back.
+   Active with <body class="bg-test"> on each page; remove that class (and the .bg-collage div) to switch it off.
    ================================================================= */
 .bg-collage { display: none; }
 .bg-test .bg-collage {
