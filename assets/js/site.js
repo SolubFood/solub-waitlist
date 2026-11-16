@@ -228,22 +228,104 @@ var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
   var FONT = "'Archivo', system-ui, sans-serif";
   var STRAP = { color: RED, ink: BEIGE, text: 'more than people', label: 'SOLUBFOOD · GOLD COAST' };
 
-  // Front = the member's country (every card different); back = the same for everyone.
-  // Preview: a visitor can try their own country; nothing is stored. With accounts, this comes from the profile.
+  // ---- SolubCard front ------------------------------------------------------
+  // Same for every member (the community): the cream card and its pink hairline drawings.
+  // Different for every member: their country's shape as contour lines, its real flag, the country and their name.
+  // Shapes come from assets/data/solubcard-countries.json (built by tools/build-card-data.js from Natural Earth).
+  // Preview: a visitor can try any country; nothing is stored. With accounts, the country and name come from the profile.
+  var artEl = document.getElementById('lyArt');
+  var flagEl = document.getElementById('lyFlag');
   var fromEl = document.getElementById('lyFrom');
   var countrySel = document.getElementById('lyCountry');
+  var SHAPES = null;
+
+  // Flags in their real colours, simplified to read at badge size (viewBox 30 x 20).
+  function stripesH(cols, w) { var y = 0, t = (w || cols.map(function () { return 1; })).reduce(function (a, b) { return a + b; }, 0); return cols.map(function (c, i) { var h = 20 * (w ? w[i] : 1) / t, r = '<rect y="' + y.toFixed(2) + '" width="30" height="' + (h + .05).toFixed(2) + '" fill="' + c + '"/>'; y += h; return r; }).join(''); }
+  function stripesV(cols) { return cols.map(function (c, i) { return '<rect x="' + (i * 10) + '" width="10.05" height="20" fill="' + c + '"/>'; }).join(''); }
+  function star(cx, cy, r, fill) { var p = []; for (var i = 0; i < 10; i++) { var a = -Math.PI / 2 + i * Math.PI / 5, rr = i % 2 ? r * .4 : r; p.push((cx + Math.cos(a) * rr).toFixed(2) + ' ' + (cy + Math.sin(a) * rr).toFixed(2)); } return '<path d="M' + p.join('L') + 'Z" fill="' + fill + '"/>'; }
+  var FLAG = {
+    ar: stripesH(['#74ACDF', '#FFFFFF', '#74ACDF']) + '<circle cx="15" cy="10" r="2.3" fill="#F6B40E"/>',
+    bo: stripesH(['#D52B1E', '#F9E300', '#007934']),
+    br: '<rect width="30" height="20" fill="#009C3B"/><path d="M15 2.5 L27.5 10 L15 17.5 L2.5 10 Z" fill="#FFDF00"/><circle cx="15" cy="10" r="4.2" fill="#002776"/><path d="M11 9.2 Q15 8.2 19 10.6" stroke="#FFFFFF" stroke-width=".7" fill="none"/>',
+    cl: '<rect width="30" height="10" fill="#FFFFFF"/><rect y="10" width="30" height="10" fill="#D52B1E"/><rect width="10" height="10" fill="#0039A6"/>' + star(5, 5, 2.6, '#FFFFFF'),
+    co: stripesH(['#FCD116', '#003893', '#CE1126'], [2, 1, 1]),
+    cr: stripesH(['#002B7F', '#FFFFFF', '#CE1126', '#FFFFFF', '#002B7F'], [1, 1, 2, 1, 1]),
+    cu: stripesH(['#002A8F', '#FFFFFF', '#002A8F', '#FFFFFF', '#002A8F']) + '<path d="M0 0 L13 10 L0 20 Z" fill="#CB1515"/>' + star(4.4, 10, 2.4, '#FFFFFF'),
+    ec: stripesH(['#FFD100', '#034EA2', '#ED1C24'], [2, 1, 1]) + '<circle cx="15" cy="10" r="2.4" fill="#8B5A2B"/>',
+    sv: stripesH(['#0F47AF', '#FFFFFF', '#0F47AF']) + '<circle cx="15" cy="10" r="1.8" fill="none" stroke="#C9A227" stroke-width=".6"/>',
+    gt: '<rect width="10" height="20" fill="#4997D0"/><rect x="10" width="10" height="20" fill="#FFFFFF"/><rect x="20" width="10" height="20" fill="#4997D0"/><circle cx="15" cy="10" r="2" fill="none" stroke="#3F8F2F" stroke-width=".7"/>',
+    hn: stripesH(['#00BCE4', '#FFFFFF', '#00BCE4']) + star(15, 10, 1, '#00BCE4') + star(11.6, 8.4, .9, '#00BCE4') + star(11.6, 11.6, .9, '#00BCE4') + star(18.4, 8.4, .9, '#00BCE4') + star(18.4, 11.6, .9, '#00BCE4'),
+    mx: stripesV(['#006847', '#FFFFFF', '#CE1126']) + '<circle cx="15" cy="10" r="2.1" fill="#8C5A2B"/>',
+    ni: stripesH(['#0067C6', '#FFFFFF', '#0067C6']) + '<path d="M13.4 11.2 L15 8.4 L16.6 11.2 Z" fill="none" stroke="#0067C6" stroke-width=".5"/>',
+    pa: '<rect width="30" height="20" fill="#FFFFFF"/><rect x="15" width="15" height="10" fill="#D21034"/><rect y="10" width="15" height="10" fill="#005293"/>' + star(7.5, 5, 2.3, '#005293') + star(22.5, 15, 2.3, '#D21034'),
+    py: stripesH(['#D52B1E', '#FFFFFF', '#0038A8']) + '<circle cx="15" cy="10" r="1.8" fill="none" stroke="#3F8F2F" stroke-width=".6"/>',
+    pe: stripesV(['#D91023', '#FFFFFF', '#D91023']),
+    pr: stripesH(['#ED0000', '#FFFFFF', '#ED0000', '#FFFFFF', '#ED0000']) + '<path d="M0 0 L13 10 L0 20 Z" fill="#0050F0"/>' + star(4.4, 10, 2.4, '#FFFFFF'),
+    do: '<rect width="30" height="20" fill="#FFFFFF"/><rect width="13" height="8.5" fill="#002D62"/><rect x="17" width="13" height="8.5" fill="#CE1126"/><rect y="11.5" width="13" height="8.5" fill="#CE1126"/><rect x="17" y="11.5" width="13" height="8.5" fill="#002D62"/><circle cx="15" cy="10" r="1.2" fill="#00843D"/>',
+    uy: stripesH(['#FFFFFF', '#0038A8', '#FFFFFF', '#0038A8', '#FFFFFF', '#0038A8', '#FFFFFF', '#0038A8', '#FFFFFF']) + '<rect width="11" height="11.2" fill="#FFFFFF"/><circle cx="5.5" cy="5.6" r="2.6" fill="#FCD116"/>',
+    ve: stripesH(['#FFCC00', '#00247D', '#CF142B']) + [0, 1, 2, 3, 4, 5, 6, 7].map(function (i) { var a = Math.PI * (1.12 + i * .108); return star(15 + Math.cos(a) * 4.6, 12.4 + Math.sin(a) * 4.6, .6, '#FFFFFF'); }).join('')
+  };
+  function flagSVG(code) { return FLAG[code] ? '<svg viewBox="0 0 30 20" preserveAspectRatio="none">' + FLAG[code] + '</svg>' : ''; }
+
+  // The shared hairline drawings (identical on every card).
+  var HAIR = '<g fill="none" stroke="#E688B7" stroke-width="1.15" stroke-linecap="round" stroke-linejoin="round">' +
+    '<path d="M68 31 Q120 41 172 31"/>' +
+    [0, 1, 2, 3].map(function (i) { var x = 75 + i * 24, y = 32 + Math.sin((i + .5) / 4 * Math.PI) * 4; return '<path d="M' + x + ' ' + y + ' h18 v16 l-3 2 l-3 -2 l-3 2 l-3 -2 l-3 2 l-3 -2 Z"/><circle cx="' + (x + 9) + '" cy="' + (y + 7) + '" r="3"/>'; }).join('') +
+    '<g transform="translate(212 66)"><circle r="11"/>' + [0,1,2,3,4,5,6,7,8,9,10,11].map(function (i) { return '<line x1="0" y1="-15" x2="0" y2="' + (i % 2 ? -19 : -22) + '" transform="rotate(' + i * 30 + ')"/>'; }).join('') + '<path d="M-4 3 Q0 6 4 3"/><circle cx="-4" cy="-3" r=".6"/><circle cx="4" cy="-3" r=".6"/></g>' +
+    '<g transform="translate(22 92) rotate(-12)"><path d="M0 0 L9 11 L0 24 L-9 11 Z M-9 11 H9 M0 0 V24"/><path d="M0 24 q4 8 -2 16 q-5 8 2 16"/></g>' +
+    '<g transform="translate(206 120)"><circle r="12"/><path d="M-6 -4 l10 -4 M-7 1 l12 -5 M-5 6 l10 -4"/></g>' +
+    '<g transform="translate(200 166)"><path d="M0 10 Q-3 34 13 37 Q29 34 26 10 Z"/><ellipse cx="13" cy="10" rx="13" ry="3.5"/><path d="M17 8 L27 -14 M24 -14 h6"/></g>' +
+    '<g transform="translate(26 206)"><ellipse rx="17" ry="7"/><path d="M-17 0 v4 Q0 14 17 4 V0"/><circle cx="-6" cy="-1" r=".9"/><circle cx="5" cy="-2" r=".9"/></g>' +
+    '<g transform="translate(196 240) rotate(-14)"><path d="M0 14 Q17 -10 34 14 Z"/><path d="M5 11 l2 -2 M10 5 l2 -2 M17 2 l2 1 M24 4 l2 2 M28 9 l2 2"/></g>' +
+    '<g transform="translate(24 256)"><circle r="12"/><path d="M-6 3 q6 4 12 0"/><circle cx="-3" cy="-3" r=".8"/><circle cx="3" cy="-4" r=".8"/></g>' +
+    '</g>';
+
+  // Card artwork as one SVG image: drawn once per country, so the card's animation never repaints it.
+  function artSVG(c) {
+    var map = '';
+    if (c && c.d) {
+      var step = 4, rings = '';
+      for (var k = 14; k >= 1; k--) {
+        rings += '<path d="' + c.d + '" stroke="#E74426" stroke-width="' + (2 * k * step) + '"/><path d="' + c.d + '" stroke="#F6E9D7" stroke-width="' + (2 * k * step - 1.3) + '"/>';
+      }
+      map = '<defs><clipPath id="c"><path d="' + c.d + '"/></clipPath>' +
+        '<filter id="w" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="4.5"/></filter></defs>' +
+        '<path d="' + c.d + '" fill="#F6E9D7"/>' +
+        '<g clip-path="url(#c)"><g filter="url(#w)" fill="none" stroke-linejoin="round">' + rings + '</g></g>' +
+        '<path d="' + c.d + '" fill="none" stroke="#E74426" stroke-width="1.1" stroke-linejoin="round"/>' +
+        (c.cap ? '<circle cx="' + c.cap[0] + '" cy="' + c.cap[1] + '" r="2.8" fill="#1A1714"/>' : '');
+    }
+    return '<svg xmlns="http://www.w3.org/2000/svg" width="480" height="720" viewBox="0 0 240 360"><rect width="240" height="360" fill="#F6E9D7"/>' + HAIR + map + '</svg>';
+  }
+  // One line if the name fits at a good size; very long names (República Dominicana) go to two lines.
   function fitCountry() {
     if (!fromEl) return;
-    fromEl.style.fontSize = '';
-    var em = 2.65;
+    var em = 2.5;
+    fromEl.style.whiteSpace = 'nowrap'; fromEl.style.fontSize = '';
+    while (fromEl.scrollWidth > fromEl.clientWidth + 1 && em > 1.75) { em -= 0.05; fromEl.style.fontSize = em.toFixed(2) + 'em'; }
+    if (fromEl.scrollWidth <= fromEl.clientWidth + 1) return;
+    fromEl.style.whiteSpace = 'normal'; em = 2.1; fromEl.style.fontSize = em + 'em';
     while (fromEl.scrollWidth > fromEl.clientWidth + 1 && em > 1.1) { em -= 0.05; fromEl.style.fontSize = em.toFixed(2) + 'em'; }
   }
-  if (countrySel && fromEl) {
+  function showCountry(code) {
+    var c = SHAPES && (SHAPES[code] || SHAPES.latam);
+    if (artEl) artEl.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(artSVG(c));
+    if (flagEl) flagEl.innerHTML = flagSVG(code);
+    if (flagEl) flagEl.style.display = FLAG[code] ? '' : 'none';
+    if (fromEl) fromEl.textContent = code && SHAPES && SHAPES[code] ? SHAPES[code].name : 'Your country';
+    fitCountry();
+    card.setAttribute('aria-label', 'SolubCard' + (code && SHAPES && SHAPES[code] ? ' from ' + SHAPES[code].name : '') + '. Drag to swing it, press Enter to flip it over.');
+  }
+  showCountry('');
+  fetch('assets/data/solubcard-countries.json').then(function (r) { return r.ok ? r.json() : null; }).then(function (data) {
+    if (!data) return;
+    SHAPES = data;
+    showCountry(countrySel ? countrySel.value : '');
+  }).catch(function () {});
+  if (countrySel) {
     countrySel.addEventListener('change', function () {
-      fromEl.textContent = countrySel.value || '[Your country]';
-      fitCountry();
+      showCountry(countrySel.value);
       if (spinTarget !== 0) flip(); // show the front, where the country is
-      card.setAttribute('aria-label', 'SolubCard' + (countrySel.value ? ' from ' + countrySel.value : '') + '. Drag to swing it, press Enter to flip it over.');
     });
   }
 
