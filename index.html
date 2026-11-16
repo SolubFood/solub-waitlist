@@ -332,53 +332,33 @@
   .js .reveal { opacity: 0; filter: blur(10px); transition: opacity .7s ease, filter .7s ease; transition-delay: calc(var(--i, 0) * .18s); }
   .js .hero-intro.is-visible .reveal { opacity: 1; filter: blur(0); }
 
-  /* ---------- scroll gallery: tilted collage that stands up as you scroll ----------
-     Same mechanics as the React "animated gallery": rotateX 75°→0° over the first half
-     of the scroll, scale 1.2→1 after it, and the three columns drift at different speeds.
-     Driven by --rx / --sc / --y, set from one small scroll handler (see galleryScroll()). */
-  .gallery-scroll { position: relative; height: 280vh; margin-top: -24px; }
-  .gallery-sticky { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; perspective: 1000px; perspective-origin: 50% 0%; }
-  .gallery-grid {
-    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px;
-    width: min(1180px, calc(100% - 32px)); margin: 0 auto; padding-top: 12px;
-    transform: rotateX(calc(var(--rx, 0) * 1deg)) scale(var(--sc, 1));
-    transform-style: preserve-3d;
-    will-change: transform;
+  /* ---------- scroll stage for the home loop ----------
+     Same method as the "animated gallery": the card starts tilted back (rotateX 75°) and stands up
+     as you scroll; while it's pinned, the scroll itself moves the four icons along the belts and
+     into the home. Driven by --rx / --sc and per-icon transforms from loopScroll() below. */
+  .loop-scroll { position: relative; height: 300vh; margin-top: -10px; }
+  .loop-sticky {
+    position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    padding-top: 64px;
+    perspective: 1000px; perspective-origin: 50% 0%;
   }
-  .gallery-col { display: flex; flex-direction: column; gap: 16px; transform: translate3d(0, var(--y, 0%), 0); will-change: transform; }
-  .gallery-col.mid { margin-top: -50%; }
-  .g-item {
-    position: relative; margin: 0; padding: 7px;
-    background: var(--beige);
-    box-shadow: 0 2px 3px rgba(26,23,20,.25), 0 14px 24px -14px rgba(26,23,20,.7);
-    transform: rotate(var(--gr, 0deg));
-  }
-  .g-item:nth-child(4n+1) { --gr: -1.4deg; }
-  .g-item:nth-child(4n+2) { --gr: 1.1deg; }
-  .g-item:nth-child(4n+3) { --gr: -.6deg; }
-  .g-item:nth-child(4n) { --gr: 1.6deg; }
-  .g-item img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; }
-  .g-item.tape::after { top: -11px; width: 70px; left: calc(50% - 35px); height: 24px; }
-  .gallery-scroll.is-static { height: auto; margin-top: 24px; padding-bottom: 40px; }
-  .gallery-scroll.is-static .gallery-sticky { position: static; height: auto; overflow: visible; }
-  .gallery-scroll.is-static .gallery-grid { transform: none; }
-  .gallery-scroll.is-static .gallery-col { transform: none; }
-  .gallery-scroll.is-static .gallery-col.mid { margin-top: 0; }
+  .loop-stage { transform: rotateX(calc(var(--rx, 0) * 1deg)) scale(var(--sc, 1)); transform-origin: 50% 30%; will-change: transform; }
+  .loop-scroll .loop { --rot: 1.2deg; width: min(92vw, calc(100svh - 190px), 640px); padding: 14px 14px 12px; }
+  .loop-scroll .loop-svg { max-width: none; }
+  .loop-scroll.is-static { height: auto; padding: 32px 0 72px; }
+  .loop-scroll.is-static .loop-sticky { position: static; height: auto; padding-top: 0; overflow: visible; }
+  .loop-scroll.is-static .loop-stage { transform: none; }
+  /* scroll mode: the scroll, not the clock, moves things */
+  .loop.is-scroll .flow, .loop.is-scroll .it, .loop.is-scroll .home, .loop.is-scroll .burst { animation: none; }
   @media (max-width: 680px) {
-    .gallery-scroll { height: 200vh; }
-    .gallery-grid, .gallery-col { gap: 8px; }
-    .g-item img { aspect-ratio: 3 / 4; }
-    .gallery-grid { width: calc(100% - 20px); }
-    .g-item { padding: 4px; }
-    .g-item.tape::after { width: 44px; height: 16px; left: calc(50% - 22px); top: -7px; }
+    .loop-scroll { height: 240vh; }
+    .loop-scroll .loop { width: min(94vw, calc(100svh - 170px)); }
   }
-
-  /* ---------- loop band (right after the gallery) ---------- */
-  .loop-band { background: var(--grain), var(--red); padding: 8px 0 72px; position: relative; z-index: 4; }
-  .loop-band .loop { max-width: 470px; margin: 0 auto; }
 
   /* ---------- loop animation: everything comes home ---------- */
   .loop { --rot: 2deg; margin: 0; padding: 18px 18px 16px; transform: rotate(var(--rot)); }
+  .loop figcaption { transition: opacity .3s ease; }
   .loop-svg { display: block; width: 100%; height: auto; max-width: 460px; margin: 0 auto; }
   .loop figcaption { text-align: center; font-weight: 800; font-size: 18px; margin-top: 8px; font-variation-settings: 'wdth' 108; }
   .loop figcaption small { display: block; font-weight: 500; font-size: 13px; color: var(--ink-muted); font-variation-settings: 'wdth' 100; }
@@ -776,122 +756,96 @@
       <div class="reveal" style="--i:3"><p class="hero-fine paper p-beige cut-4"><strong>Founding Members:</strong> the first 250 people to join taste our food first and get free invites to our Latin tasting nights.</p></div>
   </div>
 
-  <!-- Scroll gallery: food and places from Latin America, using the project's own images. Swap the src/alt
-       to change a photo. Each column drifts at its own speed (data-y0 → data-y1, in % of its height). -->
-  <div class="gallery-scroll" id="galleryScroll">
-    <div class="gallery-sticky">
-      <div class="gallery-grid" aria-label="Latin American food and places">
-        <div class="gallery-col" data-y0="-10" data-y1="2">
-          <figure class="g-item tape"><img src="assets/img/posters/clip-2.jpg" alt="A spoon in a slice of tres leches cake topped with a strawberry" width="480" height="640"></figure>
-          <figure class="g-item"><img src="assets/img/paths-cl.jpg" alt="A snow-capped volcano at the end of a tree-lined road in southern Chile" width="320" height="420"></figure>
-          <figure class="g-item"><img src="assets/img/posters/clip-5.jpg" alt="A hand picking up a golden baked empanada" width="480" height="480" loading="lazy"></figure>
-          <figure class="g-item tape"><img src="assets/img/country-pe.jpg" alt="The ruins of Machu Picchu among green mountains, Peru" width="160" height="160" loading="lazy"></figure>
-        </div>
-        <div class="gallery-col mid" data-y0="15" data-y1="5">
-          <figure class="g-item"><img src="assets/img/posters/clip-3.jpg" alt="A hot dog piled with avocado, tomato and mayonnaise, Chilean completo style" width="480" height="360"></figure>
-          <figure class="g-item tape"><img src="assets/img/posters/clip-9.jpg" alt="A full plate of rice, beans, egg, chorizo, avocado and fried plantain" width="480" height="360"></figure>
-          <figure class="g-item"><img src="assets/img/paths-co.jpg" alt="A jeep with a Colombian flag in a green valley of wax palms, Colombia" width="320" height="420" loading="lazy"></figure>
-          <figure class="g-item"><img src="assets/img/posters/clip-6.jpg" alt="Alfajores dusted with coconut on a wooden board" width="480" height="362" loading="lazy"></figure>
-        </div>
-        <div class="gallery-col" data-y0="-10" data-y1="2">
-          <figure class="g-item"><img src="assets/img/posters/clip-4.jpg" alt="Hands holding bread filled with shredded beef" width="480" height="270"></figure>
-          <figure class="g-item tape"><img src="assets/img/country-ar.jpg" alt="Jagged Patagonian peaks at dusk, Argentina" width="160" height="160"></figure>
-          <figure class="g-item"><img src="assets/img/posters/clip-7.jpg" alt="A sandwich of crispy pork and pickled red onion" width="480" height="360" loading="lazy"></figure>
-          <figure class="g-item tape"><img src="assets/img/posters/clip-8.jpg" alt="Milanesa topped with ham and melted cheese" width="480" height="270" loading="lazy"></figure>
-        </div>
+  <div class="loop-scroll" id="loopScroll">
+    <div class="loop-sticky">
+      <div class="loop-stage">
+      <!-- Scroll-driven: the card stands up as you scroll and the chef's hat, truck, plate and mascot ride the belts into the home.
+           Without JS it plays as a 3-second loop. Icons are first sketches; the mascot is a placeholder. -->
+      <figure class="loop paper p-beige tape" id="homeLoop" aria-label="From our Latin cooks to your home">
+        <svg class="loop-svg" viewBox="0 0 400 400" role="img" aria-labelledby="loopTitle">
+          <title id="loopTitle">A chef's hat, a delivery truck, a plate of food and our mascot ride conveyor belts from four directions into a home in the centre.</title>
+          <defs>
+            <filter id="ps" x="-25%" y="-25%" width="150%" height="150%"><feDropShadow dx="0" dy="3" stdDeviation="2.4" flood-color="#1A1714" flood-opacity=".3"/></filter>
+          </defs>
+          <g filter="url(#ps)">
+            <rect class="belt" x="174" y="8" width="52" height="150" rx="9"/>
+            <rect class="belt" x="174" y="242" width="52" height="150" rx="9"/>
+            <rect class="belt" x="8" y="174" width="150" height="52" rx="9"/>
+            <rect class="belt" x="242" y="174" width="150" height="52" rx="9"/>
+          </g>
+          <path class="flow" d="M200 14 V150"/>
+          <path class="flow" d="M200 386 V250"/>
+          <path class="flow" d="M14 200 H150"/>
+          <path class="flow" d="M386 200 H250"/>
+          <path class="chev" d="M190 34 l10 10 l10 -10"/>
+          <path class="chev" d="M190 366 l10 -10 l10 10"/>
+          <path class="chev" d="M34 190 l10 10 l-10 10"/>
+          <path class="chev" d="M366 190 l-10 10 l10 10"/>
+
+          <g class="burst" aria-hidden="true">
+            <line x1="138" y1="138" x2="126" y2="126"/><line x1="262" y1="138" x2="274" y2="126"/>
+            <line x1="138" y1="268" x2="126" y2="280"/><line x1="262" y1="268" x2="274" y2="280"/>
+          </g>
+
+          <!-- home -->
+          <g class="home" filter="url(#ps)">
+            <rect x="226" y="146" width="14" height="30" fill="#1A1714"/>
+            <path d="M140 200 L200 142 L260 200 Z" fill="#1A1714" stroke="#1A1714" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M154 196 L246 194 L248 262 L152 264 Z" fill="#E74426" stroke="#1A1714" stroke-width="3" stroke-linejoin="round"/>
+            <rect x="188" y="222" width="26" height="41" fill="#F6E9D7" stroke="#1A1714" stroke-width="3"/>
+            <circle cx="208" cy="243" r="2.4" fill="#1A1714"/>
+            <rect x="164" y="208" width="18" height="18" fill="#E688B7" stroke="#1A1714" stroke-width="3"/>
+            <rect x="220" y="208" width="18" height="18" fill="#E688B7" stroke="#1A1714" stroke-width="3"/>
+          </g>
+
+          <!-- top: chef's hat -->
+          <g class="it" style="--dx:0; --dy:1">
+            <g filter="url(#ps)">
+              <circle cx="186" cy="94" r="14" fill="#F6E9D7" stroke="#1A1714" stroke-width="3"/>
+              <circle cx="214" cy="94" r="14" fill="#F6E9D7" stroke="#1A1714" stroke-width="3"/>
+              <circle cx="200" cy="84" r="17" fill="#F6E9D7" stroke="#1A1714" stroke-width="3"/>
+              <rect x="184" y="98" width="32" height="20" rx="3" fill="#F6E9D7" stroke="#1A1714" stroke-width="3"/>
+              <path d="M192 104 v8 M200 104 v8 M208 104 v8" stroke="#E688B7" stroke-width="2.5" stroke-linecap="round"/>
+            </g>
+          </g>
+
+          <!-- left: delivery truck -->
+          <g class="it" style="--dx:1; --dy:0">
+            <g filter="url(#ps)">
+              <rect x="70" y="182" width="38" height="28" rx="3" fill="#E688B7" stroke="#1A1714" stroke-width="3"/>
+              <path d="M108 190 h12 l8 9 v11 h-20 Z" fill="#E74426" stroke="#1A1714" stroke-width="3" stroke-linejoin="round"/>
+              <rect x="111" y="193" width="8" height="7" fill="#F6E9D7"/>
+              <circle cx="82" cy="212" r="6.5" fill="#1A1714"/><circle cx="82" cy="212" r="2.4" fill="#F6E9D7"/>
+              <circle cx="118" cy="212" r="6.5" fill="#1A1714"/><circle cx="118" cy="212" r="2.4" fill="#F6E9D7"/>
+            </g>
+          </g>
+
+          <!-- right: plate with an empanada -->
+          <g class="it" style="--dx:-1; --dy:0">
+            <g filter="url(#ps)">
+              <ellipse cx="300" cy="204" rx="30" ry="22" fill="#F6E9D7" stroke="#1A1714" stroke-width="3"/>
+              <ellipse cx="300" cy="204" rx="20" ry="14" fill="none" stroke="#E688B7" stroke-width="2.5"/>
+              <path d="M283 207 Q300 182 317 207 Z" fill="#E74426" stroke="#1A1714" stroke-width="3" stroke-linejoin="round"/>
+              <path d="M287 205 l3 -3 M293 199 l3 -3 M302 196 l3 2 M309 200 l3 3" stroke="#F6E9D7" stroke-width="2" stroke-linecap="round"/>
+            </g>
+          </g>
+
+          <!-- bottom: placeholder mascot with glasses -->
+          <g class="it" style="--dx:0; --dy:-1">
+            <g filter="url(#ps)">
+              <path d="M176 318 Q172 280 200 276 Q228 280 224 318 Q200 326 176 318 Z" fill="#E688B7" stroke="#1A1714" stroke-width="3" stroke-linejoin="round"/>
+              <circle cx="191" cy="296" r="8" fill="#F6E9D7" stroke="#1A1714" stroke-width="3"/>
+              <circle cx="209" cy="296" r="8" fill="#F6E9D7" stroke="#1A1714" stroke-width="3"/>
+              <path d="M199 296 h2" stroke="#1A1714" stroke-width="3"/>
+              <circle cx="192" cy="297" r="2.6" fill="#1A1714"/><circle cx="210" cy="297" r="2.6" fill="#1A1714"/>
+              <path d="M193 309 Q200 314 207 309" fill="none" stroke="#1A1714" stroke-width="2.6" stroke-linecap="round"/>
+            </g>
+          </g>
+        </svg>
+        <figcaption>From our Latin cooks to your home.<small>[Sketch: icons and mascot are placeholders]</small></figcaption>
+      </figure>
       </div>
     </div>
-  </div>
-</section>
-
-<section class="loop-band" aria-label="From our cooks to your home">
-  <div class="wrap">
-
-    <!-- 3-second loop: a chef's hat, a truck, a plate and the mascot ride four belts into a home.
-         Icons are first sketches; the mascot is a placeholder until the real character exists. -->
-    <figure class="loop paper p-beige tape" id="homeLoop">
-      <svg class="loop-svg" viewBox="0 0 400 400" role="img" aria-labelledby="loopTitle">
-        <title id="loopTitle">A chef's hat, a delivery truck, a plate of food and our mascot ride conveyor belts from four directions into a home in the centre.</title>
-        <defs>
-          <filter id="ps" x="-25%" y="-25%" width="150%" height="150%"><feDropShadow dx="0" dy="3" stdDeviation="2.4" flood-color="#1A1714" flood-opacity=".3"/></filter>
-        </defs>
-        <g filter="url(#ps)">
-          <rect class="belt" x="174" y="8" width="52" height="150" rx="9"/>
-          <rect class="belt" x="174" y="242" width="52" height="150" rx="9"/>
-          <rect class="belt" x="8" y="174" width="150" height="52" rx="9"/>
-          <rect class="belt" x="242" y="174" width="150" height="52" rx="9"/>
-        </g>
-        <path class="flow" d="M200 14 V150"/>
-        <path class="flow" d="M200 386 V250"/>
-        <path class="flow" d="M14 200 H150"/>
-        <path class="flow" d="M386 200 H250"/>
-        <path class="chev" d="M190 34 l10 10 l10 -10"/>
-        <path class="chev" d="M190 366 l10 -10 l10 10"/>
-        <path class="chev" d="M34 190 l10 10 l-10 10"/>
-        <path class="chev" d="M366 190 l-10 10 l10 10"/>
-
-        <g class="burst" aria-hidden="true">
-          <line x1="138" y1="138" x2="126" y2="126"/><line x1="262" y1="138" x2="274" y2="126"/>
-          <line x1="138" y1="268" x2="126" y2="280"/><line x1="262" y1="268" x2="274" y2="280"/>
-        </g>
-
-        <!-- home -->
-        <g class="home" filter="url(#ps)">
-          <rect x="226" y="146" width="14" height="30" fill="#1A1714"/>
-          <path d="M140 200 L200 142 L260 200 Z" fill="#1A1714" stroke="#1A1714" stroke-width="3" stroke-linejoin="round"/>
-          <path d="M154 196 L246 194 L248 262 L152 264 Z" fill="#E74426" stroke="#1A1714" stroke-width="3" stroke-linejoin="round"/>
-          <rect x="188" y="222" width="26" height="41" fill="#F6E9D7" stroke="#1A1714" stroke-width="3"/>
-          <circle cx="208" cy="243" r="2.4" fill="#1A1714"/>
-          <rect x="164" y="208" width="18" height="18" fill="#E688B7" stroke="#1A1714" stroke-width="3"/>
-          <rect x="220" y="208" width="18" height="18" fill="#E688B7" stroke="#1A1714" stroke-width="3"/>
-        </g>
-
-        <!-- top: chef's hat -->
-        <g class="it" style="--dx:0; --dy:1">
-          <g filter="url(#ps)">
-            <circle cx="186" cy="94" r="14" fill="#F6E9D7" stroke="#1A1714" stroke-width="3"/>
-            <circle cx="214" cy="94" r="14" fill="#F6E9D7" stroke="#1A1714" stroke-width="3"/>
-            <circle cx="200" cy="84" r="17" fill="#F6E9D7" stroke="#1A1714" stroke-width="3"/>
-            <rect x="184" y="98" width="32" height="20" rx="3" fill="#F6E9D7" stroke="#1A1714" stroke-width="3"/>
-            <path d="M192 104 v8 M200 104 v8 M208 104 v8" stroke="#E688B7" stroke-width="2.5" stroke-linecap="round"/>
-          </g>
-        </g>
-
-        <!-- left: delivery truck -->
-        <g class="it" style="--dx:1; --dy:0">
-          <g filter="url(#ps)">
-            <rect x="70" y="182" width="38" height="28" rx="3" fill="#E688B7" stroke="#1A1714" stroke-width="3"/>
-            <path d="M108 190 h12 l8 9 v11 h-20 Z" fill="#E74426" stroke="#1A1714" stroke-width="3" stroke-linejoin="round"/>
-            <rect x="111" y="193" width="8" height="7" fill="#F6E9D7"/>
-            <circle cx="82" cy="212" r="6.5" fill="#1A1714"/><circle cx="82" cy="212" r="2.4" fill="#F6E9D7"/>
-            <circle cx="118" cy="212" r="6.5" fill="#1A1714"/><circle cx="118" cy="212" r="2.4" fill="#F6E9D7"/>
-          </g>
-        </g>
-
-        <!-- right: plate with an empanada -->
-        <g class="it" style="--dx:-1; --dy:0">
-          <g filter="url(#ps)">
-            <ellipse cx="300" cy="204" rx="30" ry="22" fill="#F6E9D7" stroke="#1A1714" stroke-width="3"/>
-            <ellipse cx="300" cy="204" rx="20" ry="14" fill="none" stroke="#E688B7" stroke-width="2.5"/>
-            <path d="M283 207 Q300 182 317 207 Z" fill="#E74426" stroke="#1A1714" stroke-width="3" stroke-linejoin="round"/>
-            <path d="M287 205 l3 -3 M293 199 l3 -3 M302 196 l3 2 M309 200 l3 3" stroke="#F6E9D7" stroke-width="2" stroke-linecap="round"/>
-          </g>
-        </g>
-
-        <!-- bottom: placeholder mascot with glasses -->
-        <g class="it" style="--dx:0; --dy:-1">
-          <g filter="url(#ps)">
-            <path d="M176 318 Q172 280 200 276 Q228 280 224 318 Q200 326 176 318 Z" fill="#E688B7" stroke="#1A1714" stroke-width="3" stroke-linejoin="round"/>
-            <circle cx="191" cy="296" r="8" fill="#F6E9D7" stroke="#1A1714" stroke-width="3"/>
-            <circle cx="209" cy="296" r="8" fill="#F6E9D7" stroke="#1A1714" stroke-width="3"/>
-            <path d="M199 296 h2" stroke="#1A1714" stroke-width="3"/>
-            <circle cx="192" cy="297" r="2.6" fill="#1A1714"/><circle cx="210" cy="297" r="2.6" fill="#1A1714"/>
-            <path d="M193 309 Q200 314 207 309" fill="none" stroke="#1A1714" stroke-width="2.6" stroke-linecap="round"/>
-          </g>
-        </g>
-      </svg>
-      <figcaption>From our Latin cooks to your home.<small>[Sketch: icons and mascot are placeholders]</small></figcaption>
-    </figure>
   </div>
 </section>
 
@@ -1583,27 +1537,47 @@
     requestAnimationFrame(function () { requestAnimationFrame(function () { intro.classList.add('is-visible'); }); });
   })();
 
-  // Scroll gallery — same curve as framer-motion's useScroll({ target }) (progress 0 when the block's top
-  // enters the bottom of the screen, 1 when its bottom leaves the top). One rAF-throttled handler, no library.
-  (function galleryScroll() {
-    var box = document.getElementById('galleryScroll');
-    if (!box) return;
+  // Scroll-driven home loop. Progress uses the same curve as framer-motion's useScroll({ target }):
+  // 0 when the block's top enters the bottom of the screen, 1 when its bottom leaves the top.
+  // The card stands up (rotateX 75°→0°, scale 1.15→1); while it's pinned, the four icons ride in
+  // together and the home pops. One rAF-throttled handler, no library.
+  (function loopScroll() {
+    var box = document.getElementById('loopScroll');
+    var fig = document.getElementById('homeLoop');
+    if (!box || !fig) return;
     if (reduceMotion) { box.classList.add('is-static'); return; }
-    var grid = box.querySelector('.gallery-grid');
-    var cols = box.querySelectorAll('.gallery-col');
+    fig.classList.add('is-scroll');
+    var stage = box.querySelector('.loop-stage');
+    var items = fig.querySelectorAll('.it');
+    var home = fig.querySelector('.home');
+    var burst = fig.querySelector('.burst');
+    var flows = fig.querySelectorAll('.flow');
     var ticking = false;
-    function map(p, a, b, from, to) { var t = Math.min(1, Math.max(0, (p - a) / (b - a))); return from + (to - from) * t; }
+    function clamp(v) { return Math.min(1, Math.max(0, v)); }
+    function map(v, a, b, from, to) { return from + (to - from) * clamp((v - a) / (b - a)); }
+    function ease(t) { return t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; }
     function update() {
       ticking = false;
       var r = box.getBoundingClientRect();
       var vh = window.innerHeight;
       if (r.bottom < -50 || r.top > vh + 50) return;
-      var p = Math.min(1, Math.max(0, (vh - r.top) / (r.height + vh)));
-      grid.style.setProperty('--rx', map(p, 0, 0.5, 75, 0).toFixed(2));
-      grid.style.setProperty('--sc', map(p, 0.5, 0.9, 1.2, 1).toFixed(3));
-      cols.forEach(function (c) {
-        c.style.setProperty('--y', map(p, 0.5, 1, parseFloat(c.dataset.y0), parseFloat(c.dataset.y1)).toFixed(2) + '%');
+      var p = clamp((vh - r.top) / (r.height + vh));          // whole journey
+      var q = clamp(-r.top / Math.max(1, r.height - vh));     // while pinned
+      stage.style.setProperty('--rx', map(p, 0, 0.4, 75, 0).toFixed(2));
+      stage.style.setProperty('--sc', map(p, 0.25, 0.45, 1.15, 1).toFixed(3));
+      var ride = ease(clamp((q - 0.12) / 0.5));                // belts → front door
+      var enter = clamp((q - 0.66) / 0.14);                    // through the door
+      items.forEach(function (it) {
+        var dx = parseFloat(it.style.getPropertyValue('--dx')) || 0;
+        var dy = parseFloat(it.style.getPropertyValue('--dy')) || 0;
+        var off = -68 * (1 - ride) + 48 * enter;
+        it.style.transform = 'translate(' + (dx * off).toFixed(1) + 'px,' + (dy * off).toFixed(1) + 'px) scale(' + (1 - 0.7 * enter).toFixed(3) + ')';
+        it.style.opacity = (1 - enter).toFixed(3);
       });
+      var pop = Math.sin(Math.PI * clamp((q - 0.78) / 0.16));
+      home.style.transform = 'scale(' + (1 + 0.1 * pop).toFixed(3) + ') rotate(' + (-2 * pop).toFixed(2) + 'deg)';
+      burst.style.opacity = pop.toFixed(3);
+      flows.forEach(function (f) { f.style.strokeDashoffset = (-q * 216).toFixed(1); });
     }
     function request() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
     window.addEventListener('scroll', request, { passive: true });
