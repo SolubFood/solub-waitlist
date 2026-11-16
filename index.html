@@ -88,7 +88,8 @@
   .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
   .skip-link { position: absolute; left: 12px; top: -60px; z-index: 3000; background: var(--ink); color: var(--beige); padding: 10px 16px; font-weight: 700; }
   .skip-link:focus { top: 12px; color: var(--beige); }
-  section[id] { scroll-margin-top: 84px; }
+  section[id], #origins { scroll-margin-top: 84px; }
+  #origins { display: block; }
 
   .eyebrow {
     display: inline-block;
@@ -502,9 +503,9 @@
     .kitchen-foot { grid-template-columns: minmax(0, 1fr); }
   }
 
-  /* ---------- Origins ---------- */
-  .origins-film { background: var(--grain), var(--red); color: var(--beige); }
-  .origins-top { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 36px; align-items: center; margin-bottom: 48px; }
+  /* ---------- Culture ---------- */
+  .culture-film { background: var(--grain), var(--red); color: var(--beige); }
+  .culture-top { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 36px; align-items: center; margin-bottom: 48px; }
   .manifesto-video { aspect-ratio: 16 / 9; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; --rot: -1deg; transform: rotate(var(--rot)); text-align: center; padding: 16px; }
   .play-dot { width: 68px; height: 68px; border-radius: 999px; background: var(--beige); display: flex; align-items: center; justify-content: center; }
   .manifesto-video .lbl { font-size: 16px; font-weight: 700; }
@@ -521,14 +522,14 @@
   .episode-tag { font-size: 13px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--pink-deep); margin-top: 14px; }
   .episode-title { font-size: 20px; font-weight: 900; margin: 6px 0 4px; line-height: 1.2; }
   .episode-status { font-size: 14px; color: var(--ink-muted); font-weight: 600; }
-  .origins-actions { display: flex; flex-wrap: wrap; gap: 14px 28px; align-items: center; margin-top: 44px; }
+  .culture-actions { display: flex; flex-wrap: wrap; gap: 14px 28px; align-items: center; margin-top: 44px; }
   @media (max-width: 900px) {
-    .origins-top { grid-template-columns: minmax(0, 1fr); }
+    .culture-top { grid-template-columns: minmax(0, 1fr); }
     .episode-grid { grid-template-columns: minmax(0, 1fr); max-width: 460px; gap: 26px; }
   }
 
-  /* Origins › Community: say it like a local */
-  .origins-words { background: var(--grain), var(--beige); padding-top: 72px; }
+  /* Culture › say it like a local */
+  .culture-words { background: var(--grain), var(--beige); padding-top: 72px; }
   .words-head h3 { font-size: clamp(30px, 4vw, 48px); font-weight: 900; line-height: 1.12; margin-bottom: 14px; }
   .country-filter { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 30px; }
   .country-chip {
@@ -706,7 +707,7 @@
     <a href="#top" class="site-logo" aria-label="SolubFood, home"><img src="assets/img/solubfood-logo.svg" alt="SolubFood" width="52" height="52"></a>
     <nav class="main-nav" id="mainNav" aria-label="Main">
       <a href="#kitchen">Kitchen</a>
-      <a href="#origins">Origins</a>
+      <a href="#culture">Culture</a>
       <a href="#events">Events</a>
       <a href="#join">Join Us</a>
       <a href="#vision">Our Vision</a>
@@ -983,17 +984,18 @@
   </svg>
 </div>
 
-<!-- ============================ ORIGINS (includes Community) ============================ -->
-<section id="origins" aria-labelledby="originsTitle">
-  <div class="origins-film band on-dark">
+<!-- ============================ CULTURE (Latin American culture: films, manifesto and the dictionary) ============================ -->
+<section id="culture" aria-labelledby="cultureTitle">
+  <span id="origins" aria-hidden="true"></span><!-- keeps old #origins links working -->
+  <div class="culture-film band on-dark">
     <div class="wrap">
-      <div class="eyebrow">Origins</div>
-      <h2 class="sec-title" id="originsTitle">
+      <div class="eyebrow">Culture</div>
+      <h2 class="sec-title" id="cultureTitle">
         <span class="strip paper p-beige tape-l" style="--rot:-1.2deg">Filmed where</span>
         <span class="strip paper p-ink wide cut-3" style="--rot:1.4deg">it's lived.</span>
       </h2>
       <p class="band-lead">We travel across Latin America to meet the people, the places and the food behind it all, and we film them with their consent. Real over perfect.</p>
-      <div class="origins-top">
+      <div class="culture-top">
         <div class="manifesto-video paper p-ink tape">
           <div class="play-dot" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="#1A1714"><path d="M8 5v14l11-7z"></path></svg></div>
           <div class="lbl">Our manifesto — trailer</div>
@@ -1024,7 +1026,7 @@
           <div class="episode-status">Coming soon</div>
         </article>
       </div>
-      <div class="origins-actions">
+      <div class="culture-actions">
         <a href="#waitlist" class="btn btn-beige">Join the waitlist (free)</a>
         <a href="https://www.instagram.com/solubfood/" target="_blank" rel="noopener noreferrer" class="text-link">Follow the trip on Instagram →</a>
       </div>
@@ -1038,10 +1040,10 @@
     </svg>
   </div>
 
-  <div class="origins-words band">
+  <div class="culture-words band">
     <div class="wrap">
       <div class="words-head">
-        <div class="eyebrow">Community · Diccionario latino</div>
+        <div class="eyebrow">Culture · Diccionario latino</div>
         <h3>
           <span class="strip paper p-red wide" style="--rot:-1.5deg">Say it</span>
           <span class="strip paper p-pink cut-2" style="--rot:1deg">like a local.</span>
@@ -1358,7 +1360,7 @@
       <nav class="footer-col" aria-label="Footer">
         <div class="title">Explore</div>
         <a href="#kitchen">Kitchen</a>
-        <a href="#origins">Origins</a>
+        <a href="#culture">Culture</a>
         <a href="#events">Events</a>
         <a href="#join">Join Us</a>
         <a href="#vision">Our Vision</a>
@@ -1508,7 +1510,7 @@
   wireForm('waitlistForm', 'waitlistDone', "You're in! Welcome to SolubFood, Founding Member.");
   wireForm('kitchenJoinForm', 'kitchenJoinDone', "Thanks! We'll be in touch within a few days.");
 
-  (function communityWords() {
+  (function cultureWords() {
     var chips = document.querySelectorAll('.country-chip');
     var cards = document.querySelectorAll('.word-card');
     if (!cards.length) return;
