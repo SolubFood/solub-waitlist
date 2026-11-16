@@ -271,11 +271,14 @@
 
   /* ---------- hero ---------- */
   .hero { position: relative; padding: 32px 0 44px; background: var(--grain), var(--red); }
-  .hero-intro { position: relative; z-index: 3; display: flex; flex-direction: column; align-items: center; text-align: center; }
-  .hero-intro h1 { display: flex; flex-direction: column; align-items: center; }
+  /* title on the left, the home loop on the right; stacked on phones */
+  .hero-row { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 40px; align-items: center; }
+  .hero-intro { position: relative; z-index: 3; display: flex; flex-direction: column; align-items: flex-start; }
+  .hero-intro h1 { display: flex; flex-direction: column; align-items: flex-start; }
+  .hero .loop { width: min(100%, 440px); justify-self: center; }
   .hero-kicker { --rot: -2deg; font-size: clamp(15px, 1.6vw, 19px); font-weight: 800; font-variation-settings: 'wdth' 120; letter-spacing: .02em; text-transform: uppercase; padding: .3em .7em .34em; display: inline-block; transform: rotate(var(--rot)); margin: 0 0 14px; }
 
-  .cut-title { display: flex; flex-wrap: wrap; justify-content: center; gap: .04em .2em; margin: 0 0 18px; font-size: clamp(38px, 4.3vw, 58px); font-weight: 900; line-height: 1; text-transform: uppercase; }
+  .cut-title { display: flex; flex-wrap: wrap; justify-content: flex-start; gap: .04em .2em; margin: 0 0 18px; font-size: clamp(38px, 4.3vw, 58px); font-weight: 900; line-height: 1; text-transform: uppercase; }
   .cut-title .w { display: inline-flex; filter: var(--shadow); }
   .cut-title .l {
     display: inline-block;
@@ -304,19 +307,13 @@
   .cut-title .l:nth-child(3n) { --r: -1.5deg; --wd: 100; --y: -.03em; --cut-l: var(--cut-2); }
   .cut-title .l:nth-child(5) { --r: 5deg; --wd: 122; }
 
-  .hero-desc { --rot: .5deg; max-width: 42ch; padding: 16px 20px 18px; margin: 0 auto 20px; font-size: 17px; line-height: 1.5; font-weight: 500; transform: rotate(var(--rot)); }
-  .hero-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px 16px; align-items: center; }
+  .hero-desc { --rot: .5deg; max-width: 42ch; padding: 16px 20px 18px; margin: 0 0 20px; font-size: 17px; line-height: 1.5; font-weight: 500; transform: rotate(var(--rot)); }
+  .hero-actions { display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 14px 16px; align-items: center; }
   .hero-fine { display: inline-block; font-size: 15px; line-height: 1.5; margin: 22px 0 0; max-width: 46ch; padding: 12px 16px 13px; --rot: -.5deg; transform: rotate(var(--rot)); }
 
   /* Intro appears one piece after another, from a blur (only when JS runs; without JS it's simply visible). */
   .js .reveal { opacity: 0; filter: blur(10px); transition: opacity .7s ease, filter .7s ease; transition-delay: calc(var(--i, 0) * .18s); }
   .js .hero-intro.is-visible .reveal { opacity: 1; filter: blur(0); }
-
-  /* ---------- home loop band (after the waitlist) ----------
-     The 3-second loop plays on its own; it no longer takes over the scroll. */
-  .loop-band { background: var(--grain), var(--beige); padding: 36px 0 52px; }
-  .loop-band .loop { width: min(88vw, 440px); margin: 0 auto; padding: 14px 14px 12px; }
-  @media (max-width: 680px) { .loop-band { padding: 24px 0 40px; } }
 
   /* ---------- loop animation: everything comes home ---------- */
   .loop { --rot: 2deg; margin: 0; padding: 18px 18px 16px; transform: rotate(var(--rot)); }
@@ -352,6 +349,11 @@
   }
 
   @media (max-width: 900px) {
+    .hero-row { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+    .hero-intro, .hero-intro h1 { align-items: center; text-align: center; }
+    .cut-title, .hero-actions { justify-content: center; }
+    .hero-desc { margin: 0 auto 20px; }
+    .hero .loop { width: min(88vw, 400px); }
     .cut-title { font-size: clamp(38px, 11vw, 64px); }
     .loop { max-width: 440px; margin: 0 auto; width: 100%; }
   }
@@ -695,3 +697,34 @@
 .solubcard-controls .ly-country { margin: 0; flex: 1 1 200px; max-width: 260px; }
 .solubcard .member-note { font-size: 13px; font-weight: 600; text-align: center; margin: 12px auto 0; max-width: 44ch; }
 @media (max-width: 900px) { .solubcard .lanyard { height: 500px; } }
+
+/* ---------- Shop (sketch): three condiments, no prices or orders yet ---------- */
+.shop { background: var(--grain), var(--beige); }
+.shop-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 26px; }
+.product { padding: 14px 14px 18px; display: flex; flex-direction: column; }
+.product-photo {
+  position: relative; aspect-ratio: 4 / 3; margin-bottom: 14px;
+  display: flex; align-items: center; justify-content: center;
+  border: 2px dashed var(--ink);
+  background: repeating-linear-gradient(135deg, rgba(230,136,183,.22) 0 10px, transparent 10px 20px);
+}
+.product-flag { position: absolute; left: 10px; top: 10px; width: 30px; height: auto; box-shadow: 0 0 0 .5px rgba(26,23,20,.45); }
+.product-label { font-weight: 900; font-size: 20px; letter-spacing: .06em; background: var(--ink); color: var(--beige); padding: 6px 12px 5px; transform: rotate(-2deg); }
+.product-ph { position: absolute; right: 10px; bottom: 8px; font-size: 12px; font-weight: 600; }
+.product-country { font-size: 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--red); }
+.product-name { font-size: 20px; font-weight: 900; margin: 4px 0 8px; }
+.product p { font-size: 15px; margin-bottom: 8px; }
+.product-producer { color: var(--ink-soft); font-size: 14px !important; }
+.product-foot { margin-top: auto; padding-top: 10px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.product-status { font-size: 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; border: 1.5px dashed var(--ink); padding: 4px 8px; }
+@media (max-width: 900px) { .shop-grid { grid-template-columns: minmax(0, 1fr); max-width: 460px; gap: 22px; } }
+@media (max-width: 680px) {
+  .product { display: grid; grid-template-columns: 104px minmax(0, 1fr); column-gap: 14px; padding: 12px; }
+  .product-photo { grid-row: span 6; aspect-ratio: 1; margin: 0; align-self: start; }
+  .product-label { font-size: 11px; padding: 4px 6px 3px; }
+  .product-ph { display: none; }
+  .product-flag { width: 22px; left: 6px; top: 6px; }
+  .product-name { font-size: 17px; margin: 2px 0 4px; }
+  .product p { font-size: 14px; margin-bottom: 4px; }
+  .product-foot { grid-column: 1 / -1; }
+}
