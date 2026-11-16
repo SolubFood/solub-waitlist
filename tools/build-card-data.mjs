@@ -22,8 +22,8 @@ const FLAG_PKG = path.dirname(require.resolve('flag-icons/package.json'));
 const FLAGS = path.join(FLAG_PKG, 'flags', '4x3');
 countries.registerLocale(JSON.parse(fs.readFileSync(require.resolve('i18n-iso-countries/langs/en.json'))));
 
-// Latin America: only used to draw the default card (all of Latin America together).
-// Every country is listed the same way: English name, one A–Z list.
+// Latin America: names in Spanish (Brasil in Portuguese); also drawn together on the default card.
+// Every country is in one A–Z list; no group is set apart.
 const LATAM = { AR: 'Argentina', BO: 'Bolivia', BR: 'Brasil', CL: 'Chile', CO: 'Colombia', CR: 'Costa Rica', CU: 'Cuba',
   EC: 'Ecuador', SV: 'El Salvador', GT: 'Guatemala', HN: 'Honduras', MX: 'México', NI: 'Nicaragua', PA: 'Panamá',
   PY: 'Paraguay', PE: 'Perú', PR: 'Puerto Rico', DO: 'República Dominicana', UY: 'Uruguay', VE: 'Venezuela' };
@@ -94,7 +94,7 @@ let withShape = 0;
 for (const a2 of Object.keys(countries.getAlpha2Codes())) {
   if (SKIP.has(a2)) continue;
   const code = a2.toLowerCase();
-  const name = SHORT[a2] || countries.getName(a2, 'en', { select: 'alias' }) || countries.getName(a2, 'en');
+  const name = LATAM[a2] || SHORT[a2] || countries.getName(a2, 'en', { select: 'alias' }) || countries.getName(a2, 'en');
   const num = countries.alpha2ToNumeric(a2);
   const f = byId(f50, num) || byId(f10, num) || (a2 === 'XK' ? (byName(f50, 'Kosovo') || byName(f10, 'Kosovo')) : null);
   if (f) { fs.writeFileSync(path.join(shapeDir, code + '.json'), JSON.stringify(fit(nearPolys(f)))); withShape++; }
