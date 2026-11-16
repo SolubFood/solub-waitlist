@@ -1,5 +1,5 @@
 // Builds the data the SolubCard draws, for every country in the world.
-//   assets/data/solubcard/countries.json      list for the selector: [code, name, group, hasShape]
+//   assets/data/solubcard/countries.json      list for the selector, A–Z: [code, name, hasShape]
 //   assets/data/solubcard/shapes/<code>.json  shape fitted to the card (240 x 360 units) + its "heart" dot
 //   assets/flags/<code>.svg                   official flags (flag-icons, MIT), real colours
 // Sources (all free to use): Natural Earth via world-atlas (public domain), flag-icons (MIT),
@@ -22,7 +22,8 @@ const FLAG_PKG = path.dirname(require.resolve('flag-icons/package.json'));
 const FLAGS = path.join(FLAG_PKG, 'flags', '4x3');
 countries.registerLocale(JSON.parse(fs.readFileSync(require.resolve('i18n-iso-countries/langs/en.json'))));
 
-// Latin America first, in its own words (the brand's own community)
+// Latin America: only used to draw the default card (all of Latin America together).
+// Every country is listed the same way: English name, one A–Z list.
 const LATAM = { AR: 'Argentina', BO: 'Bolivia', BR: 'Brasil', CL: 'Chile', CO: 'Colombia', CR: 'Costa Rica', CU: 'Cuba',
   EC: 'Ecuador', SV: 'El Salvador', GT: 'Guatemala', HN: 'Honduras', MX: 'México', NI: 'Nicaragua', PA: 'Panamá',
   PY: 'Paraguay', PE: 'Perú', PR: 'Puerto Rico', DO: 'República Dominicana', UY: 'Uruguay', VE: 'Venezuela' };
@@ -30,7 +31,7 @@ const LATAM = { AR: 'Argentina', BO: 'Bolivia', BR: 'Brasil', CL: 'Chile', CO: '
 const SHORT = { IR: 'Iran', KR: 'South Korea', KP: 'North Korea', LA: 'Laos', MD: 'Moldova', RU: 'Russia', SY: 'Syria',
   TZ: 'Tanzania', VN: 'Vietnam', GB: 'United Kingdom', US: 'United States', FM: 'Micronesia', PS: 'Palestine',
   TW: 'Taiwan', CD: 'DR Congo', CG: 'Congo', BN: 'Brunei', CZ: 'Czechia', MK: 'North Macedonia', VA: 'Vatican City',
-  CV: 'Cape Verde', SZ: 'Eswatini', TL: 'Timor-Leste', CI: "Côte d'Ivoire", XK: 'Kosovo' };
+  CV: 'Cape Verde', SZ: 'Eswatini', TL: 'Timor-Leste', CI: "Côte d'Ivoire", XK: 'Kosovo', AX: 'Åland Islands', CW: 'Curaçao', RE: 'Réunion', BL: 'Saint Barthélemy' };
 const SKIP = new Set(['AQ', 'BV', 'HM', 'UM', 'TF', 'IO']); // uninhabited or no permanent population
 
 const t50 = JSON.parse(fs.readFileSync(path.join(WA, 'countries-50m.json')));
@@ -93,14 +94,14 @@ let withShape = 0;
 for (const a2 of Object.keys(countries.getAlpha2Codes())) {
   if (SKIP.has(a2)) continue;
   const code = a2.toLowerCase();
-  const name = LATAM[a2] || SHORT[a2] || countries.getName(a2, 'en', { select: 'alias' }) || countries.getName(a2, 'en');
+  const name = SHORT[a2] || countries.getName(a2, 'en', { select: 'alias' }) || countries.getName(a2, 'en');
   const num = countries.alpha2ToNumeric(a2);
   const f = byId(f50, num) || byId(f10, num) || (a2 === 'XK' ? (byName(f50, 'Kosovo') || byName(f10, 'Kosovo')) : null);
   if (f) { fs.writeFileSync(path.join(shapeDir, code + '.json'), JSON.stringify(fit(nearPolys(f)))); withShape++; }
   fs.copyFileSync(path.join(FLAGS, code + '.svg'), path.join(flagDir, code + '.svg'));
-  list.push([code, name, LATAM[a2] ? 'latam' : 'world', f ? 1 : 0]);
+  list.push([code, name, f ? 1 : 0]);
 }
-list.sort((a, b) => a[1].localeCompare(b[1], 'es'));
+list.sort((a, b) => a[1].localeCompare(b[1], 'en', { sensitivity: 'base' }));
 fs.writeFileSync(path.join(outDir, 'countries.json'), JSON.stringify(list));
 // default card: all of Latin America together
 const la = fit(Object.keys(LATAM).flatMap(a2 => nearPolys(byId(f50, countries.alpha2ToNumeric(a2)))));
