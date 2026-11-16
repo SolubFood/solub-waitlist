@@ -290,11 +290,12 @@
   @media (max-width: 380px) { .header-cta { padding: 0 10px; font-size: 13px; } }
 
   /* ---------- hero ---------- */
-  .hero { position: relative; padding: 48px 0 40px; background: var(--grain), var(--red); }
-  .hero-row { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 40px; align-items: center; }
-  .hero-kicker { --rot: -2deg; font-size: clamp(18px, 2.2vw, 26px); font-weight: 800; font-variation-settings: 'wdth' 120; letter-spacing: .02em; text-transform: uppercase; padding: .3em .7em .34em; display: inline-block; transform: rotate(var(--rot)); margin: 0 0 14px 6px; }
+  .hero { position: relative; padding: 44px 0 0; background: var(--grain), var(--red); }
+  .hero-intro { position: relative; z-index: 3; display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .hero-intro h1 { display: flex; flex-direction: column; align-items: center; }
+  .hero-kicker { --rot: -2deg; font-size: clamp(18px, 2.2vw, 26px); font-weight: 800; font-variation-settings: 'wdth' 120; letter-spacing: .02em; text-transform: uppercase; padding: .3em .7em .34em; display: inline-block; transform: rotate(var(--rot)); margin: 0 0 14px; }
 
-  .cut-title { display: flex; flex-wrap: wrap; gap: .04em .2em; margin: 0 0 26px; font-size: clamp(50px, 7.2vw, 104px); font-weight: 900; line-height: 1; text-transform: uppercase; }
+  .cut-title { display: flex; flex-wrap: wrap; justify-content: center; gap: .04em .2em; margin: 0 0 24px; font-size: clamp(50px, 7.2vw, 104px); font-weight: 900; line-height: 1; text-transform: uppercase; }
   .cut-title .w { display: inline-flex; filter: var(--shadow); }
   .cut-title .l {
     display: inline-block;
@@ -323,9 +324,58 @@
   .cut-title .l:nth-child(3n) { --r: -1.5deg; --wd: 100; --y: -.03em; --cut-l: var(--cut-2); }
   .cut-title .l:nth-child(5) { --r: 5deg; --wd: 122; }
 
-  .hero-desc { --rot: .5deg; max-width: 34ch; padding: 22px 26px 24px; margin: 0 0 28px; font-size: 19px; line-height: 1.5; font-weight: 500; transform: rotate(var(--rot)); }
-  .hero-actions { display: flex; flex-wrap: wrap; gap: 14px 16px; align-items: center; }
-  .hero-fine { display: inline-block; font-size: 15px; line-height: 1.5; margin: 24px 0 0; max-width: 46ch; padding: 12px 16px 13px; --rot: -.5deg; transform: rotate(var(--rot)); }
+  .hero-desc { --rot: .5deg; max-width: 40ch; padding: 22px 26px 24px; margin: 0 auto 24px; font-size: 19px; line-height: 1.5; font-weight: 500; transform: rotate(var(--rot)); }
+  .hero-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px 16px; align-items: center; }
+  .hero-fine { display: inline-block; font-size: 15px; line-height: 1.5; margin: 22px 0 0; max-width: 46ch; padding: 12px 16px 13px; --rot: -.5deg; transform: rotate(var(--rot)); }
+
+  /* Intro appears one piece after another, from a blur (only when JS runs; without JS it's simply visible). */
+  .js .reveal { opacity: 0; filter: blur(10px); transition: opacity .7s ease, filter .7s ease; transition-delay: calc(var(--i, 0) * .18s); }
+  .js .hero-intro.is-visible .reveal { opacity: 1; filter: blur(0); }
+
+  /* ---------- scroll gallery: tilted collage that stands up as you scroll ----------
+     Same mechanics as the React "animated gallery": rotateX 75°→0° over the first half
+     of the scroll, scale 1.2→1 after it, and the three columns drift at different speeds.
+     Driven by --rx / --sc / --y, set from one small scroll handler (see galleryScroll()). */
+  .gallery-scroll { position: relative; height: 280vh; margin-top: -24px; }
+  .gallery-sticky { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; perspective: 1000px; perspective-origin: 50% 0%; }
+  .gallery-grid {
+    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px;
+    width: min(1180px, calc(100% - 32px)); margin: 0 auto; padding-top: 12px;
+    transform: rotateX(calc(var(--rx, 0) * 1deg)) scale(var(--sc, 1));
+    transform-style: preserve-3d;
+    will-change: transform;
+  }
+  .gallery-col { display: flex; flex-direction: column; gap: 16px; transform: translate3d(0, var(--y, 0%), 0); will-change: transform; }
+  .gallery-col.mid { margin-top: -50%; }
+  .g-item {
+    position: relative; margin: 0; padding: 7px;
+    background: var(--beige);
+    box-shadow: 0 2px 3px rgba(26,23,20,.25), 0 14px 24px -14px rgba(26,23,20,.7);
+    transform: rotate(var(--gr, 0deg));
+  }
+  .g-item:nth-child(4n+1) { --gr: -1.4deg; }
+  .g-item:nth-child(4n+2) { --gr: 1.1deg; }
+  .g-item:nth-child(4n+3) { --gr: -.6deg; }
+  .g-item:nth-child(4n) { --gr: 1.6deg; }
+  .g-item img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; }
+  .g-item.tape::after { top: -11px; width: 70px; left: calc(50% - 35px); height: 24px; }
+  .gallery-scroll.is-static { height: auto; margin-top: 24px; padding-bottom: 40px; }
+  .gallery-scroll.is-static .gallery-sticky { position: static; height: auto; overflow: visible; }
+  .gallery-scroll.is-static .gallery-grid { transform: none; }
+  .gallery-scroll.is-static .gallery-col { transform: none; }
+  .gallery-scroll.is-static .gallery-col.mid { margin-top: 0; }
+  @media (max-width: 680px) {
+    .gallery-scroll { height: 200vh; }
+    .gallery-grid, .gallery-col { gap: 8px; }
+    .g-item img { aspect-ratio: 3 / 4; }
+    .gallery-grid { width: calc(100% - 20px); }
+    .g-item { padding: 4px; }
+    .g-item.tape::after { width: 44px; height: 16px; left: calc(50% - 22px); top: -7px; }
+  }
+
+  /* ---------- loop band (right after the gallery) ---------- */
+  .loop-band { background: var(--grain), var(--red); padding: 8px 0 72px; position: relative; z-index: 4; }
+  .loop-band .loop { max-width: 470px; margin: 0 auto; }
 
   /* ---------- loop animation: everything comes home ---------- */
   .loop { --rot: 2deg; margin: 0; padding: 18px 18px 16px; transform: rotate(var(--rot)); }
@@ -360,7 +410,6 @@
   }
 
   @media (max-width: 900px) {
-    .hero-row { grid-template-columns: minmax(0, 1fr); gap: 36px; }
     .cut-title { font-size: clamp(46px, 13.5vw, 110px); }
     .loop { max-width: 440px; margin: 0 auto; width: 100%; }
   }
@@ -661,6 +710,7 @@
 </style>
 </head>
 <body>
+<script>document.documentElement.classList.add('js');</script>
 <a class="skip-link" href="#main">Skip to content</a>
 
 <div class="cookie-banner paper p-ink" id="cookieBanner" role="dialog" aria-label="Cookie notice" hidden>
@@ -708,9 +758,8 @@
 
 <!-- ============================ HERO ============================ -->
 <section id="top" class="hero">
-  <div class="wrap hero-row">
-    <div class="hero-copy">
-      <h1>
+  <div class="wrap hero-intro" id="heroIntro">
+      <h1 class="reveal" style="--i:0">
         <span class="sr-only">Latin America: more than people.</span>
         <span class="hero-kicker paper p-ink tape-l" aria-hidden="true">Latin America:</span>
         <span class="cut-title" aria-hidden="true">
@@ -719,13 +768,44 @@
           <span class="w"><span class="l k3">p</span><span class="l k1">e</span><span class="l k7">o</span><span class="l k4">p</span><span class="l k6">l</span><span class="l k2">e</span><span class="l k5">.</span></span>
         </span>
       </h1>
-      <p class="hero-desc paper p-ink cut-2">One ocean between us. Latin American food and culture, brought to the Gold Coast by the people who live it.</p>
-      <div class="hero-actions">
+      <div class="reveal" style="--i:1"><p class="hero-desc paper p-ink cut-2">One ocean between us. Latin American food and culture, brought to the Gold Coast by the people who live it.</p></div>
+      <div class="hero-actions reveal" style="--i:2">
         <a href="#waitlist" class="btn btn-pink">Join the waitlist (free)</a>
         <a href="#kitchen" class="btn btn-beige">Meet the Kitchen</a>
       </div>
-      <p class="hero-fine paper p-beige cut-4"><strong>Founding Members:</strong> the first 250 people to join taste our food first and get free invites to our Latin tasting nights.</p>
+      <div class="reveal" style="--i:3"><p class="hero-fine paper p-beige cut-4"><strong>Founding Members:</strong> the first 250 people to join taste our food first and get free invites to our Latin tasting nights.</p></div>
+  </div>
+
+  <!-- Scroll gallery: food and places from Latin America, using the project's own images. Swap the src/alt
+       to change a photo. Each column drifts at its own speed (data-y0 → data-y1, in % of its height). -->
+  <div class="gallery-scroll" id="galleryScroll">
+    <div class="gallery-sticky">
+      <div class="gallery-grid" aria-label="Latin American food and places">
+        <div class="gallery-col" data-y0="-10" data-y1="2">
+          <figure class="g-item tape"><img src="assets/img/posters/clip-2.jpg" alt="A spoon in a slice of tres leches cake topped with a strawberry" width="480" height="640"></figure>
+          <figure class="g-item"><img src="assets/img/paths-cl.jpg" alt="A snow-capped volcano at the end of a tree-lined road in southern Chile" width="320" height="420"></figure>
+          <figure class="g-item"><img src="assets/img/posters/clip-5.jpg" alt="A hand picking up a golden baked empanada" width="480" height="480" loading="lazy"></figure>
+          <figure class="g-item tape"><img src="assets/img/country-pe.jpg" alt="The ruins of Machu Picchu among green mountains, Peru" width="160" height="160" loading="lazy"></figure>
+        </div>
+        <div class="gallery-col mid" data-y0="15" data-y1="5">
+          <figure class="g-item"><img src="assets/img/posters/clip-3.jpg" alt="A hot dog piled with avocado, tomato and mayonnaise, Chilean completo style" width="480" height="360"></figure>
+          <figure class="g-item tape"><img src="assets/img/posters/clip-9.jpg" alt="A full plate of rice, beans, egg, chorizo, avocado and fried plantain" width="480" height="360"></figure>
+          <figure class="g-item"><img src="assets/img/paths-co.jpg" alt="A jeep with a Colombian flag in a green valley of wax palms, Colombia" width="320" height="420" loading="lazy"></figure>
+          <figure class="g-item"><img src="assets/img/posters/clip-6.jpg" alt="Alfajores dusted with coconut on a wooden board" width="480" height="362" loading="lazy"></figure>
+        </div>
+        <div class="gallery-col" data-y0="-10" data-y1="2">
+          <figure class="g-item"><img src="assets/img/posters/clip-4.jpg" alt="Hands holding bread filled with shredded beef" width="480" height="270"></figure>
+          <figure class="g-item tape"><img src="assets/img/country-ar.jpg" alt="Jagged Patagonian peaks at dusk, Argentina" width="160" height="160"></figure>
+          <figure class="g-item"><img src="assets/img/posters/clip-7.jpg" alt="A sandwich of crispy pork and pickled red onion" width="480" height="360" loading="lazy"></figure>
+          <figure class="g-item tape"><img src="assets/img/posters/clip-8.jpg" alt="Milanesa topped with ham and melted cheese" width="480" height="270" loading="lazy"></figure>
+        </div>
+      </div>
     </div>
+  </div>
+</section>
+
+<section class="loop-band" aria-label="From our cooks to your home">
+  <div class="wrap">
 
     <!-- 3-second loop: a chef's hat, a truck, a plate and the mascot ride four belts into a home.
          Icons are first sketches; the mascot is a placeholder until the real character exists. -->
@@ -815,7 +895,7 @@
   </div>
 </section>
 
-<!-- torn paper: hero (beige) → orange strip → waitlist (pink) -->
+<!-- torn paper: rojo ají → masa strip → waitlist (rosa) -->
 <div class="edge" style="--from: var(--red); --mid: var(--beige); --to: var(--pink);" aria-hidden="true">
   <svg viewBox="0 0 1200 100" preserveAspectRatio="none">
     <path class="e-mid" d="M0 30 L60 36 L130 22 L210 38 L290 25 L380 40 L450 24 L540 35 L620 20 L700 37 L790 26 L860 39 L950 22 L1030 35 L1110 24 L1200 32 V100 H0 Z"/>
@@ -1493,6 +1573,42 @@
         });
       });
     });
+  })();
+
+  // Intro: blur-in, one piece after another.
+  (function heroReveal() {
+    var intro = document.getElementById('heroIntro');
+    if (!intro) return;
+    if (reduceMotion) { intro.classList.add('is-visible'); return; }
+    requestAnimationFrame(function () { requestAnimationFrame(function () { intro.classList.add('is-visible'); }); });
+  })();
+
+  // Scroll gallery — same curve as framer-motion's useScroll({ target }) (progress 0 when the block's top
+  // enters the bottom of the screen, 1 when its bottom leaves the top). One rAF-throttled handler, no library.
+  (function galleryScroll() {
+    var box = document.getElementById('galleryScroll');
+    if (!box) return;
+    if (reduceMotion) { box.classList.add('is-static'); return; }
+    var grid = box.querySelector('.gallery-grid');
+    var cols = box.querySelectorAll('.gallery-col');
+    var ticking = false;
+    function map(p, a, b, from, to) { var t = Math.min(1, Math.max(0, (p - a) / (b - a))); return from + (to - from) * t; }
+    function update() {
+      ticking = false;
+      var r = box.getBoundingClientRect();
+      var vh = window.innerHeight;
+      if (r.bottom < -50 || r.top > vh + 50) return;
+      var p = Math.min(1, Math.max(0, (vh - r.top) / (r.height + vh)));
+      grid.style.setProperty('--rx', map(p, 0, 0.5, 75, 0).toFixed(2));
+      grid.style.setProperty('--sc', map(p, 0.5, 0.9, 1.2, 1).toFixed(3));
+      cols.forEach(function (c) {
+        c.style.setProperty('--y', map(p, 0.5, 1, parseFloat(c.dataset.y0), parseFloat(c.dataset.y1)).toFixed(2) + '%');
+      });
+    }
+    function request() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
+    window.addEventListener('scroll', request, { passive: true });
+    window.addEventListener('resize', request);
+    update();
   })();
 
   // Pause the home loop while it's off screen, so it costs nothing when nobody's looking.
