@@ -8,6 +8,6 @@
 # Servidor del muro y formularios: revisión obligatoria de seguridad
 # /worker/              @usuario-experto-seguridad
 # /index.html           @usuario-experto-seguridad
-# /kitchen.html         @usuario-experto-seguridad
+# /join.html            @usuario-experto-seguridad
 # /checkin.html         @usuario-experto-seguridad
 # /cancel.html          @usuario-experto-seguridad

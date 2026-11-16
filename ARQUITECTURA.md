@@ -24,7 +24,8 @@ solub-waitlist/
 ├── index.html            Página principal + formulario de lista de espera (waitlist)
 ├── about.html            Quiénes somos
 ├── for-restaurants.html  Página para restaurantes
-├── kitchen.html          Registro de cocineros (formulario)
+├── kitchen.html          Kitchen: los cocineros (perfiles)
+├── join.html             Join Us: cocinar con SolubFood (formulario de cocineros)
 ├── tickets.html          Términos de entradas a eventos
 ├── checkin.html          Check-in en eventos (formulario)
 ├── cancel.html           Cancelar membresía (formulario)
@@ -38,8 +39,10 @@ solub-waitlist/
 ├── wrangler.jsonc        Configuración de Cloudflare: publica solo dist/
 ├── _headers              Cabeceras de seguridad (Cloudflare)
 ├── assets/
+│   ├── css/site.css      Estilos compartidos por index, kitchen y join
 │   ├── img/              Imágenes, logos, pósters de video
 │   ├── videos/           Videos de la web (.mp4)
+│   ├── js/site.js        Comportamiento compartido (menú, formularios, animaciones)
 │   └── js/qrcode.js      Librería local para generar códigos QR (la home ya no la usa)
 ├── worker/               Servidor del muro de dibujos (Cloudflare Worker) — ver worker/README.md
 ├── design-reference/     Archivos de diseño de referencia (no se usan en la web)
@@ -52,7 +55,7 @@ solub-waitlist/
 
 | Servicio | Para qué | Dónde en el código | Datos que viajan |
 |---|---|---|---|
-| **FormSubmit** (formsubmit.co) | Recibir los formularios y enviarlos por email a `hello@teamsolub.com` (vía código alias, el email no aparece en el formulario) | `index.html`, `kitchen.html`, `checkin.html`, `cancel.html` (atributo `action` del `<form>`) | Nombre, email y datos que la persona escribe (datos personales) |
+| **FormSubmit** (formsubmit.co) | Recibir los formularios y enviarlos por email a `hello@teamsolub.com` (vía código alias, el email no aparece en el formulario) | `index.html`, `join.html`, `checkin.html`, `cancel.html` (atributo `action` del `<form>`) | Nombre, email y datos que la persona escribe (datos personales) |
 | **jsDelivr** (cdn.jsdelivr.net) | Librerías 3D: `three@0.160.0`, `globe.gl@2.32.2` y mapa de países | `map-globe.html` (la home ya no las carga) | Ninguno (solo descarga) |
 | **Google Fonts** | Tipografías | Varias páginas | Ninguno (IP del visitante) |
 | **Cloudflare Workers + KV** | Guardar dibujos del muro | `worker/` y `const WALL_API` en `kiosko-3d.html` | Dibujo (PNG 160×160) y nombre opcional. **Aún no publicado** (`WALL_API` vacío) |
