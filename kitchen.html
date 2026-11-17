@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://plausible.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://formsubmit.co https://plausible.io; form-action 'self' https://formsubmit.co; base-uri 'self'; object-src 'none';">
-<title>SolubFood — Kitchen: the hands behind your food</title>
-<meta name="description" content="Meet the Latin home cooks behind SolubFood on the Gold Coast: their names, where they are from and why they cook.">
-<meta property="og:title" content="SolubFood — Kitchen: the hands behind your food">
-<meta property="og:description" content="Meet the Latin home cooks behind SolubFood on the Gold Coast: their names, where they are from and why they cook.">
+<title>SolubFood — Kitchen: the menu and the cooks</title>
+<meta name="description" content="Five home-style Latin dishes from Chile, Perú, Venezuela and Argentina, ready in minutes, and the Latin home cooks on the Gold Coast who make them.">
+<meta property="og:title" content="SolubFood — Kitchen: the menu and the cooks">
+<meta property="og:description" content="Five home-style Latin dishes from Chile, Perú, Venezuela and Argentina, ready in minutes, and the Latin home cooks on the Gold Coast who make them.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://solubfood.com/kitchen.html">
 <meta name="theme-color" content="#E74426">
@@ -55,13 +55,168 @@
 
 <main id="main">
 
-<section id="kitchen" class="kitchen band page-top">
+<!-- ============================ MENU (the commercial part of Kitchen) ============================
+     Every dish with what is inside, how to heat it and its price. Data: Receta SolubFood + Envases SolubFood (Nov 2026).
+     Protein and energy are estimates, ingredients and allergens are drafts until the nutrition panel is done.
+     Prices are not set yet: [TBC]. No orders or checkout yet: "Notify me" goes to the waitlist. -->
+<section id="menu" class="menu band page-top">
   <div class="wrap">
-    <div class="eyebrow">Kitchen</div>
+    <div class="eyebrow">Kitchen · The menu</div>
     <h1 class="sec-title">
+      <span class="strip paper p-ink tape-l" style="--rot:-1.2deg">Five Latin dishes,</span>
+      <span class="strip paper p-pink cut-2" style="--rot:1deg">ready in minutes.</span>
+    </h1>
+    <p class="band-lead">Cooked by Latin home cooks in a licensed kitchen on the Gold Coast, sealed in their own tray and kept in the fridge. Here is what is inside each dish, how to heat it and what it costs.</p>
+    <nav class="dish-jump" aria-label="Dishes"><a href="#pino"><img src="assets/img/dishes/pino.svg" alt="" width="36" height="36">Empanada de Pino</a><a href="#lomo"><img src="assets/img/dishes/lomo.svg" alt="" width="36" height="36">Empanada de Lomo Saltado</a><a href="#pastel"><img src="assets/img/dishes/pastel.svg" alt="" width="36" height="36">Pastel de Choclo</a><a href="#pabellon"><img src="assets/img/dishes/pabellon.svg" alt="" width="36" height="36">Pabellón Criollo</a><a href="#asado"><img src="assets/img/dishes/asado.svg" alt="" width="36" height="36">Asado Mixto</a></nav>
+    <article class="dish-row" id="pino">
+      <div class="dish-art">
+        <img src="assets/img/dishes/pino.svg" alt="Sketch of the Empanada de Pino" width="400" height="400" loading="lazy">
+        <span class="orbit-badge"><b>~38 g</b> protein*</span>
+      </div>
+      <div class="dish-info paper p-beige tape" style="--rot:-.6deg">
+        <div class="orbit-meta"><img src="assets/flags/cl.svg" alt="" width="28" height="21"><span>01 · Chile</span></div>
+        <h2 class="orbit-title"><b>Empanada</b> <span>de Pino</span></h2>
+        <p class="dish-sub">Chilean beef empanadas · 2 pack</p>
+        <p class="dish-story">Chile's favourite empanada: beef, onion, egg and olive, baked until golden.</p>
+        <ul class="orbit-ben"><li>Baked, not fried</li><li>Hand-chopped beef</li><li>Microwave 2 min</li></ul>
+        <dl class="dish-facts">
+          <div><dt>Inside</dt><dd>2 empanadas × 165 g (330 g)</dd></div>
+          <div><dt>Protein*</dt><dd>~38 g per pack</dd></div>
+          <div><dt>Energy*</dt><dd>~920 kcal per pack</dd></div>
+          <div><dt>How to heat</dt><dd>Microwave 1 min 30 s, then rest 1 min.</dd></div>
+          <div class="wide"><dt>The tray</dt><dd>A low rectangular tray: the two empanadas lie side by side, so they arrive whole.</dd></div>
+        </dl>
+        <details class="dish-more">
+          <summary>Ingredients &amp; allergens (draft)</summary>
+          <p><b>Ingredients:</b> Wheat flour, beef (35%), onion, egg, lard, butter, milk, black olives, raisins, paprika, cumin, oregano, salt.</p>
+          <p><b>Allergens:</b> Wheat, Gluten, Egg, Milk.</p>
+        </details>
+        <div class="orbit-buy"><span class="product-price">AU$ <span>[TBC]</span></span><a href="index.html#waitlist" class="btn btn-ink btn-sm">Notify me</a></div>
+      </div>
+    </article>
+    <article class="dish-row dish-row--flip" id="lomo">
+      <div class="dish-art">
+        <img src="assets/img/dishes/lomo.svg" alt="Sketch of the Empanada de Lomo Saltado" width="400" height="400" loading="lazy">
+        <span class="orbit-badge"><b>~34 g</b> protein*</span>
+      </div>
+      <div class="dish-info paper p-beige tape-r" style="--rot:.5deg">
+        <div class="orbit-meta"><img src="assets/flags/pe.svg" alt="" width="28" height="21"><span>02 · Perú</span></div>
+        <h2 class="orbit-title"><b>Empanada</b> <span>de Lomo Saltado</span></h2>
+        <p class="dish-sub">Peruvian stir-fried beef empanadas · 2 pack</p>
+        <p class="dish-story">Peru's wok-tossed beef classic, folded into a baked empanada.</p>
+        <ul class="orbit-ben"><li>Wok-tossed beef</li><li>Baked, not fried</li><li>Microwave 2 min</li></ul>
+        <dl class="dish-facts">
+          <div><dt>Inside</dt><dd>2 empanadas × 165 g (330 g)</dd></div>
+          <div><dt>Protein*</dt><dd>~34 g per pack</dd></div>
+          <div><dt>Energy*</dt><dd>~780 kcal per pack</dd></div>
+          <div><dt>How to heat</dt><dd>Microwave 1 min 30 s, then rest 1 min.</dd></div>
+          <div class="wide"><dt>The tray</dt><dd>Same tray as the pino, with a divider: each empanada keeps its own place.</dd></div>
+        </dl>
+        <details class="dish-more">
+          <summary>Ingredients &amp; allergens (draft)</summary>
+          <p><b>Ingredients:</b> Wheat flour, beef (30%), red onion, tomato, potato, soy sauce, yellow chilli paste, lard, butter, milk, egg, coriander, garlic, cumin, vinegar.</p>
+          <p><b>Allergens:</b> Wheat, Gluten, Soy, Egg, Milk.</p>
+        </details>
+        <div class="orbit-buy"><span class="product-price">AU$ <span>[TBC]</span></span><a href="index.html#waitlist" class="btn btn-ink btn-sm">Notify me</a></div>
+      </div>
+    </article>
+    <article class="dish-row" id="pastel">
+      <div class="dish-art">
+        <img src="assets/img/dishes/pastel.svg" alt="Sketch of the Pastel de Choclo" width="400" height="400" loading="lazy">
+        <span class="orbit-badge"><b>~40 g</b> protein*</span>
+      </div>
+      <div class="dish-info paper p-beige tape" style="--rot:-.4deg">
+        <div class="orbit-meta"><img src="assets/flags/cl.svg" alt="" width="28" height="21"><span>03 · Chile</span></div>
+        <h2 class="orbit-title"><b>Pastel</b> <span>de Choclo</span></h2>
+        <p class="dish-sub">Chilean sweet corn &amp; beef bake</p>
+        <p class="dish-story">A Chilean summer bake: savoury beef and chicken underneath, a sweet corn crust on top.</p>
+        <ul class="orbit-ben"><li>Two meats</li><li>Sweet corn crust</li><li>Microwave 4 min</li></ul>
+        <dl class="dish-facts">
+          <div><dt>Inside</dt><dd>1 portion · 400 g</dd></div>
+          <div><dt>Protein*</dt><dd>~40 g per pack</dd></div>
+          <div><dt>Energy*</dt><dd>~600 kcal per pack</dd></div>
+          <div><dt>How to heat</dt><dd>Microwave 4 min, then rest 1 min.</dd></div>
+          <div class="wide"><dt>The tray</dt><dd>Round and deep like a clay pot, so the layers stay apart and it heats evenly.</dd></div>
+        </dl>
+        <details class="dish-more">
+          <summary>Ingredients &amp; allergens (draft)</summary>
+          <p><b>Ingredients:</b> Sweet corn, beef (21%), chicken (12%), onion, milk, butter, egg, black olives, basil, sugar, wheat flour, cumin, paprika, salt.</p>
+          <p><b>Allergens:</b> Milk, Egg, Wheat, Gluten.</p>
+        </details>
+        <div class="orbit-buy"><span class="product-price">AU$ <span>[TBC]</span></span><a href="index.html#waitlist" class="btn btn-ink btn-sm">Notify me</a></div>
+      </div>
+    </article>
+    <article class="dish-row dish-row--flip" id="pabellon">
+      <div class="dish-art">
+        <img src="assets/img/dishes/pabellon.svg" alt="Sketch of the Pabellón Criollo" width="400" height="400" loading="lazy">
+        <span class="orbit-badge"><b>~50 g</b> protein*</span>
+      </div>
+      <div class="dish-info paper p-beige tape-r" style="--rot:.6deg">
+        <div class="orbit-meta"><img src="assets/flags/ve.svg" alt="" width="28" height="21"><span>04 · Venezuela</span></div>
+        <h2 class="orbit-title"><b>Pabellón</b> <span>Criollo</span></h2>
+        <p class="dish-sub">Shredded beef, black beans, rice &amp; plantain</p>
+        <p class="dish-story">Venezuela's national plate: shredded beef, black beans, white rice and sweet plantain.</p>
+        <ul class="orbit-ben"><li>Beef + black beans</li><li>Four parts, kept apart</li><li>Microwave 4 min</li></ul>
+        <dl class="dish-facts">
+          <div><dt>Inside</dt><dd>1 plate · 450 g, in 4 parts</dd></div>
+          <div><dt>Protein*</dt><dd>~50 g per pack</dd></div>
+          <div><dt>Energy*</dt><dd>~900 kcal per pack</dd></div>
+          <div><dt>How to heat</dt><dd>Microwave 3–4 min, then rest 1 min.</dd></div>
+          <div class="wide"><dt>The tray</dt><dd>Four compartments, served the way it is in Venezuela: the rice never gets soggy.</dd></div>
+        </dl>
+        <details class="dish-more">
+          <summary>Ingredients &amp; allergens (draft)</summary>
+          <p><b>Ingredients:</b> Rice, beef (31%), black beans, plantain, tomato, onion, capsicum, sunflower oil, garlic, brown sugar, cumin, annatto, salt.</p>
+          <p><b>Allergens:</b> None of the major allergens.</p>
+        </details>
+        <div class="orbit-buy"><span class="product-price">AU$ <span>[TBC]</span></span><a href="index.html#waitlist" class="btn btn-ink btn-sm">Notify me</a></div>
+      </div>
+    </article>
+    <article class="dish-row" id="asado">
+      <div class="dish-art">
+        <img src="assets/img/dishes/asado.svg" alt="Sketch of the Asado Mixto" width="400" height="400" loading="lazy">
+        <span class="orbit-badge"><b>~65 g</b> protein*</span>
+      </div>
+      <div class="dish-info paper p-beige tape" style="--rot:-.5deg">
+        <div class="orbit-meta"><img src="assets/flags/ar.svg" alt="" width="28" height="21"><span>05 · Argentina</span></div>
+        <h2 class="orbit-title"><b>Asado</b> <span>Mixto</span></h2>
+        <p class="dish-sub">Mixed grill, rice &amp; salsa criolla + chimichurri</p>
+        <p class="dish-story">An Argentine Sunday asado: three meats off the grill, with chimichurri on the side.</p>
+        <ul class="orbit-ben"><li>3 meats: beef, chorizo, chicken</li><li>Chimichurri made in-house</li><li>Microwave 4 min</li></ul>
+        <dl class="dish-facts">
+          <div><dt>Inside</dt><dd>1 plate · 465 g + 30 ml chimichurri</dd></div>
+          <div><dt>Protein*</dt><dd>~65 g per pack</dd></div>
+          <div><dt>Energy*</dt><dd>~950 kcal per pack</dd></div>
+          <div><dt>How to heat</dt><dd>Take out the chimichurri pot. Microwave 3–4 min, then rest 1 min.</dd></div>
+          <div class="wide"><dt>The tray</dt><dd>The big compartment holds the three meats; rice and salsa criolla sit beside them. The chimichurri travels apart because it is not heated.</dd></div>
+        </dl>
+        <details class="dish-more">
+          <summary>Ingredients &amp; allergens (draft)</summary>
+          <p><b>Ingredients:</b> Beef flank (36%), chicken thigh (26%), chorizo (pork, beef, salt, spices), rice, tomato, red onion, capsicum, vinegar, butter, parsley, sunflower oil, garlic, oregano, chilli.</p>
+          <p><b>Allergens:</b> Milk.</p>
+        </details>
+        <div class="orbit-buy"><span class="product-price">AU$ <span>[TBC]</span></span><a href="index.html#waitlist" class="btn btn-ink btn-sm">Notify me</a></div>
+      </div>
+    </article>
+    <p class="shop-note">*Protein and energy are estimates per pack, and the ingredient and allergen lists are drafts: the final figures come from the nutrition panel of the finished dish. Prices and ordering open soon.</p>
+  </div>
+</section>
+
+<div class="edge" style="--from: var(--beige); --mid: var(--pink); --to: var(--beige);" aria-hidden="true">
+  <svg viewBox="0 0 1200 100" preserveAspectRatio="none">
+    <path class="e-mid" d="M0 30 L60 36 L130 22 L210 38 L290 25 L380 40 L450 24 L540 35 L620 20 L700 37 L790 26 L860 39 L950 22 L1030 35 L1110 24 L1200 32 V100 H0 Z"/>
+    <path class="e-to" d="M0 58 L80 50 L150 63 L240 51 L320 66 L400 53 L490 62 L570 49 L660 64 L740 52 L830 61 L910 48 L1000 63 L1080 51 L1150 60 L1200 53 V100 H0 Z"/>
+  </svg>
+</div>
+
+<!-- ============================ COOKS (below the menu) ============================ -->
+<section id="cooks" class="kitchen band">
+  <div class="wrap">
+    <div class="eyebrow">Kitchen · The cooks</div>
+    <h2 class="sec-title">
       <span class="strip paper p-ink tape-l" style="--rot:-1.5deg">The hands</span>
       <span class="strip paper p-pink cut-2" style="--rot:1deg">behind your food.</span>
-    </h1>
+    </h2>
     <p class="band-lead">Every dish is made by one of our Latin home cooks here on the Gold Coast. Get to know them: their names, where they're from and why they cook.</p>
 
     <!-- Placeholder profiles: replace with real cooks (photo, name, country, suburb, story, video) once they've signed consent. -->

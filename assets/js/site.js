@@ -545,3 +545,131 @@ var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     }).observe(root);
   }
 })();
+
+/* ---------- Shop on the home: the five dishes on an orbit ----------
+   One dish at a time. The plates swing round a circle; the title wipes in (heavy word, then light words).
+   Arrows, thumbnails, ←/→ keys and a swipe change dish. On a big screen with motion allowed, the section
+   is pinned for a short scroll and scrolling turns the plates too. No infinite loop: it stops at both ends. */
+(function dishOrbit() {
+  var root = document.querySelector('.orbit');
+  if (!root) return;
+  var slides = [].slice.call(root.querySelectorAll('.orbit-slide'));
+  var plates = [].slice.call(root.querySelectorAll('.orbit-plate'));
+  var thumbs = [].slice.call(root.querySelectorAll('.orbit-thumb'));
+  var arrows = [].slice.call(root.querySelectorAll('.orbit-arrow'));
+  var pager = root.querySelector('.orbit-pager b');
+  var badge = root.querySelector('.orbit-visual .orbit-badge');
+  var pin = root.querySelector('.orbit-pin');
+  var stage = root.querySelector('.orbit-stage');
+  var visual = root.querySelector('.orbit-visual');
+  var header = document.querySelector('.site-header');
+  var N = slides.length, cur = -1;
+  var pinQuery = matchMedia('(min-width: 900px) and (min-height: 620px) and (prefers-reduced-motion: no-preference)');
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)');
+
+  function headerH() { return header ? header.offsetHeight : 0; }
+  function setHeaderVar() { document.documentElement.style.setProperty('--header-h', headerH() + 'px'); }
+
+  function show(i) {
+    i = Math.max(0, Math.min(N - 1, i));
+    if (i === cur) return;
+    cur = i;
+    slides.forEach(function (s, k) {
+      var on = k === i;
+      s.classList.toggle('is-active', on);
+      if (on) s.removeAttribute('inert'); else s.setAttribute('inert', '');
+    });
+    plates.forEach(function (p, k) {
+      var o = k - i, a = Math.abs(o);
+      p.style.setProperty('--o', o);
+      p.style.setProperty('--sc', a === 0 ? 1 : .5);
+      p.style.setProperty('--op', a >= 2 ? 0 : 1);
+    });
+    thumbs.forEach(function (t, k) { if (k === i) t.setAttribute('aria-current', 'true'); else t.removeAttribute('aria-current'); });
+    arrows.forEach(function (b) {
+      var off = (+b.dataset.step < 0 && i === 0) || (+b.dataset.step > 0 && i === N - 1);
+      b.disabled = off;
+    });
+    if (pager) pager.textContent = (i + 1 < 10 ? '0' : '') + (i + 1);
+    var prot = slides[i].querySelector('.orbit-prot b');
+    if (badge && prot) badge.firstChild.textContent = prot.textContent;
+  }
+
+  function pinned() { return root.classList.contains('is-pinned'); }
+  function span() { return pin.offsetHeight - stage.offsetHeight; }
+
+  function go(i) {
+    i = Math.max(0, Math.min(N - 1, i));
+    if (pinned()) {
+      var top = pin.getBoundingClientRect().top + window.scrollY - headerH();
+      window.scrollTo({ top: top + span() * (i + .5) / N, behavior: 'smooth' });
+    }
+    show(i);
+  }
+
+  function onScroll() {
+    if (!pinned()) return;
+    var total = span();
+    if (total <= 0) return;
+    var p = (headerH() - pin.getBoundingClientRect().top) / total;
+    show(Math.min(N - 1, Math.floor(Math.max(0, Math.min(.999, p)) * N)));
+  }
+
+  function layout() {
+    setHeaderVar();
+    root.classList.toggle('is-pinned', pinQuery.matches);
+    onScroll();
+  }
+
+  arrows.forEach(function (b) { b.addEventListener('click', function () { go(cur + (+b.dataset.step)); }); });
+  thumbs.forEach(function (t) { t.addEventListener('click', function () { go(+t.dataset.i); }); });
+  root.addEventListener('keydown', function (e) {
+    if (e.target.closest('[role="tablist"]')) return;
+    if (e.key === 'ArrowRight') { e.preventDefault(); go(cur + 1); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); go(cur - 1); }
+  });
+  // swipe on the plates (phones and trackpads); vertical scrolling stays free
+  var x0 = null;
+  visual.style.touchAction = 'pan-y';
+  visual.addEventListener('pointerdown', function (e) { x0 = e.clientX; });
+  visual.addEventListener('pointerup', function (e) {
+    if (x0 === null) return;
+    var dx = e.clientX - x0; x0 = null;
+    if (Math.abs(dx) > 40) go(cur + (dx < 0 ? 1 : -1));
+  });
+  visual.addEventListener('pointercancel', function () { x0 = null; });
+
+  // tabs inside each dish card: Overview / Ingredients
+  root.querySelectorAll('[role="tablist"]').forEach(function (list) {
+    var tabs = [].slice.call(list.querySelectorAll('[role="tab"]'));
+    function select(t, focus) {
+      tabs.forEach(function (o) {
+        var on = o === t;
+        o.setAttribute('aria-selected', on ? 'true' : 'false');
+        o.tabIndex = on ? 0 : -1;
+        document.getElementById(o.getAttribute('aria-controls')).hidden = !on;
+      });
+      if (focus) t.focus();
+    }
+    tabs.forEach(function (t, k) {
+      t.addEventListener('click', function () { select(t); });
+      t.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+          e.preventDefault();
+          select(tabs[(k + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length], true);
+        }
+      });
+    });
+  });
+
+  var ticking = false;
+  window.addEventListener('scroll', function () {
+    if (ticking) return; ticking = true;
+    requestAnimationFrame(function () { ticking = false; onScroll(); });
+  }, { passive: true });
+  window.addEventListener('resize', layout);
+  if (pinQuery.addEventListener) pinQuery.addEventListener('change', layout);
+  if (reduce.addEventListener) reduce.addEventListener('change', layout);
+  show(0);
+  layout();
+})();
