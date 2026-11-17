@@ -698,26 +698,137 @@
 .solubcard .member-note { font-size: 13px; font-weight: 600; text-align: center; margin: 12px auto 0; max-width: 44ch; }
 @media (max-width: 900px) { .solubcard .lanyard { height: 500px; } }
 
-/* ---------- Shop (sketch): the five dishes, no prices or orders yet ---------- */
+/* ---------- Shop on the home: the five dishes on an orbit ----------
+   The plates sit on a big circle (the "arc band"); the active one is at the top, the others swing round it.
+   JS sets --o (offset from the active dish) on every plate. Desktop pins the section for a short scroll
+   (~45vh per dish); phones, reduced motion and no-JS never pin. Without JS every dish is listed. */
 .shop { background: var(--grain), var(--beige); }
-.shop-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 20px; }
-.product { padding: 12px 12px 16px; display: flex; flex-direction: column; }
-.product-photo { position: relative; margin-bottom: 12px; background: var(--sand); border-radius: 4px; padding: 10px 8px 8px; }
-.product-tray { display: block; width: 100%; height: auto; filter: drop-shadow(0 4px 5px rgba(26,23,20,.25)); }
-.product-flag { position: absolute; left: 6px; top: 6px; width: 26px; height: auto; box-shadow: 0 0 0 .5px rgba(26,23,20,.45); }
-.product-num { position: absolute; right: 6px; top: 4px; font-weight: 900; font-size: 13px; }
-.product-country { font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--red); }
-.product-name { font-size: 17px; font-weight: 900; line-height: 1.15; margin: 4px 0 4px; }
-.product-sub { font-size: 13.5px; margin-bottom: 8px; }
-.product-ben { list-style: none; margin: 0 0 6px; padding: 0; font-size: 13.5px; font-weight: 700; }
-.product-ben li { padding-left: 14px; position: relative; margin-bottom: 3px; }
-.product-ben li::before { content: ""; position: absolute; left: 0; top: .5em; width: 7px; height: 7px; background: var(--red); clip-path: var(--cut-3); }
-.product-foot { margin-top: auto; padding-top: 10px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
-.product-status { font-size: 10.5px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; border: 1.5px dashed var(--ink); padding: 3px 6px; }
-@media (max-width: 1100px) { .shop-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.orbit { padding-bottom: 36px; }
+.orbit-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); grid-template-areas: "head side" "slides side"; grid-template-rows: auto 1fr; column-gap: 40px; align-items: start; }
+.orbit-side { grid-area: side; align-self: center; }
+.orbit-head { grid-area: head; }
+.orbit-head .sec-title { margin-bottom: 14px; }
+.orbit-visual { position: relative; container-type: inline-size; aspect-ratio: 1 / .86; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
+.orbit-nav { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 8px; }
+.orbit-slides { grid-area: slides; display: grid; }
+.orbit-slide { grid-area: 1 / 1; min-width: 0; }
+.orbit-slide-plate { display: none; }
+.orbit-arc { position: absolute; left: 50%; top: 108cqw; width: 136cqw; height: 136cqw; transform: translate(-50%, -50%); overflow: visible; }
+.orbit-arc circle { fill: none; }
+.orbit-arc .band { stroke: var(--pink); stroke-width: 70; }
+.orbit-arc .line { stroke: var(--ink); stroke-width: 2.5; stroke-dasharray: 10 12; opacity: .5; }
+.orbit-plate { position: absolute; left: 50%; top: 40cqw; width: 54cqw; height: auto; user-select: none; -webkit-user-drag: none;
+  --o: 0; --sc: 1; --op: 1;
+  transform: translate(-50%, -50%) translateY(68cqw) rotate(calc(var(--o) * 38deg)) translateY(-68cqw) rotate(calc(var(--o) * 50deg)) scale(var(--sc));
+  opacity: var(--op); filter: drop-shadow(0 10px 10px rgba(26,23,20,.22));
+  transition: transform .8s cubic-bezier(.6,.05,.25,1), opacity .5s; }
+.orbit-badge { position: absolute; right: 6%; top: 8%; z-index: 2; background: var(--red); color: var(--beige); font-size: 13px; font-weight: 800; letter-spacing: .02em; padding: 7px 12px 6px; clip-path: var(--cut-3); transform: rotate(4deg); }
+.orbit-badge b { font-size: 19px; font-weight: 900; }
+.orbit-meta { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--red); margin-bottom: 4px; }
+.orbit-meta img { width: 26px; height: auto; box-shadow: 0 0 0 .5px rgba(26,23,20,.45); }
+.orbit-title { font-size: clamp(30px, 3.4vw, 46px); line-height: 1; letter-spacing: -.01em; margin: 0 0 10px; font-stretch: 85%; }
+.orbit-title b { font-weight: 900; display: inline-block; }
+.orbit-title span { font-weight: 400; display: inline-block; }
+.orbit-story { font-size: 16px; line-height: 1.5; margin: 0 0 10px; max-width: 46ch; }
+.orbit-ben { list-style: none; padding: 0; margin: 0 0 14px; display: flex; flex-wrap: wrap; gap: 6px; }
+.orbit-ben li { font-size: 13px; font-weight: 800; border: 1.5px solid var(--ink); padding: 4px 9px 3px; background: var(--beige); }
+.orbit-card { padding: 12px 16px 14px; margin-bottom: 14px; max-width: 520px; }
+.orbit-cook { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 14px; margin-bottom: 8px; }
+.orbit-prot { margin-left: auto; font-size: 13px; font-weight: 700; }
+.orbit-prot b { color: var(--red); font-weight: 900; font-size: 16px; }
+.orbit-tabs { display: flex; gap: 4px; border-bottom: 2px solid var(--ink); margin-bottom: 8px; }
+.orbit-tabs button { font: inherit; font-size: 14px; font-weight: 800; background: none; border: 0; padding: 8px 12px 6px; min-height: 40px; cursor: pointer; color: var(--ink); border-bottom: 4px solid transparent; margin-bottom: -2px; }
+.orbit-tabs button[aria-selected="true"] { border-bottom-color: var(--red); }
+.orbit-tabs button:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+.orbit-panel { margin: 0; display: grid; gap: 6px; font-size: 14px; line-height: 1.45; min-height: 7.6em; }
+.orbit-panel[hidden] { display: none; }
+.orbit-panel div { display: grid; grid-template-columns: 8.5em minmax(0, 1fr); gap: 8px; }
+.orbit-panel dt { font-weight: 800; }
+.orbit-panel dd { margin: 0; }
+.orbit-buy { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; }
+.product-price { font-size: 15px; font-weight: 800; }
+.product-price span { font-size: 22px; font-weight: 900; }
+.orbit-arrow { width: 46px; height: 46px; border-radius: 50%; border: 2px solid var(--ink); background: var(--beige); color: var(--ink); display: grid; place-items: center; cursor: pointer; flex: none; }
+.orbit-arrow:hover { background: var(--ink); color: var(--beige); }
+.orbit-thumbs { display: flex; gap: 6px; }
+.orbit-thumb { width: 50px; height: 50px; padding: 3px; border-radius: 50%; border: 2px solid transparent; background: none; cursor: pointer; opacity: .55; transition: opacity .2s, border-color .2s; }
+.orbit-thumb img { width: 100%; height: 100%; display: block; }
+.orbit-thumb[aria-current="true"] { border-color: var(--red); opacity: 1; }
+.orbit-thumb:hover { opacity: 1; }
+.orbit-arrow:focus-visible, .orbit-thumb:focus-visible { outline: 3px solid var(--red); outline-offset: 2px; }
+.orbit-pager { font-size: 14px; font-weight: 700; min-width: 4.2em; text-align: center; font-variant-numeric: tabular-nums; }
+.orbit-pager b { font-weight: 900; font-size: 18px; }
+.orbit-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; margin-top: 18px; }
+.shop-note { font-size: 13px; line-height: 1.5; max-width: 70ch; margin: 0; }
+
+/* with JS: one dish at a time */
+.js .orbit-slide { visibility: hidden; opacity: 0; transition: opacity .35s, visibility 0s .35s; }
+.js .orbit-slide.is-active { visibility: visible; opacity: 1; transition: opacity .45s .1s; }
+.js .orbit-slide.is-active .orbit-title b { animation: orbit-wipe .7s cubic-bezier(.6,.05,.25,1) both; }
+.js .orbit-slide.is-active .orbit-title span { animation: orbit-wipe .7s .14s cubic-bezier(.6,.05,.25,1) both; }
+@keyframes orbit-wipe { from { clip-path: inset(0 100% 0 0); transform: translateY(.15em); } to { clip-path: inset(0 0 0 0); transform: none; } }
+/* without JS: a plain list of the five dishes */
+html:not(.js) .orbit-side { display: none; }
+html:not(.js) .orbit-grid { grid-template-columns: minmax(0, 1fr); grid-template-areas: "head" "slides"; }
+html:not(.js) .orbit-slides { gap: 28px; }
+html:not(.js) .orbit-slide { grid-area: auto; }
+html:not(.js) .orbit-slide-plate { display: block; width: 140px; height: auto; float: right; margin: 0 0 8px 12px; }
+
+/* desktop: pin the stage while the plates turn */
+@media (min-width: 900px) and (min-height: 620px) and (prefers-reduced-motion: no-preference) {
+  .js .orbit.is-pinned .orbit-pin { height: calc(100vh + 4 * 45vh); }
+  .js .orbit.is-pinned .orbit-stage { position: sticky; top: var(--header-h, 72px); height: calc(100vh - var(--header-h, 72px)); display: flex; align-items: center; }
+  .js .orbit.is-pinned .orbit-stage > .wrap { width: 100%; }
+  .js .orbit.is-pinned { padding-top: 0; }
+}
+@media (min-width: 900px) and (max-height: 860px) {
+  .orbit-visual { aspect-ratio: 1 / .78; }
+  .orbit-story { font-size: 15px; margin-bottom: 8px; }
+  .orbit-head .sec-title .strip { font-size: clamp(26px, 3vw, 40px); }
+}
+@media (max-width: 899px) {
+  .orbit-grid { grid-template-columns: minmax(0, 1fr); grid-template-areas: "head" "side" "slides"; grid-template-rows: none; }
+  .orbit-visual { max-width: 460px; width: 100%; margin: 0 auto; }
+  .orbit-nav { margin: 4px 0 18px; }
+}
+@media (max-width: 480px) {
+  .orbit-thumb { width: 40px; height: 40px; padding: 2px; }
+  .orbit-arrow { width: 44px; height: 44px; }
+  .orbit-thumbs { gap: 2px; }
+  .orbit-nav { gap: 6px; }
+  .orbit-pager { display: none; }
+  .orbit-panel[hidden] { display: none; }
+.orbit-panel div { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .orbit-cook .orbit-prot { margin-left: 0; width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .orbit-plate, .js .orbit-slide, .js .orbit-slide.is-active { transition: none; }
+  .js .orbit-slide.is-active .orbit-title b, .js .orbit-slide.is-active .orbit-title span { animation: none; }
+}
+
+/* ---------- Kitchen: the menu (commercial part), above the cooks ---------- */
+.menu { background: var(--grain), var(--beige); }
+.dish-jump { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 36px; }
+.dish-jump a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 4px 14px 4px 4px; border: 1.5px solid var(--ink); border-radius: 999px; font-weight: 800; font-size: 14px; color: var(--ink); text-decoration: none; background: var(--beige); }
+.dish-jump a:hover { background: var(--ink); color: var(--beige); }
+.dish-row { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 36px; align-items: center; margin-bottom: 48px; scroll-margin-top: 96px; }
+.dish-row--flip .dish-art { order: 2; }
+.dish-art { position: relative; max-width: 420px; width: 100%; justify-self: center; }
+.dish-art img { display: block; width: 100%; height: auto; filter: drop-shadow(0 10px 10px rgba(26,23,20,.22)); }
+.dish-info { padding: 22px 24px 20px; }
+.dish-sub { font-size: 14px; font-weight: 700; margin: -4px 0 8px; }
+.dish-story { font-size: 16px; line-height: 1.5; margin: 0 0 10px; }
+.dish-facts { margin: 0 0 12px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 20px; font-size: 14px; line-height: 1.45; }
+.dish-facts .wide { grid-column: 1 / -1; }
+.dish-facts dt { font-weight: 800; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--red); }
+.dish-facts dd { margin: 0; }
+.dish-more { margin: 0 0 14px; font-size: 14px; line-height: 1.5; border-top: 1.5px dashed var(--ink); padding-top: 8px; }
+.dish-more summary { font-weight: 800; cursor: pointer; min-height: 40px; display: flex; align-items: center; }
+.dish-more p { margin: 4px 0; }
 @media (max-width: 760px) {
-  .shop-grid { grid-template-columns: minmax(0, 1fr); gap: 16px; }
-  .product { display: grid; grid-template-columns: 120px minmax(0, 1fr); column-gap: 14px; padding: 12px; }
-  .product-photo { grid-row: span 5; margin: 0; align-self: start; }
-  .product-foot { grid-column: 1 / -1; }
+  .dish-row { grid-template-columns: minmax(0, 1fr); gap: 4px; margin-bottom: 36px; }
+  .dish-row--flip .dish-art { order: 0; }
+  .dish-art { max-width: 260px; }
+  .dish-info { padding: 18px 16px 16px; }
+  .dish-facts { grid-template-columns: minmax(0, 1fr); }
 }
